@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+const program = require('commander');
+const serve = require('serve');
+
+const p = program
+  .command('serve [dir]')
+  .description('start up file server')
+  .parse(process.argv);
+
+const dir = p.args[0] ? p.args[0] : __dirname;
+const server = serve(dir, {
+  port: 3000,
+  ignore: ['node_modules']
+});

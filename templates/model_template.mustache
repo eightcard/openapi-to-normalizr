@@ -1,0 +1,56 @@
+{{#useFlow}}
+// @flow
+{{/useFlow}}
+{{>head}}
+{{#usePropTypes}}
+import PropTypes from 'prop-types';
+{{/usePropTypes}}
+import { Record } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+{{#importList}}
+import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}} {{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+{{/importList}}
+
+const defaultValues = {
+{{#props}}
+  {{&name}}: {{&getDefaults}},
+{{/props}}
+};
+
+export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
+{{>oneOf}}
+{{>dependency}}
+
+{{#usePropTypes}}
+export const propTypes = PropTypes.shape({
+{{#props}}
+  {{&name}}: {{&getPropTypes}}{{#required}}.isRequired{{/required}},
+{{/props}}
+});
+{{/usePropTypes}}
+
+/**
+ * @params ids : {{name}}'s id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids, entities) => _denormalize(ids, isArray(ids) ? [schema] : schema, entities);
+
+export default class {{name}} extends Record(defaultValues) {
+{{#useFlow}}
+{{#props}}
+  {{&name}}: {{&getFlowTypes}};
+{{/props}}
+{{/useFlow}}
+  static denoromalize(id, entities) {
+    return denormalize(id, entities);
+  }
+{{#props}}
+{{#alias}}
+  // created by 'x-attribute-as'
+  get {{&alias}}() {
+    return this.get('{{&alias}}', this.{{name}});
+  }
+{{/alias}}
+{{/props}}
+}

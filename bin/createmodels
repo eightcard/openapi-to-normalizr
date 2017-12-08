@@ -1,0 +1,62 @@
+#!/usr/bin/env node
+/**
+ * create models from multi spec files.
+ */
+const path = require('path');
+const program = require('commander');
+const Swagger = require('swagger-client');
+const _ = require('lodash');
+
+const ModelCreator = require('../src/tools/model_creator');
+const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
+
+program
+  .option('-c, --config <configPath>', 'config path')
+  .arguments('...<files>')
+  .parse(process.argv);
+const specFiles = program.args;
+
+const userConfig = program.config ? require(resolvePath(program.config)) : {};
+const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
+const config = Object.assign({}, defaultConfig, userConfig);
+console.info(`parse file: ${specFiles}`);
+
+if (_.isEmpty(specFiles)) {
+  console.error('need spec files');
+  process.exit(1);
+}
+
+const outputDir = config.outputDir || 'dist';
+const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
+const modelCreator = new ModelCreator({
+  outputDir,
+  templatePath: config.templates,
+  usePropType: config.usePropType,
+  useFlow: config.useFlow,
+  isV2: false, attributeConverter,
+});
+
+const nameList = [];
+Promise.all(
+  specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec.components.schemas)))
+).then((models) => {
+  models = _.merge(...models);
+  mkdirpPromise(outputDir).then(() => {
+    Promise.all(_.map(models, (model, name) => modelCreator.writeModel(model, name))).then((modelNames) => {
+      modelCreator.writeIndex(_.uniq(_.compact(modelNames)));
+    });
+  });
+});
+
+function filter(models) {
+  return _.reduce(models, (acc, value, key) => {
+    if (nameList.includes(key)) {
+      console.warn('duplicate model', key);
+      process.exit(1);
+    }
+    acc[key] = value;
+    nameList.push(key);
+    return acc;
+  }, {});
+}
+

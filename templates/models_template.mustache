@@ -1,0 +1,10 @@
+{{>head}}
+{{#models}}
+import {{name}} from './{{fileName}}';
+{{/models}}
+
+export {
+{{#models}}
+  {{name}},
+{{/models}}
+};

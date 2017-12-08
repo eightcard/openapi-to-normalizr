@@ -1,0 +1,16 @@
+{{>head}}
+import isFunction from 'lodash/isFunction';
+import { createAction as _createAction } from 'redux-actions';
+import schemas from '{{&schemasDir}}/schema';
+{{#operationIdList}}
+export const {{.}} = '{{.}}';
+{{/operationIdList}}
+
+export function createAction(id, payloadCreator = (params) => params, metaCreator) {
+  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  let _metaCreator = () => meta;
+  if (isFunction(metaCreator)) {
+    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
+  }
+  return _createAction(id, payloadCreator, _metaCreator);
+}

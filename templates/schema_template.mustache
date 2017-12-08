@@ -1,0 +1,10 @@
+{{>head}}
+{{#importList}}
+import { schema as {{name}} } from './{{&path}}';
+{{/importList}}
+{{#hasOneOf}}
+import { schema as _schema } from 'normalizr';
+{{/hasOneOf}}
+{{>oneOf}}
+
+export default {{&data}};
