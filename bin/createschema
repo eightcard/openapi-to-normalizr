@@ -86,7 +86,7 @@ function walkModels(models, onModels = []) {
 function walkResponses(paths, onResponses = []) {
   _.each(paths, (operations, path) => {
     _.each(operations, (operation, method) => {
-      if (method.startsWith('x-')) {
+      if (!['GET', 'POST', 'PUT', 'DELETE'].includes(method.toUpperCase())) {
         return;
       }
       if (!_.isObject(operation)) {
