@@ -83,6 +83,11 @@ function walkModels(models, onModels = []) {
   });
 }
 
+function opId(operation, path, method) {
+  // remove extension
+  return Swagger.helpers.opId(operation, path.replace(/\.\w+$/, ''), method);
+}
+
 function walkResponses(paths, onResponses = []) {
   _.each(paths, (operations, path) => {
     _.each(operations, (operation, method) => {
@@ -98,7 +103,7 @@ function walkResponses(paths, onResponses = []) {
         delete operation.operationId;
       }
       const response = operation.responses;
-      const id = Swagger.helpers.opId(operation, path, method);
+      const id = opId(operation, path, method);
       onResponses.forEach((onResponse) => onResponse(id, response, {path, method, operation}));
     });
   });
