@@ -1,7 +1,7 @@
 const path = require('path');
 const { writeFilePromise, readTemplates, render } = require('./utils');
 
-class JsSpecCreator {
+class JsSpecGenerator {
   constructor({outputDir = '', templatePath, spec, specName}) {
     this.outputDir = outputDir;
     this.templatePath = templatePath;
@@ -21,4 +21,4 @@ class JsSpecCreator {
   }
 }
 
-module.exports = JsSpecCreator;
+module.exports = JsSpecGenerator;

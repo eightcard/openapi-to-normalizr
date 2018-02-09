@@ -17,7 +17,7 @@
 1. コード自動生成
     ```bash
     % npm run build:sample:models
-    % npm run build:sample:schema
+    % npm run build:sample:schemas
     ```
     
     以下のようなファイル群が生成されます。

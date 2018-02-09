@@ -8,8 +8,8 @@
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
     "prepare:mock": "cd examples/petstore && npm i",
     "mock": "swagger project start examples/petstore",
-    "build:sample:models": "./bin/createmodels --config examples/config/config.models.js",
-    "build:sample:schema": "./bin/createschema --config examples/config/config.schema.js",
+    "build:sample:models": "./bin/generatemodels --config examples/config/config.models.js",
+    "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
     "eslint": "eslint src",
     "build:dist": "npm run eslint && npm test && babel -d dist --env-name=development src/lib/**/*[^test].js",
     "mocha": "NODE_ENV=test mocha --require babel-register ",
@@ -20,8 +20,8 @@
     "open api"
   ],
   "bin": {
-    "openapi2models": "./bin/createmodels",
-    "openapi2schema": "./bin/createschema"
+    "openapi2models": "./bin/generatemodels",
+    "openapi2schemas": "./bin/generateschemas"
   },
   "author": "",
   "license": "MIT",

@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * create models from multi spec files.
+ * generate models from multi spec files.
  */
 const path = require('path');
 const program = require('commander');
 const Swagger = require('swagger-client');
 const _ = require('lodash');
 
-const ModelCreator = require('../src/tools/model_creator');
+const ModelGenerator = require('../src/tools/model_generator');
 const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
 
 program
@@ -28,7 +28,7 @@ if (_.isEmpty(specFiles)) {
 
 const outputDir = config.outputDir || 'dist';
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
-const modelCreator = new ModelCreator({
+const modelGenerator = new ModelGenerator({
   outputDir,
   templatePath: config.templates,
   usePropType: config.usePropType,
@@ -42,8 +42,8 @@ Promise.all(
 ).then((models) => {
   models = _.merge(...models);
   mkdirpPromise(outputDir).then(() => {
-    Promise.all(_.map(models, (model, name) => modelCreator.writeModel(model, name))).then((modelNames) => {
-      modelCreator.writeIndex(_.uniq(_.compact(modelNames)));
+    Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
+      modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
     });
   });
 });

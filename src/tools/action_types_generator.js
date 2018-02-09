@@ -1,7 +1,7 @@
 const path = require('path');
 const { writeFilePromise, readTemplates, render } = require('./utils');
 
-class ActionTypesCreator {
+class ActionTypesGenerator {
   constructor({outputDir = '', schemasDir, templatePath = {}, operationIdList = [], specName}) {
     this.outputDir = outputDir;
     this.schemasDir = schemasDir;
@@ -31,4 +31,4 @@ class ActionTypesCreator {
   }
 }
 
-module.exports = ActionTypesCreator;
+module.exports = ActionTypesGenerator;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * create actionType.js, schema.js, spec.js from multi spec files.
+ * generate actionType.js, schema.js, spec.js from multi spec files.
  * - need models directory before execution
  */
 const path = require('path');
@@ -8,10 +8,10 @@ const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
 const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
-const ModelCreator = require('../src/tools/model_creator');
-const SchemaCreator = require('../src/tools/schema_creator');
-const ActionTypesCreator = require('../src/tools/action_types_creator');
-const JsSpecCreator = require('../src/tools/js_spec_creator');
+const ModelGenerator = require('../src/tools/model_generator');
+const SchemaGenerator = require('../src/tools/schema_generator');
+const ActionTypesGenerator = require('../src/tools/action_types_generator');
+const JsSpecGenerator = require('../src/tools/js_spec_generator');
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -36,7 +36,7 @@ const spec = specFiles.reduce((acc, file) => {
 const outputDir = config.outputDir || 'dist';
 const [actionsDir, schemasDir] = ['actions', 'schemas'].map((dir) => resolvePath(path.join(outputDir, dir)));
 const prepareDirs = [actionsDir, schemasDir].map((path) => mkdirpPromise(path));
-let modelCreator, schemaCreator, actionTypesCreator;
+let modelGenerator, schemaGenerator, actionTypesGenerator;
 
 const rawSpec = _.cloneDeep(spec);
 
@@ -44,36 +44,36 @@ Swagger({spec}).then(({spec}) => {
   return Promise.all(prepareDirs).then(() => {
     const isV2 = spec.swagger === '2.0';
     const models = isV2 ? spec.definitions : spec.components.schemas;
-    (new JsSpecCreator({outputDir, templatePath: config.templates, specName: 'spec.yml'})).write(rawSpec);
+    (new JsSpecGenerator({outputDir, templatePath: config.templates, specName: 'spec.yml'})).write(rawSpec);
 
     const modelNameList = [];
     const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
-    modelCreator = new ModelCreator({
+    modelGenerator = new ModelGenerator({
       templatePath: config.templates,
       usePropType: config.usePropType,
       useFlow: config.useFlow,
       isV2, attributeConverter,
     });
     const onModel = (model, name) => {
-      if (ModelCreator.isModelDefinition(model, name) && !modelNameList.includes(name)) {
+      if (ModelGenerator.isModelDefinition(model, name) && !modelNameList.includes(name)) {
         modelNameList.push(name);
       }
     };
     walkModels(models, [onModel]);
 
-    actionTypesCreator = new ActionTypesCreator({
+    actionTypesGenerator = new ActionTypesGenerator({
       outputDir: actionsDir,
       templatePath: config.templates,
       schemasDir,
     });
-    schemaCreator = new SchemaCreator({
+    schemaGenerator = new SchemaGenerator({
       outputDir: schemasDir,
       templatePath: config.templates,
       modelsDir: config.modelsDir, modelNameList, isV2, attributeConverter,
     });
-    walkResponses(spec.paths, [schemaCreator.parse, actionTypesCreator.appendId]);
-    schemaCreator.write();
-    actionTypesCreator.write();
+    walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
+    schemaGenerator.write();
+    actionTypesGenerator.write();
   });
 }).catch((e) => console.error(e));
 

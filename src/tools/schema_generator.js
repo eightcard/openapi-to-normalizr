@@ -10,7 +10,7 @@ const {
  * content-typeはjsonのみサポート
  */
 
-class SchemaCreator {
+class SchemaGenerator {
   constructor({outputDir = '', templatePath = {}, modelNameList = [], modelsDir, isV2, specName, attributeConverter = str => str}) {
     this.outputDir = outputDir;
     this.templatePath = templatePath;
@@ -35,7 +35,7 @@ class SchemaCreator {
       return;
     }
     _.each(responses, (response, code) => {
-      const contents = this.isV2 ? response : SchemaCreator.getJsonContents(response);
+      const contents = this.isV2 ? response : SchemaGenerator.getJsonContents(response);
       if (!contents) {
         console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
         return;
@@ -101,4 +101,4 @@ class SchemaCreator {
   }
 }
 
-module.exports = SchemaCreator;
+module.exports = SchemaGenerator;

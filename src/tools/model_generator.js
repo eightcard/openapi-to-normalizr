@@ -9,7 +9,7 @@ const {
  * モデル定義からモデルファイルを作成
  */
 
-class ModelCreator {
+class ModelGenerator {
   constructor({outputDir = '', templatePath = {}, specName, isV2, useFlow, usePropType, attributeConverter = str => str}) {
     this.outputDir = outputDir;
     this.templatePath = templatePath;
@@ -46,7 +46,7 @@ class ModelCreator {
     }
     const idAttribute = model['x-id-attribute'] ? model['x-id-attribute'] : 'id';
     if (!idAttribute.includes('.') && !properties[idAttribute]) {
-      console.warn(`${name} is not created without id attribute.`); // eslint-disable-line no-console
+      console.warn(`${name} is not generated without id attribute.`); // eslint-disable-line no-console
       return false;
     }
     return idAttribute;
@@ -129,7 +129,7 @@ class ModelCreator {
     return _.map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
-        type: this.createTypeFrom(prop, dependencySchema[name]),
+        type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
@@ -139,7 +139,7 @@ class ModelCreator {
     });
   }
 
-  createTypeFrom(prop, definition) {
+  generateTypeFrom(prop, definition) {
     if (prop && prop.oneOf) {
       // for only model (ref)
       const candidates = prop.oneOf.map((obj) => (obj.$ref || obj.$$ref).replace(getSchemaDir(this.isV2), ''));
@@ -151,8 +151,8 @@ class ModelCreator {
 
     if (definition) {
       return {
-        propType: this._createPropTypeFromDefinition(definition),
-        flow: this._createFlowTypeFromDefinition(definition),
+        propType: this._generatePropTypeFromDefinition(definition),
+        flow: this._generateFlowTypeFromDefinition(definition),
       };
     }
 
@@ -167,7 +167,7 @@ class ModelCreator {
     }
   }
 
-  _createPropTypeFromDefinition(definition) {
+  _generatePropTypeFromDefinition(definition) {
     let def;
     if (_.isString(definition)) {
       def = definition.replace(/Schema$/, '');
@@ -175,29 +175,29 @@ class ModelCreator {
     }
     if (_.isArray(definition)) {
       def = definition[0];
-      const type = this._createPropTypeFromDefinition(def);
+      const type = this._generatePropTypeFromDefinition(def);
       return `PropTypes.arrayOf(${type})`;
     } else if (_.isObject(definition)) {
       const type = _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._createPropTypeFromDefinition(value);
+        acc[key] = this._generatePropTypeFromDefinition(value);
         return acc;
       }, {});
       return `PropTypes.shape(${JSON.stringify(type).replace(/"/g, '')})`;
     }
   }
 
-  _createFlowTypeFromDefinition(definition) {
+  _generateFlowTypeFromDefinition(definition) {
     let def;
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
     if (_.isArray(definition)) {
       def = definition[0];
-      const type = this._createFlowTypeFromDefinition(def);
+      const type = this._generateFlowTypeFromDefinition(def);
       return `${type}[]`;
     } else if (_.isObject(definition)) {
       return _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._createFlowTypeFromDefinition(value);
+        acc[key] = this._generateFlowTypeFromDefinition(value);
         return acc;
       }, {});
     }
@@ -258,4 +258,4 @@ function getDefaults() {
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
-module.exports = ModelCreator;
+module.exports = ModelGenerator;

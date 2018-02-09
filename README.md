@@ -18,7 +18,7 @@
       ```
     - スキーマコードを生成
       ```bash
-      % node_modules/.bin/openapi2schema --config config.js foo.yml
+      % node_modules/.bin/openapi2schemas --config config.js foo.yml
       ```
     - config仕様
       ```js
