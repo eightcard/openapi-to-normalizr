@@ -75,7 +75,7 @@ Swagger({spec}).then(({spec}) => {
     schemaGenerator.write();
     actionTypesGenerator.write();
   });
-}).catch((e) => console.error(e));
+}).catch((e) => console.error(`Failed: ${e}`));
 
 function walkModels(models, onModels = []) {
   return _.each(models, (model, name) => {

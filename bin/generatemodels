@@ -28,27 +28,42 @@ if (_.isEmpty(specFiles)) {
 
 const outputDir = config.outputDir || 'dist';
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
-const modelGenerator = new ModelGenerator({
-  outputDir,
-  templatePath: config.templates,
-  usePropType: config.usePropType,
-  useFlow: config.useFlow,
-  isV2: false, attributeConverter,
-});
-
 const nameList = [];
+let isV2;
+
 Promise.all(
-  specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec.components.schemas)))
+  specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec)))
 ).then((models) => {
   models = _.merge(...models);
+  const modelGenerator = new ModelGenerator({
+    outputDir,
+    templatePath: config.templates,
+    usePropType: config.usePropType,
+    useFlow: config.useFlow,
+    isV2, attributeConverter,
+  });
   mkdirpPromise(outputDir).then(() => {
     Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
       modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
     });
   });
-});
+}).catch((e) => console.error(`Failed!: ${e}`));
 
-function filter(models) {
+function isSpecV2(spec) {
+  const isSpecV2 = spec.swagger === '2.0';
+  if (_.isNil(isV2)) {
+    isV2 = isSpecV2;
+    return isV2;
+  }
+  if (isV2 !== isSpecV2) {
+    throw 'multi version!';
+  }
+  isV2 = isSpecV2;
+  return isV2;
+}
+
+function filter(spec) {
+  const models = isSpecV2(spec) ? spec.definitions : spec.components.schemas;
   return _.reduce(models, (acc, value, key) => {
     if (nameList.includes(key)) {
       console.warn('duplicate model', key);
