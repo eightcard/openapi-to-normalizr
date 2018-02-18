@@ -2,7 +2,7 @@
 
 ## 概要
 - [OpenAPI](https://github.com/OAI/OpenAPI-Specification)で記述されたAPI定義から [normalizr](https://github.com/paularmstrong/normalizr)で利用できるスキーマ定義を生成します。
-- [swagger-js](https://github.com/swagger-api/swagger-js)を使った通信用middlewareと、レスポンスを正規化するreducerを提供します。
+- [swagger-js](https://github.com/swagger-api/swagger-js)を使った通信用middleware(内部でレスポンスを正規化)と、正規化したデータを格納するreducerを提供します。
 
 ## インストール
 ```bash
@@ -20,7 +20,7 @@
       ```bash
       % node_modules/.bin/openapi2schemas --config config.js foo.yml
       ```
-    - config仕様
+    - config
       ```js
       {    
         templates: { // テンプレートパス
@@ -83,7 +83,7 @@
   例: `User`, `CompanyAccount`
   
 ### componentsの定義
-以下の場所にそれぞれスキーマを定義していく。
+以下の場所にそれぞれスキーマを定義する。
 - `components.schemas`: モデル定義
 - `components.requests` : モデル定義などを利用したリクエスト定義
 - `components.responses` : モデル定義などを利用したレスポンス定義
