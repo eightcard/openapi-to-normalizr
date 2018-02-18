@@ -16,8 +16,8 @@
     ```
 1. コード自動生成
     ```bash
-    % npm run build:sample:models
-    % npm run build:sample:schemas
+    % npm run build:sample:models examples/petstore.v3.yml 
+    % npm run build:sample:schemas examples/petstore.v3.yml 
     ```
     
     以下のようなファイル群が生成されます。
