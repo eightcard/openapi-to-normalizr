@@ -64,6 +64,18 @@ class ModelGenerator {
     });
   }
 
+  _prepareIdAttribute(idAttribute) {
+    const splits = idAttribute.split('.');
+    if (splits[0] === 'parent') {
+      splits.shift();
+      return `(value, parent) => parent${splits.map(str => `['${this.attributeConverter(str)}']`).join('')}`
+    }
+    if (splits.length === 1) {
+      return `'${this.attributeConverter(splits[0])}'`;
+    }
+    return `(value) => value${splits.map(str => `['${this.attributeConverter(str)}']`).join('')}`
+  }
+
   _renderBaseModel(name, properties, idAttribute) {
     const importList = [];
     const oneOfs = [];
@@ -82,13 +94,13 @@ class ModelGenerator {
     }, this.isV2);
 
     return render(this.templates.model, {
-      name, idAttribute: () => `(input) => input${this.attributeConverter(idAttribute).split('.').map(str => `['${str}']`).join('')}`,
+      name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
       props: this._convertPropForTemplate(properties, dependencySchema),
       specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
-      oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this.attributeConverter(obj.propertyName)})),
+      oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
       getFlowTypes, getPropTypes, getDefaults,
     }, {
