@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, getSchemaDir, changeFormat,
+  readTemplates, isFileExistPromise, writeFilePromise, getSchemaDir, changeFormat, parseModelName,
 } = require('./utils');
 
 /**
@@ -136,7 +136,7 @@ class ModelGenerator {
   generateTypeFrom(prop, definition) {
     if (prop && prop.oneOf) {
       // for only model (ref)
-      const candidates = prop.oneOf.map((obj) => (obj.$ref || obj.$$ref).replace(getSchemaDir(this.isV2), ''));
+      const candidates = prop.oneOf.map((obj) => parseModelName(obj.$ref || obj.$$ref, this.isV2));
       return {
         propType: `PropTypes.oneOfType([${candidates.map(c => `${c}PropType`).join(', ')}])`,
         flow: candidates.join(' | '),

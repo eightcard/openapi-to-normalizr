@@ -19,20 +19,25 @@ function getSchemaDir(isV2) {
   return isV2 ? '#/definitions/' : '#/components/schemas/';
 }
 
+function parseModelName(name, isV2) {
+  const schemasDir = getSchemaDir(isV2);
+  return name.split(schemasDir).pop();
+}
+
 function parseOneOf(schema, onSchema, isV2) {
   const {propertyName, mapping} = schema.discriminator;
-  const schemasDir = getSchemaDir(isV2);
   const ret = {propertyName};
   const components = schema.oneOf.map((ref) => {
     ref = ref['$$ref'] || ref['$ref'];
-    const model = ref.replace(schemasDir, '');
+    const model = parseModelName(ref, isV2);
     onSchema({type: 'model', value: model}); // for import list
     return {name: model, schemaName: schemaName(model)};
   });
 
   if (mapping) {
     ret.mapping = _.reduce(mapping, (acc, model, key) => {
-      acc[key] = schemaName(model.replace(schemasDir, ''));
+      model = parseModelName(model, isV2);
+      acc[key] = schemaName(model);
       return acc;
     }, {});
   } else {
@@ -50,7 +55,7 @@ function parseSchema(schema, onSchema, isV2) {
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
   if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
-    const model = ref.split(schemasDir).pop();
+    const model = parseModelName(ref, isV2);
     return onSchema({type: 'model', value: model});
   } else if (schema.oneOf) {
     return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
@@ -201,4 +206,5 @@ module.exports = {
   changeFormat,
   getIdAttribute,
   isModelDefinition,
+  parseModelName,
 };
