@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const {
-  parseSchema, schemaName, render, objectToTemplateValue, applyRequired,
+  parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
   readTemplates, isFileExistPromise, writeFilePromise, getSchemaDir, changeFormat,
 } = require('./utils');
 
@@ -29,31 +29,13 @@ class ModelGenerator {
   writeModel(model, name) {
     const {properties, required} = model;
     const fileName = _.snakeCase(name);
-    const idAttribute = this.constructor.getIdAttribute(model, name);
+    const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
 
     const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
     return writeFilePromise(path.join(this.outputDir, `_${fileName}.js`), coreText).then(() => {
       return this._writeOverrideModel(name, fileName).then(() => name);
     });
-  }
-
-  static getIdAttribute(model, name) {
-    const {properties} = model;
-    if (!properties) {
-      console.warn(`${name} does not model definition.`); // eslint-disable-line no-console
-      return false;
-    }
-    const idAttribute = model['x-id-attribute'] ? model['x-id-attribute'] : 'id';
-    if (!idAttribute.includes('.') && !properties[idAttribute]) {
-      console.warn(`${name} is not generated without id attribute.`); // eslint-disable-line no-console
-      return false;
-    }
-    return idAttribute;
-  }
-
-  static isModelDefinition(model, name) {
-    return Boolean(this.getIdAttribute(model, name));
   }
 
   writeIndex(modelNameList) {

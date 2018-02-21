@@ -7,7 +7,7 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFile, isModelDefinition } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
@@ -55,7 +55,7 @@ Swagger({spec}).then(({spec}) => {
       isV2, attributeConverter,
     });
     const onModel = (model, name) => {
-      if (ModelGenerator.isModelDefinition(model, name) && !modelNameList.includes(name)) {
+      if (isModelDefinition(model, name) && !modelNameList.includes(name)) {
         modelNameList.push(name);
       }
     };

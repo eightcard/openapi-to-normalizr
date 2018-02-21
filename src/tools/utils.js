@@ -49,7 +49,7 @@ function parseSchema(schema, onSchema, isV2) {
   if (!_.isObject(schema)) return;
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
-  if (ref && ref.match(schemasDir)) {
+  if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
     const model = ref.split(schemasDir).pop();
     return onSchema({type: 'model', value: model});
   } else if (schema.oneOf) {
@@ -158,6 +158,32 @@ function changeFormat(obj, transformer) {
   }
 }
 
+function getIdAttribute(model, name) {
+  const {properties} = model;
+  if (!properties) {
+    if (name) {
+      console.warn(`${name} does not model definition.`); // eslint-disable-line no-console
+    }
+    return false;
+  }
+  const idAttribute = model['x-id-attribute'] ? model['x-id-attribute'] : 'id';
+  if (!idAttribute.includes('.') && !properties[idAttribute]) {
+    if (name) {
+      console.warn(`${name} is not generated without id attribute.`); // eslint-disable-line no-console
+    }
+    return false;
+  }
+  return idAttribute;
+}
+
+function isModelDefinition(model, name) {
+  if (model['$ref'] && !model['$$ref']) {
+    // cannot check because of no dereferenced
+    return true;
+  }
+  return Boolean(getIdAttribute(model, name));
+}
+
 module.exports = {
   resolvePath,
   mkdirpPromise,
@@ -173,4 +199,6 @@ module.exports = {
   readSpecFile,
   getSchemaDir,
   changeFormat,
+  getIdAttribute,
+  isModelDefinition,
 };
