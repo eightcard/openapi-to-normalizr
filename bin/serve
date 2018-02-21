@@ -9,6 +9,7 @@ const p = program
 
 const dir = p.args[0] ? p.args[0] : __dirname;
 const server = serve(dir, {
+  cors: true,
   port: 3000,
   ignore: ['node_modules']
 });
