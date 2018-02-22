@@ -53,6 +53,7 @@
     "mustache": "2.3.0",
     "normalizr": "3.2.4",
     "prop-types": "15.6.0",
+    "react-immutable-proptypes": "2.1.0",
     "redux": "3.7.2",
     "redux-actions": "2.2.1",
     "swagger-client": "3.4.5"

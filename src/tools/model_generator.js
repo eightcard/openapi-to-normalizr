@@ -156,7 +156,7 @@ class ModelGenerator {
         return acc;
       }, {});
       return {
-        propType: `PropTypes.shape(${JSON.stringify(props).replace(/"/g, '')})`
+        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`
       }
     }
   }
@@ -170,13 +170,13 @@ class ModelGenerator {
     if (_.isArray(definition)) {
       def = definition[0];
       const type = this._generatePropTypeFromDefinition(def);
-      return `PropTypes.arrayOf(${type})`;
+      return `ImmutablePropTypes.listOf(${type})`;
     } else if (_.isObject(definition)) {
       const type = _.reduce(definition, (acc, value, key) => {
         acc[key] = this._generatePropTypeFromDefinition(value);
         return acc;
       }, {});
-      return `PropTypes.shape(${JSON.stringify(type).replace(/"/g, '')})`;
+      return `ImmutablePropTypes.mapContains(${JSON.stringify(type).replace(/"/g, '')})`;
     }
   }
 
