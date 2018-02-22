@@ -114,7 +114,6 @@ class ModelGenerator {
     return [
       'type',
       'default',
-      'required',
       'enum'
     ];
   }
@@ -125,6 +124,7 @@ class ModelGenerator {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
+        required: prop.required === true,
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
