@@ -7,7 +7,7 @@ class JsSpecGenerator {
     this.templatePath = templatePath;
     this.spec = spec;
     this.specName = specName;
-    this.templates = readTemplates(['spec'], this.templatePath);
+    this.templates = readTemplates(['spec', 'head'], this.templatePath);
   }
 
   write(spec = this.spec) {
