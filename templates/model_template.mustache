@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 {{/usePropTypes}}
-import { Record } from 'immutable';
+import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
@@ -35,7 +35,7 @@ export const propTypes = PropTypes.shape({
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids, entities) => _denormalize(ids, isArray(ids) ? [schema] : schema, entities);
+export const denormalize = (ids, entities) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 
 export default class {{name}} extends Record(defaultValues) {
 {{#useFlow}}
