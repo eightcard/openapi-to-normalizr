@@ -65,7 +65,7 @@ class SchemaGenerator {
    * パース情報とテンプレートからschema.jsを書き出し
    */
   write() {
-    const oneOfs = this.oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this.attributeConverter(obj.propertyName)}));
+    const oneOfs = this.oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: `'${this.attributeConverter(obj.propertyName)}'`}));
     const text = render(this.templates.schema, {
       importList: this._prepareImportList(),
       data: objectToTemplateValue(this.formattedSchema),
