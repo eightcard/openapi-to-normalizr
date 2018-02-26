@@ -39,6 +39,7 @@ export default (spec, httpOptions) => {
       if (requestBody) {
         options.requestBody = requestBody;  // for OAS v3
       }
+      action.meta.requestPayload = action.payload;
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         ({body, status}) => {
           const payload = schema ? normalize(body, schema[status] || schema['default']) : action.payload;

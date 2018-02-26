@@ -65,6 +65,7 @@ var _default = function _default(spec, httpOptions) {
             options.requestBody = requestBody; // for OAS v3
           }
 
+          action.meta.requestPayload = action.payload;
           return api(action.payload, Object.assign({}, options, httpOptions)).then(function (_ref2) {
             var body = _ref2.body,
                 status = _ref2.status;
