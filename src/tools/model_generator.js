@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, getSchemaDir, changeFormat, parseModelName,
+  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, parseModelName,
 } = require('./utils');
 
 /**
