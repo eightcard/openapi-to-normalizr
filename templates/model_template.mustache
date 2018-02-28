@@ -24,11 +24,12 @@ export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttr
 {{>dependency}}
 
 {{#usePropTypes}}
-export const propTypes = PropTypes.shape({
+export const propTypesObject = {
 {{#props}}
   {{&name}}: {{&getPropTypes}}{{#required}}.isRequired{{/required}},
 {{/props}}
-});
+};
+export const propTypes = PropTypes.shape(propTypesObject);
 {{/usePropTypes}}
 
 /**
