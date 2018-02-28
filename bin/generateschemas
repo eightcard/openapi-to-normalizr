@@ -84,8 +84,7 @@ function walkModels(models, onModels = []) {
 }
 
 function opId(operation, path, method) {
-  // remove extension
-  return Swagger.helpers.opId(operation, path.replace(/\.\w+$/, ''), method);
+  return Swagger.helpers.opId(operation, path, method);
 }
 
 function walkResponses(paths, onResponses = []) {
