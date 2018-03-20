@@ -1,30 +1,30 @@
 {
   "name": "openapi-to-normalizr",
+  "description": "generator for normalizr",
   "version": "0.0.1",
-  "description": "swagger-parser-tool",
-  "main": "dist/index.js",
-  "scripts": {
-    "serve": "bin/serve `pwd`/examples ",
-    "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
-    "prepare:mock": "cd examples/petstore && npm i",
-    "mock": "swagger project start examples/petstore",
-    "build:sample:models": "./bin/generatemodels --config examples/config/config.models.js",
-    "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
-    "eslint": "eslint src",
-    "build:dist": "npm run eslint && npm test && babel -d dist --env-name=development src/lib/**/*[^test].js",
-    "mocha": "NODE_ENV=test mocha --require babel-register ",
-    "test": "NODE_ENV=test mocha --require babel-register src/lib/**/*.test.js"
+  "author": {
+    "name": "Shuhei Aoyama",
+    "email": "aoyama@sansan.com",
+    "url": "github.com/MtBlue81/openapi-to-normalizr"
   },
-  "keywords": [
-    "swagger",
-    "open api"
-  ],
   "bin": {
     "openapi2models": "./bin/generatemodels",
     "openapi2schemas": "./bin/generateschemas"
   },
-  "author": "",
-  "license": "MIT",
+  "dependencies": {
+    "commander": "2.12.2",
+    "immutable": "3.8.2",
+    "js-yaml": "3.10.0",
+    "lodash": "4.17.4",
+    "mkdirp": "0.5.1",
+    "mustache": "2.3.0",
+    "normalizr": "3.2.4",
+    "prop-types": "15.6.0",
+    "react-immutable-proptypes": "2.1.0",
+    "redux": "3.7.2",
+    "redux-actions": "2.2.1",
+    "swagger-client": "3.4.5"
+  },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.37",
     "@babel/core": "7.0.0-beta.37",
@@ -44,18 +44,34 @@
     "swagger": "0.7.5",
     "webpack": "3.10.0"
   },
-  "dependencies": {
-    "commander": "2.12.2",
-    "immutable": "3.8.2",
-    "js-yaml": "3.10.0",
-    "lodash": "4.17.4",
-    "mkdirp": "0.5.1",
-    "mustache": "2.3.0",
-    "normalizr": "3.2.4",
-    "prop-types": "15.6.0",
-    "react-immutable-proptypes": "2.1.0",
-    "redux": "3.7.2",
-    "redux-actions": "2.2.1",
-    "swagger-client": "3.4.5"
+  "files": [
+    "config",
+    "src",
+    "dist",
+    "templates",
+    "examples",
+    "bin",
+    "README.md",
+    "package.json"
+  ],
+  "keywords": [
+    "generator",
+    "open api",
+    "swagger"
+  ],
+  "license": "",
+  "main": "dist/index.js",
+  "repository": "MtBlue81/openapi-to-normalizr",
+  "scripts": {
+    "build:dist": "npm run eslint && npm test && babel -d dist --env-name=development src/lib/**/*[^test].js",
+    "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
+    "build:sample:models": "./bin/generatemodels --config examples/config/config.models.js",
+    "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
+    "eslint": "eslint src",
+    "mocha": "NODE_ENV=test mocha --require babel-register ",
+    "mock": "swagger project start examples/petstore",
+    "prepare:mock": "cd examples/petstore && npm i",
+    "serve": "bin/serve `pwd`/examples ",
+    "test": "NODE_ENV=test mocha --require babel-register src/lib/**/*.test.js"
   }
 }

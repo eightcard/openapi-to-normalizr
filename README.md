@@ -1,101 +1,109 @@
-# OpenAPI to normalizr
+# openapi-to-normalizr 
 
-## 概要
-- [OpenAPI](https://github.com/OAI/OpenAPI-Specification)で記述されたAPI定義から [normalizr](https://github.com/paularmstrong/normalizr)で利用できるスキーマ定義を生成します。
-- [swagger-js](https://github.com/swagger-api/swagger-js)を使った通信用middleware(内部でレスポンスを正規化)と、正規化したデータを格納するreducerを提供します。
+> schemas generator for normalizr
 
-## インストール
-```bash
-% npm i git+ssh://git@github.com/MtBlue81/openapi-to-normalizr.git
+[日本語](README.ja.md)
+
+
+## Install
+
+```
+$ npm install openapi-to-normalizr
 ```
 
-## 使い方
-1. コードの自動生成
-    - OpenAPI形式のYAMLを準備
-    - モデルコードを生成
-      ```bash
-      % node_modules/.bin/openapi2models --config config.js foo.yml
-      ```
-    - スキーマコードを生成
-      ```bash
-      % node_modules/.bin/openapi2schemas --config config.js foo.yml
-      ```
-    - config
-      ```js
-      {    
-        templates: { // テンプレートパス
-          model: 'ベースモデル用',
-          override: '継承モデル用',
-          schema: 'スキーマ用',
-          head: 'ヘッダー用',
-          dependency: '依存import用',
-          models: 'モデルindex用',
-          actionTypes: 'actionTypes用',
-          spec: 'SpecのJS化用',
-          oneOf: 'oneOf展開用',
-        },
-        modelsDir: 'モデル出力先',
-        outputDir: 'actions,schemasの出力先',
-        useFlow: 'flowtype利用(true/false)',
-        usePropType: 'prop-type利用(true/false)',
-        attributeConverter: '属性コンバート用関数',
-      }
-      ```
-      
-2. 自動生成コードの利用
-    - `redux`のmiddlewareを利用したAPIリクエストと `normalizr` を利用したレスポンス正規化を行います。
-      ```js
-      import { applyMiddleware, createStore } from 'redux';
-      // 自動生成ファイルがtmp配下に生成された場合
-      import rawSpec from 'tmp/spec';
-      import * as Models from 'tmp/models';
-      import * as ActionTypes from 'tmp/actions/actionTypes';
-      const createEntitiesAction = ActionTypes.createAction;
-      import { createEntitiesReducer, createOpenApiMiddleware } from 'openapi-to-normalizr';
+## Usage
 
-      // JS形式のSpecを渡してAPI通信を自動で行なうmiddlewareを準備する
-      createOpenApiMiddleware(rawSpec).then((middleware) => {
-        const store = createStore(
-          // Modelクラスを渡してreducerで正規化＆モデル化してもらう
-          createEntitiesReducer(Models),
-          applyMiddleware(middleware)
-        );
-        const action = createEntitiesAction(ActionTypes.GET_PETS__ID_);
-        store.dispatch(action({id: 1}));
-      });
-      ``` 
-    - [examples](./examples/README.md)では簡単なAPI定義から動作確認するサンプルがあります。
-    - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。
-      
+### generate code
 
-## その他
-### パスのIDについて
-- パスごとの `operationId` は利用しない。  
-- 自動的に以下の規約でIDが振られることになる。  
-   - `/` -> `_` 
-   -  `{foo}` -> `_foo_`
--  ReduxアクションのtypeなどではこのIDを大文字にしたものを利用する。
+- prepare your yaml file.
+- generate models
+  ```bash
+  % $(npm bin)/openapi2models --config config.js foo.yml
+  ```
+- generate schemas (and actionTypes.js, schema.js)
+  ```bash
+  % $(npm bin)/openapi2schemas --config config.js foo.yml
+  ```
+- about config
+  ```js
+  {    
+    templates: { // default: this repo's templates directory
+      model: 'for base model',
+      override: 'for extends model',
+      schema: 'for schemas',
+      head: 'for header',
+      dependency: 'for dependency',
+      models: 'for model index.js',
+      actionTypes: 'for actionTypes',
+      spec: 'for JS format spec',
+      oneOf: 'for oneof schema',
+    },
+    modelsDir: 'models output directory', // default: tmp
+    outputDir: 'actions,schemas output directory', // default: tmp
+    useFlow: 'use flowtype?(true/false)', // default: false (experiment)
+    usePropType: 'use prop-type?(true/false)',  // default: true
+    attributeConverter: 'attribute converter function',
+  }
+  ```
 
-### モデルについて
-- swagger-uiで表現できないため、ディレクトリには分割しない。  
-- ドメイン依存するような場合はモデル名自体で対応する。
-- モデル名は `UpperCamelCase`  
-  例: `User`, `CompanyAccount`
-  
-### componentsの定義
-以下の場所にそれぞれスキーマを定義する。
-- `components.schemas`: モデル定義
-- `components.requests` : モデル定義などを利用したリクエスト定義
-- `components.responses` : モデル定義などを利用したレスポンス定義
-  
-### 拡張について
-OpenAPIでは `^x-` の形式で拡張を許容している。  
-https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#specification-extensions
+```js
+import { createEntitiesReducer, createOpenApiMiddleware } from 'openapi-to-normalizr';
+import * as Models from '{your models dir}/index';
+import Spec from '{your output dir}/spec';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 
-このツールでは以下の拡張を実装する。
-- x-id-attribute  
-  文字列形式でエンティティ化するときのID相当の属性を指定する。(未指定時は `id`)
-  ネストしている属性を利用する場合、`xxx.yyy` のような指定もできる。
-- x-attribute-as
-  文字列形式で同モデル内での属性エイリアスを定義する。 (非推奨)
+const reducers = combineReducers({
+  entities: createEntitiesReducer(Models),
+});
+
+createOpenApiMiddleware(Spec).then((middleware) => {
+  return createStore(
+    reducers,
+    applyMiddleware(middleware)
+  );
+}).then((store) => {
+  // React Application code.
+});
+```
+
+
+## API
+
+### createEntitiesReducer(Models, [additionalReducer])
+create reducer that output normalized state as model. (normalized by [normalizr](https://github.com/paularmstrong/normalizr))
+
+#### Models
+Type: {[key: string]: Model}
+
+#### additionalReducer
+Type: Function
+
+additional reducer that support no automatic merge reduce.
+
+Example:
+```js
+import * as ActionTypes from 'actions/actionTypes';
+function additionalReducer(state = Map(), action = {}) {
+  const id = action.payload.id;
+  switch(action.type) {
+    case ActionTypes.DELETE_PETS__ID_:
+      return state.removeIn(['Pet', id.toString()]);
+    default:
+      return state;
+  }
+}
+```
+
+### createOpenApiMiddleware(spec, [httpOptions])
+create redux middleware support [swagger-js](https://github.com/swagger-api/swagger-js).
+
+#### spec
+Type: Object
+
+OpenAPI Spec 
+
+#### httpOptions
+Type: Object
+
+Same as httpOptions of swagger-js.
 
