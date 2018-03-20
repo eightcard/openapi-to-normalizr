@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "config:base"
+  ],
+"  packageRules": [
+  {
+    "packagePatterns": ["^eslint"],
+    "groupName": "eslint packages"
+  }
+  ],
+  "schedule": ["every weekend"]
+}
