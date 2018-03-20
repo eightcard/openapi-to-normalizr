@@ -1,5 +1,16 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+"  packageRules": [
+  {
+    "packagePatterns": ["^eslint"],
+    "groupName": "eslint packages"
+  },
+  {
+    "packagePatterns": ["^[@*]babel"],
+    "groupName": "babel packages"
+  }
+  ],
+  "schedule": ["every weekend"]
 }
