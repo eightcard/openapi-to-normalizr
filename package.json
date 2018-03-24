@@ -12,7 +12,7 @@
     "openapi2schemas": "./bin/generateschemas"
   },
   "dependencies": {
-    "commander": "2.12.2",
+    "commander": "2.15.1",
     "immutable": "3.8.2",
     "js-yaml": "3.10.0",
     "lodash": "4.17.4",
