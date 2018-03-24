@@ -42,7 +42,7 @@
     "serve": "6.4.1",
     "sinon": "4.2.2",
     "swagger": "0.7.5",
-    "webpack": "3.10.0"
+    "webpack": "4.2.0"
   },
   "files": [
     "config",
