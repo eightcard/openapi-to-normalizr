@@ -36,7 +36,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/PetsResponse'
+                type: array
+                items:
+                  $ref: '#/components/responses/PetResponse'
+
         default:
           description: unexpected error
           content:
@@ -126,10 +129,7 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   responses:
-    PetsResponse:
-      type: array
-      items:
-        $ref: '#/components/responses/PetResponse'
+    # you can use $ref only specified #/components/schemas/xxx here.
     PetResponse:
       type: object  # workaround(https://github.com/swagger-api/swagger-ui/issues/3803)
       oneOf:
