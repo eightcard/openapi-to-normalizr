@@ -15,7 +15,7 @@
     "commander": "2.15.1",
     "immutable": "3.8.2",
     "js-yaml": "3.11.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "mkdirp": "0.5.1",
     "mustache": "2.3.0",
     "normalizr": "3.2.4",
