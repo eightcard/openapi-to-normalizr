@@ -26,10 +26,10 @@
     "swagger-client": "3.4.5"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0-beta.37",
-    "@babel/core": "7.0.0-beta.37",
-    "@babel/preset-env": "7.0.0-beta.37",
-    "@babel/register": "7.0.0-beta.37",
+    "@babel/cli": "7.0.0-beta.42",
+    "@babel/core": "7.0.0-beta.42",
+    "@babel/preset-env": "7.0.0-beta.42",
+    "@babel/register": "7.0.0-beta.42",
     "babel-loader": "8.0.0-beta.2",
     "babel-polyfill": "6.26.0",
     "babel-preset-es2015": "6.24.1",
