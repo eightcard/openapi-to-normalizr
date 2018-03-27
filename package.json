@@ -37,7 +37,7 @@
     "babel-register": "6.26.0",
     "eslint": "4.19.1",
     "mocha": "4.1.0",
-    "nock": "9.1.6",
+    "nock": "9.2.3",
     "power-assert": "1.4.4",
     "serve": "6.4.1",
     "sinon": "4.2.2",
