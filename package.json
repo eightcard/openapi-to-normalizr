@@ -40,7 +40,7 @@
     "nock": "9.2.3",
     "power-assert": "1.4.4",
     "serve": "6.5.3",
-    "sinon": "4.4.8",
+    "sinon": "4.5.0",
     "swagger": "0.7.5",
     "webpack": "3.11.0"
   },
