@@ -38,7 +38,7 @@
     "eslint": "4.19.1",
     "mocha": "5.0.5",
     "nock": "9.2.3",
-    "power-assert": "1.4.4",
+    "power-assert": "1.5.0",
     "serve": "6.5.3",
     "sinon": "4.5.0",
     "swagger": "0.7.5",
