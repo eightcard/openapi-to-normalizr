@@ -8,7 +8,7 @@
 ## Install
 
 ```
-$ npm install openapi-to-normalizr
+$ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git 
 ```
 
 ## Usage
