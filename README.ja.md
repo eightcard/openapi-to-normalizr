@@ -6,7 +6,7 @@
 
 ## インストール
 ```bash
-% npm i git+ssh://git@github.com/MtBlue81/openapi-to-normalizr.git
+% npm i git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
 ```
 
 ## 使い方
