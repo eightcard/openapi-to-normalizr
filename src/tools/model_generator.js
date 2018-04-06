@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const _ = require('lodash'); // eslint-disable-line implicit-arrow-linebreak
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
@@ -97,6 +97,7 @@ class ModelGenerator {
       name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
+      // enumObjects: getEnumObjects(),
       props: this._convertPropForTemplate(properties, dependencySchema),
       specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
@@ -125,12 +126,34 @@ class ModelGenerator {
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
         required: prop.required === true,
+        isEnum: this.isEnum(prop.enum),
+        isValueString: prop.type === 'string',
+        enumValueNames: this.getEnumNames(this.attributeConverter(name), prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
         return ret;
       }, base);
     });
+  }
+
+  isEnum(enums) {
+    if(enums) {
+      return true;
+    }
+    return false;
+  }
+
+  getEnumNames(name, enums) {
+    if(!enums) {
+      return;
+    }
+    const nameList = [];
+    for(let i = 0; i < enums.length; i++) {
+      const enumName = `${_.camelCase(name)}_${enums[i]}`;
+      nameList.push(enumName);
+    }
+    return nameList;
   }
 
   generateTypeFrom(prop, definition) {
@@ -208,13 +231,13 @@ class ModelGenerator {
 }
 
 function getPropTypes() {
-  return _getPropTypes(this.type, this.enum);
+  return _getPropTypes(this.type, this.enum, this.enumValueNames);
 }
 
-function _getPropTypes(type, enums) {
+function _getPropTypes(type, enums, enumValueNames) {
   if (enums) {
-    enums = type === 'string' ? enums.map((key) => `'${key}'`) : enums;
-    return `PropTypes.oneOf([${enums.join(', ')}])`;
+    const nameList = enumValueNames;
+    return `PropTypes.oneOf([${nameList.join(', ')}])`;
   }
   switch(type) {
     case 'integer':
@@ -251,5 +274,6 @@ function getDefaults() {
   if (!this.default) { return 'undefined'; }
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
+
 
 module.exports = ModelGenerator;
