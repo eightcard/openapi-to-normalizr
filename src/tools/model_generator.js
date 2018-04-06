@@ -272,6 +272,11 @@ function getFlowTypes() {
 
 function getDefaults() {
   if (!this.default) { return 'undefined'; }
+  if(this.enumValueNames) {
+    for(const enumValueName of this.enumValueNames) {
+      if(enumValueName.indexOf(this.default) !== -1) return enumValueName;
+    }
+  }
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
