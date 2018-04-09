@@ -14,9 +14,9 @@ import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}} {{#usePropTy
 {{/importList}}
 
 {{#props}}
-{{#enumValueObjects}}
+{{#enumObjects}}
 export const {{name}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
-{{/enumValueObjects}}
+{{/enumObjects}}
 {{/props}}
 
 const defaultValues = {

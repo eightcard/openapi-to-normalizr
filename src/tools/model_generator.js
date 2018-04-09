@@ -120,7 +120,6 @@ class ModelGenerator {
 
   _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
-      console.log(prop);
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
@@ -129,7 +128,7 @@ class ModelGenerator {
         isEnum: new Boolean(prop.enum), // eslint-disable-line no-new-wrappers
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumValueObjects: this.getEnumObjects(name, prop.enum),
+        enumObjects: this.getEnumObjects(name, prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -149,7 +148,6 @@ class ModelGenerator {
         'value': current,
       };
     });
-    // console.log(enumMap); // eslint-disable-line no-console
     return enumMap;
   }
 
@@ -228,12 +226,12 @@ class ModelGenerator {
 }
 
 function getPropTypes() {
-  return _getPropTypes(this.type, this.enum, this.enumValueObjects);
+  return _getPropTypes(this.type, this.enum, this.enumObjects);
 }
 
-function _getPropTypes(type, enums, enumValueObjects) {
+function _getPropTypes(type, enums, enumObjects) {
   if (enums) {
-    const nameMap = enumValueObjects.map((current) => current.name);
+    const nameMap = enumObjects.map((current) => current.name);
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
   }
   switch(type) {
@@ -269,8 +267,8 @@ function getFlowTypes() {
 
 function getDefaults() {
   if (!this.default) { return 'undefined'; }
-  if(this.enumValueObjects) {
-    for(const enumValueObject of this.enumValueObjects) {
+  if(this.enumObjects) {
+    for(const enumValueObject of this.enumObjects) {
       if(getPropertyName(enumValueObject.name) === this.propertyName) return enumValueObject.name;
     }
   }
