@@ -125,7 +125,7 @@ class ModelGenerator {
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
         required: prop.required === true,
-        isEnum: this.isEnum(prop.enum),
+        isEnum: new Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
         enumValueNames: this.getEnumNames(this.attributeConverter(name), prop.enum),
@@ -135,13 +135,6 @@ class ModelGenerator {
         return ret;
       }, base);
     });
-  }
-
-  isEnum(enums) {
-    if(enums) {
-      return true;
-    }
-    return false;
   }
 
   getEnumNames(name, enums) {
