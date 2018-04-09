@@ -148,13 +148,12 @@ class ModelGenerator {
     if(!enums) {
       return;
     }
-    // console.log(name); // eslint-disable-line no-console
-    const nameList = [];
-    for(let i = 0; i < enums.length; i++) {
-      const enumName = `${_.camelCase(name)}_${enums[i]}`;
-      nameList.push(enumName);
-    }
-    return nameList;
+
+    const nameMap = enums.map((current) => {
+      return `${_.camelCase(name)}_${current}`
+    });
+
+    return nameMap;
   }
 
   generateTypeFrom(prop, definition) {
