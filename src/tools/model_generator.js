@@ -127,6 +127,7 @@ class ModelGenerator {
         required: prop.required === true,
         isEnum: this.isEnum(prop.enum),
         isValueString: prop.type === 'string',
+        propertyName: name,
         enumValueNames: this.getEnumNames(this.attributeConverter(name), prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
@@ -147,6 +148,7 @@ class ModelGenerator {
     if(!enums) {
       return;
     }
+    // console.log(name); // eslint-disable-line no-console
     const nameList = [];
     for(let i = 0; i < enums.length; i++) {
       const enumName = `${_.camelCase(name)}_${enums[i]}`;
@@ -272,11 +274,15 @@ function getDefaults() {
   if (!this.default) { return 'undefined'; }
   if(this.enumValueNames) {
     for(const enumValueName of this.enumValueNames) {
-      if(enumValueName.indexOf(this.default) !== -1) return enumValueName;
+      if(getPropertyName(enumValueName) === this.propertyName) return enumValueName;
     }
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
+function getPropertyName(name) {
+  const camelCaseName = name.split('_')[0];
+  return _.snakeCase(camelCaseName);
+}
 
 module.exports = ModelGenerator;
