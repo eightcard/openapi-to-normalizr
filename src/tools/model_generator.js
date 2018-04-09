@@ -236,8 +236,7 @@ function getPropTypes() {
 
 function _getPropTypes(type, enums, enumValueNames) {
   if (enums) {
-    const nameList = enumValueNames;
-    return `PropTypes.oneOf([${nameList.join(', ')}])`;
+    return `PropTypes.oneOf([${enumValueNames.join(', ')}])`;
   }
   switch(type) {
     case 'integer':
