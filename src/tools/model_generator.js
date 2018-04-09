@@ -97,7 +97,6 @@ class ModelGenerator {
       name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
-      // enumObjects: getEnumObjects(),
       props: this._convertPropForTemplate(properties, dependencySchema),
       specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
