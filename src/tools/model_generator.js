@@ -128,7 +128,7 @@ class ModelGenerator {
         isEnum: new Boolean(prop.enum), // eslint-disable-line no-new-wrappers
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumValueNames: this.getEnumNames(this.attributeConverter(name), prop.enum),
+        enumValueNames: this.getEnumNames(name, prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
