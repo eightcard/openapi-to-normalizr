@@ -1,4 +1,4 @@
-const _ = require('lodash'); // eslint-disable-line implicit-arrow-linebreak
+const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
@@ -125,7 +125,7 @@ class ModelGenerator {
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
         required: prop.required === true,
-        isEnum: new Boolean(prop.enum),
+        isEnum: new Boolean(prop.enum), // eslint-disable-line no-new-wrappers
         isValueString: prop.type === 'string',
         propertyName: name,
         enumValueNames: this.getEnumNames(this.attributeConverter(name), prop.enum),
