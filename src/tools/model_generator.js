@@ -125,7 +125,7 @@ class ModelGenerator {
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
         required: prop.required === true,
-        isEnum: new Boolean(prop.enum), // eslint-disable-line no-new-wrappers
+        isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
         enumObjects: this.getEnumObjects(name, prop.enum),
