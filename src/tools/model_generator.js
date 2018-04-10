@@ -278,7 +278,9 @@ function getDefaults() {
 
 function getPropertyName(name) {
   const snakeCaseName = _.snakeCase(name);
-  return snakeCaseName.split('_').slice(0, 2).join('_');
+  const splitted = snakeCaseName.split('_');
+  splitted.length -= 1; // 定数名を構成する文字列のうち、最後のものが値を示すので逆変換ではこれを取り払う
+  return splitted.join('_');
 }
 
 module.exports = ModelGenerator;
