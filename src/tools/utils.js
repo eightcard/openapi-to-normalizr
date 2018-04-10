@@ -147,8 +147,8 @@ function readSpecFile(path) {
 }
 
 function changeFormat(obj, transformer) {
-  if(typeof obj === 'object') {
-    if(obj === null) {
+  if (typeof obj === 'object') {
+    if (obj === null) {
       return obj;
     }
     const formattedObj = Array.isArray(obj) ? [] : {};

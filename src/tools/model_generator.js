@@ -216,7 +216,7 @@ function _getPropTypes(type, enums) {
     enums = type === 'string' ? enums.map((key) => `'${key}'`) : enums;
     return `PropTypes.oneOf([${enums.join(', ')}])`;
   }
-  switch(type) {
+  switch (type) {
     case 'integer':
     case 'number':
       return 'PropTypes.number';
@@ -234,7 +234,7 @@ function getFlowTypes() {
     const enums = this.type === 'string' ? this.enum.map((key) => `'${key}'`) : this.enum;
     return enums.join(' | ');
   }
-  switch(this.type) {
+  switch (this.type) {
     case 'integer':
     case 'number':
       return 'number';
