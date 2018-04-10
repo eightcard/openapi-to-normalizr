@@ -138,11 +138,12 @@ class ModelGenerator {
   }
 
   getEnumObjects(name, enums) {
-    if(!enums) {
+    if (!enums) {
       return;
     }
     return enums.map((current) => {
-      const enumName = `${_.upperCase(name).split(' ').join('_')}_${_.upperCase(current)}`;
+      const convertedName = _.upperCase(name).split(' ').join('_');
+      const enumName = `${convertedName}_${_.upperCase(current)}`;
       return {
         'name': enumName,
         'value': current,
@@ -267,10 +268,16 @@ function getFlowTypes() {
 function getDefaults() {
   if (!this.default) { return 'undefined'; }
   if (this.enumObjects) {
-    for (const enumValueObject of this.enumObjects) {
-      const isSameName = getPropertyName(enumValueObject.name) === this.propertyName;
-      const isSameValue = enumValueObject.value === this.default;
-      if (isSameName && isSameValue) return enumValueObject.name;
+    for (const enumObject of this.enumObjects) {
+
+      /**
+       * enumをdefaultPropsの値として用いる条件は次の2つ
+       * 1. enumObject.nameを逆変換して得られる文字列がプロパティ名と一致している場合（名前の一致）
+       * 2. enumObject.valueがもともとのthis.defaultと一致している場合（値の一致）
+       */
+      const isSameName = getPropertyName(enumObject.name) === this.propertyName;
+      const isSameValue = enumObject.value === this.default;
+      if (isSameName && isSameValue) return enumObject.name;
     }
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
