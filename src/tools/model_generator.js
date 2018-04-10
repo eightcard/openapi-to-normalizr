@@ -269,25 +269,10 @@ function getDefaults() {
   if (!this.default) { return 'undefined'; }
   if (this.enumObjects) {
     for (const enumObject of this.enumObjects) {
-
-      /**
-       * enumをdefaultPropsの値として用いる条件は次の2つ
-       * 1. enumObject.nameを逆変換して得られる文字列がプロパティ名と一致している場合（名前の一致）
-       * 2. enumObject.valueがもともとのthis.defaultと一致している場合（値の一致）
-       */
-      const isSameName = getPropertyName(enumObject.name) === this.propertyName;
-      const isSameValue = enumObject.value === this.default;
-      if (isSameName && isSameValue) return enumObject.name;
+      if (enumObject.value === this.default) return enumObject.name;
     }
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
-}
-
-function getPropertyName(name) {
-  const snakeCaseName = _.snakeCase(name);
-  const splitted = snakeCaseName.split('_');
-  splitted.length -= 1; // 定数名を構成する文字列のうち、最後のものが値を示すので逆変換ではこれを取り払う
-  return splitted.join('_');
 }
 
 module.exports = ModelGenerator;
