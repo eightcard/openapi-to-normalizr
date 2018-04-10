@@ -141,14 +141,13 @@ class ModelGenerator {
     if(!enums) {
       return;
     }
-    const enumMap = enums.map((current) => {
+    return enums.map((current) => {
       const enumName = `${_.upperCase(_.camelCase(name)).split(' ').join('_')}_${_.upperCase(current)}`;
       return {
         'name': enumName,
         'value': current,
       };
     });
-    return enumMap;
   }
 
   generateTypeFrom(prop, definition) {
