@@ -266,11 +266,11 @@ function getFlowTypes() {
 
 function getDefaults() {
   if (!this.default) { return 'undefined'; }
-  if(this.enumObjects) {
-    for(const enumValueObject of this.enumObjects) {
+  if (this.enumObjects) {
+    for (const enumValueObject of this.enumObjects) {
       const isSameName = getPropertyName(enumValueObject.name) === this.propertyName;
       const isSameValue = enumValueObject.value === this.default;
-      if(isSameName && isSameValue) return enumValueObject.name;
+      if (isSameName && isSameValue) return enumValueObject.name;
     }
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
