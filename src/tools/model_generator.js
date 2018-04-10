@@ -128,7 +128,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(name, prop.enum),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -142,7 +142,7 @@ class ModelGenerator {
       return;
     }
     return enums.map((current) => {
-      const enumName = `${_.upperCase(_.camelCase(name)).split(' ').join('_')}_${_.upperCase(current)}`;
+      const enumName = `${_.upperCase(name).split(' ').join('_')}_${_.upperCase(current)}`;
       return {
         'name': enumName,
         'value': current,
@@ -268,7 +268,9 @@ function getDefaults() {
   if (!this.default) { return 'undefined'; }
   if(this.enumObjects) {
     for(const enumValueObject of this.enumObjects) {
-      if(getPropertyName(enumValueObject.name) === this.propertyName) return enumValueObject.name;
+      const isSameName = getPropertyName(enumValueObject.name) === this.propertyName;
+      const isSameValue = enumValueObject.value === this.default;
+      if(isSameName && isSameValue) return enumValueObject.name;
     }
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
