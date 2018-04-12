@@ -7,6 +7,10 @@ exports.createReducer = createReducer;
 
 var _immutable = require("immutable");
 
+var _isUndefined = _interopRequireDefault(require("lodash/isUndefined"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -22,6 +26,10 @@ function isOpenApiAction(meta) {
 function getNewEntities(action) {
   return isOpenApiAction(action.meta) && action.payload && action.payload.entities;
 }
+/**
+ * immutable.js based entities reducer
+ */
+
 
 var EntitiesReducer =
 /*#__PURE__*/
@@ -63,7 +71,7 @@ function () {
             return _this._instantiate(entity, modelName);
           });
         });
-        return oldEntities.mergeDeep(modeledEntities);
+        return oldEntities.mergeDeepWith(merger, modeledEntities);
       });
     }
   }, {
@@ -75,6 +83,10 @@ function () {
 
   return EntitiesReducer;
 }();
+
+var merger = function merger(prev, next) {
+  return (0, _isUndefined.default)(next) ? prev : next;
+};
 
 function createReducer(Models, additionalReducer) {
   var reducer = new EntitiesReducer(Models, additionalReducer);
