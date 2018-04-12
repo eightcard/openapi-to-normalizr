@@ -4,5 +4,6 @@ function snakeToCamel(str) {
 
 module.exports = {
   outputDir: './tmp/models',
+  outputInheritDir: './tmp/models/inherit',
   attributeConverter: snakeToCamel,
 };

@@ -10,8 +10,9 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', templatePath = {}, specName, isV2, useFlow, usePropType, attributeConverter = str => str}) {
+  constructor({outputDir = '', outputInheritDir = '', templatePath = {}, specName, isV2, useFlow, usePropType, attributeConverter = str => str}) {
     this.outputDir = outputDir;
+    this.outputInheritDir = outputInheritDir;
     this.templatePath = templatePath;
     this.specName = specName;
     this.isV2 = isV2;
@@ -33,7 +34,7 @@ class ModelGenerator {
     if (!idAttribute) return;
 
     const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
-    return writeFilePromise(path.join(this.outputDir, `_${fileName}.js`), coreText).then(() => {
+    return writeFilePromise(path.join(this.outputInheritDir, `_${fileName}.js`), coreText).then(() => {
       return this._writeOverrideModel(name, fileName).then(() => name);
     });
   }

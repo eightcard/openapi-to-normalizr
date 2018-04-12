@@ -27,6 +27,7 @@ if (_.isEmpty(specFiles)) {
 }
 
 const outputDir = config.outputDir || 'dist';
+const outputInheritDir = config.outputInheritDir || 'dist';
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 const nameList = [];
 let isV2;
@@ -37,12 +38,13 @@ Promise.all(
   models = _.merge(...models);
   const modelGenerator = new ModelGenerator({
     outputDir,
+    outputInheritDir,
     templatePath: config.templates,
     usePropType: config.usePropType,
     useFlow: config.useFlow,
     isV2, attributeConverter,
   });
-  mkdirpPromise(outputDir).then(() => {
+  mkdirpPromise(outputInheritDir).then(() => {
     Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
       modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
     });
