@@ -1,4 +1,5 @@
 import { Map, fromJS } from 'immutable';
+import isUndefined from 'lodash/isUndefined';
 
 const initialState = Map();
 
@@ -10,6 +11,9 @@ function getNewEntities(action) {
   return isOpenApiAction(action.meta) && action.payload && action.payload.entities;
 }
 
+/**
+ * immutable.js based entities reducer
+ */
 class EntitiesReducer {
   constructor(Models = {}, additionalReducer = (state) => state) {
     this.Models = Models;
@@ -30,7 +34,7 @@ class EntitiesReducer {
       const modeledEntities = fromJS(newEntities).map((entities, modelName) => {
         return entities.map((entity) => this._instantiate(entity, modelName));
       });
-      return oldEntities.mergeDeep(modeledEntities);
+      return oldEntities.mergeDeepWith(merger, modeledEntities);
     });
   }
 
@@ -38,6 +42,8 @@ class EntitiesReducer {
     return this.Models[modelName] ? new this.Models[modelName](entity) : entity;
   }
 }
+
+const merger = (prev, next) => isUndefined(next) ? prev : next;
 
 export function createReducer(Models, additionalReducer) {
   const reducer = new EntitiesReducer(Models, additionalReducer);
