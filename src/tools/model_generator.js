@@ -249,7 +249,6 @@ function _getPropTypes(type, enums, enumObjects) {
 
 function getFlowTypes() {
   if (this.enum) {
-    // const enums = this.type === 'string' ? this.enum.map((key) => `'${key}'`) : this.enum;
     const enumList = this.enumObjects.map(current => current.name);
     return enumList.join(' | ');
   }
