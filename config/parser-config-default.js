@@ -17,6 +17,6 @@ module.exports = {
   }, {}),
   modelsDir: 'tmp',
   outputDir: 'tmp',
-  useFlow: false,
+  useFlow: true,
   usePropType: true,
 };
