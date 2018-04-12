@@ -18,5 +18,5 @@ module.exports = {
   modelsDir: 'tmp',
   outputDir: 'tmp',
   useFlow: true,
-  usePropType: true,
+  usePropType: false,
 };
