@@ -13,8 +13,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var initialState = (0, _immutable.Map)();
-
 function isOpenApiAction(meta) {
   return meta && meta.openApi;
 }
@@ -28,13 +26,15 @@ var EntitiesReducer =
 function () {
   function EntitiesReducer() {
     var Models = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var additionalReducer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (state) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _immutable.Map)();
+    var additionalReducer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (state) {
       return state;
     };
 
     _classCallCheck(this, EntitiesReducer);
 
     this.Models = Models;
+    this.initialState = initialState;
     this.additionalReducer = additionalReducer;
     this.reduce = this.reduce.bind(this);
   }
@@ -42,7 +42,7 @@ function () {
   _createClass(EntitiesReducer, [{
     key: "reduce",
     value: function reduce() {
-      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.initialState;
       var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var newEntities = getNewEntities(action);
 
@@ -76,7 +76,9 @@ function () {
   return EntitiesReducer;
 }();
 
-function createReducer(Models, additionalReducer) {
-  var reducer = new EntitiesReducer(Models, additionalReducer);
+function createReducer(Models, _ref) {
+  var initialState = _ref.initialState,
+      additionalReducer = _ref.additionalReducer;
+  var reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;
 }
