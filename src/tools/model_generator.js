@@ -168,6 +168,12 @@ class ModelGenerator {
       };
     }
 
+    if (prop.type === 'array' && prop.items && prop.items.type) {
+      return {
+        propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
+      };
+    }
+
     if (prop.type === 'object' && prop.properties) {
       const props = _.reduce(prop.properties, (acc, value, key) => {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
