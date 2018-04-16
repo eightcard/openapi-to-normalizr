@@ -76,9 +76,11 @@ function () {
   return EntitiesReducer;
 }();
 
-function createReducer(Models, _ref) {
-  var initialState = _ref.initialState,
+function createReducer(Models) {
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      initialState = _ref.initialState,
       additionalReducer = _ref.additionalReducer;
+
   var reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;
 }

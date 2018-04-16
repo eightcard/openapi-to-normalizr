@@ -38,7 +38,7 @@ class EntitiesReducer {
   }
 }
 
-export function createReducer(Models, {initialState, additionalReducer}) {
+export function createReducer(Models, {initialState, additionalReducer} = {}) {
   const reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;
 }
