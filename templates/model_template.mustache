@@ -13,6 +13,12 @@ import isArray from 'lodash/isArray';
 import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}} {{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
 {{/importList}}
 
+{{#props}}
+{{#enumObjects}}
+export const {{name}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+{{/enumObjects}}
+{{/props}}
+
 const defaultValues = {
 {{#props}}
   {{&name}}: {{&getDefaults}},

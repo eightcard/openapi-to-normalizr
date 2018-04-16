@@ -1,15 +1,26 @@
 import assert from 'assert';
 import { createReducer } from './entities-reducer';
-import { Record } from 'immutable';
+import { Map, Record } from 'immutable';
 
 class DummyClass extends Record({id: undefined, name: undefined}) {} // eslint-disable-line no-undefined
 const additionalReducer = (state) => state;
 
 describe('createReducer', () => {
-  const subject = () => createReducer({dummy: DummyClass}, additionalReducer);
+  let initialState;
+  const subject = () => createReducer({dummy: DummyClass}, {initialState, additionalReducer});
+
+  afterEach(() => {
+    initialState = undefined;
+  });
 
   it('get reducer function', () => {
     assert(typeof subject() === 'function');
+  });
+
+  it('can send initialState', () => {
+    initialState = Map({foo: 'bar'});
+    const reducer = subject();
+    assert.deepStrictEqual(reducer(), initialState);
   });
 
   it('reducer can reduce entities with openAPI action', () => {

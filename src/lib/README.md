@@ -9,7 +9,7 @@
    * @params additionalReducer Function マージでは対応できない処理を追加する関数
    * @returns Function reducer関数を返します
    */
-  createEntitiesReducer(Models, [additionalReducer])
+  createEntitiesReducer(Models, {additionalReducer})
   ```
 - このreducerが扱うstateはimmutable.jsのインスタンス群です。  
   **payload経由で取得されたJavaScriptオブジェクト(immutable.jsでもよい)をimmutable.jsのインスタンスに変換しマージする責務を持ちます。**

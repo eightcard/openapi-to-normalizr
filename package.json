@@ -61,7 +61,7 @@
   ],
   "license": "",
   "main": "dist/index.js",
-  "repository": "MtBlue81/openapi-to-normalizr",
+  "repository": "eightcard/openapi-to-normalizr",
   "scripts": {
     "build:dist": "npm run eslint && npm test && babel -d dist --env-name=development src/lib/**/*[^test].js",
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
