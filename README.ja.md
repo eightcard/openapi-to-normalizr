@@ -65,7 +65,8 @@
       });
       ``` 
     - [examples](./examples/README.md)では簡単なAPI定義から動作確認するサンプルがあります。
-    - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。
+    - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。  
+      各ツールのコンセプトはこちらを参照ください。
       
 
 ## その他

@@ -11,6 +11,8 @@
    */
   createEntitiesReducer(Models, {additionalReducer})
   ```
+- このreducerが扱うstateはimmutable.jsのインスタンス群です。  
+  **payload経由で取得されたJavaScriptオブジェクト(immutable.jsでもよい)をimmutable.jsのインスタンスに変換しマージする責務を持ちます。**
 - additionalReducerの例
   ```js
   import * as ActionTypes from 'actions/actionTypes';
@@ -39,6 +41,7 @@
   createOpenApiMiddleware(spec, [httpOptions]);
   ```
 - `openapi2schema`コマンドで生成される `spec.js`をrequireして `spec`引数として利用できます。
+- このmiddlewareはAPI定義に従った通信結果をnormalizeする責務を持ちます。(immutable.jsのインスタンスは入り込みません)
 
 
 ## createAction
