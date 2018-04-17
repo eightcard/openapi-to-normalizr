@@ -59,7 +59,7 @@
     "open api",
     "swagger"
   ],
-  "license": "",
+  "license": "MIT",
   "main": "dist/index.js",
   "repository": "eightcard/openapi-to-normalizr",
   "scripts": {
