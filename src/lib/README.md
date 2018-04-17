@@ -9,7 +9,7 @@
    * @params additionalReducer Function マージでは対応できない処理を追加する関数
    * @returns Function reducer関数を返します
    */
-  createEntitiesReducer(Models, [additionalReducer])
+  createEntitiesReducer(Models, {additionalReducer})
   ```
 - additionalReducerの例
   ```js

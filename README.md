@@ -69,7 +69,7 @@ createOpenApiMiddleware(Spec).then((middleware) => {
 
 ## API
 
-### createEntitiesReducer(Models, [additionalReducer])
+### createEntitiesReducer(Models, {additionalReducer})
 create reducer that output normalized state as model. (normalized by [normalizr](https://github.com/paularmstrong/normalizr))
 
 #### Models
