@@ -246,7 +246,12 @@ function getPropTypes() {
 
 function _getPropTypes(type, enums, enumObjects) {
   if (enumObjects) {
-    const nameMap = enumObjects.map((current) => current.name);
+    const nameMap = enumObjects.map((current) => {
+      if (!current.name) {
+        console.warn('This object has no "name" property.It will be "undefined".');
+      }
+      return current.name
+    });
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
   } else if (enums) {
     return `PropTypes.oneOf([${enums.join(', ')}])`;
