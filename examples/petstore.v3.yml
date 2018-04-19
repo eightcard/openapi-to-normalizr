@@ -173,6 +173,9 @@ components:
         - id
         - name
         - object_type
+      x-enum-key-attribute:
+        - Dog
+        - Cat
       properties:
         object_type:
           type: string

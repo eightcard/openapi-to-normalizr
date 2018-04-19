@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, parseModelName,
+  getEnumKeysAttribute, readTemplates, isFileExistPromise, writeFilePromise, changeFormat, parseModelName,
 } = require('./utils');
 
 /**
@@ -30,9 +30,10 @@ class ModelGenerator {
     const {properties, required} = model;
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
+    const enumKeyAttribute = getEnumKeysAttribute(model);
     if (!idAttribute) return;
 
-    const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
+    const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute, enumKeyAttribute);
     return writeFilePromise(path.join(this.outputDir, `_${fileName}.js`), coreText).then(() => {
       return this._writeOverrideModel(name, fileName).then(() => name);
     });
@@ -76,7 +77,7 @@ class ModelGenerator {
     return `(value) => value${splits.map(str => `['${this.attributeConverter(str)}']`).join('')}`
   }
 
-  _renderBaseModel(name, properties, idAttribute) {
+  _renderBaseModel(name, properties, idAttribute, enumKeyAttribute) {
     const importList = [];
     const oneOfs = [];
     let oneOfsCounter = 1;
@@ -97,7 +98,7 @@ class ModelGenerator {
       name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
-      props: this._convertPropForTemplate(properties, dependencySchema),
+      props: this._convertPropForTemplate(properties, dependencySchema, enumKeyAttribute),
       specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
@@ -118,7 +119,17 @@ class ModelGenerator {
     ];
   }
 
-  _convertPropForTemplate(properties, dependencySchema = {}) {
+  _prepareEnumKeyAttributes(name, enumKeyAttribute) {
+    if (!enumKeyAttribute) return false;
+    const convertedName = _.upperCase(name).split(' ').join('_');
+    const enumKeyAttributes = enumKeyAttribute.map(key => {
+      const convertedkey = _.upperCase(key).split(' ').join('_');
+      return `${convertedName}_${convertedkey}`;
+    });
+    return enumKeyAttributes;
+  }
+
+  _convertPropForTemplate(properties, dependencySchema = {}, enumKeyAttribute) {
     return _.map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
@@ -128,7 +139,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), enumKeyAttribute, prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -137,13 +148,12 @@ class ModelGenerator {
     });
   }
 
-  getEnumObjects(name, enums) {
+  getEnumObjects(name, enumKeyAttribute, enums) {
     if (!enums) {
-      return;
+      return false;
     }
-    return enums.map((current) => {
-      const convertedName = _.upperCase(name).split(' ').join('_');
-      const enumName = `${convertedName}_${_.upperCase(current)}`;
+    return enums.map((current, index) => {
+      const enumName = this._prepareEnumKeyAttributes(name, enumKeyAttribute)[index];
       return {
         'name': enumName,
         'value': current,
