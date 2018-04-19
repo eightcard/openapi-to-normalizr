@@ -30,10 +30,9 @@ class ModelGenerator {
     const {properties, required} = model;
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
-    const enumKeyAttribute = getEnumKeysAttribute(model);
     if (!idAttribute) return;
 
-    const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute, enumKeyAttribute);
+    const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
     return writeFilePromise(path.join(this.outputDir, `_${fileName}.js`), coreText).then(() => {
       return this._writeOverrideModel(name, fileName).then(() => name);
     });
@@ -77,7 +76,7 @@ class ModelGenerator {
     return `(value) => value${splits.map(str => `['${this.attributeConverter(str)}']`).join('')}`
   }
 
-  _renderBaseModel(name, properties, idAttribute, enumKeyAttribute) {
+  _renderBaseModel(name, properties, idAttribute) {
     const importList = [];
     const oneOfs = [];
     let oneOfsCounter = 1;
@@ -98,7 +97,7 @@ class ModelGenerator {
       name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
-      props: this._convertPropForTemplate(properties, dependencySchema, enumKeyAttribute),
+      props: this._convertPropForTemplate(properties, dependencySchema),
       specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
@@ -129,7 +128,7 @@ class ModelGenerator {
     return enumKeyAttributes;
   }
 
-  _convertPropForTemplate(properties, dependencySchema = {}, enumKeyAttribute) {
+  _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
@@ -139,7 +138,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(this.attributeConverter(name), enumKeyAttribute, prop.enum),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop['x-enum-key-attribute'], prop.enum),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
