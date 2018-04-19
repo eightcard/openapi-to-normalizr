@@ -38,7 +38,7 @@ const payloadCreator = (payload) => snakeKeys(payload);
 
 createOpenApiMiddleware(rawSpec, httpOption).then((middleware) => {
   const store = createStore(
-    createEntitiesReducer(Models, additionalReducer),
+    createEntitiesReducer(Models, {additionalReducer}),
     applyMiddleware(middleware)
   );
 

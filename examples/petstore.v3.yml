@@ -179,6 +179,9 @@ components:
           enum:
             - Dog
             - Cat
+          x-enum-key-attribute:
+            - Dog
+            - Cat
         name:
           type: string
         tag:

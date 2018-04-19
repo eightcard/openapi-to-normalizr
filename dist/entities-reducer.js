@@ -7,13 +7,15 @@ exports.createReducer = createReducer;
 
 var _immutable = require("immutable");
 
+var _isUndefined = _interopRequireDefault(require("lodash/isUndefined"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var initialState = (0, _immutable.Map)();
 
 function isOpenApiAction(meta) {
   return meta && meta.openApi;
@@ -22,19 +24,25 @@ function isOpenApiAction(meta) {
 function getNewEntities(action) {
   return isOpenApiAction(action.meta) && action.payload && action.payload.entities;
 }
+/**
+ * immutable.js based entities reducer
+ */
+
 
 var EntitiesReducer =
 /*#__PURE__*/
 function () {
   function EntitiesReducer() {
     var Models = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var additionalReducer = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (state) {
+    var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _immutable.Map)();
+    var additionalReducer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function (state) {
       return state;
     };
 
     _classCallCheck(this, EntitiesReducer);
 
     this.Models = Models;
+    this.initialState = initialState;
     this.additionalReducer = additionalReducer;
     this.reduce = this.reduce.bind(this);
   }
@@ -42,7 +50,7 @@ function () {
   _createClass(EntitiesReducer, [{
     key: "reduce",
     value: function reduce() {
-      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.initialState;
       var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       var newEntities = getNewEntities(action);
 
@@ -63,7 +71,7 @@ function () {
             return _this._instantiate(entity, modelName);
           });
         });
-        return oldEntities.mergeDeep(modeledEntities);
+        return oldEntities.mergeDeepWith(merger, modeledEntities);
       });
     }
   }, {
@@ -76,7 +84,15 @@ function () {
   return EntitiesReducer;
 }();
 
-function createReducer(Models, additionalReducer) {
-  var reducer = new EntitiesReducer(Models, additionalReducer);
+var merger = function merger(prev, next) {
+  return (0, _isUndefined.default)(next) ? prev : next;
+};
+
+function createReducer(Models) {
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      initialState = _ref.initialState,
+      additionalReducer = _ref.additionalReducer;
+
+  var reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;
 }
