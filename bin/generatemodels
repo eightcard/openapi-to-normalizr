@@ -27,7 +27,7 @@ if (_.isEmpty(specFiles)) {
 }
 
 const outputDir = config.outputDir || 'dist';
-const outputBaseDir = `${outputDir}/base` || 'dist';
+const outputBaseDir = `${outputDir}/base`;
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 const nameList = [];
 let isV2;
