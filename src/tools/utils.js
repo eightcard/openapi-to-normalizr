@@ -167,7 +167,7 @@ function getIdAttribute(model, name) {
   const {properties} = model;
   if (!properties) {
     if (name) {
-      console.warn(`${name} does not model definition.`); // eslint-disable-line no-console
+      console.warn(`${name} is not model definition.`); // eslint-disable-line no-console
     }
     return false;
   }

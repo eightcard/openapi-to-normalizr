@@ -119,6 +119,16 @@ class ModelGenerator {
     ];
   }
 
+  _prepareEnumKeyAttributes(name, enumKeyAttribute) {
+    if (!enumKeyAttribute) return false;
+    const convertedName = _.upperCase(name).split(' ').join('_');
+    const enumKeyAttributes = enumKeyAttribute.map(key => {
+      const convertedkey = _.upperCase(key).split(' ').join('_');
+      return `${convertedName}_${convertedkey}`;
+    });
+    return enumKeyAttributes;
+  }
+
   _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
       const base = {
@@ -129,7 +139,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attribute']),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -138,13 +148,11 @@ class ModelGenerator {
     });
   }
 
-  getEnumObjects(name, enums) {
-    if (!enums) {
-      return;
-    }
-    return enums.map((current) => {
-      const convertedName = _.upperCase(name).split(' ').join('_');
-      const enumName = `${convertedName}_${_.upperCase(current)}`;
+  getEnumObjects(name, enums, enumKeyAttribute) {
+    if (!enums) return false;
+    const enumKeyAttributes = this._prepareEnumKeyAttributes(name, enumKeyAttribute);
+    return enums.map((current, index) => {
+      const enumName = enumKeyAttributes[index];
       return {
         'name': enumName,
         'value': current,
@@ -237,9 +245,16 @@ function getPropTypes() {
 }
 
 function _getPropTypes(type, enums, enumObjects) {
-  if (enums) {
-    const nameMap = enumObjects.map((current) => current.name);
+  if (enumObjects) {
+    const nameMap = enumObjects.map((current) => {
+      if (!current.name) {
+        console.warn('This object has no "name" property.It will be "undefined".');
+      }
+      return current.name
+    });
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
+  } else if (enums) {
+    return `PropTypes.oneOf([${enums.join(', ')}])`;
   }
   switch (type) {
     case 'integer':

@@ -99,4 +99,5 @@ https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#speci
   ネストしている属性を利用する場合、`xxx.yyy` のような指定もできる。
 - x-attribute-as
   文字列形式で同モデル内での属性エイリアスを定義する。 (非推奨)
-
+- x-enum-key-attribute  
+  プロパティの中にenumで指定しているものを保持している場合に、そのキーを指定する。(未指定時は `undefined`)
