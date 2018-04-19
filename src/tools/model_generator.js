@@ -33,9 +33,9 @@ class ModelGenerator {
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
 
-    const coreText = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
-    return writeFilePromise(path.join(this.outputBaseDir, `${fileName}.js`), coreText).then(() => {
-      return this._writeOverrideModel(name, fileName).then(() => name);
+    const {text, props} = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
+    return writeFilePromise(path.join(this.outputBaseDir, `${fileName}.js`), text).then(() => {
+      return this._writeOverrideModel(name, fileName, props).then(() => name);
     });
   }
 
@@ -49,8 +49,8 @@ class ModelGenerator {
     return writeFilePromise(path.join(this.outputDir, 'index.js'), text);
   }
 
-  _writeOverrideModel(name, fileName) {
-    const overrideText = this._renderOverrideModel(name, fileName);
+  _writeOverrideModel(name, fileName, props) {
+    const overrideText = this._renderOverrideModel(name, fileName, props);
     const filePath = path.join(this.outputDir, `${fileName}.js`);
     return isFileExistPromise(filePath).then((isExist) => isExist || writeFilePromise(filePath, overrideText));
   }
@@ -94,7 +94,7 @@ class ModelGenerator {
       }
     }, this.isV2);
 
-    return render(this.templates.model, {
+    const props = {
       name, idAttribute: this._prepareIdAttribute(idAttribute),
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
@@ -104,11 +104,15 @@ class ModelGenerator {
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
       getFlowTypes, getPropTypes, getDefaults,
-    }, {
+    };
+
+    const text = render(this.templates.model, props, {
       head: this.templates.head,
       dependency: this.templates.dependency,
       oneOf: this.templates.oneOf,
     });
+
+    return {text, props};
   }
 
   static get templatePropNames() {
@@ -230,9 +234,11 @@ class ModelGenerator {
     }
   }
 
-  _renderOverrideModel(name, fileName) {
+  _renderOverrideModel(name, fileName, {props}) {
+    const enums = props.filter((prop) => prop.enumObjects).reduce((acc, prop) => acc.concat(prop.enumObjects.reduce((acc, eo) => acc.concat(eo.name), [])), []);
     return render(this.templates.override, {
-      name, fileName,
+      name, fileName, enums,
+      usePropTypes: this.usePropType,
       specName: this.specName,
     }, {
       head: this.templates.head,
@@ -248,7 +254,7 @@ function _getPropTypes(type, enums, enumObjects) {
   if (enumObjects) {
     const nameMap = enumObjects.map((current) => {
       if (!current.name) {
-        console.warn('This object has no "name" property.It will be "undefined".');
+        console.warn('This object has no "name" property.It will be "undefined".'); // eslint-disable-line no-console
       }
       return current.name
     });
