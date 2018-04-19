@@ -181,12 +181,6 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function getEnumKeysAttribute(properties) {
-  if (properties['enum']) return false;
-  const enumKeyAttribute = properties['x-enum-key-attribute'] ? properties['x-enum-key-attribute'] : undefined;
-  return enumKeyAttribute;
-}
-
 function isModelDefinition(model, name) {
   if (model['$ref'] && !model['$$ref']) {
     // cannot check because of no dereferenced
@@ -211,7 +205,6 @@ module.exports = {
   getSchemaDir,
   changeFormat,
   getIdAttribute,
-  getEnumKeysAttribute,
   isModelDefinition,
   parseModelName,
 };
