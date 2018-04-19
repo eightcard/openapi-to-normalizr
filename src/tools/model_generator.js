@@ -138,7 +138,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop['x-enum-key-attribute'], prop.enum),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attribute']),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -147,12 +147,11 @@ class ModelGenerator {
     });
   }
 
-  getEnumObjects(name, enumKeyAttribute, enums) {
-    if (!enums) {
-      return false;
-    }
+  getEnumObjects(name, enums, enumKeyAttribute) {
+    if (!enums) return false;
+    const enumKeyAttributes = this._prepareEnumKeyAttributes(name, enumKeyAttribute);
     return enums.map((current, index) => {
-      const enumName = this._prepareEnumKeyAttributes(name, enumKeyAttribute)[index];
+      const enumName = enumKeyAttributes[index];
       return {
         'name': enumName,
         'value': current,
