@@ -246,9 +246,11 @@ function getPropTypes() {
 }
 
 function _getPropTypes(type, enums, enumObjects) {
-  if (enums) {
+  if (enumObjects) {
     const nameMap = enumObjects.map((current) => current.name);
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
+  } else if (enums) {
+    return `PropTypes.oneOf([${enums.join(', ')}])`;
   }
   switch (type) {
     case 'integer':
