@@ -123,16 +123,6 @@ class ModelGenerator {
     ];
   }
 
-  _prepareEnumKeyAttributes(name, enumKeyAttribute) {
-    if (!enumKeyAttribute) return false;
-    const convertedName = _.upperCase(name).split(' ').join('_');
-    const enumKeyAttributes = enumKeyAttribute.map(key => {
-      const convertedkey = _.upperCase(key).split(' ').join('_');
-      return `${convertedName}_${convertedkey}`;
-    });
-    return enumKeyAttributes;
-  }
-
   _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
       const base = {
@@ -144,7 +134,7 @@ class ModelGenerator {
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attribute']),
+        enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attributes']),
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -153,13 +143,18 @@ class ModelGenerator {
     });
   }
 
-  getEnumObjects(name, enums, enumKeyAttribute) {
+  getEnumConstantName(enumName, propertyName) {
+    const convertedName = _.upperCase(propertyName).split(' ').join('_');
+    const convertedkey = _.upperCase(enumName).split(' ').join('_');
+    return `${convertedName}_${convertedkey}`;
+  }
+
+  getEnumObjects(name, enums, enumKeyAttributes = []) {
     if (!enums) return false;
-    const enumKeyAttributes = this._prepareEnumKeyAttributes(name, enumKeyAttribute);
     return enums.map((current, index) => {
-      const enumName = enumKeyAttributes[index];
+      const enumName = enumKeyAttributes[index] || current;
       return {
-        'name': enumName,
+        'name': this.getEnumConstantName(enumName, name),
         'value': current,
       };
     });
@@ -253,15 +248,10 @@ function getPropTypes() {
 
 function _getPropTypes(type, enums, enumObjects) {
   if (enumObjects) {
-    const nameMap = enumObjects.map((current) => {
-      if (!current.name) {
-        console.warn('This object has no "name" property.It will be "undefined".'); // eslint-disable-line no-console
-      }
-      return current.name
-    });
+    const nameMap = enumObjects.map(current => current.name);
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
   } else if (enums) {
-    return `PropTypes.oneOf([${enums.join(', ')}])`;
+    return `PropTypes.oneOf([${enums.map(n => type === 'string' ? `'${n}'` : n).join(', ')}])`;
   }
   switch (type) {
     case 'integer':

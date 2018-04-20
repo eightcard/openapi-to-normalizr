@@ -159,15 +159,17 @@ components:
         - $ref: '#/components/schemas/Pet'
         - properties:
             object_type:
-              type: string
-              default: 'Dog'
+              type: integer
+              format: int32
+              default: 1
     Cat:
       allOf:
         - $ref: '#/components/schemas/Pet'
         - properties:
             object_type:
-              type: string
-              default: 'Cat'
+              type: integer
+              format: int32
+              default: 2
     Pet:
       required:
         - id
@@ -175,13 +177,14 @@ components:
         - object_type
       properties:
         object_type:
-          type: string
+          type: integer
+          format: int32
+          x-enum-key-attributes:
+            - Dog
+            - Cat
           enum:
-            - Dog
-            - Cat
-          x-enum-key-attribute:
-            - Dog
-            - Cat
+            - 1
+            - 2
         name:
           type: string
         tag:
