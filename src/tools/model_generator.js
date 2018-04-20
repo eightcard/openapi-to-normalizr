@@ -138,6 +138,7 @@ class ModelGenerator {
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
+        // items: ,
         alias: prop['x-attribute-as'],
         required: prop.required === true,
         isEnum: Boolean(prop.enum),
@@ -270,6 +271,8 @@ function _getPropTypes(type, enums, enumObjects) {
       return 'PropTypes.string';
     case 'boolean':
       return 'PropTypes.bool';
+    case 'array':
+      return 'PropTypes.array';
     default:
       return type && type.propType ? type.propType : 'PropTypes.any';
   }
@@ -280,6 +283,7 @@ function getFlowTypes() {
     const enumList = this.enumObjects.map(current => current.name);
     return enumList.join(' | ');
   }
+  console.log(this);
   switch (this.type) {
     case 'integer':
     case 'number':
@@ -288,6 +292,8 @@ function getFlowTypes() {
       return 'string';
     case 'boolean':
       return 'boolean';
+    case 'array':
+      return 'array';
     default:
       return this.type && this.type.flow ? this.type.flow : 'any';
   }

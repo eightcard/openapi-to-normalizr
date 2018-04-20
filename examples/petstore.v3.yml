@@ -190,6 +190,11 @@ components:
         id:
           type: integer
           format: int64
+        places:
+          type: array
+          items:
+            place:
+              type: string
         owner:
           $ref: '#/components/schemas/Person'
     Person:

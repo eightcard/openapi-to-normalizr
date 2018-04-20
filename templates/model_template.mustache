@@ -50,7 +50,7 @@ export default class {{name}} extends Record(defaultValues) {
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denoromalize(id, entities) {
+  static denoromalize(id{{#useFlow}}: number{{/useFlow}}, entities{{#useFlow}}: {{/useFlow}}) {
     return denormalize(id, entities);
   }
 {{#props}}
