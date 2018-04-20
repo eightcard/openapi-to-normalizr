@@ -1,6 +1,15 @@
 {{>head}}
 import _{{name}} from './base/{{fileName}}';
-export * from './base/{{fileName}}';
+export {
+{{#usePropTypes}}
+  propTypes, propTypesObject,
+{{/usePropTypes}}
+{{#enums}}
+  {{.}},
+{{/enums}}
+  schema,
+  denormalize
+} from './base/{{fileName}}';
 
 export default class {{name}} extends {{name}} {
   /**
