@@ -180,6 +180,7 @@ class ModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
+        flow: `Array<${_getFlowTypes(prop.items.type)}>`,
       };
     }
 
@@ -196,6 +197,7 @@ class ModelGenerator {
 
   _generatePropTypeFromDefinition(definition) {
     let def;
+    // console.log(definition);
     if (_.isString(definition)) {
       def = definition.replace(/Schema$/, '');
       return `${def}PropType`;
@@ -215,6 +217,7 @@ class ModelGenerator {
 
   _generateFlowTypeFromDefinition(definition) {
     let def;
+    console.log(definition);
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
@@ -269,12 +272,17 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getFlowTypes() {
-  if (this.enum) {
-    const enumList = this.enumObjects.map(current => current.name);
+  return _getFlowTypes(this.type, this.enum, this.enumObjects)
+}
+
+function _getFlowTypes(type, enums, enumObjects) {
+  if (enumObjects) {
+    const enumList = enumObjects.map(current => current.name);
     return enumList.join(' | ');
+  } else if (enums) {
+    return enumObjects.map(current => current.name).join(' | ');
   }
-  console.log(this);
-  switch (this.type) {
+  switch (type) {
     case 'integer':
     case 'number':
       return 'number';
@@ -285,7 +293,7 @@ function getFlowTypes() {
     case 'array':
       return 'array';
     default:
-      return this.type && this.type.flow ? this.type.flow : 'any';
+      return type && type.flow ? type.flow : 'any';
   }
 }
 
