@@ -125,6 +125,7 @@ class ModelGenerator {
 
   _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
+      console.log(prop);
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
@@ -135,6 +136,7 @@ class ModelGenerator {
         isValueString: prop.type === 'string',
         propertyName: name,
         enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attributes']),
+        items: prop.items
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -217,7 +219,7 @@ class ModelGenerator {
 
   _generateFlowTypeFromDefinition(definition) {
     let def;
-    console.log(definition);
+    // console.log(definition);
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
@@ -272,10 +274,11 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getFlowTypes() {
-  return _getFlowTypes(this.type, this.enum, this.enumObjects)
+  console.log(this);
+  return _getFlowTypes(this.type, this.enum, this.enumObjects, this.items)
 }
 
-function _getFlowTypes(type, enums, enumObjects) {
+function _getFlowTypes(type, enums, enumObjects, items) {
   if (enumObjects) {
     const enumList = enumObjects.map(current => current.name);
     return enumList.join(' | ');
@@ -291,7 +294,7 @@ function _getFlowTypes(type, enums, enumObjects) {
     case 'boolean':
       return 'boolean';
     case 'array':
-      return 'array';
+      return `Array<${items.type}>`;
     default:
       return type && type.flow ? type.flow : 'any';
   }

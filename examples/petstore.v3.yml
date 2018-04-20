@@ -196,8 +196,7 @@ components:
         places:
           type: array
           items:
-            place:
-              type: string
+            type: string
         owner:
           $ref: '#/components/schemas/Person'
     Person:
