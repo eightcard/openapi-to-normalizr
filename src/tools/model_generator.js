@@ -125,11 +125,10 @@ class ModelGenerator {
 
   _convertPropForTemplate(properties, dependencySchema = {}) {
     return _.map(properties, (prop, name) => {
-      console.log(prop);
+      // console.log(prop);
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
-        // items: ,
         alias: prop['x-attribute-as'],
         required: prop.required === true,
         isEnum: Boolean(prop.enum),
@@ -179,10 +178,12 @@ class ModelGenerator {
       };
     }
 
+    /* 上記の分岐でcomponentsに定義されている型の配列のパターンは吸収されるため、*/
+    /* ここではプリミティブ型の配列のパターンを扱う */
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        flow: `Array<${_getFlowTypes(prop.items.type)}>`,
+        flow: `${prop.items.type}[]`,
       };
     }
 
@@ -199,7 +200,6 @@ class ModelGenerator {
 
   _generatePropTypeFromDefinition(definition) {
     let def;
-    // console.log(definition);
     if (_.isString(definition)) {
       def = definition.replace(/Schema$/, '');
       return `${def}PropType`;
@@ -219,7 +219,6 @@ class ModelGenerator {
 
   _generateFlowTypeFromDefinition(definition) {
     let def;
-    // console.log(definition);
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
@@ -274,11 +273,10 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getFlowTypes() {
-  console.log(this);
-  return _getFlowTypes(this.type, this.enum, this.enumObjects, this.items)
+  return _getFlowTypes(this.type, this.enum, this.enumObjects)
 }
 
-function _getFlowTypes(type, enums, enumObjects, items) {
+function _getFlowTypes(type, enums, enumObjects) {
   if (enumObjects) {
     const enumList = enumObjects.map(current => current.name);
     return enumList.join(' | ');
@@ -293,8 +291,6 @@ function _getFlowTypes(type, enums, enumObjects, items) {
       return 'string';
     case 'boolean':
       return 'boolean';
-    case 'array':
-      return `Array<${items.type}>`;
     default:
       return type && type.flow ? type.flow : 'any';
   }
