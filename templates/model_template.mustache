@@ -15,7 +15,7 @@ import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}} {{#usePropTy
 
 {{#props}}
 {{#enumObjects}}
-export const {{name}}{{#useFlow}}: {{type}}{{/useFlow}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+export const {{name}}{{#useFlow}}: {{&getEnumTypes}}{{/useFlow}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
 {{/enumObjects}}
 {{/props}}
 

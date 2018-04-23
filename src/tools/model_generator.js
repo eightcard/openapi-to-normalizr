@@ -103,7 +103,7 @@ class ModelGenerator {
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
-      getFlowTypes, getPropTypes, getDefaults,
+      getFlowTypes, getPropTypes, getDefaults, getEnumTypes
     };
 
     const text = render(this.templates.model, props, {
@@ -293,6 +293,21 @@ function _getFlowTypes(type, enums, enumObjects) {
       return 'boolean';
     default:
       return type && type.flow ? type.flow : 'any';
+  }
+}
+
+function getEnumTypes() {
+  return _getEnumTypes(this.value);
+}
+
+function _getEnumTypes(value) {
+  const type = typeof value;
+  switch (type) {
+    case 'integer':
+    case 'number':
+      return 'number';
+    default:
+      return this.type;
   }
 }
 
