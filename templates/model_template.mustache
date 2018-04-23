@@ -42,7 +42,7 @@ export const propTypes = PropTypes.shape(propTypesObject);
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids, entities) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+export const denormalize = (ids{{#useFlow}}: number[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 
 export default class {{name}} extends Record(defaultValues) {
 {{#useFlow}}
@@ -50,8 +50,8 @@ export default class {{name}} extends Record(defaultValues) {
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denoromalize(id{{#useFlow}}: number{{/useFlow}}, schema{{#useFlow}}: any{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
-    return denormalize(id, schema, entities);
+  static denoromalize(id{{#useFlow}}: number[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
+    return denormalize(id, entities);
   }
 {{#props}}
 {{#alias}}
