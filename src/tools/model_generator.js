@@ -273,15 +273,13 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getFlowTypes() {
-  return _getFlowTypes(this.type, this.enum, this.enumObjects)
+  return _getFlowTypes(this.type, this.enum)
 }
 
-function _getFlowTypes(type, enums, enumObjects) {
-  if (enumObjects) {
-    const enumList = enumObjects.map(current => current.name);
-    return enumList.join(' | ');
-  } else if (enums) {
-    return enumObjects.map(current => current.name).join(' | ');
+function _getFlowTypes(type, enums) {
+  if(enums) {
+   const typeList = enums.map((current) => _getEnumTypes(current));
+   return typeList.join(' | ');
   }
   switch (type) {
     case 'integer':
