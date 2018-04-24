@@ -134,7 +134,7 @@ class ModelGenerator {
         isValueString: prop.type === 'string',
         propertyName: name,
         enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attributes']),
-        enumType: this._getEnumTypes(prop),
+        enumType: this._getEnumTypes(prop.type),
         items: prop.items
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
@@ -161,13 +161,13 @@ class ModelGenerator {
     });
   }
 
-  _getEnumTypes(prop) {
-    switch (prop.type) {
+  _getEnumTypes(type) {
+    switch (type) {
       case 'integer':
       case 'number':
         return 'number';
       default:
-        return prop.type;
+        return type;
     }
   }
 
@@ -193,7 +193,7 @@ class ModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        flow: `${prop.items.type}[]`,
+        flow: `${this._getEnumTypes(prop.items.type)}[]`,
       };
     }
 
