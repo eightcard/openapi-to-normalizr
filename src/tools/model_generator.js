@@ -103,7 +103,7 @@ class ModelGenerator {
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
-      getFlowTypes, getPropTypes, getDefaults, getEnumTypes
+      getFlowTypes, getPropTypes, getDefaults
     };
 
     const text = render(this.templates.model, props, {
@@ -134,6 +134,7 @@ class ModelGenerator {
         isValueString: prop.type === 'string',
         propertyName: name,
         enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attributes']),
+        enumType: this._getEnumTypes(prop),
         items: prop.items
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
@@ -158,6 +159,16 @@ class ModelGenerator {
         'value': current,
       };
     });
+  }
+
+  _getEnumTypes(prop) {
+    switch (prop.type) {
+      case 'integer':
+      case 'number':
+        return 'number';
+      default:
+        return prop.type;
+    }
   }
 
   generateTypeFrom(prop, definition) {
@@ -276,8 +287,8 @@ function getFlowTypes() {
 }
 
 function _getFlowTypes(type, enums) {
-  if(enums) {
-   const typeList = enums.map((current) => _getEnumTypes(current));
+  if (enums) {
+   const typeList = enums.map(() => _getFlowTypes(type));
    return typeList.join(' | ');
   }
   switch (type) {
@@ -290,21 +301,6 @@ function _getFlowTypes(type, enums) {
       return 'boolean';
     default:
       return type && type.flow ? type.flow : 'any';
-  }
-}
-
-function getEnumTypes() {
-  return _getEnumTypes(this.value);
-}
-
-function _getEnumTypes(value) {
-  const type = typeof value;
-  switch (type) {
-    case 'integer':
-    case 'number':
-      return 'number';
-    default:
-      return this.type;
   }
 }
 
