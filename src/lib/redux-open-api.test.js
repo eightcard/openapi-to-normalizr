@@ -2,6 +2,7 @@ import nock from 'nock';
 import sinon from 'sinon';
 import createMiddleware from './redux-open-api';
 import spec from '../../examples/petstore.v3';
+import noop from 'lodash/noop';
 nock.disableNetConnect();
 
 describe('middleware', () => {
@@ -41,7 +42,7 @@ describe('middleware', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(400);
     });
-    it('call action with error.', () => subject(action).then(() => {
+    it('call action with error.', () => subject(action).then(noop, () => {
       sinon.assert.calledWith(nextFunction, sinon.match({error: true}));
     }));
   });

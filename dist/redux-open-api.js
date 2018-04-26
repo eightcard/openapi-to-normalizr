@@ -66,22 +66,23 @@ var _default = function _default(spec, httpOptions) {
           }
 
           action.meta.requestPayload = action.payload;
-          return api(action.payload, Object.assign({}, options, httpOptions)).then(function (_ref2) {
-            var body = _ref2.body,
-                status = _ref2.status;
-            var payload = schema ? (0, _normalizr.normalize)(body, schema[status] || schema['default']) : action.payload;
-            return next({
+          return api(action.payload, Object.assign({}, options, httpOptions)).then(function () {
+            var response = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+            var payload = schema ? (0, _normalizr.normalize)(response.body, schema[response.status] || schema['default']) : action.payload;
+            next({
               type: action.type,
               meta: action.meta,
               payload: payload
             });
+            return response;
           }, function (error) {
-            return next({
+            next({
               type: action.type,
               meta: action.meta,
               payload: error,
               error: true
             });
+            return Promise.reject(error);
           });
         };
       };
