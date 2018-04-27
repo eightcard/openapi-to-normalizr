@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/eightcard/openapi-to-normalizr.svg?style=svg)](https://circleci.com/gh/eightcard/openapi-to-normalizr)
 # openapi-to-normalizr 
 
 > schemas generator for normalizr
