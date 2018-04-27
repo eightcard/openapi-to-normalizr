@@ -52,7 +52,7 @@ export default (spec, httpOptions) => {
         },
         (error) => {
           next({
-            type: action.type,
+            type: `ERROR_${action.type}`,
             meta: action.meta,
             payload: error,
             error: true,

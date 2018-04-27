@@ -77,7 +77,7 @@ var _default = function _default(spec, httpOptions) {
             return response;
           }, function (error) {
             next({
-              type: action.type,
+              type: "ERROR_".concat(action.type),
               meta: action.meta,
               payload: error,
               error: true
