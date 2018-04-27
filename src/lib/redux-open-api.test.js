@@ -38,6 +38,16 @@ describe('middleware', () => {
     }));
   });
 
+  describe('open api action (success & no-schema)', () => {
+    beforeEach(() => {
+      nock(/.*/).get('/pets').reply(202, {response: 'no schema'});
+    });
+    it('call action with response.', () => subject(action).then(() => {
+      const expect = Object.assign(action, {payload: {response: 'no schema'}});
+      sinon.assert.calledWith(nextFunction, expect);
+    }));
+  });
+
   describe('open api action (failed)', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(400);
