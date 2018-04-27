@@ -43,7 +43,7 @@ describe('middleware', () => {
       nock(/.*/).get('/pets').reply(400);
     });
     it('call action with error.', () => subject(action).then(noop, () => {
-      sinon.assert.calledWith(nextFunction, sinon.match({error: true}));
+      sinon.assert.calledWith(nextFunction, sinon.match({error: true, type: 'ERROR_GET_PETS'}));
     }));
   });
 });
