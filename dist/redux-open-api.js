@@ -68,7 +68,8 @@ var _default = function _default(spec, httpOptions) {
           action.meta.requestPayload = action.payload;
           return api(action.payload, Object.assign({}, options, httpOptions)).then(function () {
             var response = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-            var payload = schema ? (0, _normalizr.normalize)(response.body, schema[response.status] || schema['default']) : action.payload;
+            var useSchema = schema[response.status] || schema['default'];
+            var payload = useSchema ? (0, _normalizr.normalize)(response.body, useSchema) : response.body;
             next({
               type: action.type,
               meta: action.meta,

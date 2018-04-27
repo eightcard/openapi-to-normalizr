@@ -42,7 +42,8 @@ export default (spec, httpOptions) => {
       action.meta.requestPayload = action.payload;
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         (response = {}) => {
-          const payload = schema ? normalize(response.body, schema[response.status] || schema['default']) : action.payload;
+          const useSchema = schema[response.status] || schema['default'];
+          const payload = useSchema ? normalize(response.body, useSchema) : response.body;
           next({
             type: action.type,
             meta: action.meta,
