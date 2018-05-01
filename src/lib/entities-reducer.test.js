@@ -23,14 +23,11 @@ describe('createReducer', () => {
     assert.deepStrictEqual(reducer(), initialState);
   });
 
-  it('reducer can reduce entities with openAPI action', () => {
+  it('reducer can reduce entities', () => {
     const reducer = subject();
     const initialState = reducer();
 
     const action = {
-      meta: {
-        openApi: true,
-      },
       payload: {
         entities: {
           dummy: {
@@ -71,9 +68,6 @@ describe('createReducer', () => {
   it('concat array', () => {
     const reducer = subject();
     const initialState = reducer(reducer(), {
-      meta: {
-        openApi: true,
-      },
       payload: {
         entities: {
           dummy: {
@@ -94,9 +88,6 @@ describe('createReducer', () => {
     });
 
     const action = {
-      meta: {
-        openApi: true,
-      },
       payload: {
         entities: {
           dummy: {

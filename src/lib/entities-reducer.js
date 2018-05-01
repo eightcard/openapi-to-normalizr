@@ -1,12 +1,8 @@
 import { Map, fromJS } from 'immutable';
 import isUndefined from 'lodash/isUndefined';
 
-function isOpenApiAction(meta) {
-  return meta && meta.openApi;
-}
-
 function getNewEntities(action) {
-  return isOpenApiAction(action.meta) && action.payload && action.payload.entities;
+  return action.payload && action.payload.entities;
 }
 
 /**
@@ -25,7 +21,7 @@ class EntitiesReducer {
     if (newEntities) {
       state = this._mergeEntities(state, newEntities);
     }
-    return isOpenApiAction(action.meta) ? this.additionalReducer(state, action) : state;
+    return this.additionalReducer(state, action);
   }
 
   _mergeEntities(state, newEntities) {
