@@ -10,7 +10,7 @@ describe('createReducer', () => {
   const subject = () => createReducer({dummy: DummyClass}, {initialState, additionalReducer});
 
   afterEach(() => {
-    initialState = undefined;
+    initialState = undefined; // eslint-disable-line no-undefined
   });
 
   it('get reducer function', () => {
