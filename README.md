@@ -108,7 +108,7 @@ reducer's initial state object.
 create redux middleware support [swagger-js](https://github.com/swagger-api/swagger-js).
 
 #### spec
-Type: Object
+Type: Immutable.Map
 
 OpenAPI Spec 
 
