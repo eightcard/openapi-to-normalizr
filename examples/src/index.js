@@ -5,9 +5,9 @@ import { beforeSend, camelKeys, snakeKeys } from './helper';
 
 
 // 自動生成ファイル
-import rawSpec from '../../tmp/spec';
+import rawSpec from '../../tmp/sample_api';
 import * as Models from '../../tmp/models';
-import * as ActionTypes from '../../tmp/actions/actionTypes';
+import * as ActionTypes from '../../tmp/action_types/sample';
 const createEntitiesAction = ActionTypes.createAction;
 
 import { applyMiddleware, createStore } from 'redux';

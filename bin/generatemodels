@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable dot-location,no-console,no-process-exit,no-unused-vars*/
 /**
  * generate models from multi spec files.
  */
@@ -26,15 +27,13 @@ if (_.isEmpty(specFiles)) {
   process.exit(1);
 }
 
-const outputDir = config.outputDir || 'dist';
+const outputDir = config.modelsDir || 'dist';
 const outputBaseDir = `${outputDir}/base`;
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 const nameList = [];
 let isV2;
 
-Promise.all(
-  specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec)))
-).then((models) => {
+Promise.all(specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec)))).then((models) => {
   models = _.merge(...models);
   const modelGenerator = new ModelGenerator({
     outputDir,

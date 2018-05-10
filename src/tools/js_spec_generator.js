@@ -2,22 +2,23 @@ const path = require('path');
 const { writeFilePromise, readTemplates, render } = require('./utils');
 
 class JsSpecGenerator {
-  constructor({outputDir = '', templatePath, spec, specName}) {
-    this.outputDir = outputDir;
-    this.templatePath = templatePath;
+  constructor({outputPath = '', templatePath, spec}) {
+    this.outputPath = outputPath;
     this.spec = spec;
-    this.specName = specName;
+    this.templatePath = templatePath;
     this.templates = readTemplates(['spec', 'head'], this.templatePath);
+    const {dir, name, ext} = path.parse(this.outputPath);
+    this.outputDir = dir;
+    this.outputFileName = `${name}${ext}`;
   }
 
   write(spec = this.spec) {
     const text = render(this.templates.spec, {
       spec: JSON.stringify(spec, null, 2),
-      specName: this.specName,
     }, {
       head: this.templates.head,
     });
-    return writeFilePromise(path.join(this.outputDir, this.specName.replace(/\.ya*ml$/, '.js')), text);
+    return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 }
 
