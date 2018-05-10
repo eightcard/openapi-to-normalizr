@@ -34,8 +34,12 @@
           spec: 'SpecのJS化用',
           oneOf: 'oneOf展開用',
         },
+        outputPath: {
+          schemas: 'スキーマファイル出力パス',
+          actions: 'action typeファイル出力パス',
+          jsSpec: 'JS版スペック出力パス',
+        },
         modelsDir: 'モデル出力先',
-        outputDir: 'actions,schemasの出力先',
         useFlow: 'flowtype利用(true/false)',
         usePropType: 'prop-type利用(true/false)',
         attributeConverter: '属性コンバート用関数',
