@@ -39,8 +39,12 @@ $ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
       spec: 'for JS format spec',
       oneOf: 'for oneof schema',
     },
+    outputPath: {
+      schemas: './tmp/schemas/sample_schema.js',
+      actions: './tmp/action_types/sample.js',
+      jsSpec: './tmp/sample_api.js',
+    },
     modelsDir: 'models output directory', // default: tmp
-    outputDir: 'actions,schemas output directory', // default: tmp
     useFlow: 'use flowtype?(true/false)', // default: false (experiment)
     usePropType: 'use prop-type?(true/false)',  // default: true
     attributeConverter: 'attribute converter function',
@@ -70,7 +74,7 @@ createOpenApiMiddleware(Spec).then((middleware) => {
 
 ## API
 
-### createEntitiesReducer(Models, {additionalReducer})
+### createEntitiesReducer(Models, {additionalReducer, initialState})
 create reducer that output normalized state as model. (normalized by [normalizr](https://github.com/paularmstrong/normalizr))
 
 #### Models
@@ -94,6 +98,11 @@ function additionalReducer(state = Map(), action = {}) {
   }
 }
 ```
+
+#### initialState
+Type: Object
+
+reducer's initial state object.
 
 ### createOpenApiMiddleware(spec, [httpOptions])
 create redux middleware support [swagger-js](https://github.com/swagger-api/swagger-js).
