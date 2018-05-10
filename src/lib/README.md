@@ -7,9 +7,10 @@
   /**
    * @params Models {[key: string]: Model} モデル一覧のオブジェクト(keyはyml記載の名前)
    * @params additionalReducer Function マージでは対応できない処理を追加する関数
-   * @returns Function reducer関数を返します
+   * @params initialState Map reducerのinitial state
+   * @returns Function reducer関数を返します
    */
-  createEntitiesReducer(Models, {additionalReducer})
+  createEntitiesReducer(Models, {additionalReducer, initialState})
   ```
 - このreducerが扱うstateはimmutable.jsのインスタンス群です。  
   **payload経由で取得されたJavaScriptオブジェクト(immutable.jsでもよい)をimmutable.jsのインスタンスに変換しマージする責務を持ちます。**
