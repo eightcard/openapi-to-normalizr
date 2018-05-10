@@ -10,12 +10,12 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
-import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}} {{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
 {{/importList}}
 
 {{#props}}
 {{#enumObjects}}
-export const {{name}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+export const {{name}}{{#useFlow}}: {{enumType}}{{/useFlow}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
 {{/enumObjects}}
 {{/props}}
 
@@ -42,7 +42,7 @@ export const propTypes = PropTypes.shape(propTypesObject);
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids, entities) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 
 export default class {{name}} extends Record(defaultValues) {
 {{#useFlow}}
@@ -50,7 +50,7 @@ export default class {{name}} extends Record(defaultValues) {
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denoromalize(id, entities) {
+  static denoromalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
     return denormalize(id, entities);
   }
 {{#props}}

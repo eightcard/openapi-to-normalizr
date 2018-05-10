@@ -193,6 +193,14 @@ components:
         id:
           type: integer
           format: int64
+        places:
+          type: array
+          items:
+            type: string
+        companies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Company'
         owner:
           $ref: '#/components/schemas/Person'
     Person:
@@ -203,6 +211,16 @@ components:
         email:
           type: string
         person_id:
+          type: integer
+          format: int64
+    Company:
+      x-id-attribute: company_id
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        company_id:
           type: integer
           format: int64
     Error:

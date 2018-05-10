@@ -22,6 +22,6 @@ module.exports = {
   }, {}),
   modelsDir: './tmp',
   outputPath,
-  useFlow: false,
-  usePropType: true,
+  useFlow: true,
+  usePropType: false,
 };

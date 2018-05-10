@@ -36,6 +36,9 @@
     "babel-preset-power-assert": "2.0.0",
     "babel-register": "6.26.0",
     "eslint": "4.19.1",
+    "flow-bin": "^0.70.0",
+    "flow-typed": "^2.4.0",
+    "flowtype": "^2.0.0",
     "mocha": "5.0.5",
     "nock": "9.2.3",
     "power-assert": "1.5.0",
@@ -72,6 +75,7 @@
     "mock": "swagger project start examples/petstore",
     "prepare:mock": "cd examples/petstore && npm i",
     "serve": "bin/serve `pwd`/examples ",
-    "test": "NODE_ENV=test mocha --require babel-register src/lib/**/*.test.js"
+    "test": "NODE_ENV=test mocha --require babel-register src/lib/**/*.test.js",
+    "flow": "flow tmp"
   }
 }

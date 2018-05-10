@@ -100,7 +100,7 @@ class ModelGenerator {
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
-      getFlowTypes, getPropTypes, getDefaults,
+      getFlowTypes, getPropTypes, getDefaults
     };
 
     const text = render(this.templates.model, props, {
@@ -131,6 +131,8 @@ class ModelGenerator {
         isValueString: prop.type === 'string',
         propertyName: name,
         enumObjects: this.getEnumObjects(this.attributeConverter(name), prop.enum, prop['x-enum-key-attributes']),
+        enumType: this._getEnumTypes(prop.type),
+        items: prop.items
       };
       return this.constructor.templatePropNames.reduce((ret, key) => {
         ret[key] = ret[key] || properties[name][key];
@@ -156,6 +158,16 @@ class ModelGenerator {
     });
   }
 
+  _getEnumTypes(type) {
+    switch (type) {
+      case 'integer':
+      case 'number':
+        return 'number';
+      default:
+        return type;
+    }
+  }
+
   generateTypeFrom(prop, definition) {
     if (prop && prop.oneOf) {
       // for only model (ref)
@@ -173,9 +185,12 @@ class ModelGenerator {
       };
     }
 
+    /* 上記の分岐でcomponentsに定義されている型の配列のパターンは吸収されるため、*/
+    /* ここではプリミティブ型の配列のパターンを扱う */
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
+        flow: `${this._getEnumTypes(prop.items.type)}[]`,
       };
     }
 
@@ -256,17 +271,23 @@ function _getPropTypes(type, enums, enumObjects) {
       return 'PropTypes.string';
     case 'boolean':
       return 'PropTypes.bool';
+    case 'array':
+      return 'PropTypes.array';
     default:
       return type && type.propType ? type.propType : 'PropTypes.any';
   }
 }
 
 function getFlowTypes() {
-  if (this.enum) {
-    const enums = this.type === 'string' ? this.enum.map((key) => `'${key}'`) : this.enum;
-    return enums.join(' | ');
+  return _getFlowTypes(this.type, this.enum)
+}
+
+function _getFlowTypes(type, enums) {
+  if (enums) {
+   const typeList = enums.map(() => _getFlowTypes(type));
+   return typeList.join(' | ');
   }
-  switch (this.type) {
+  switch (type) {
     case 'integer':
     case 'number':
       return 'number';
@@ -275,7 +296,7 @@ function getFlowTypes() {
     case 'boolean':
       return 'boolean';
     default:
-      return this.type && this.type.flow ? this.type.flow : 'any';
+      return type && type.flow ? type.flow : 'any';
   }
 }
 
