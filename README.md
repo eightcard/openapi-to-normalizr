@@ -100,7 +100,7 @@ function additionalReducer(state = Map(), action = {}) {
 ```
 
 #### initialState
-Type: Object
+Type: Immutable.Map
 
 reducer's initial state object.
 
@@ -108,7 +108,7 @@ reducer's initial state object.
 create redux middleware support [swagger-js](https://github.com/swagger-api/swagger-js).
 
 #### spec
-Type: Immutable.Map
+Type: Object
 
 OpenAPI Spec 
 
