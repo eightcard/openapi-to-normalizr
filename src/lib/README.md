@@ -7,8 +7,8 @@
   /**
    * @params Models {[key: string]: Model} モデル一覧のオブジェクト(keyはyml記載の名前)
    * @params additionalReducer Function マージでは対応できない処理を追加する関数
-   * @params initialState Map reducerのinitial state
-   * @returns Function reducer関数を返します
+   * @params initialState Map reducerのinitial state
+   * @returns Function reducer関数を返します
    */
   createEntitiesReducer(Models, {additionalReducer, initialState})
   ```
