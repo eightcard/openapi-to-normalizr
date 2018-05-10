@@ -18,9 +18,9 @@ import { createReducer as createEntitiesReducer } from '../../src/lib/entities-r
 // Store作成
 function additionalReducer(state = Map(), action = {}) {
   console.log(action.type);
-  const id = action.payload.id;
   switch(action.type) {
     case ActionTypes.DELETE_PETS__ID_:
+      const id = action.meta.requestPayload.id;
       return ['Dog', 'Cat'].reduce((acc, key) => acc.removeIn([key, id.toString()]), state);
     default:
       return state;

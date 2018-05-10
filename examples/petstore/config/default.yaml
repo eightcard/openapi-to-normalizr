@@ -21,11 +21,22 @@ swagger:
       name: swagger_validator
       validateResponse: true
 
+    _swagger_params_parser:
+      name: swagger_params_parser
+      jsonOptions: {}
+      urlencodedOptions:
+        extended: false
+      multerOptions:
+        inMemory: true
+      textOptions:
+        type: "*/*"
+
     # pipe for all swagger-node controllers
     swagger_controllers:
       - onError: json_error_handler
       - cors
       - swagger_security
+      - _swagger_params_parser
       - _swagger_validate
       - express_compatibility
       - _router
