@@ -3,7 +3,11 @@ function snakeToCamel(str) {
 }
 
 module.exports = {
-  outputDir: './tmp',
+  outputPath: {
+    schemas: './tmp/schemas/sample_schema.js',
+    actions: './tmp/action_types/sample.js',
+    jsSpec: './tmp/sample_api.js',
+  },
   modelsDir: './tmp/models',
   attributeConverter: snakeToCamel,
 };

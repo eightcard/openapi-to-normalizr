@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable dot-location,no-console,no-process-exit,no-unused-vars*/
 /**
  * generate actionType.js, schema.js, spec.js from multi spec files.
  * - need models directory before execution
@@ -29,14 +30,20 @@ if (_.isEmpty(specFiles)) {
   process.exit(1);
 }
 
+console.log(`
+  output:
+    actionTypes: ${config.outputPath.actions}
+    schemas    : ${config.outputPath.schemas}
+    js-spec    : ${config.outputPath.jsSpec}
+`);
+
 const spec = specFiles.reduce((acc, file) => {
   return _.merge(acc, readSpecFile(file));
 }, {});
 
-const outputDir = config.outputDir || 'dist';
-const [actionsDir, schemasDir] = ['actions', 'schemas'].map((dir) => resolvePath(path.join(outputDir, dir)));
-const prepareDirs = [actionsDir, schemasDir].map((path) => mkdirpPromise(path));
-let modelGenerator, schemaGenerator, actionTypesGenerator;
+let actionTypesGenerator, modelGenerator, schemaGenerator;
+const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
+const prepareDirs = [actionsDir, schemasDir, specDir].map((p) => mkdirpPromise(p));
 
 const rawSpec = _.cloneDeep(spec);
 
@@ -44,7 +51,11 @@ Swagger({spec}).then(({spec}) => {
   return Promise.all(prepareDirs).then(() => {
     const isV2 = spec.swagger === '2.0';
     const models = isV2 ? spec.definitions : spec.components.schemas;
-    (new JsSpecGenerator({outputDir, templatePath: config.templates, specName: 'spec.yml'})).write(rawSpec);
+    const writePromises = [];
+    writePromises.push((new JsSpecGenerator({
+      templatePath: config.templates,
+      outputPath: config.outputPath.jsSpec,
+    })).write(rawSpec));
 
     const modelNameList = [];
     const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
@@ -62,18 +73,19 @@ Swagger({spec}).then(({spec}) => {
     walkModels(models, [onModel]);
 
     actionTypesGenerator = new ActionTypesGenerator({
-      outputDir: actionsDir,
+      outputPath: config.outputPath.actions,
       templatePath: config.templates,
-      schemasDir,
+      schemasFilePath: config.outputPath.schemas,
     });
     schemaGenerator = new SchemaGenerator({
-      outputDir: schemasDir,
+      outputPath: config.outputPath.schemas,
       templatePath: config.templates,
       modelsDir: config.modelsDir, modelNameList, isV2, attributeConverter,
     });
     walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
-    schemaGenerator.write();
-    actionTypesGenerator.write();
+    writePromises.push(schemaGenerator.write());
+    writePromises.push(actionTypesGenerator.write());
+    return writePromises;
   });
 }).catch((e) => console.error(`Failed: ${e}`));
 

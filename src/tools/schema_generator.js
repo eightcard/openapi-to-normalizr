@@ -11,13 +11,15 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputDir = '', templatePath = {}, modelNameList = [], modelsDir, isV2, specName, attributeConverter = str => str}) {
-    this.outputDir = outputDir;
+  constructor({outputPath = '', templatePath = {}, modelNameList = [], modelsDir, isV2, attributeConverter = str => str}) {
+    this.outputPath = outputPath;
+    const {dir, name, ext} = path.parse(this.outputPath);
+    this.outputDir = dir;
+    this.outputFileName = `${name}${ext}`;
     this.templatePath = templatePath;
     this.modelNameList = modelNameList; // 利用できるモデル一覧
     this.modelsDir = modelsDir;
     this.isV2 = isV2;
-    this.specName = specName;
     this.attributeConverter = attributeConverter;
     this.templates = readTemplates(['schema', 'head', 'oneOf'], this.templatePath);
     this.parsedObjects = {};
@@ -69,14 +71,13 @@ class SchemaGenerator {
     const text = render(this.templates.schema, {
       importList: this._prepareImportList(),
       data: objectToTemplateValue(this.formattedSchema),
-      specName: this.specName,
       hasOneOf: oneOfs.length > 0,
       oneOfs,
     }, {
       head: this.templates.head,
       oneOf: this.templates.oneOf,
     });
-    return writeFilePromise(path.join(this.outputDir, 'schema.js'), text);
+    return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 
   _prepareImportList() {

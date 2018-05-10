@@ -2,6 +2,7 @@ import nock from 'nock';
 import sinon from 'sinon';
 import createMiddleware from './redux-open-api';
 import spec from '../../examples/petstore.v3';
+import noop from 'lodash/noop';
 nock.disableNetConnect();
 
 describe('middleware', () => {
@@ -37,12 +38,22 @@ describe('middleware', () => {
     }));
   });
 
+  describe('open api action (success & no-schema)', () => {
+    beforeEach(() => {
+      nock(/.*/).get('/pets').reply(202, {response: 'no schema'});
+    });
+    it('call action with response.', () => subject(action).then(() => {
+      const expect = Object.assign(action, {payload: {response: 'no schema'}});
+      sinon.assert.calledWith(nextFunction, expect);
+    }));
+  });
+
   describe('open api action (failed)', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(400);
     });
-    it('call action with error.', () => subject(action).then(() => {
-      sinon.assert.calledWith(nextFunction, sinon.match({error: true}));
+    it('call action with error.', () => subject(action).then(noop, () => {
+      sinon.assert.calledWith(nextFunction, sinon.match({error: true, type: 'ERROR_GET_PETS'}));
     }));
   });
 });

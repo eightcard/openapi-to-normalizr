@@ -41,21 +41,24 @@ export default (spec, httpOptions) => {
       }
       action.meta.requestPayload = action.payload;
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
-        ({body, status}) => {
-          const payload = schema ? normalize(body, schema[status] || schema['default']) : action.payload;
-          return next({
+        (response = {}) => {
+          const useSchema = schema && (schema[response.status] || schema['default']);
+          const payload = useSchema ? normalize(response.body, useSchema) : response.body;
+          next({
             type: action.type,
             meta: action.meta,
             payload,
-          })
+          });
+          return response;
         },
         (error) => {
-          return next({
-            type: action.type,
+          next({
+            type: `ERROR_${action.type}`,
             meta: action.meta,
             payload: error,
             error: true,
           });
+          return Promise.reject(error);
         }
       );
     }

@@ -117,10 +117,7 @@ definitions:
   PetsResponse:
     type: array
     items:
-      allOf:
-       - $ref: '#/definitions/Pet'
-       - required:
-         - id
+      - $ref: '#/definitions/Pet'
 
   PetRequest:
     type: object

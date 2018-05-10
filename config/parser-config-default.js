@@ -10,13 +10,18 @@ const templates = {
   spec: 'templates/spec_template.mustache',
   oneOf: 'templates/one_of_template.mustache',
 };
+const outputPath = {
+  schemas: './tmp/schemas/sample_schema.js',
+  actions: './tmp/action_types/sample.js',
+  jsSpec: './tmp/sample_api.js',
+};
 module.exports = {
   templates: Object.keys(templates).reduce((acc, key) => {
     acc[key] = path.join(__dirname, '../', templates[key]);
     return acc;
   }, {}),
-  modelsDir: 'tmp',
-  outputDir: 'tmp',
+  modelsDir: './tmp',
+  outputPath,
   useFlow: true,
   usePropType: false,
 };

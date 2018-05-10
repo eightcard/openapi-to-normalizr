@@ -10,11 +10,10 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, specName, isV2, useFlow, usePropType, attributeConverter = str => str}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, attributeConverter = str => str}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
-    this.specName = specName;
     this.isV2 = isV2;
     this.useFlow = useFlow;
     this.usePropType = usePropType;
@@ -42,7 +41,6 @@ class ModelGenerator {
   writeIndex(modelNameList) {
     const text = render(this.templates.models, {
       models: _.uniq(modelNameList).map((name) => ({fileName: _.snakeCase(name), name})),
-      specName: this.specName,
     }, {
       head: this.templates.head,
     });
@@ -99,7 +97,6 @@ class ModelGenerator {
       usePropTypes: this.usePropType,
       useFlow: this.useFlow,
       props: this._convertPropForTemplate(properties, dependencySchema),
-      specName: this.specName,
       schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
       oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
       importList: this._prepareImportList(importList),
@@ -249,7 +246,6 @@ class ModelGenerator {
     return render(this.templates.override, {
       name, fileName, enums,
       usePropTypes: this.usePropType,
-      specName: this.specName,
     }, {
       head: this.templates.head,
     });
