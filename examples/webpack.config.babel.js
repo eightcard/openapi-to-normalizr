@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 
 export default {
+  mode: 'development',
+
   output: {
     publicPath: '/',
     sourcePrefix: '  ',

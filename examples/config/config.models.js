@@ -5,4 +5,5 @@ function snakeToCamel(str) {
 module.exports = {
   modelsDir: './tmp/models',
   attributeConverter: snakeToCamel,
+  useFlow: false,
 };
