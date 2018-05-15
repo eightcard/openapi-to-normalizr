@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.resetMetaCreator = resetMetaCreator;
 exports.createReducer = createReducer;
 
 var _immutable = require("immutable");
@@ -19,6 +20,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function getNewEntities(action) {
   return action.payload && action.payload.entities;
+}
+
+function resetMetaCreator() {
+  return {
+    reset: true
+  };
 }
 /**
  * immutable.js based entities reducer
@@ -51,7 +58,7 @@ function () {
       var newEntities = getNewEntities(action);
 
       if (newEntities) {
-        state = this._mergeEntities(state, newEntities);
+        state = this._mergeEntities(state, newEntities, action);
       }
 
       return this.additionalReducer(state, action);
@@ -61,13 +68,21 @@ function () {
     value: function _mergeEntities(state, newEntities) {
       var _this = this;
 
+      var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+          meta = _ref.meta;
+
       return state.update(function (oldEntities) {
         var modeledEntities = (0, _immutable.fromJS)(newEntities).map(function (entities, modelName) {
           return entities.map(function (entity) {
             return _this._instantiate(entity, modelName);
           });
         });
-        return oldEntities.mergeDeepWith(merger, modeledEntities);
+
+        if (meta && meta.reset) {
+          return oldEntities.mergeDeep(modeledEntities);
+        } else {
+          return oldEntities.mergeDeepWith(merger, modeledEntities);
+        }
       });
     }
   }, {
@@ -85,9 +100,9 @@ var merger = function merger(prev, next) {
 };
 
 function createReducer(Models) {
-  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-      initialState = _ref.initialState,
-      additionalReducer = _ref.additionalReducer;
+  var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+      initialState = _ref2.initialState,
+      additionalReducer = _ref2.additionalReducer;
 
   var reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;

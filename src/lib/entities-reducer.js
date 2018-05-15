@@ -5,6 +5,12 @@ function getNewEntities(action) {
   return action.payload && action.payload.entities;
 }
 
+export function resetMetaCreator() {
+  return {
+    reset: true,
+  };
+}
+
 /**
  * immutable.js based entities reducer
  */
@@ -19,17 +25,21 @@ class EntitiesReducer {
   reduce(state = this.initialState, action = {}) {
     const newEntities = getNewEntities(action);
     if (newEntities) {
-      state = this._mergeEntities(state, newEntities);
+      state = this._mergeEntities(state, newEntities, action);
     }
     return this.additionalReducer(state, action);
   }
 
-  _mergeEntities(state, newEntities) {
+  _mergeEntities(state, newEntities, {meta} = {}) {
     return state.update((oldEntities) => {
       const modeledEntities = fromJS(newEntities).map((entities, modelName) => {
         return entities.map((entity) => this._instantiate(entity, modelName));
       });
-      return oldEntities.mergeDeepWith(merger, modeledEntities);
+      if (meta && meta.reset) {
+        return oldEntities.mergeDeep(modeledEntities);
+      } else {
+        return oldEntities.mergeDeepWith(merger, modeledEntities);
+      }
     });
   }
 

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.createEntitiesReducer = exports.createOpenApiMiddleware = exports.normalizr = exports.immutable = void 0;
+exports.default = exports.resetMetaCreator = exports.createEntitiesReducer = exports.createOpenApiMiddleware = exports.normalizr = exports.immutable = void 0;
 
 var _reduxOpenApi = _interopRequireDefault(require("./redux-open-api"));
 
@@ -25,6 +25,8 @@ var createOpenApiMiddleware = _reduxOpenApi.default;
 exports.createOpenApiMiddleware = createOpenApiMiddleware;
 var createEntitiesReducer = _entitiesReducer.createReducer;
 exports.createEntitiesReducer = createEntitiesReducer;
+var resetMetaCreator = _entitiesReducer.resetMetaCreator;
+exports.resetMetaCreator = resetMetaCreator;
 var _default = {
   createEntitiesReducer: createEntitiesReducer,
   createOpenApiMiddleware: createOpenApiMiddleware,

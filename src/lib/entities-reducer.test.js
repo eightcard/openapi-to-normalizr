@@ -127,4 +127,70 @@ describe('createReducer', () => {
     // Immutable.jsのままだと "__ownerID" がマッチしない
     assert.deepStrictEqual(nextState.toJS(), expect);
   });
+
+  it('reset when reset=true', () => {
+    const reducer = subject();
+    const initialState = reducer(reducer(), {
+      payload: {
+        entities: {
+          dummy: {
+            1: {
+              id: 1,
+              name: 'foo',
+            },
+          },
+          foo: {
+            2: {
+              id: 2,
+              name: 'bar-baz',
+              rest: true,
+            }
+          }
+        },
+      },
+    });
+
+    const action = {
+      meta: {
+        reset: true,
+      },
+      payload: {
+        entities: {
+          dummy: {
+            1: {
+              id: 1,
+            },
+          },
+          foo: {
+            2: {
+              id: 2,
+              name: 'bar-baz',
+            }
+          }
+        },
+      },
+    };
+
+    const nextState = reducer(initialState, action);
+
+    const expect = {
+      dummy: {
+        1: {
+          id: 1,
+          // eslint-disable-next-line no-undefined
+          name: undefined, // initialized
+        },
+      },
+      foo: {
+        2: {
+          id: 2,
+          name: 'bar-baz',
+          rest: true,
+        },
+      },
+    };
+
+    // Immutable.jsのままだと "__ownerID" がマッチしない
+    assert.deepStrictEqual(nextState.toJS(), expect);
+  });
 });
