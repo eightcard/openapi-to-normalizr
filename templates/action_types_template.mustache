@@ -6,7 +6,7 @@ import schemas from '{{&schemasFile}}';
 export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
-export function createAction(id, payloadCreator = (params) => params, metaCreator) {
+export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
   const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
   let _metaCreator = () => meta;
   if (isFunction(metaCreator)) {
