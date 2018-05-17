@@ -72,6 +72,19 @@
     - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。  
       各ツールのコンセプトはこちらを参照ください。
       
+## デプロイ
+- babel処理 (lint -> test -> build)
+  ```sh
+  % npm run build:dist
+  ```
+- lint (bin, srcが対象)
+  ```sh
+  % npm run eslint
+  ```
+- test (src/lib下のテスト)
+  ```sh
+  % npm test
+  ```
 
 ## その他
 ### パスのIDについて
