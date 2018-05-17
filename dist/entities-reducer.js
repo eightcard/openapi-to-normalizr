@@ -71,18 +71,19 @@ function () {
       var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
           meta = _ref.meta;
 
-      return state.update(function (oldEntities) {
-        var modeledEntities = (0, _immutable.fromJS)(newEntities).map(function (entities, modelName) {
-          return entities.map(function (entity) {
-            return _this._instantiate(entity, modelName);
+      var reset = meta && meta.reset;
+      return state.withMutations(function (state) {
+        (0, _immutable.fromJS)(newEntities).forEach(function (entities, modelName) {
+          entities.forEach(function (entity, id) {
+            if (reset || !state.hasIn([modelName, id])) {
+              state.setIn([modelName, id], _this._instantiate(entity, modelName));
+            } else {
+              state.updateIn([modelName, id], function (oldEntity) {
+                return oldEntity.mergeDeepWith(merger, _this._instantiate(entity, modelName));
+              });
+            }
           });
         });
-
-        if (meta && meta.reset) {
-          return oldEntities.mergeDeep(modeledEntities);
-        } else {
-          return oldEntities.mergeDeepWith(merger, modeledEntities);
-        }
       });
     }
   }, {

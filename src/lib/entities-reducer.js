@@ -31,15 +31,19 @@ class EntitiesReducer {
   }
 
   _mergeEntities(state, newEntities, {meta} = {}) {
-    return state.update((oldEntities) => {
-      const modeledEntities = fromJS(newEntities).map((entities, modelName) => {
-        return entities.map((entity) => this._instantiate(entity, modelName));
+    const reset = meta && meta.reset;
+    return state.withMutations((state) => {
+      fromJS(newEntities).forEach((entities, modelName) => {
+        entities.forEach((entity, id) => {
+          if (reset || !state.hasIn([modelName, id])) {
+            state.setIn([modelName, id], this._instantiate(entity, modelName));
+          } else {
+            state.updateIn([modelName, id], (oldEntity) => {
+              return oldEntity.mergeDeepWith(merger, this._instantiate(entity, modelName));
+            });
+          }
+        });
       });
-      if (meta && meta.reset) {
-        return oldEntities.mergeDeep(modeledEntities);
-      } else {
-        return oldEntities.mergeDeepWith(merger, modeledEntities);
-      }
     });
   }
 
