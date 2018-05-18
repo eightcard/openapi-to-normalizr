@@ -27,6 +27,15 @@
     }
   }
   ```
+- resetMetaCreator
+  該当のaction結果でマージではなく置き換えが必要な場合は `meta.reset = true`とします。  
+  以下のようにすることで対応できます。
+  ```js
+  import { resetMetaCreator } from 'openapi-to-normalizr';
+  import { createOpenApiAction, SOME_ACTION } from 'generated_action_types_action_types';
+
+  const someAction = createOpenApiAction(SOME_ACTION, null, resetMetaCreator);
+  ```
 
 ## createOpenApiMiddleware
 - [swagger-js](https://github.com/swagger-api/swagger-js)を使ってAPI定義から通信部分を自動化するmiddlewareを準備します。  

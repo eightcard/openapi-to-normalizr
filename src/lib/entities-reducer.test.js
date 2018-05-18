@@ -2,7 +2,7 @@ import assert from 'assert';
 import { createReducer } from './entities-reducer';
 import { Map, Record } from 'immutable';
 
-class DummyClass extends Record({id: undefined, name: undefined}) {} // eslint-disable-line no-undefined
+class DummyClass extends Record({id: undefined, name: undefined, label: 'default'}) {} // eslint-disable-line no-undefined
 const additionalReducer = (state) => state;
 
 describe('createReducer', () => {
@@ -25,9 +25,9 @@ describe('createReducer', () => {
 
   it('reducer can reduce entities', () => {
     const reducer = subject();
-    const initialState = reducer();
+    let state = reducer();
 
-    const action = {
+    const firstAction = {
       payload: {
         entities: {
           dummy: {
@@ -41,25 +41,64 @@ describe('createReducer', () => {
               id: 2,
               name: 'bar-baz',
             },
-          }
+          },
         },
       },
     };
 
-    const nextState = reducer(initialState, action);
+    state = reducer(state, firstAction);
 
-    assert.deepStrictEqual(nextState.toJS(), {
+    assert.deepStrictEqual(state.toJS(), {
       dummy: {
         // instantiate registered class
         1: {
           id: 1,
           name: 'foo-bar',
+          label: 'default',
         },
       },
       other: {
         2: {
           id: 2,
           name: 'bar-baz',
+        },
+      },
+    });
+
+    const secondAction = {
+      payload: {
+        entities: {
+          dummy: {
+            1: {
+              id: 1,
+              label: 'some label'
+            },
+          },
+          other: {
+            2: {
+              id: 2,
+              rest: true,
+            },
+          },
+        },
+      },
+    };
+
+    state = reducer(state, secondAction);
+
+    assert.deepStrictEqual(state.toJS(), {
+      dummy: {
+        1: {
+          id: 1,
+          name: 'foo-bar',
+          label: 'some label'
+        },
+      },
+      other: {
+        2: {
+          id: 2,
+          name: 'bar-baz',
+          rest: true,
         },
       },
     });
@@ -74,6 +113,7 @@ describe('createReducer', () => {
             1: {
               id: 1,
               name: ['foo', 'bar'],
+              label: 'default',
             },
           },
           foo: {
@@ -81,8 +121,8 @@ describe('createReducer', () => {
               id: 2,
               name: 'bar-baz',
               rest: true,
-            }
-          }
+            },
+          },
         },
       },
     });
@@ -100,8 +140,8 @@ describe('createReducer', () => {
             2: {
               id: 2,
               name: 'bar-baz',
-            }
-          }
+            },
+          },
         },
       },
     };
@@ -113,6 +153,7 @@ describe('createReducer', () => {
         1: {
           id: 1,
           name: ['foo', 'bar', 'foo', 'baz'], // concat
+          label: 'default',
         },
       },
       foo: {
@@ -144,8 +185,8 @@ describe('createReducer', () => {
               id: 2,
               name: 'bar-baz',
               rest: true,
-            }
-          }
+            },
+          },
         },
       },
     });
@@ -165,8 +206,8 @@ describe('createReducer', () => {
             2: {
               id: 2,
               name: 'bar-baz',
-            }
-          }
+            },
+          },
         },
       },
     };
@@ -179,13 +220,14 @@ describe('createReducer', () => {
           id: 1,
           // eslint-disable-next-line no-undefined
           name: undefined, // initialized
+          // eslint-disable-next-line no-undefined
+          label: 'default', // initialized
         },
       },
       foo: {
         2: {
           id: 2,
           name: 'bar-baz',
-          rest: true,
         },
       },
     };
