@@ -8,7 +8,7 @@ import { beforeSend, camelKeys, snakeKeys } from './helper';
 import rawSpec from '../../tmp/sample_api';
 import * as Models from '../../tmp/models';
 import * as ActionTypes from '../../tmp/action_types/sample';
-const createEntitiesAction = ActionTypes.createAction;
+const createEntitiesAction = ActionTypes.createOpenApiAction;
 
 import { applyMiddleware, createStore } from 'redux';
 import createOpenApiMiddleware from '../../src/lib/redux-open-api';
