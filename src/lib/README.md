@@ -54,10 +54,10 @@
 - このmiddlewareはAPI定義に従った通信結果をnormalizeする責務を持ちます。(immutable.jsのインスタンスは入り込みません)
 
 
-## createAction
-- 自動生成される `actionTypes.js`から `export`される関数です。  
+## createOpenApiAction
+- 自動生成される `action_types/sample.js`から `export`される関数です。  
   I/Fは [redux-actions](https://www.gitbook.com/book/vinnymac/redux-actions)の `createAction` と同様です。
   ```js
-  import { createAction, GET_PETS__ID_ } from 'actions/actionTypes';
-  const action = createAction(GET_PETS__ID_);
+  import { createOpenApiAction, GET_PETS__ID_ } from 'action_types/sample';
+  const action = createOpenApiAction(GET_PETS__ID_);
   ```
