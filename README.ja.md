@@ -54,7 +54,7 @@
       import rawSpec from 'tmp/spec';
       import * as Models from 'tmp/models';
       import * as ActionTypes from 'tmp/actions/actionTypes';
-      const createEntitiesAction = ActionTypes.createAction;
+      const createEntitiesAction = ActionTypes.createOpenApiAction;
       import { createEntitiesReducer, createOpenApiMiddleware } from 'openapi-to-normalizr';
 
       // JS形式のSpecを渡してAPI通信を自動で行なうmiddlewareを準備する
