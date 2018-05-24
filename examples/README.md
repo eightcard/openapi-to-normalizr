@@ -7,17 +7,17 @@
 ## 使い方
 1. 環境準備  
     ```bash
-    % npm i && npm run prepare:mock
+    % yarn && yarn prepare:mock
     ```
 1. API定義確認  
     ```bash
-    % npm run serve
+    % yarn serve
     % open http://localhost:3000/viewer
     ```
 1. コード自動生成
     ```bash
-    % npm run build:sample:models examples/petstore.v3.yml 
-    % npm run build:sample:schemas examples/petstore.v3.yml 
+    % yarn build:sample:models examples/petstore.v3.yml 
+    % yarn build:sample:schemas examples/petstore.v3.yml 
     ```
     
     以下のようなファイル群が生成されます。
@@ -43,11 +43,11 @@
 1. 動作確認  
     1. 確認用サンプルビルド  
       ```bash
-      % npm run build:sample
+      % yarn build:sample
       ```
     1. モックサーバ起動  
       ```bash
-      % npm run mock
+      % yarn mock
       ```
     1. サンプル表示  
       ```bash
