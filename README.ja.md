@@ -75,15 +75,15 @@
 ## デプロイ
 - babel処理 (lint -> test -> build)
   ```sh
-  % npm run build:dist
+  % yarn build:dist
   ```
 - lint (bin, srcが対象)
   ```sh
-  % npm run eslint
+  % yarn eslint
   ```
 - test (src/lib下のテスト)
   ```sh
-  % npm test
+  % yarn test
   ```
 
 ## その他
