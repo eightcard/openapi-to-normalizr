@@ -9,25 +9,35 @@ jobs:
     steps:
       - checkout
       - restore_cache:
+          name: Restore Yarn Package Cache
           keys:
-            - npm-{{ .Branch }}-{{ checksum "package.json" }}
-            - npm-{{ .Branch }}-
-            - npm-master-
-      - run: npm install
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
       - save_cache:
-          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
+            - node_modules/
   test:
     docker:
       - <<: *base_image
     steps:
       - checkout
       - restore_cache:
-          key: npm-{{ .Branch }}-{{ checksum "package.json" }}
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
       - run:
           name: Test
-          command: npm test
+          command: yarn test
 workflows:
   version: 2
   test:
