@@ -117,3 +117,6 @@ Type: Object
 
 Same as httpOptions of swagger-js.
 
+
+## Release
+- release is specified by only tag.
