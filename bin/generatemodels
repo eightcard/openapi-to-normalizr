@@ -57,7 +57,7 @@ function isSpecV2(spec) {
     return isV2;
   }
   if (isV2 !== isSpecV2) {
-    throw 'multi version!';
+    throw new Error('multi version!');
   }
   isV2 = isSpecV2;
   return isV2;
