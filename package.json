@@ -77,7 +77,7 @@
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
     "build:sample:models": "./bin/generatemodels --config examples/config/config.models.js",
     "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
-    "eslint": "eslint src bin",
+    "eslint": "eslint src bin/*",
     "mocha": "NODE_ENV=test mocha --require babel-register ",
     "mock": "swagger project start examples/petstore",
     "prepare:mock": "cd examples/petstore && yarn",
