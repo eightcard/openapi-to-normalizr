@@ -535,6 +535,12 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@kyleshockey/js-yaml@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@kyleshockey/js-yaml/-/js-yaml-1.0.1.tgz#5c036bb67caee77fa887738e695dc02949889bfd"
+  dependencies:
+    argparse "^1.0.7"
+
 "@kyleshockey/object-assign-deep@^0.4.0":
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/@kyleshockey/object-assign-deep/-/object-assign-deep-0.4.2.tgz#84900f0eefc372798f4751b5262830b8208922ec"
@@ -1520,7 +1526,7 @@ babel-register@6.26.0, babel-register@^6.26.0, babel-register@^6.9.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1779,6 +1785,13 @@ buffer@^4.3.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
     isarray "^1.0.0"
+
+buffer@^5.1.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.0.tgz#53cf98241100099e9eeae20ee6d51d21b16e541e"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
 
 buffers@~0.1.1:
   version "0.1.1"
@@ -2214,13 +2227,17 @@ commander@2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
 
-commander@2.15.1, commander@^2.7.1, commander@^2.8.1, commander@^2.9.0:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
+commander@2.17.1:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
 
 commander@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.3.0.tgz#fd430e889832ec353b9acd1de217c11cb3eef873"
+
+commander@^2.7.1, commander@^2.8.1, commander@^2.9.0:
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
 commander@~2.13.0:
   version "2.13.0"
@@ -4207,7 +4224,14 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@3.11.0, js-yaml@^3.3.0, js-yaml@^3.3.1, js-yaml@^3.8.1, js-yaml@^3.8.3, js-yaml@^3.9.1:
+js-yaml@3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
+
+js-yaml@^3.3.0, js-yaml@^3.3.1, js-yaml@^3.8.3, js-yaml@^3.9.1:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
   dependencies:
@@ -5091,9 +5115,9 @@ multimatch@^2.0.0:
     arrify "^1.0.0"
     minimatch "^3.0.0"
 
-mustache@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.0.tgz#4028f7778b17708a489930a6e52ac3bca0da41d0"
+mustache@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.1.tgz#ef5db3c0d11f1640e9baa47f4e65ba0c3fcd82b9"
 
 mute-stream@0.0.5:
   version "0.0.5"
@@ -5959,6 +5983,10 @@ query-string@^5.0.1:
     decode-uri-component "^0.2.0"
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
+
+querystring-browser@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/querystring-browser/-/querystring-browser-1.0.4.tgz#f2e35881840a819bc7b1bf597faf0979e6622dc6"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -6973,22 +7001,24 @@ supports-color@^5.1.0, supports-color@^5.2.0, supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-client@3.8.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.2.tgz#1d224b47cfde1aebfe800b2857ae855e1002c5f6"
+swagger-client@3.8.13:
+  version "3.8.13"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.13.tgz#7f45b6ad64edf0dbd67df22b9752b14968feddcb"
   dependencies:
+    "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.0"
-    babel-runtime "^6.23.0"
+    babel-runtime "^6.26.0"
     btoa "1.1.2"
+    buffer "^5.1.0"
     cookie "^0.3.1"
     cross-fetch "0.0.8"
     deep-extend "^0.5.1"
     encode-3986 "^1.0.0"
     fast-json-patch "^2.0.6"
     isomorphic-form-data "0.0.1"
-    js-yaml "^3.8.1"
     lodash "^4.16.2"
     qs "^6.3.0"
+    querystring-browser "^1.0.4"
     url "^0.11.0"
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"
