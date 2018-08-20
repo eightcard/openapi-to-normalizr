@@ -41,7 +41,7 @@
     "react-immutable-proptypes": "2.1.0",
     "redux": "4.0.0",
     "redux-actions": "2.6.1",
-    "serve": "6.5.8",
+    "serve": "9.6.0",
     "sinon": "6.1.5",
     "swagger": "0.7.5",
     "webpack": "4.16.5",
