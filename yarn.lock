@@ -2879,11 +2879,11 @@ flow-typed@2.5.1:
     which "^1.3.0"
     yargs "^4.2.0"
 
-flowtype@^2.0.0:
+flowtype@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/flowtype/-/flowtype-2.0.0.tgz#8636bcb267659ff2ed575cd8bfb36372b90311a2"
   dependencies:
-    merge yields/merge
+    merge "github:yields/merge"
     viewport "2"
 
 flush-write-stream@^1.0.0:
@@ -4256,8 +4256,9 @@ memory-fs@^0.4.0, memory-fs@~0.4.1:
     errno "^0.1.3"
     readable-stream "^2.0.1"
 
-merge@yields/merge:
+"merge@github:yields/merge":
   version "1.0.1"
+  uid "2f357cb501cd06f1a86394b7817e5df73c53f644"
   resolved "https://codeload.github.com/yields/merge/tar.gz/2f357cb501cd06f1a86394b7817e5df73c53f644"
 
 methods@^1.1.1, methods@~1.1.1:
