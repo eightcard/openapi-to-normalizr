@@ -6002,9 +6002,9 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
-swagger-client@3.8.13:
-  version "3.8.13"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.13.tgz#7f45b6ad64edf0dbd67df22b9752b14968feddcb"
+swagger-client@3.8.15:
+  version "3.8.15"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.15.tgz#eb72b4cceea7d2c733a36e5cd1f44fcb981a3deb"
   dependencies:
     "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.0"
