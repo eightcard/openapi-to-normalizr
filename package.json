@@ -26,7 +26,7 @@
     "babel-loader": "8.0.0-beta.6",
     "babel-polyfill": "6.26.0",
     "babel-preset-es2015": "6.24.1",
-    "babel-preset-power-assert": "2.0.0",
+    "babel-preset-power-assert": "3.0.0",
     "babel-register": "6.26.0",
     "eslint": "5.5.0",
     "flow-bin": "0.79.1",
