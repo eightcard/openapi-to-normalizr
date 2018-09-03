@@ -64,7 +64,7 @@ function isSpecV2(spec) {
 }
 
 function filter(spec) {
-  const models = isSpecV2(spec) ? spec.definitions : spec.components.schemas;
+  const models = isSpecV2(spec) ? spec.definitions : spec.components && spec.components.schemas;
   return _.reduce(models, (acc, value, key) => {
     if (nameList.includes(key)) {
       console.warn('duplicate model', key);
