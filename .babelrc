@@ -11,7 +11,11 @@
     },
     "test": {
       "presets": [
-        "babel-preset-es2015", "babel-preset-power-assert"
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": ["last 2 versions"]
+          }
+        }, "babel-preset-power-assert"]
       ]
     }
   }
