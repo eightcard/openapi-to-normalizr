@@ -34,7 +34,7 @@
     "mocha": "5.2.0",
     "nock": "9.6.1",
     "normalizr": "3.2.4",
-    "power-assert": "1.6.0",
+    "power-assert": "1.6.1",
     "prop-types": "15.6.2",
     "react-immutable-proptypes": "2.1.0",
     "redux": "4.0.0",
