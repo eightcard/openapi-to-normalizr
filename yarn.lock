@@ -5541,9 +5541,9 @@ supports-color@^5.5.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-client@3.8.19:
-  version "3.8.19"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.19.tgz#b5505a4085eff08e50163cda623c0fe3c66027e3"
+swagger-client@3.8.21:
+  version "3.8.21"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.21.tgz#1baf4f2622f451792dc51c6d0888d38691cd6242"
   dependencies:
     "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.0"
