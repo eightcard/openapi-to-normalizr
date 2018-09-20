@@ -3896,9 +3896,9 @@ multer@^1.1.0:
     type-is "^1.6.4"
     xtend "^4.0.0"
 
-mustache@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.2.tgz#a6d4d9c3f91d13359ab889a812954f9230a3d0c5"
+mustache@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-3.0.0.tgz#3de22dd9ba38152f7355399a953dd4528c403338"
 
 mute-stream@0.0.5:
   version "0.0.5"
