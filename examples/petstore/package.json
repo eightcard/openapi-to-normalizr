@@ -12,8 +12,8 @@
     "swagger-express-mw": "^0.7.0"
   },
   "devDependencies": {
-    "should": "^13.2.1",
-    "supertest": "^3.0.0"
+    "should": "^13.2.3",
+    "supertest": "^3.3.0"
   },
   "scripts": {
     "start": "node app.js",

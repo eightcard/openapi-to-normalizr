@@ -19,9 +19,9 @@
     "swagger-client": "3.8.21"
   },
   "devDependencies": {
-    "@babel/cli": "7.0.0",
-    "@babel/core": "7.0.1",
-    "@babel/preset-env": "7.0.0",
+    "@babel/cli": "7.1.0",
+    "@babel/core": "7.1.0",
+    "@babel/preset-env": "7.1.0",
     "@babel/register": "7.0.0",
     "babel-loader": "8.0.2",
     "babel-polyfill": "6.26.0",
@@ -32,7 +32,7 @@
     "flowtype": "2.0.0",
     "immutable": "4.0.0-rc.9",
     "mocha": "5.2.0",
-    "nock": "9.6.1",
+    "nock": "10.0.0",
     "normalizr": "3.2.4",
     "power-assert": "1.6.1",
     "prop-types": "15.6.2",
@@ -40,16 +40,15 @@
     "redux": "4.0.0",
     "redux-actions": "2.6.1",
     "serve": "10.0.1",
-    "sinon": "6.3.3",
+    "sinon": "6.3.4",
     "swagger": "0.7.5",
-    "webpack": "4.19.0",
+    "webpack": "4.19.1",
     "webpack-cli": "3.1.0"
   },
   "peerDependencies": {
     "immutable": "4.0.0-rc.9",
-    "lodash": "4.17.11",
     "normalizr": "3.2.4",
-    "redux": "4.0.0",
+    "redux": "^4.0.0",
     "redux-actions": "2.6.1"
   },
   "files": [
