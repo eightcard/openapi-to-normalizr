@@ -46,10 +46,10 @@
     "webpack-cli": "3.1.1"
   },
   "peerDependencies": {
-    "immutable": "4.0.0-rc.10",
-    "normalizr": "3.2.4",
+    "immutable": "^4.0.0",
+    "normalizr": "^3.2.0",
     "redux": "^4.0.0",
-    "redux-actions": "2.6.1"
+    "redux-actions": "^2.6.0"
   },
   "files": [
     "config",
