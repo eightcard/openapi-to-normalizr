@@ -43,7 +43,7 @@
     "sinon": "6.3.4",
     "swagger": "0.7.5",
     "webpack": "4.20.2",
-    "webpack-cli": "3.1.1"
+    "webpack-cli": "3.1.2"
   },
   "peerDependencies": {
     "immutable": "^4.0.0",
