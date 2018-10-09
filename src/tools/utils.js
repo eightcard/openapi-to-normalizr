@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const _ = require('lodash');
+const reduce = require('lodash.reduce');
+const isObject = require('lodash.isobject');
 const mustache = require('mustache');
 const jsYaml = require('js-yaml');
 const cwd = process.cwd();
@@ -35,13 +36,13 @@ function parseOneOf(schema, onSchema, isV2) {
   });
 
   if (mapping) {
-    ret.mapping = _.reduce(mapping, (acc, model, key) => {
+    ret.mapping = reduce(mapping, (acc, model, key) => {
       model = parseModelName(model, isV2);
       acc[key] = schemaName(model);
       return acc;
     }, {});
   } else {
-    ret.mapping = _.reduce(components, (acc, {name, schemaName}) => {
+    ret.mapping = reduce(components, (acc, {name, schemaName}) => {
       acc[name] = schemaName;
       return acc;
     }, {});
@@ -51,7 +52,7 @@ function parseOneOf(schema, onSchema, isV2) {
 
 function parseSchema(schema, onSchema, isV2) {
   const schemasDir = getSchemaDir(isV2);
-  if (!_.isObject(schema)) return;
+  if (!isObject(schema)) return;
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
   if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
@@ -64,7 +65,7 @@ function parseSchema(schema, onSchema, isV2) {
   } else if (schema.type === 'array') {
     return applyIf(parseSchema(schema.items, onSchema, isV2), (val) => [val]);
   } else {
-    const reduced =_.reduce(schema, (ret, val, key) => {
+    const reduced =reduce(schema, (ret, val, key) => {
       const tmp = parseSchema(val, onSchema, isV2);
       if (tmp) {
         ret[key] = tmp;
@@ -94,11 +95,11 @@ function isFileExistPromise(path) {
 }
 
 function applyRequired(props, requiredList) {
-  if (!_.isArray(requiredList)) {
+  if (!Array.isArray(requiredList)) {
     return props;
   }
 
-  return _.reduce(props, (ret, prop, key) => {
+  return reduce(props, (ret, prop, key) => {
     ret[key] = prop;
     if (requiredList.includes(key)) {
       prop.required = true;
@@ -135,7 +136,7 @@ function render(template, data = {}, option = {}) {
 }
 
 function objectToTemplateValue(object) {
-  if (!_.isObject(object)) {
+  if (!isObject(object)) {
     return;
   }
   return JSON.stringify(object, null, 2).replace(/"/g, '');

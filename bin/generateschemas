@@ -7,7 +7,11 @@
 const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
-const _ = require('lodash');
+const isEmpty = require('lodash.isempty');
+const merge = require('lodash.merge');
+const each = require('lodash.foreach');
+const cloneDeep = require('lodash.clonedeep');
+const isObject = require('lodash.isobject');
 const { resolvePath, mkdirpPromise, readSpecFile, isModelDefinition } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
@@ -25,7 +29,7 @@ const defaultConfig = require(path.join(__dirname, '../config/parser-config-defa
 const config = Object.assign({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
 
-if (_.isEmpty(specFiles)) {
+if (isEmpty(specFiles)) {
   console.error('need spec files');
   process.exit(1);
 }
@@ -38,14 +42,14 @@ console.log(`
 `);
 
 const spec = specFiles.reduce((acc, file) => {
-  return _.merge(acc, readSpecFile(file));
+  return merge(acc, readSpecFile(file));
 }, {});
 
 let actionTypesGenerator, modelGenerator, schemaGenerator;
 const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
 const prepareDirs = [actionsDir, schemasDir, specDir].map((p) => mkdirpPromise(p));
 
-const rawSpec = _.cloneDeep(spec);
+const rawSpec = cloneDeep(spec);
 
 Swagger({spec}).then(({spec}) => {
   return Promise.all(prepareDirs).then(() => {
@@ -90,7 +94,7 @@ Swagger({spec}).then(({spec}) => {
 }).catch((e) => console.error(`Failed: ${e}`));
 
 function walkModels(models, onModels = []) {
-  return _.each(models, (model, name) => {
+  return each(models, (model, name) => {
     onModels.forEach((onModel) => onModel(model, name));
   });
 }
@@ -100,12 +104,12 @@ function opId(operation, path, method) {
 }
 
 function walkResponses(paths, onResponses = []) {
-  _.each(paths, (operations, path) => {
-    _.each(operations, (operation, method) => {
+  each(paths, (operations, path) => {
+    each(operations, (operation, method) => {
       if (!['GET', 'POST', 'PUT', 'DELETE'].includes(method.toUpperCase())) {
         return;
       }
-      if (!_.isObject(operation)) {
+      if (!isObject(operation)) {
         console.warn(`not processed. path:${path}, method:${method}`);
         return;
       }

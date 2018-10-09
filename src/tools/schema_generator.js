@@ -1,4 +1,7 @@
-const _ = require('lodash');
+const each = require('lodash.foreach');
+const uniq = require('lodash.uniq');
+const reduce = require('lodash.reduce');
+const snakeCase = require('lodash.snakecase');
 const path = require('path');
 const {
   applyIf, schemaName, parseSchema, objectToTemplateValue,
@@ -36,7 +39,7 @@ class SchemaGenerator {
       console.warn('need available models list'); // eslint-disable-line no-console
       return;
     }
-    _.each(responses, (response, code) => {
+    each(responses, (response, code) => {
       const contents = this.isV2 ? response : SchemaGenerator.getJsonContents(response);
       if (!contents) {
         console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
@@ -82,16 +85,16 @@ class SchemaGenerator {
 
   _prepareImportList() {
     const relative = path.relative(this.outputDir, this.modelsDir);
-    return _.uniq(this.importList).map((modelName) => {
+    return uniq(this.importList).map((modelName) => {
       return {
         name: schemaName(modelName),
-        path: path.join(relative, _.snakeCase(modelName)),
+        path: path.join(relative, snakeCase(modelName)),
       }
     });
   }
 
   get formattedSchema() {
-    return _.reduce(this.parsedObjects, (acc, schema, key) => {
+    return reduce(this.parsedObjects, (acc, schema, key) => {
       acc[key] = changeFormat(schema, this.attributeConverter);
       return acc;
     }, {});

@@ -6,7 +6,13 @@
 const path = require('path');
 const program = require('commander');
 const Swagger = require('swagger-client');
-const _ = require('lodash');
+const isEmpty = require('lodash.isempty');
+const isNil = require('lodash.isnil');
+const merge = require('lodash.merge');
+const map = require('lodash.map');
+const reduce = require('lodash.reduce');
+const uniq = require('lodash.uniq');
+const compact = require('lodash.compact');
 
 const ModelGenerator = require('../src/tools/model_generator');
 const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
@@ -22,7 +28,7 @@ const defaultConfig = require(path.join(__dirname, '../config/parser-config-defa
 const config = Object.assign({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
 
-if (_.isEmpty(specFiles)) {
+if (isEmpty(specFiles)) {
   console.error('need spec files');
   process.exit(1);
 }
@@ -34,7 +40,7 @@ const nameList = [];
 let isV2;
 
 Promise.all(specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec)))).then((models) => {
-  models = _.merge(...models);
+  models = merge(...models);
   const modelGenerator = new ModelGenerator({
     outputDir,
     outputBaseDir,
@@ -44,15 +50,15 @@ Promise.all(specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({s
     isV2, attributeConverter,
   });
   mkdirpPromise(outputBaseDir).then(() => {
-    Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
-      modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
+    Promise.all(map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
+      modelGenerator.writeIndex(uniq(compact(modelNames)));
     });
   });
 }).catch((e) => console.error(`Failed!: ${e}`));
 
 function isSpecV2(spec) {
   const isSpecV2 = spec.swagger === '2.0';
-  if (_.isNil(isV2)) {
+  if (isNil(isV2)) {
     isV2 = isSpecV2;
     return isV2;
   }
@@ -65,7 +71,7 @@ function isSpecV2(spec) {
 
 function filter(spec) {
   const models = isSpecV2(spec) ? spec.definitions : spec.components && spec.components.schemas;
-  return _.reduce(models, (acc, value, key) => {
+  return reduce(models, (acc, value, key) => {
     if (nameList.includes(key)) {
       console.warn('duplicate model', key);
       process.exit(1);

@@ -1,4 +1,10 @@
-const _ = require('lodash');
+const snakeCase = require('lodash.snakecase');
+const uniq = require('lodash.uniq');
+const map = require('lodash.map');
+const reduce = require('lodash.reduce');
+const upperCase = require('lodash.uppercase');
+const isString = require('lodash.isstring');
+const isObject = require('lodash.isobject');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
@@ -28,7 +34,7 @@ class ModelGenerator {
    */
   writeModel(model, name) {
     const {properties, required} = model;
-    const fileName = _.snakeCase(name);
+    const fileName = snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
 
@@ -40,7 +46,7 @@ class ModelGenerator {
 
   writeIndex(modelNameList) {
     const text = render(this.templates.models, {
-      models: _.uniq(modelNameList).map((name) => ({fileName: _.snakeCase(name), name})),
+      models: uniq(modelNameList).map((name) => ({fileName: snakeCase(name), name})),
     }, {
       head: this.templates.head,
     });
@@ -54,11 +60,11 @@ class ModelGenerator {
   }
 
   _prepareImportList(importList) {
-    return _.uniq(importList).map(({modelName, filePath}) => {
+    return uniq(importList).map(({modelName, filePath}) => {
       return {
         name: modelName,
         schemaName: schemaName(modelName),
-        filePath: filePath ? filePath : _.snakeCase(modelName),
+        filePath: filePath ? filePath : snakeCase(modelName),
       }
     });
   }
@@ -121,7 +127,7 @@ class ModelGenerator {
   }
 
   _convertPropForTemplate(properties, dependencySchema = {}) {
-    return _.map(properties, (prop, name) => {
+    return map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
@@ -142,8 +148,8 @@ class ModelGenerator {
   }
 
   getEnumConstantName(enumName, propertyName) {
-    const convertedName = _.upperCase(propertyName).split(' ').join('_');
-    const convertedkey = _.upperCase(enumName).split(' ').join('_');
+    const convertedName = upperCase(propertyName).split(' ').join('_');
+    const convertedkey = upperCase(enumName).split(' ').join('_');
     return `${convertedName}_${convertedkey}`;
   }
 
@@ -195,7 +201,7 @@ class ModelGenerator {
     }
 
     if (prop.type === 'object' && prop.properties) {
-      const props = _.reduce(prop.properties, (acc, value, key) => {
+      const props = reduce(prop.properties, (acc, value, key) => {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
         return acc;
       }, {});
@@ -207,16 +213,16 @@ class ModelGenerator {
 
   _generatePropTypeFromDefinition(definition) {
     let def;
-    if (_.isString(definition)) {
+    if (isString(definition)) {
       def = definition.replace(/Schema$/, '');
       return `${def}PropType`;
     }
-    if (_.isArray(definition)) {
+    if (Array.isArray(definition)) {
       def = definition[0];
       const type = this._generatePropTypeFromDefinition(def);
       return `ImmutablePropTypes.listOf(${type})`;
-    } else if (_.isObject(definition)) {
-      const type = _.reduce(definition, (acc, value, key) => {
+    } else if (isObject(definition)) {
+      const type = reduce(definition, (acc, value, key) => {
         acc[key] = this._generatePropTypeFromDefinition(value);
         return acc;
       }, {});
@@ -226,15 +232,15 @@ class ModelGenerator {
 
   _generateFlowTypeFromDefinition(definition) {
     let def;
-    if (_.isString(definition)) {
+    if (isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
-    if (_.isArray(definition)) {
+    if (Array.isArray(definition)) {
       def = definition[0];
       const type = this._generateFlowTypeFromDefinition(def);
       return `${type}[]`;
-    } else if (_.isObject(definition)) {
-      return _.reduce(definition, (acc, value, key) => {
+    } else if (isObject(definition)) {
+      return reduce(definition, (acc, value, key) => {
         acc[key] = this._generateFlowTypeFromDefinition(value);
         return acc;
       }, {});
