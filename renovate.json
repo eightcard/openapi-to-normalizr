@@ -4,5 +4,12 @@
     ":automergeMinor",
     ":label(renovate)"
   ],
-  "schedule": ["every weekend"]
+  "schedule": ["every weekend"],
+  "packageRules": [
+    {
+      "groupName": "lodash",
+      "depTypeList": ["dependencies"],
+      "packagePatterns": ["^lodash"]
+    }
+  ]
 }
