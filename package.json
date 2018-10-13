@@ -33,7 +33,7 @@
     "immutable": "4.0.0-rc.10",
     "mocha": "5.2.0",
     "nock": "10.0.1",
-    "normalizr": "3.2.4",
+    "normalizr": "3.3.0",
     "power-assert": "1.6.1",
     "prop-types": "15.6.2",
     "react-immutable-proptypes": "2.1.0",
