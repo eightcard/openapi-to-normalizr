@@ -42,7 +42,7 @@
     "serve": "10.0.2",
     "sinon": "7.0.0",
     "swagger": "0.7.5",
-    "webpack": "4.20.2",
+    "webpack": "4.21.0",
     "webpack-cli": "3.1.2"
   },
   "peerDependencies": {
