@@ -54,7 +54,7 @@ class ModelGenerator {
   }
 
   _prepareImportList(importList) {
-    return _.uniq(importList).map(({modelName, filePath}) => {
+    return _.uniqBy(importList, 'modelName').map(({modelName, filePath}) => {
       return {
         name: modelName,
         schemaName: schemaName(modelName),
