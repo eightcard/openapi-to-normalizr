@@ -22,7 +22,7 @@ const specFiles = program.args;
 
 const userConfig = program.config ? require(resolvePath(program.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
-const config = Object.assign({}, defaultConfig, userConfig);
+const config = _.merge({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
 
 if (_.isEmpty(specFiles)) {
