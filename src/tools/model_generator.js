@@ -301,7 +301,7 @@ function _getFlowTypes(type, enums) {
 }
 
 function getDefaults() {
-  if (!this.default) { return 'undefined'; }
+  if (_.isUndefined(this.default)) { return 'undefined'; }
   if (this.enumObjects) {
     for (const enumObject of this.enumObjects) {
       if (enumObject.value === this.default) return enumObject.name;
