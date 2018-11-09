@@ -51,7 +51,7 @@ export default class {{name}} extends Record(defaultValues) {
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denoromalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
+  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
     return denormalize(id, entities);
   }
 {{#props}}
