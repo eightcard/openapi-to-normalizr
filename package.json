@@ -40,7 +40,7 @@
     "redux": "4.0.1",
     "redux-actions": "2.6.4",
     "serve": "10.1.1",
-    "sinon": "7.0.0",
+    "sinon": "7.1.1",
     "swagger": "0.7.5",
     "webpack": "4.25.1",
     "webpack-cli": "3.1.2"
