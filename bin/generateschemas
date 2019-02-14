@@ -87,7 +87,10 @@ Swagger({spec}).then(({spec}) => {
     writePromises.push(actionTypesGenerator.write());
     return writePromises;
   });
-}).catch((e) => console.error(`Failed: ${e}`));
+}).catch((e) => {
+  console.error(`Failed: ${e}`);
+  process.exit(1);
+});
 
 function walkModels(models, onModels = []) {
   return _.each(models, (model, name) => {
