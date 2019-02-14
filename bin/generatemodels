@@ -43,12 +43,15 @@ Promise.all(specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({s
     useFlow: config.useFlow,
     isV2, attributeConverter,
   });
-  mkdirpPromise(outputBaseDir).then(() => {
-    Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
+  return mkdirpPromise(outputBaseDir).then(() => {
+    return Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
       modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
     });
   });
-}).catch((e) => console.error(`Failed!: ${e}`));
+}).catch((e) => {
+  console.error(`Failed!: ${e}`);
+  process.exit(1);
+});
 
 function isSpecV2(spec) {
   const isSpecV2 = spec.swagger === '2.0';
