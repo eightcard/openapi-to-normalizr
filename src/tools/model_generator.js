@@ -170,11 +170,13 @@ class ModelGenerator {
 
   generateTypeFrom(prop, definition) {
     if (prop && prop.oneOf) {
-      // for only model (ref)
-      const candidates = prop.oneOf.map((obj) => parseModelName(obj.$ref || obj.$$ref, this.isV2));
+      const candidates = prop.oneOf.map((obj) => {
+        const ref = obj.$ref || obj.$$ref;
+        return ref ? { isModel: true, type: parseModelName(ref, this.isV2) } : { isModel: false, type: obj.type };
+      });
       return {
-        propType: `PropTypes.oneOfType([${candidates.map(c => `${c}PropType`).join(', ')}])`,
-        flow: candidates.join(' | '),
+        propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
+        flow: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
@@ -285,7 +287,7 @@ function getFlowTypes() {
 function _getFlowTypes(type, enums) {
   if (enums) {
    const typeList = enums.map(() => _getFlowTypes(type));
-   return typeList.join(' | ');
+   return _.uniq(typeList).join(' | ');
   }
   switch (type) {
     case 'integer':

@@ -57,7 +57,7 @@ function parseSchema(schema, onSchema, isV2) {
   if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
     const model = parseModelName(ref, isV2);
     return onSchema({type: 'model', value: model});
-  } else if (schema.oneOf) {
+  } else if (schema.oneOf && schema.discriminator) {
     return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
   } else if (schema.type === 'object') {
     return applyIf(parseSchema(schema.properties, onSchema, isV2));
