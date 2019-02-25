@@ -29,7 +29,6 @@
     "eslint": "5.14.1",
     "flow-bin": "0.93.0",
     "flow-typed": "2.5.1",
-    "flowtype": "2.0.0",
     "immutable": "4.0.0-rc.12",
     "mocha": "5.2.0",
     "nock": "10.0.6",
