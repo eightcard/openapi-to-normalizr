@@ -1,4 +1,4 @@
-import createMiddleware from './redux-open-api';
+import createMiddleware, { HttpClient as _HttpClient } from './redux-open-api';
 import { createReducer, resetMetaCreator as _resetMetaCreator } from './entities-reducer';
 
 import * as _immutable from 'immutable';
@@ -8,9 +8,11 @@ export const normalizr = _normalizr;
 export const createOpenApiMiddleware = createMiddleware;
 export const createEntitiesReducer = createReducer;
 export const resetMetaCreator = _resetMetaCreator;
+export const HttpClient = _HttpClient;
 
 export default {
   createEntitiesReducer,
   createOpenApiMiddleware,
   immutable, normalizr,
+  HttpClient,
 };

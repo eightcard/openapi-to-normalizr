@@ -1,8 +1,9 @@
 import nock from 'nock';
 import sinon from 'sinon';
-import createMiddleware from './redux-open-api';
+import createMiddleware, { HttpClient } from './redux-open-api';
 import spec from '../../examples/petstore.v3';
 import noop from 'lodash/noop';
+import assert from 'assert';
 nock.disableNetConnect();
 
 describe('middleware', () => {
@@ -55,5 +56,21 @@ describe('middleware', () => {
     it('call action with error.', () => subject(action).then(noop, () => {
       sinon.assert.calledWith(nextFunction, sinon.match({error: true, type: 'ERROR_GET_PETS'}));
     }));
+  });
+});
+
+describe('http client', () => {
+  const res = {response: 'test response'};
+  beforeEach(() => {
+    nock(/.*/).get('/pets').reply(200, res);
+  });
+
+  it('can request', () => {
+    return HttpClient({
+      url: 'http://localhost/pets',
+    }).then((res) => {
+      assert(res.status, 200);
+      assert(res.body, res);
+    });
   });
 });

@@ -11,6 +11,8 @@ function isOpenApiAction(action) {
   return action && action.meta && action.meta.openApi;
 }
 
+export const HttpClient = Swagger.http;
+
 export default (spec, httpOptions) => {
   return Swagger({spec}).then(({apis}) => {
     const apiCache = {};
