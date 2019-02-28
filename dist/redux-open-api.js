@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.default = exports.HttpClient = void 0;
 
 var _swaggerClient = _interopRequireDefault(require("swagger-client"));
 
@@ -20,6 +20,9 @@ function getRequestBody(id, payload) {
 function isOpenApiAction(action) {
   return action && action.meta && action.meta.openApi;
 }
+
+var HttpClient = _swaggerClient.default.http;
+exports.HttpClient = HttpClient;
 
 var _default = function _default(spec, httpOptions) {
   return (0, _swaggerClient.default)({
