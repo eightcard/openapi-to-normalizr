@@ -30,7 +30,7 @@
     "flow-bin": "0.94.0",
     "flow-typed": "2.5.1",
     "immutable": "4.0.0-rc.12",
-    "mocha": "6.0.1",
+    "mocha": "6.0.2",
     "nock": "10.0.6",
     "normalizr": "3.3.0",
     "power-assert": "1.6.1",
