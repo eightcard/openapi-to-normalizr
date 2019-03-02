@@ -40,7 +40,7 @@
     "redux-actions": "2.6.4",
     "serve": "10.1.2",
     "sinon": "7.2.6",
-    "webpack": "4.29.5",
+    "webpack": "4.29.6",
     "webpack-cli": "3.2.3"
   },
   "peerDependencies": {
