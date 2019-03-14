@@ -8,7 +8,7 @@ export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
 export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   let _metaCreator = () => meta;
   if (isFunction(metaCreator)) {
     _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
