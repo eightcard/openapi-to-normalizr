@@ -41,7 +41,7 @@
     "serve": "10.1.2",
     "sinon": "7.2.7",
     "webpack": "4.29.6",
-    "webpack-cli": "3.2.3"
+    "webpack-cli": "3.3.0"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc",
