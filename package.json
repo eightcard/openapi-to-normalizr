@@ -27,7 +27,7 @@
     "babel-polyfill": "6.26.0",
     "babel-preset-power-assert": "3.0.0",
     "eslint": "5.16.0",
-    "flow-bin": "0.95.1",
+    "flow-bin": "0.96.0",
     "flow-typed": "2.5.1",
     "immutable": "4.0.0-rc.12",
     "mocha": "6.0.2",
