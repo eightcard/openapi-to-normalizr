@@ -9,11 +9,13 @@ module.exports = {
         "sourceType": "module"
     },
     "globals": {
-      // mocha
+      "jest": true,
       "describe": true,
       "it": true,
       "beforeEach": true,
-      "afterEach": true
+      "afterEach": true,
+      "test": true,
+      "expect": true
     },
     "rules": {
         "accessor-pairs": "error",
