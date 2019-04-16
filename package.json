@@ -77,7 +77,7 @@
     "mock": "swagger project start examples/petstore",
     "prepare:mock": "cd examples/petstore && yarn",
     "serve": "bin/serve examples ",
-    "test": "jest src/lib",
+    "test": "jest src/lib spec",
     "jest": "jest",
     "flow": "flow tmp"
   }
