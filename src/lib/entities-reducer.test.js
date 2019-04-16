@@ -13,17 +13,17 @@ describe('createReducer', () => {
     initialState = undefined; // eslint-disable-line no-undefined
   });
 
-  it('get reducer function', () => {
+  test('get reducer function', () => {
     assert(typeof subject() === 'function');
   });
 
-  it('can send initialState', () => {
+  test('can send initialState', () => {
     initialState = Map({foo: 'bar'});
     const reducer = subject();
     assert.deepStrictEqual(reducer(), initialState);
   });
 
-  it('reducer can reduce entities', () => {
+  test('reducer can reduce entities', () => {
     const reducer = subject();
     let state = reducer();
 
@@ -104,7 +104,7 @@ describe('createReducer', () => {
     });
   });
 
-  it('concat array', () => {
+  test('concat array', () => {
     const reducer = subject();
     const initialState = reducer(reducer(), {
       payload: {
@@ -169,7 +169,7 @@ describe('createReducer', () => {
     assert.deepStrictEqual(nextState.toJS(), expect);
   });
 
-  it('reset when reset=true', () => {
+  test('reset when reset=true', () => {
     const reducer = subject();
     const initialState = reducer(reducer(), {
       payload: {
