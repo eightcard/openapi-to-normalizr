@@ -8,7 +8,7 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFile, isModelDefinition } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise, isModelDefinition } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
@@ -37,59 +37,61 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-const spec = specFiles.reduce((acc, file) => {
-  return _.merge(acc, readSpecFile(file));
-}, {});
+Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
+  const spec = _.merge(...schemas);
 
-let actionTypesGenerator, modelGenerator, schemaGenerator;
-const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
-const prepareDirs = [actionsDir, schemasDir, specDir].map((p) => mkdirpPromise(p));
+  let actionTypesGenerator, modelGenerator, schemaGenerator;
+  const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
+  const prepareDirs = [actionsDir, schemasDir, specDir].map((p) => mkdirpPromise(p));
 
-const rawSpec = _.cloneDeep(spec);
+  return Swagger({spec}).then(({spec}) => {
+    return Promise.all(prepareDirs).then(() => {
+      const isV2 = spec.swagger === '2.0';
+      const models = isV2 ? spec.definitions : spec.components.schemas;
+      const writePromises = [];
+      const modelNameList = [];
+      const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
+      modelGenerator = new ModelGenerator({
+        templatePath: config.templates,
+        usePropType: config.usePropType,
+        useFlow: config.useFlow,
+        isV2, attributeConverter,
+      });
+      const onModel = (model, name) => {
+        if (isModelDefinition(model, name) && !modelNameList.includes(name)) {
+          modelNameList.push(name);
+        }
+      };
+      walkModels(models, [onModel]);
 
-Swagger({spec}).then(({spec}) => {
-  return Promise.all(prepareDirs).then(() => {
-    const isV2 = spec.swagger === '2.0';
-    const models = isV2 ? spec.definitions : spec.components.schemas;
-    const writePromises = [];
-    writePromises.push((new JsSpecGenerator({
+      actionTypesGenerator = new ActionTypesGenerator({
+        outputPath: config.outputPath.actions,
+        templatePath: config.templates,
+        schemasFilePath: config.outputPath.schemas,
+      });
+      schemaGenerator = new SchemaGenerator({
+        outputPath: config.outputPath.schemas,
+        templatePath: config.templates,
+        modelsDir: config.modelsDir, modelNameList, isV2, attributeConverter,
+      });
+      walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
+      writePromises.push(schemaGenerator.write());
+      writePromises.push(actionTypesGenerator.write());
+      return writePromises;
+    });
+  }).catch((e) => {
+    console.error(`Failed: ${e}`);
+    process.exit(1);
+  });
+}).then(() => {
+  // no need dereference for js spec file
+  return Promise.all(specFiles.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
+    const spec = _.merge(...schemas);
+    return (new JsSpecGenerator({
       templatePath: config.templates,
       outputPath: config.outputPath.jsSpec,
-    })).write(rawSpec));
-
-    const modelNameList = [];
-    const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
-    modelGenerator = new ModelGenerator({
-      templatePath: config.templates,
-      usePropType: config.usePropType,
-      useFlow: config.useFlow,
-      isV2, attributeConverter,
-    });
-    const onModel = (model, name) => {
-      if (isModelDefinition(model, name) && !modelNameList.includes(name)) {
-        modelNameList.push(name);
-      }
-    };
-    walkModels(models, [onModel]);
-
-    actionTypesGenerator = new ActionTypesGenerator({
-      outputPath: config.outputPath.actions,
-      templatePath: config.templates,
-      schemasFilePath: config.outputPath.schemas,
-    });
-    schemaGenerator = new SchemaGenerator({
-      outputPath: config.outputPath.schemas,
-      templatePath: config.templates,
-      modelsDir: config.modelsDir, modelNameList, isV2, attributeConverter,
-    });
-    walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
-    writePromises.push(schemaGenerator.write());
-    writePromises.push(actionTypesGenerator.write());
-    return writePromises;
+    })).write(spec);
   });
-}).catch((e) => {
-  console.error(`Failed: ${e}`);
-  process.exit(1);
 });
 
 function walkModels(models, onModels = []) {
