@@ -64,6 +64,7 @@ components:
             - Cat
     Owner:
       type: object
+      x-id-attribute: name
       properties:
         name:
           description: owner's name
