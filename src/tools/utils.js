@@ -55,7 +55,8 @@ function parseSchema(schema, onSchema, isV2) {
   if (!_.isObject(schema)) return;
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
-  if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
+  const matcher = new RegExp(`${schemasDir}[^/]*$`); // allow only model name
+  if (ref && ref.match(matcher) && isModelDefinition(schema)) {
     const model = parseModelName(ref, isV2);
     return onSchema({type: 'model', value: model});
   } else if (schema.oneOf && schema.discriminator) {
