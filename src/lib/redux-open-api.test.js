@@ -1,5 +1,4 @@
 import nock from 'nock';
-import sinon from 'sinon';
 import createMiddleware, { HttpClient } from './redux-open-api';
 import spec from '../../examples/petstore.v3';
 import noop from 'lodash/noop';
@@ -7,7 +6,7 @@ import assert from 'assert';
 nock.disableNetConnect();
 
 describe('middleware', () => {
-  const nextFunction = sinon.spy();
+  const nextFunction = jest.fn();
   const subject = (...args) => {
     return createMiddleware(spec).then((middleware) => {
       return middleware()(nextFunction)(...args);
@@ -16,8 +15,8 @@ describe('middleware', () => {
 
   describe('not open api action', () => {
     const action = 'foo';
-    it('call next action.', () => subject(action).then(() => {
-      sinon.assert.calledWith(nextFunction, action);
+    test('call next action.', () => subject(action).then(() => {
+      expect(nextFunction).toBeCalledWith(action);
     }));
   });
 
@@ -33,9 +32,9 @@ describe('middleware', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(200, {response: 'test response'});
     });
-    it('call action with response.', () => subject(action).then(() => {
-      const expect = Object.assign(action, {payload: {entities: {}, result: {response: 'test response'}}});
-      sinon.assert.calledWith(nextFunction, expect);
+    test('call action with response.', () => subject(action).then(() => {
+      const expected = Object.assign(action, {payload: {entities: {}, result: {response: 'test response'}}});
+      expect(nextFunction).toBeCalledWith(expected);
     }));
   });
 
@@ -43,9 +42,9 @@ describe('middleware', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(202, {response: 'no schema'});
     });
-    it('call action with response.', () => subject(action).then(() => {
-      const expect = Object.assign(action, {payload: {response: 'no schema'}});
-      sinon.assert.calledWith(nextFunction, expect);
+    test('call action with response.', () => subject(action).then(() => {
+      const expected = Object.assign(action, {payload: {response: 'no schema'}});
+      expect(nextFunction).toBeCalledWith(expected);
     }));
   });
 
@@ -53,8 +52,8 @@ describe('middleware', () => {
     beforeEach(() => {
       nock(/.*/).get('/pets').reply(400);
     });
-    it('call action with error.', () => subject(action).then(noop, () => {
-      sinon.assert.calledWith(nextFunction, sinon.match({error: true, type: 'ERROR_GET_PETS'}));
+    test('call action with error.', () => subject(action).then(noop, () => {
+      expect(nextFunction.mock.calls[0][0]).toMatchObject({error: true, type: 'ERROR_GET_PETS'});
     }));
   });
 });
@@ -65,7 +64,7 @@ describe('http client', () => {
     nock(/.*/).get('/pets').reply(200, res);
   });
 
-  it('can request', () => {
+  test('can request', () => {
     return HttpClient({
       url: 'http://localhost/pets',
     }).then((res) => {

@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`model generator spec from json schema ref 1`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_DOG: string = 'Dog';
+export const KIND_CAT: string = 'Cat';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+};
+
+export const schema = new _schema.Entity('Pet', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Pet's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Pet extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/pet.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+import Pet&#x2F;properties&#x2F;id, { schema as Pet&#x2F;properties&#x2F;idSchema } from './pet_properties_id';
+
+export const KIND_DOG: string = 'Dog';
+export const KIND_CAT: string = 'Cat';
+
+const defaultValues = {
+  id: undefined,
+  name: undefined,
+  kind: undefined,
+  owner: undefined,
+};
+
+export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
+schema.define({
+  id: Pet&#x2F;properties&#x2F;idSchema
+});
+
+
+/**
+ * @params ids : WrappedPet's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class WrappedPet extends Record(defaultValues) {
+  id: Pet/properties/id;
+  name: string;
+  kind: string;
+  owner: any;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/wrapped_pet.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 3`] = `
+Object {
+  "output": "/**
+ * generated from API definition file
+ */
+
+import WrappedPet from './wrapped_pet';
+import Pet from './pet';
+
+export {
+  WrappedPet,
+  Pet,
+};
+",
+  "path": "tmp/index.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 4`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Pet from './base/pet';
+export * from './base/pet';
+
+export default class Pet extends _Pet {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/pet.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _WrappedPet from './base/wrapped_pet';
+export * from './base/wrapped_pet';
+
+export default class WrappedPet extends _WrappedPet {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/wrapped_pet.js",
+}
+`;

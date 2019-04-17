@@ -1,0 +1,77 @@
+---
+openapi: '3.0.0'
+info:
+  title: JSON schema ref spec
+  version: 1.0.0
+paths:
+  /pets/{id}:
+    get:
+      description: |
+        get pet
+      parameters:
+        - description: pet id
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          $ref: '#/components/responses/PetResponse'
+components:
+  responses:
+    PetResponse:
+      description: a pet response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WrappedPet'
+  schemas:
+    WrappedPet:
+      description: Wrapped pet
+      type: object
+      required:
+        - id
+        - name
+        - kind
+        - owner
+      properties:
+        id:
+          $ref: './only_components.yml#/components/schemas/Pet/properties/id'
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/Pet/properties/kind'
+        owner:
+          $ref: '#/components/schemas/Owner'
+    Pet:
+      description: Pet
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: pet id
+          type: integer
+          format: int64
+        kind:
+          description: kind of pet
+          type: string
+          enum:
+            - Dog
+            - Cat
+    Owner:
+      type: object
+      properties:
+        name:
+          description: owner's name
+          type: string
+        gender:
+          description: owner's gender
+          type: string
+          enum:
+            - male
+            - female
+            - other
