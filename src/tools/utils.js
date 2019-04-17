@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const mustache = require('mustache');
 const jsYaml = require('js-yaml');
+const $RefParser = require('json-schema-ref-parser');
 const cwd = process.cwd();
 const now = new Date();
 
@@ -141,9 +142,20 @@ function objectToTemplateValue(object) {
   return JSON.stringify(object, null, 2).replace(/"/g, '');
 }
 
-function readSpecFile(path) {
+function readSpecFilePromise(path, options = {}) {
   const data = fs.readFileSync(path, 'utf8');
-  return jsYaml.safeLoad(data);
+  const original = jsYaml.safeLoad(data);
+  if (!options.dereference) return Promise.resolve(original);
+  return new Promise((resolve, reject) => {
+    $RefParser.dereference(path, (err, schema) => {
+      schema = _.merge(original, schema);
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(schema);
+    });
+  });
 }
 
 function changeFormat(obj, transformer) {
@@ -201,7 +213,7 @@ module.exports = {
   applyRequired,
   render,
   objectToTemplateValue,
-  readSpecFile,
+  readSpecFilePromise,
   getSchemaDir,
   changeFormat,
   getIdAttribute,
