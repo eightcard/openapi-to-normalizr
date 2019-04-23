@@ -12,6 +12,48 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
+export const GENDER_MALE: string = 'male';
+export const GENDER_FEMALE: string = 'female';
+export const GENDER_OTHER: string = 'other';
+
+const defaultValues = {
+  name: undefined,
+  gender: undefined,
+};
+
+export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+
+
+/**
+ * @params ids : Owner's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Owner extends Record(defaultValues) {
+  name: string;
+  gender: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/owner.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
 export const KIND_DOG: string = 'Dog';
 export const KIND_CAT: string = 'Cat';
 
@@ -41,7 +83,7 @@ export default class Pet extends Record(defaultValues) {
 }
 `;
 
-exports[`model generator spec from json schema ref 2`] = `
+exports[`model generator spec from json schema ref 3`] = `
 Object {
   "output": "/* eslint-disable */
 // @flow
@@ -52,7 +94,7 @@ Object {
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import Pet&#x2F;properties&#x2F;id, { schema as Pet&#x2F;properties&#x2F;idSchema } from './pet_properties_id';
+import Owner, { schema as OwnerSchema } from './owner';
 
 export const KIND_DOG: string = 'Dog';
 export const KIND_CAT: string = 'Cat';
@@ -66,7 +108,7 @@ const defaultValues = {
 
 export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
 schema.define({
-  id: Pet&#x2F;properties&#x2F;idSchema
+  owner: OwnerSchema
 });
 
 
@@ -77,10 +119,10 @@ schema.define({
 export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 
 export default class WrappedPet extends Record(defaultValues) {
-  id: Pet/properties/id;
+  id: number;
   name: string;
   kind: string;
-  owner: any;
+  owner: Owner;
   static denormalize(id: number[] | string[], entities: any) {
     return denormalize(id, entities);
   }
@@ -90,7 +132,7 @@ export default class WrappedPet extends Record(defaultValues) {
 }
 `;
 
-exports[`model generator spec from json schema ref 3`] = `
+exports[`model generator spec from json schema ref 4`] = `
 Object {
   "output": "/**
  * generated from API definition file
@@ -98,17 +140,40 @@ Object {
 
 import WrappedPet from './wrapped_pet';
 import Pet from './pet';
+import Owner from './owner';
 
 export {
   WrappedPet,
   Pet,
+  Owner,
 };
 ",
   "path": "tmp/index.js",
 }
 `;
 
-exports[`model generator spec from json schema ref 4`] = `
+exports[`model generator spec from json schema ref 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Owner from './base/owner';
+export * from './base/owner';
+
+export default class Owner extends _Owner {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/owner.js",
+}
+`;
+
+exports[`model generator spec from json schema ref 6`] = `
 Object {
   "output": "/* eslint-disable comma-dangle */
 /**
@@ -129,7 +194,7 @@ export default class Pet extends _Pet {
 }
 `;
 
-exports[`model generator spec from json schema ref 5`] = `
+exports[`model generator spec from json schema ref 7`] = `
 Object {
   "output": "/* eslint-disable comma-dangle */
 /**

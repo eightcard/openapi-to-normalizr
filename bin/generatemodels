@@ -9,7 +9,7 @@ const Swagger = require('swagger-client');
 const _ = require('lodash');
 
 const ModelGenerator = require('../src/tools/model_generator');
-const { resolvePath, mkdirpPromise, readSpecFile } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise } = require('../src/tools/utils');
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -33,7 +33,7 @@ const attributeConverter = config.attributeConverter ? config.attributeConverter
 const nameList = [];
 let isV2;
 
-Promise.all(specFiles.map((file) => Swagger({spec: readSpecFile(file)}).then(({spec}) => filter(spec)))).then((models) => {
+Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true}).then((schema) => Swagger({ spec: schema })).then(({ spec }) => filter(spec)))).then((models) => {
   models = _.merge(...models);
   const modelGenerator = new ModelGenerator({
     outputDir,

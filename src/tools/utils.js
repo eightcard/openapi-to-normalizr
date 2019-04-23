@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const mustache = require('mustache');
 const jsYaml = require('js-yaml');
+const $RefParser = require('json-schema-ref-parser');
 const cwd = process.cwd();
 const now = new Date();
 
@@ -54,7 +55,8 @@ function parseSchema(schema, onSchema, isV2) {
   if (!_.isObject(schema)) return;
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
-  if (ref && ref.match(schemasDir) && isModelDefinition(schema)) {
+  const matcher = new RegExp(`${schemasDir}[^/]*$`); // allow only model name
+  if (ref && ref.match(matcher) && isModelDefinition(schema)) {
     const model = parseModelName(ref, isV2);
     return onSchema({type: 'model', value: model});
   } else if (schema.oneOf && schema.discriminator) {
@@ -141,9 +143,20 @@ function objectToTemplateValue(object) {
   return JSON.stringify(object, null, 2).replace(/"/g, '');
 }
 
-function readSpecFile(path) {
+function readSpecFilePromise(path, options = {}) {
   const data = fs.readFileSync(path, 'utf8');
-  return jsYaml.safeLoad(data);
+  const original = jsYaml.safeLoad(data);
+  if (!options.dereference) return Promise.resolve(original);
+  return new Promise((resolve, reject) => {
+    $RefParser.dereference(path, (err, schema) => {
+      schema = _.merge(original, schema);
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(schema);
+    });
+  });
 }
 
 function changeFormat(obj, transformer) {
@@ -201,7 +214,7 @@ module.exports = {
   applyRequired,
   render,
   objectToTemplateValue,
-  readSpecFile,
+  readSpecFilePromise,
   getSchemaDir,
   changeFormat,
   getIdAttribute,
