@@ -3,9 +3,21 @@ openapi: '3.0.0'
 info:
   title: JSON schema ref spec
   version: 1.0.0
+  contact: 
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+tags:
+  - name: pet
+    description: pet API
+  - name: default
+    description: default API
 paths:
   /pets/{id}:
     get:
+      tags:
+        - pet
+      operationId: getPet
       description: |
         get pet
       parameters:
