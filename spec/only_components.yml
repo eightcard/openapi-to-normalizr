@@ -3,6 +3,14 @@ openapi: '3.0.0'
 info:
   title: only components
   version: 1.0.0
+  contact: 
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+tags:
+  - name: default
+    description: default API
+paths: {}
 components:
   schemas:
     Pet:

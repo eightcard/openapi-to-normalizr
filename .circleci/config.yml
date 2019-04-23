@@ -23,6 +23,21 @@ jobs:
           key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
+  lint:
+    docker:
+      - <<: *base_image
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v2-{{ .Branch }}
+            - yarn-packages-v2-master
+            - yarn-packages-v2-
+      - run:
+          name: Spec lint
+          command: yarn speclint
   test:
     docker:
       - <<: *base_image
@@ -43,6 +58,9 @@ workflows:
   test:
     jobs:
       - npm_install
+      - lint:
+          requires:
+            - npm_install
       - test:
           requires:
             - npm_install
