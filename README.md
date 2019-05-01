@@ -17,11 +17,7 @@ $ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
 ### generate code
 
 - prepare your yaml file.
-- generate models
-  ```bash
-  % $(npm bin)/openapi2models --config config.js foo.yml
-  ```
-- generate schemas (and actionTypes.js, schema.js)
+- generate schemas (and actionTypes.js, schema.js, models)
   ```bash
   % $(npm bin)/openapi2schemas --config config.js foo.yml
   ```

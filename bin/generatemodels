@@ -20,6 +20,7 @@ const specFiles = program.args;
 const userConfig = program.config ? require(resolvePath(program.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
 const config = _.merge({}, defaultConfig, userConfig);
+console.error('deprecated: use openapi2schemas');
 console.info(`parse file: ${specFiles}`);
 
 if (_.isEmpty(specFiles)) {

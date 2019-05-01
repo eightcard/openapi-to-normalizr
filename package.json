@@ -7,7 +7,6 @@
     "url": "github.com/eightcard/openapi-to-normalizr"
   },
   "bin": {
-    "openapi2models": "./bin/generatemodels",
     "openapi2schemas": "./bin/generateschemas"
   },
   "dependencies": {
