@@ -28,11 +28,12 @@ function parseModelName(name, isV2) {
 function parseOneOf(schema, onSchema, isV2) {
   const {propertyName, mapping} = schema.discriminator;
   const ret = {propertyName};
-  const components = schema.oneOf.map((ref) => {
-    ref = ref['$$ref'] || ref['$ref'];
-    const model = parseModelName(ref, isV2);
-    onSchema({type: 'model', value: model}); // for import list
-    return {name: model, schemaName: schemaName(model)};
+  const components = schema.oneOf.map((model) => {
+    const ref = model['$$ref'] || model['$ref'];
+    const modelName = parseModelName(ref, isV2);
+    model.__modelName = modelName;
+    onSchema({type: 'model', value: model});
+    return {name: modelName, schemaName: schemaName(modelName)};
   });
 
   if (mapping) {
@@ -56,9 +57,9 @@ function parseSchema(schema, onSchema, isV2) {
 
   const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
   const matcher = new RegExp(`${schemasDir}[^/]*$`); // allow only model name
-  if (ref && ref.match(matcher) && isModelDefinition(schema)) {
-    const model = parseModelName(ref, isV2);
-    return onSchema({type: 'model', value: model});
+  if (ref && ref.match(matcher) && getIdAttribute(schema)) {
+    schema.__modelName = parseModelName(ref, isV2);
+    return onSchema({type: 'model', value: schema});
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
   } else if (schema.type === 'object') {
@@ -194,14 +195,6 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function isModelDefinition(model, name) {
-  if (model['$ref'] && !model['$$ref']) {
-    // cannot check because of no dereferenced
-    return true;
-  }
-  return Boolean(getIdAttribute(model, name));
-}
-
 module.exports = {
   resolvePath,
   mkdirpPromise,
@@ -218,6 +211,5 @@ module.exports = {
   getSchemaDir,
   changeFormat,
   getIdAttribute,
-  isModelDefinition,
   parseModelName,
 };

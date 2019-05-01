@@ -83,8 +83,12 @@ class ModelGenerator {
     let oneOfsCounter = 1;
     const dependencySchema = parseSchema(properties, ({type, value}) => {
       if (type === 'model') {
-        importList.push({modelName: value});
-        return schemaName(value);
+        const modelName = value.__modelName;
+        if (getIdAttribute(value, modelName)) {
+          importList.push({ modelName });
+          this.writeModel(value, modelName);
+          return schemaName(modelName);
+        }
       }
       if (type === 'oneOf') {
         const key = `oneOfSchema${oneOfsCounter++}`;
