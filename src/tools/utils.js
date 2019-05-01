@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const _ = require('lodash');
@@ -12,6 +13,10 @@ function schemaName(modelName) {
   return `${modelName}Schema`;
 }
 
+function getModelName(schema) {
+  return schema && schema['x-model-name'];
+}
+
 function applyIf(data, applyFn = (val) => val) {
   return data && applyFn(data);
 }
@@ -20,26 +25,19 @@ function getSchemaDir(isV2) {
   return isV2 ? '#/definitions/' : '#/components/schemas/';
 }
 
-function parseModelName(name, isV2) {
-  const schemasDir = getSchemaDir(isV2);
-  return name.split(schemasDir).pop();
-}
-
-function parseOneOf(schema, onSchema, isV2) {
+function parseOneOf(schema, onSchema) {
   const {propertyName, mapping} = schema.discriminator;
   const ret = {propertyName};
   const components = schema.oneOf.map((model) => {
-    const ref = model['$$ref'] || model['$ref'];
-    const modelName = parseModelName(ref, isV2);
-    model.__modelName = modelName;
+    const modelName = getModelName(model);
     onSchema({type: 'model', value: model});
-    return {name: modelName, schemaName: schemaName(modelName)};
+    return {name: modelName, schemaName: schemaName(modelName), value: model};
   });
 
   if (mapping) {
     ret.mapping = _.reduce(mapping, (acc, model, key) => {
-      model = parseModelName(model, isV2);
-      acc[key] = schemaName(model);
+      const { schemaName } = _.find(components, ({ value }) => value['$ref'] === model || value['$$ref'] === model);
+      acc[key] = schemaName;
       return acc;
     }, {});
   } else {
@@ -52,13 +50,10 @@ function parseOneOf(schema, onSchema, isV2) {
 }
 
 function parseSchema(schema, onSchema, isV2) {
-  const schemasDir = getSchemaDir(isV2);
   if (!_.isObject(schema)) return;
 
-  const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
-  const matcher = new RegExp(`${schemasDir}[^/]*$`); // allow only model name
-  if (ref && ref.match(matcher) && getIdAttribute(schema)) {
-    schema.__modelName = parseModelName(ref, isV2);
+  const modelName = getModelName(schema);
+  if (modelName && getIdAttribute(schema)) {
     return onSchema({type: 'model', value: schema});
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
@@ -120,6 +115,10 @@ function mkdirpPromise(dir) {
 
 function writeFilePromise(path, data) {
   return new Promise((resolve, reject) => fs.writeFile(path, data, (err) => err ? reject(err) : resolve()));
+}
+
+function writeFile(path, data) {
+  return fs.writeFileSync(path, data);
 }
 
 function readTemplates(keys = [], templatePath) {
@@ -195,6 +194,36 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
+function appendModelName(specFiles) {
+  const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
+  const backupMap = {};
+  const definitions = {};
+  specFiles.forEach((filePath) => {
+    const target = path.join(tmpDir, filePath.split(path.sep).join('_'));
+    fs.copyFileSync(filePath, target);
+    backupMap[filePath] = target;
+  });
+
+  specFiles.forEach((filePath) => {
+    const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
+    const schemas = spec.components && spec.components.schemas;
+    if (schemas) {
+      _.each(schemas, (model, name) => {
+        model['x-model-name'] = name;
+        definitions[name] = model;
+      });
+      fs.writeFileSync(filePath, jsYaml.safeDump(spec));
+    }
+  });
+  return { backupMap, definitions };
+}
+
+function restoreSpecFiles(backupMap) {
+  _.each(backupMap, (target, original) => {
+    fs.copyFileSync(target, original);
+  });
+}
+
 module.exports = {
   resolvePath,
   mkdirpPromise,
@@ -211,5 +240,8 @@ module.exports = {
   getSchemaDir,
   changeFormat,
   getIdAttribute,
-  parseModelName,
+  getModelName,
+  writeFile,
+  appendModelName,
+  restoreSpecFiles,
 };

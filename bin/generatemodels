@@ -9,7 +9,7 @@ const Swagger = require('swagger-client');
 const _ = require('lodash');
 
 const ModelGenerator = require('../src/tools/model_generator');
-const { resolvePath, mkdirpPromise, readSpecFilePromise } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise, appendModelName, restoreSpecFiles } = require('../src/tools/utils');
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -33,6 +33,7 @@ const outputBaseDir = `${outputDir}/base`;
 const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 const nameList = [];
 let isV2;
+const { backupMap, definitions } = appendModelName(specFiles);
 
 Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true}).then((schema) => Swagger({ spec: schema })).then(({ spec }) => filter(spec)))).then((models) => {
   models = _.merge(...models);
@@ -43,14 +44,16 @@ Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true
     usePropType: config.usePropType,
     useFlow: config.useFlow,
     isV2, attributeConverter,
+    definitions,
   });
   return mkdirpPromise(outputBaseDir).then(() => {
     return Promise.all(_.map(models, (model, name) => modelGenerator.writeModel(model, name))).then((modelNames) => {
       modelGenerator.writeIndex(_.uniq(_.compact(modelNames)));
     });
-  });
+  }).then(() => restoreSpecFiles(backupMap));
 }).catch((e) => {
   console.error(`Failed!: ${e}`);
+  restoreSpecFiles(backupMap);
   process.exit(1);
 });
 

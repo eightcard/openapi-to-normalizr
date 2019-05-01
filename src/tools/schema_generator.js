@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const path = require('path');
 const {
-  applyIf, schemaName, parseSchema, objectToTemplateValue,
+  applyIf, schemaName, parseSchema, objectToTemplateValue, getModelName,
   readTemplates, writeFilePromise, render, changeFormat, getIdAttribute,
 } = require('./utils');
 
@@ -23,7 +23,7 @@ class SchemaGenerator {
     this.attributeConverter = attributeConverter;
     this.templates = readTemplates(['schema', 'head', 'oneOf'], this.templatePath);
     this.parsedObjects = {};
-    this.modelNameList = [];
+    this._importModels = [];
     this.oneOfs = [];
     this.parse = this.parse.bind(this);
     this.write = this.write.bind(this);
@@ -31,7 +31,7 @@ class SchemaGenerator {
 
   /**
    * API(id)ごとのスキーマをパース
-   * - 内部でモデルは書き出し
+   * - 内部でモデル情報をメモ
    */
   parse(id, responses) {
     _.each(responses, (response, code) => {
@@ -43,10 +43,9 @@ class SchemaGenerator {
 
       const onSchema = ({type, value}) => {
         if (type === 'model') {
-          const modelName = value.__modelName;
+          const modelName = getModelName(value);
           if (getIdAttribute(value, modelName)) {
-            this.modelNameList.push(modelName);
-            this.modelGenerator.writeModel(value, modelName); // できれば準備処理だけにしてwriteで結果を書き出したい
+            this._importModels.push({ modelName, model: value });
             return schemaName(modelName);
           }
         }
@@ -71,7 +70,8 @@ class SchemaGenerator {
   write() {
     return Promise.all([
       this._writeSchemaFile(),
-      this.modelGenerator.writeIndex(this.modelNameList),
+      this.importModels.map(({ modelName, model }) => this.modelGenerator.writeModel(model, modelName)),
+      this.modelGenerator.writeIndex(),
     ]);
   }
 
@@ -91,12 +91,16 @@ class SchemaGenerator {
 
   _prepareImportList() {
     const relative = path.relative(this.outputDir, this.modelsDir);
-    return _.uniq(this.modelNameList).map((modelName) => {
+    return this.importModels.map(({ modelName }) => {
       return {
         name: schemaName(modelName),
         path: path.join(relative, _.snakeCase(modelName)),
       }
     });
+  }
+
+  get importModels() {
+    return _.uniqBy(this._importModels, 'modelName');
   }
 
   get formattedSchema() {

@@ -502,3 +502,342 @@ export default class Owner extends _Owner {
   "path": "tmp/owner.js",
 }
 `;
+
+exports[`schema generator spec from json schema ref 1`] = `
+Object {
+  "output": "/* eslint-disable no-underscore-dangle */
+/**
+ * generated from API definition file
+ */
+
+import isFunction from 'lodash/isFunction';
+import { createAction } from 'redux-actions';
+import schemas from '../schemas/sample_schema';
+export const GET_PETS__ID_ = 'GET_PETS__ID_';
+
+export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  let _metaCreator = () => meta;
+  if (isFunction(metaCreator)) {
+    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
+  }
+  return createAction(id, payloadCreator, _metaCreator);
+}
+",
+  "path": "tmp/action_types/sample.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const GENDER_MALE: string = 'male';
+export const GENDER_FEMALE: string = 'female';
+export const GENDER_OTHER: string = 'other';
+
+const defaultValues = {
+  name: undefined,
+  gender: undefined,
+};
+
+export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+
+
+/**
+ * @params ids : Owner's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Owner extends Record(defaultValues) {
+  name: string;
+  gender: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/owner.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 3`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+import Owner, { schema as OwnerSchema } from './owner';
+
+export const KIND_DOG: string = 'Dog';
+export const KIND_CAT: string = 'Cat';
+
+const defaultValues = {
+  id: undefined,
+  name: undefined,
+  kind: undefined,
+  owner: undefined,
+};
+
+export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
+schema.define({
+  owner: OwnerSchema
+});
+
+
+/**
+ * @params ids : WrappedPet's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class WrappedPet extends Record(defaultValues) {
+  id: number;
+  name: string;
+  kind: string;
+  owner: Owner;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/wrapped_pet.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 4`] = `
+Object {
+  "output": "/**
+ * generated from API definition file
+ */
+
+import WrappedPet from './wrapped_pet';
+import Owner from './owner';
+
+export {
+  WrappedPet,
+  Owner,
+};
+",
+  "path": "tmp/index.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Owner from './base/owner';
+export * from './base/owner';
+
+export default class Owner extends _Owner {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/owner.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 6`] = `
+Object {
+  "output": "/* eslint-disable quotes,comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+export default {
+  \\"openapi\\": \\"3.0.0\\",
+  \\"info\\": {
+    \\"title\\": \\"only components\\",
+    \\"version\\": \\"1.0.0\\",
+    \\"contact\\": {
+      \\"name\\": \\"API Support\\",
+      \\"url\\": \\"http://www.example.com/support\\",
+      \\"email\\": \\"support@example.com\\"
+    }
+  },
+  \\"tags\\": [
+    {
+      \\"name\\": \\"default\\",
+      \\"description\\": \\"default API\\"
+    },
+    {
+      \\"name\\": \\"default\\",
+      \\"description\\": \\"default API\\"
+    }
+  ],
+  \\"paths\\": {
+    \\"/pets/{id}\\": {
+      \\"get\\": {
+        \\"tags\\": [
+          \\"pet\\"
+        ],
+        \\"operationId\\": \\"getPet\\",
+        \\"description\\": \\"get pet\\\\n\\",
+        \\"parameters\\": [
+          {
+            \\"description\\": \\"pet id\\",
+            \\"name\\": \\"id\\",
+            \\"in\\": \\"path\\",
+            \\"required\\": true,
+            \\"schema\\": {
+              \\"type\\": \\"integer\\",
+              \\"format\\": \\"int64\\"
+            }
+          }
+        ],
+        \\"responses\\": {
+          \\"200\\": {
+            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+          }
+        }
+      }
+    }
+  },
+  \\"components\\": {
+    \\"responses\\": {
+      \\"PetResponse\\": {
+        \\"description\\": \\"a pet response\\",
+        \\"content\\": {
+          \\"application/json\\": {
+            \\"schema\\": {
+              \\"$ref\\": \\"#/components/schemas/WrappedPet\\"
+            }
+          }
+        }
+      }
+    },
+    \\"schemas\\": {
+      \\"WrappedPet\\": {
+        \\"description\\": \\"Wrapped pet\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"name\\",
+          \\"kind\\",
+          \\"owner\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"$ref\\": \\"./only_components.yml#/components/schemas/Pet/properties/id\\"
+          },
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"kind\\": {
+            \\"$ref\\": \\"#/components/schemas/Pet/properties/kind\\"
+          },
+          \\"owner\\": {
+            \\"$ref\\": \\"#/components/schemas/Owner\\"
+          }
+        }
+      },
+      \\"Pet\\": {
+        \\"description\\": \\"Pet\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"name\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"description\\": \\"pet id\\",
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"description\\": \\"kind of pet\\",
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"Dog\\",
+              \\"Cat\\"
+            ]
+          }
+        }
+      },
+      \\"Owner\\": {
+        \\"type\\": \\"object\\",
+        \\"x-id-attribute\\": \\"name\\",
+        \\"properties\\": {
+          \\"name\\": {
+            \\"description\\": \\"owner's name\\",
+            \\"type\\": \\"string\\"
+          },
+          \\"gender\\": {
+            \\"description\\": \\"owner's gender\\",
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"male\\",
+              \\"female\\",
+              \\"other\\"
+            ]
+          }
+        }
+      }
+    }
+  }
+};
+",
+  "path": "tmp/sample_api.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 7`] = `
+Object {
+  "output": "/* eslint-disable */
+/**
+ * generated from API definition file
+ */
+
+import { schema as WrappedPetSchema } from './../wrapped_pet';
+
+export default {
+  get_pets__id_: {
+    200: WrappedPetSchema
+  }
+};
+",
+  "path": "tmp/schemas/sample_schema.js",
+}
+`;
+
+exports[`schema generator spec from json schema ref 8`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _WrappedPet from './base/wrapped_pet';
+export * from './base/wrapped_pet';
+
+export default class WrappedPet extends _WrappedPet {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/wrapped_pet.js",
+}
+`;

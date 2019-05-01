@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, parseModelName,
+  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, getModelName, writeFile,
 } = require('./utils');
 
 /**
@@ -10,7 +10,7 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, attributeConverter = str => str}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
@@ -18,9 +18,11 @@ class ModelGenerator {
     this.useFlow = useFlow;
     this.usePropType = usePropType;
     this.attributeConverter = attributeConverter;
+    this.definitions = definitions;
     this.templates = readTemplates(['model', 'models', 'override', 'head', 'dependency', 'oneOf'], this.templatePath);
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
+    this._modelNameList = [];
   }
 
   /**
@@ -29,18 +31,20 @@ class ModelGenerator {
    * - Promiseでモデル名(Petなど)を返す
    */
   writeModel(model, name) {
-    const {properties, required} = model;
+    const {properties, required} = model; // dereferenced
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
+    const baseRequired = this.definitions[name] && this.definitions[name].required;
+    this._modelNameList.push(name);
 
-    const {text, props} = this._renderBaseModel(name, applyRequired(properties, required), idAttribute);
-    return writeFilePromise(path.join(this.outputBaseDir, `${fileName}.js`), text).then(() => {
+    return this._renderBaseModel(name, applyRequired(properties, baseRequired || required), idAttribute).then(({ text, props }) => {
+      writeFile(path.join(this.outputBaseDir, `${fileName}.js`), text);
       return this._writeOverrideModel(name, fileName, props).then(() => name);
     });
   }
 
-  writeIndex(modelNameList) {
+  writeIndex(modelNameList = this._modelNameList) {
     const text = render(this.templates.models, {
       models: _.uniq(modelNameList).map((name) => ({fileName: _.snakeCase(name), name})),
     }, {
@@ -78,44 +82,49 @@ class ModelGenerator {
   }
 
   _renderBaseModel(name, properties, idAttribute) {
-    const importList = [];
-    const oneOfs = [];
-    let oneOfsCounter = 1;
-    const dependencySchema = parseSchema(properties, ({type, value}) => {
-      if (type === 'model') {
-        const modelName = value.__modelName;
-        if (getIdAttribute(value, modelName)) {
-          importList.push({ modelName });
-          this.writeModel(value, modelName);
-          return schemaName(modelName);
+    return new Promise((resolve, reject) => {
+      const importList = [];
+      const oneOfs = [];
+      let oneOfsCounter = 1;
+      const dependencySchema = parseSchema(properties, ({type, value}) => {
+        if (type === 'model') {
+          const modelName = getModelName(value);
+          if (getIdAttribute(value, modelName)) {
+            importList.push({ modelName, value });
+            return schemaName(modelName);
+          }
         }
-      }
-      if (type === 'oneOf') {
-        const key = `oneOfSchema${oneOfsCounter++}`;
-        value.key = key;
-        oneOfs.push(value);
-        return key;
-      }
-    }, this.isV2);
+        if (type === 'oneOf') {
+          const key = `oneOfSchema${oneOfsCounter++}`;
+          value.key = key;
+          oneOfs.push(value);
+          return key;
+        }
+      }, this.isV2);
 
-    const props = {
-      name, idAttribute: this._prepareIdAttribute(idAttribute),
-      usePropTypes: this.usePropType,
-      useFlow: this.useFlow,
-      props: this._convertPropForTemplate(properties, dependencySchema),
-      schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
-      oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
-      importList: this._prepareImportList(importList),
-      getFlowTypes, getPropTypes, getDefaults
-    };
+      const props = {
+        name, idAttribute: this._prepareIdAttribute(idAttribute),
+        usePropTypes: this.usePropType,
+        useFlow: this.useFlow,
+        props: this._convertPropForTemplate(properties, dependencySchema),
+        schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
+        oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
+        importList: this._prepareImportList(importList),
+        getFlowTypes, getPropTypes, getDefaults
+      };
 
-    const text = render(this.templates.model, props, {
-      head: this.templates.head,
-      dependency: this.templates.dependency,
-      oneOf: this.templates.oneOf,
+      const text = render(this.templates.model, props, {
+        head: this.templates.head,
+        dependency: this.templates.dependency,
+        oneOf: this.templates.oneOf,
+      });
+
+      // import先のモデルを書き出し
+      Promise.all(importList.map(({ value, modelName }) => this.writeModel(value, modelName))).then(
+        () => resolve({ text, props }), // 自身の書き出しはここで実施
+        reject
+      );
     });
-
-    return {text, props};
   }
 
   static get templatePropNames() {
@@ -178,7 +187,7 @@ class ModelGenerator {
     if (prop && prop.oneOf) {
       const candidates = prop.oneOf.map((obj) => {
         const ref = obj.$ref || obj.$$ref;
-        return ref ? { isModel: true, type: parseModelName(ref, this.isV2) } : { isModel: false, type: obj.type };
+        return ref ? { isModel: true, type: getModelName(obj) } : { isModel: false, type: obj.type };
       });
       return {
         propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
