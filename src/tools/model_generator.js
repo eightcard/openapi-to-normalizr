@@ -19,6 +19,8 @@ class ModelGenerator {
     this.usePropType = usePropType;
     this.attributeConverter = attributeConverter;
     this.templates = readTemplates(['model', 'models', 'override', 'head', 'dependency', 'oneOf'], this.templatePath);
+    this.writeModel = this.writeModel.bind(this);
+    this.writeIndex = this.writeIndex.bind(this);
   }
 
   /**

@@ -26,6 +26,7 @@ class SchemaGenerator {
     this.importList = [];
     this.oneOfs = [];
     this.parse = this.parse.bind(this);
+    this.write = this.write.bind(this);
   }
 
   /**
