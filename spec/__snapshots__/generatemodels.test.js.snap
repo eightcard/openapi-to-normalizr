@@ -214,3 +214,291 @@ export default class WrappedPet extends _WrappedPet {
   "path": "tmp/wrapped_pet.js",
 }
 `;
+
+exports[`model generator spec parse oneOf type 1`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+import Dog, { schema as DogSchema } from './dog';
+import Cat, { schema as CatSchema } from './cat';
+
+
+const defaultValues = {
+  name: undefined,
+  pets: undefined,
+};
+
+export const schema = new _schema.Entity('Breeder', {}, {idAttribute: 'name'});
+const oneOfSchema1 = new _schema.Union({
+  dog: DogSchema,
+  cat: CatSchema
+}, 'kind');
+schema.define({
+  pets: [
+    oneOfSchema1
+  ]
+});
+
+
+/**
+ * @params ids : Breeder's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Breeder extends Record(defaultValues) {
+  name: string;
+  pets: (Dog | Cat)[];
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/breeder.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_CAT: string = 'cat';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Cat's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Cat extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/cat.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 3`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_DOG: string = 'dog';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Dog's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Dog extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/dog.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 4`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+import Dog, { schema as DogSchema } from './dog';
+import Cat, { schema as CatSchema } from './cat';
+
+
+const defaultValues = {
+  name: undefined,
+  pet: undefined,
+};
+
+export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+const oneOfSchema1 = new _schema.Union({
+  dog: DogSchema,
+  cat: CatSchema
+}, 'kind');
+schema.define({
+  pet: oneOfSchema1
+});
+
+
+/**
+ * @params ids : Owner's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Owner extends Record(defaultValues) {
+  name: string;
+  pet: Dog | Cat;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/owner.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Breeder from './base/breeder';
+export * from './base/breeder';
+
+export default class Breeder extends _Breeder {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/breeder.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 6`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Cat from './base/cat';
+export * from './base/cat';
+
+export default class Cat extends _Cat {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/cat.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 7`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Dog from './base/dog';
+export * from './base/dog';
+
+export default class Dog extends _Dog {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/dog.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 8`] = `
+Object {
+  "output": "/**
+ * generated from API definition file
+ */
+
+import Owner from './owner';
+import Breeder from './breeder';
+import Dog from './dog';
+import Cat from './cat';
+
+export {
+  Owner,
+  Breeder,
+  Dog,
+  Cat,
+};
+",
+  "path": "tmp/index.js",
+}
+`;
+
+exports[`model generator spec parse oneOf type 9`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Owner from './base/owner';
+export * from './base/owner';
+
+export default class Owner extends _Owner {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/owner.js",
+}
+`;

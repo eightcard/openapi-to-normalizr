@@ -34,4 +34,7 @@ describe('model generator spec', () => {
     snapshot('json_schema_ref.yml')
   });
 
+  test('parse oneOf type', () => {
+    snapshot('one_of.yml')
+  });
 });
