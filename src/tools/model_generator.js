@@ -180,6 +180,14 @@ class ModelGenerator {
       };
     }
 
+    if (prop.type === 'array' && prop.items && prop.items.oneOf) {
+      const { propType, flow } = this.generateTypeFrom(prop.items, definition);
+      return {
+        propType: `ImmutablePropTypes.listOf(${propType})`,
+        flow: flow ? `(${flow})[]` : '',
+      };
+    }
+
     if (definition) {
       return {
         propType: this._generatePropTypeFromDefinition(definition),
