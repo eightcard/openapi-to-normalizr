@@ -1,0 +1,80 @@
+---
+openapi: '3.0.0'
+info:
+  title: oneOf check
+  version: 1.0.0
+components:
+  schemas:
+    Owner:
+      description: Pet's owner
+      type: object
+      required:
+        - name
+      x-id-attribute: name
+      properties:
+        name:
+          description: owner name
+          type: string
+        pet:
+          $ref: '#/components/schemas/Pet'
+    Breeder:
+      description: Pet's breeder
+      type: object
+      required:
+        - name
+      x-id-attribute: name
+      properties:
+        name:
+          description: owner name
+          type: string
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+      discriminator:
+        propertyName: kind
+        mapping:
+          dog: '#/components/schemas/Dog'
+          cat: '#/components/schemas/Cat'
+    Dog:
+      description: Dog
+      type: object
+      required:
+        - id
+        - kind
+      properties:
+        id:
+          description: pet id
+          type: integer
+          format: int64
+        kind:
+          description: kind of pet
+          type: string
+          enum:
+            - dog
+        name:
+          description: name of pet
+          type: string
+    Cat:
+      description: Cat
+      type: object
+      required:
+        - id
+        - kind
+      properties:
+        id:
+          description: pet id
+          type: integer
+          format: int64
+        kind:
+          description: kind of pet
+          type: string
+          enum:
+            - cat
+        name:
+          description: name of pet
+          type: string
