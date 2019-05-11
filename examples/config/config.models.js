@@ -3,7 +3,7 @@ function snakeToCamel(str) {
 }
 
 module.exports = {
-  modelsDir: './tmp/models',
+  modelsDir: './examples/tmp/models',
   attributeConverter: snakeToCamel,
   useFlow: false,
 };
