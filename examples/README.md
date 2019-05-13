@@ -1,17 +1,10 @@
 # Example
 
-## 注意
-- **利用していたパッケージの脆弱性により、一時的にexampleのstub serverが実行できなくなっています。**
-
 ## 概要
 - ここでは以下のYAMLファイルに基づいたコードの自動生成と簡単な動作確認ができます。
 - YAMLに基づいたスキーマが定義され、モックサーバのレスポンスに応じた正規化が実行されます。
 
 ## 使い方
-1. 環境準備  
-    ```bash
-    % yarn && yarn prepare:mock
-    ```
 1. API定義確認  
     ```bash
     % yarn serve
@@ -25,22 +18,24 @@
     
     以下のようなファイル群が生成されます。
     ```bash
-    tmp/
+    examples/tmp/
     ├── actions
     │   └── actionTypes.js
     ├── models
     │   ├── _cat.js
+    │   ├── _company.js
     │   ├── _dog.js
     │   ├── _person.js
     │   ├── _pet.js
     │   ├── cat.js
+    │   ├── company.js
     │   ├── dog.js
     │   ├── index.js
     │   ├── person.js
     │   └── pet.js
     ├── schemas
-    │   └── schema.js
-    └── spec.js
+    │   └── sample_schema.js
+    └── sample_api.js
 
     ```
 1. 動作確認  

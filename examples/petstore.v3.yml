@@ -1,19 +1,29 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://localhost:10010/'
-  - url: 'https://localhost:10010/'
+  - url: 'http://localhost:10010'
+  - url: 'https://localhost:10010'
 info:
   version: 1.0.0
   title: Swagger Petstore
   description: >-
     A sample API that uses a petstore as an example to demonstrate features in
     the OpenAPI 3.0 specification
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+tags:
+  - name: pet
+    description: pet API
+  - name: default
+    description: default API
 paths:
   /pets:
-    x-swagger-router-controller: pets
     get:
       description: |
         Returns all pets from the system that the user has access to
+      tags:
+        - pet
       parameters:
         - name: tags
           in: query
@@ -32,13 +42,7 @@ paths:
             format: int32
       responses:
         '200':
-          description: pet response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/responses/PetResponse'
+          $ref: '#/components/responses/PetsResponse'
 
         default:
           description: unexpected error
@@ -50,14 +54,12 @@ paths:
                   error:
                     $ref: '#/components/schemas/Error'
     post:
-      description: Creates a new pet in the store.  Duplicates are allowed
+      description: Creates a new pet in the store.
+      tags:
+        - pet
       responses:
-        '200':
-          description: pet response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/PetResponse'
+        '201':
+          $ref: '#/components/responses/PetResponse'
         default:
           description: unexpected error
           content:
@@ -65,18 +67,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/requests/PetRequest'
         description: Pet to add to the store
+        $ref: '#/components/requestBodies/PetRequest'
         required: true
   '/pets/{id}':
-    x-swagger-router-controller: pets___id__
     get:
       description: >-
         Returns a user based on a single ID, if the user does not have access to
         the pet
+      tags:
+        - pet
       parameters:
         - name: id
           in: path
@@ -87,17 +87,13 @@ paths:
             format: int64
         - name: error # for test
           in: query
-          description: dummy parmeter for error pattern test
+          description: dummy parameter for error pattern test
           schema:
             type: boolean
             default: false
       responses:
         '200':
-          description: pet response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/PetResponse'
+          $ref: '#/components/responses/PetResponse'
         default:
           description: unexpected error
           content:
@@ -106,6 +102,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     delete:
       description: deletes a single pet based on the ID supplied
+      tags:
+        - pet
       parameters:
         - name: id
           in: path
@@ -115,7 +113,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '204':
+        '200':
           description: pet deleted
           content:
             application/json:
@@ -129,30 +127,51 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   responses:
-    # you can use $ref only specified #/components/schemas/xxx here.
+    PetsResponse:
+      description: pet response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              oneOf:
+                - $ref: '#/components/schemas/Dog'
+                - $ref: '#/components/schemas/Cat'
+              discriminator:
+                propertyName: object_type
+                mapping:
+                  1: '#/components/schemas/Dog'
+                  2: '#/components/schemas/Cat'
     PetResponse:
-      type: object  # workaround(https://github.com/swagger-api/swagger-ui/issues/3803)
-      oneOf:
-        - $ref: '#/components/schemas/Dog'
-        - $ref: '#/components/schemas/Cat'
-      discriminator:
-        propertyName: object_type
-
-  requests:
+      description: pet response
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/Dog'
+              - $ref: '#/components/schemas/Cat'
+            discriminator:
+              propertyName: object_type
+              mapping:
+                1: '#/components/schemas/Dog'
+                2: '#/components/schemas/Cat'
+  requestBodies:
     PetRequest:
-      type: object
-      properties:
-        object_type:
-          type: string
-          enum:
-            - Dog
-            - Cat
-        name:
-          type: string
-        tag:
-          type: string
-          default: no tag
-
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              object_type:
+                type: string
+                enum:
+                  - Dog
+                  - Cat
+              name:
+                type: string
+              tag:
+                type: string
+                default: no tag
   schemas:
     Dog:
       allOf:

@@ -1,0 +1,41 @@
+{
+  "pets": [
+    {
+      "id": 1,
+      "name": "foo",
+      "object_type": 1,
+      "tag": "dog sample",
+      "owner": {
+        "person_id": 10,
+        "name": "foo's owner"
+      },
+      "companies": [
+        {
+          "company_id": 1000,
+          "name": "pet store company",
+          "email": "store@example.com"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "bar",
+      "object_type": 2,
+      "tag": "cat sample",
+      "owner": {
+        "person_id": 20,
+        "name": "owner of bar and baz"
+      }
+    },
+    {
+      "id": 3,
+      "name": "baz",
+      "object_type": 1,
+      "tag": "dog sample",
+      "owner": {
+        "person_id": 20,
+        "name": "owner of bar and baz"
+      }
+    }
+  ]
+}
