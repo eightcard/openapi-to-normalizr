@@ -10,8 +10,32 @@ info:
 tags:
   - name: default
     description: default API
-paths: {}
+paths:
+  /owner/{name}:
+    get:
+      tags:
+        - owner
+      operationId: getOwner
+      description: |
+        get pet
+      parameters:
+        - description: owner name
+          name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/OwnerResponse'
 components:
+  responses:
+    OwnerResponse:
+      description: Owner's owner
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Owner'
   schemas:
     Owner:
       description: Pet's owner

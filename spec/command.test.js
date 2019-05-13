@@ -31,6 +31,10 @@ describe('schema generator spec', () => {
   beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
 
   test('from json schema ref', () => {
-    snapshot('generateschemas', ['json_schema_ref.yml', 'only_components.yml'])
+    snapshot('generateschemas', ['json_schema_ref.yml'])
+  });
+
+  test('from one of check', () => {
+    snapshot('generateschemas', ['one_of.yml'])
   });
 });

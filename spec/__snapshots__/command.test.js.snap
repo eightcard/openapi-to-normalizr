@@ -1,508 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`model generator spec from json schema ref 1`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-
-export const GENDER_MALE: string = 'male';
-export const GENDER_FEMALE: string = 'female';
-export const GENDER_OTHER: string = 'other';
-
-const defaultValues = {
-  name: undefined,
-  gender: undefined,
-};
-
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
-
-
-/**
- * @params ids : Owner's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Owner extends Record(defaultValues) {
-  name: string;
-  gender: string;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/owner.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 2`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-
-export const KIND_DOG: string = 'Dog';
-export const KIND_CAT: string = 'Cat';
-
-const defaultValues = {
-  id: undefined,
-  kind: undefined,
-};
-
-export const schema = new _schema.Entity('Pet', {}, {idAttribute: 'id'});
-
-
-/**
- * @params ids : Pet's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Pet extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/pet.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 3`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-import Owner, { schema as OwnerSchema } from './owner';
-
-export const KIND_DOG: string = 'Dog';
-export const KIND_CAT: string = 'Cat';
-
-const defaultValues = {
-  id: undefined,
-  name: undefined,
-  kind: undefined,
-  owner: undefined,
-};
-
-export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
-schema.define({
-  owner: OwnerSchema
-});
-
-
-/**
- * @params ids : WrappedPet's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class WrappedPet extends Record(defaultValues) {
-  id: number;
-  name: string;
-  kind: string;
-  owner: Owner;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/wrapped_pet.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 4`] = `
-Object {
-  "output": "/**
- * generated from API definition file
- */
-
-import WrappedPet from './wrapped_pet';
-import Pet from './pet';
-import Owner from './owner';
-
-export {
-  WrappedPet,
-  Pet,
-  Owner,
-};
-",
-  "path": "tmp/index.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 5`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Owner from './base/owner';
-export * from './base/owner';
-
-export default class Owner extends _Owner {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/owner.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 6`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Pet from './base/pet';
-export * from './base/pet';
-
-export default class Pet extends _Pet {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/pet.js",
-}
-`;
-
-exports[`model generator spec from json schema ref 7`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _WrappedPet from './base/wrapped_pet';
-export * from './base/wrapped_pet';
-
-export default class WrappedPet extends _WrappedPet {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/wrapped_pet.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 1`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-import Dog, { schema as DogSchema } from './dog';
-import Cat, { schema as CatSchema } from './cat';
-
-
-const defaultValues = {
-  name: undefined,
-  pets: undefined,
-};
-
-export const schema = new _schema.Entity('Breeder', {}, {idAttribute: 'name'});
-const oneOfSchema1 = new _schema.Union({
-  dog: DogSchema,
-  cat: CatSchema
-}, 'kind');
-schema.define({
-  pets: [
-    oneOfSchema1
-  ]
-});
-
-
-/**
- * @params ids : Breeder's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Breeder extends Record(defaultValues) {
-  name: string;
-  pets: (Dog | Cat)[];
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/breeder.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 2`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-
-export const KIND_CAT: string = 'cat';
-
-const defaultValues = {
-  id: undefined,
-  kind: undefined,
-  name: undefined,
-};
-
-export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
-
-
-/**
- * @params ids : Cat's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Cat extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/cat.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 3`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-
-export const KIND_DOG: string = 'dog';
-
-const defaultValues = {
-  id: undefined,
-  kind: undefined,
-  name: undefined,
-};
-
-export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
-
-
-/**
- * @params ids : Dog's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Dog extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/dog.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 4`] = `
-Object {
-  "output": "/* eslint-disable */
-// @flow
-/**
- * generated from API definition file
- */
-
-import { Record, List } from 'immutable';
-import { schema as _schema, denormalize as _denormalize } from 'normalizr';
-import isArray from 'lodash/isArray';
-import Dog, { schema as DogSchema } from './dog';
-import Cat, { schema as CatSchema } from './cat';
-
-
-const defaultValues = {
-  name: undefined,
-  pet: undefined,
-};
-
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
-const oneOfSchema1 = new _schema.Union({
-  dog: DogSchema,
-  cat: CatSchema
-}, 'kind');
-schema.define({
-  pet: oneOfSchema1
-});
-
-
-/**
- * @params ids : Owner's id[s]
- * @params entities : all entities that need to denormalize ids
- */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-
-export default class Owner extends Record(defaultValues) {
-  name: string;
-  pet: Dog | Cat;
-  static denormalize(id: number[] | string[], entities: any) {
-    return denormalize(id, entities);
-  }
-}
-",
-  "path": "tmp/base/owner.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 5`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Breeder from './base/breeder';
-export * from './base/breeder';
-
-export default class Breeder extends _Breeder {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/breeder.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 6`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Cat from './base/cat';
-export * from './base/cat';
-
-export default class Cat extends _Cat {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/cat.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 7`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Dog from './base/dog';
-export * from './base/dog';
-
-export default class Dog extends _Dog {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/dog.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 8`] = `
-Object {
-  "output": "/**
- * generated from API definition file
- */
-
-import Owner from './owner';
-import Breeder from './breeder';
-import Dog from './dog';
-import Cat from './cat';
-
-export {
-  Owner,
-  Breeder,
-  Dog,
-  Cat,
-};
-",
-  "path": "tmp/index.js",
-}
-`;
-
-exports[`model generator spec parse oneOf type 9`] = `
-Object {
-  "output": "/* eslint-disable comma-dangle */
-/**
- * generated from API definition file
- */
-
-import _Owner from './base/owner';
-export * from './base/owner';
-
-export default class Owner extends _Owner {
-
-  /**
-   * write custom methods here
-   */
-}
-",
-  "path": "tmp/owner.js",
-}
-`;
-
 exports[`schema generator spec from json schema ref 1`] = `
 Object {
   "output": "/* eslint-disable no-underscore-dangle */
@@ -668,7 +165,7 @@ Object {
 export default {
   \\"openapi\\": \\"3.0.0\\",
   \\"info\\": {
-    \\"title\\": \\"only components\\",
+    \\"title\\": \\"JSON schema ref spec\\",
     \\"version\\": \\"1.0.0\\",
     \\"contact\\": {
       \\"name\\": \\"API Support\\",
@@ -678,8 +175,8 @@ export default {
   },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"pet\\",
+      \\"description\\": \\"pet API\\"
     },
     {
       \\"name\\": \\"default\\",
@@ -839,5 +336,443 @@ export default class WrappedPet extends _WrappedPet {
 }
 ",
   "path": "tmp/wrapped_pet.js",
+}
+`;
+
+exports[`schema generator spec from one of check 1`] = `
+Object {
+  "output": "/* eslint-disable no-underscore-dangle */
+/**
+ * generated from API definition file
+ */
+
+import isFunction from 'lodash/isFunction';
+import { createAction } from 'redux-actions';
+import schemas from '../schemas/sample_schema';
+export const GET_OWNER__NAME_ = 'GET_OWNER__NAME_';
+
+export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  let _metaCreator = () => meta;
+  if (isFunction(metaCreator)) {
+    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
+  }
+  return createAction(id, payloadCreator, _metaCreator);
+}
+",
+  "path": "tmp/action_types/sample.js",
+}
+`;
+
+exports[`schema generator spec from one of check 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_CAT: string = 'cat';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Cat's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Cat extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/cat.js",
+}
+`;
+
+exports[`schema generator spec from one of check 3`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_DOG: string = 'dog';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Dog's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Dog extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/dog.js",
+}
+`;
+
+exports[`schema generator spec from one of check 4`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+import Dog, { schema as DogSchema } from './dog';
+import Cat, { schema as CatSchema } from './cat';
+
+
+const defaultValues = {
+  name: undefined,
+  pet: undefined,
+};
+
+export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+const oneOfSchema1 = new _schema.Union({
+  dog: DogSchema,
+  cat: CatSchema
+}, 'kind');
+schema.define({
+  pet: oneOfSchema1
+});
+
+
+/**
+ * @params ids : Owner's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Owner extends Record(defaultValues) {
+  name: string;
+  pet: Dog | Cat;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/owner.js",
+}
+`;
+
+exports[`schema generator spec from one of check 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Cat from './base/cat';
+export * from './base/cat';
+
+export default class Cat extends _Cat {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/cat.js",
+}
+`;
+
+exports[`schema generator spec from one of check 6`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Dog from './base/dog';
+export * from './base/dog';
+
+export default class Dog extends _Dog {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/dog.js",
+}
+`;
+
+exports[`schema generator spec from one of check 7`] = `
+Object {
+  "output": "/**
+ * generated from API definition file
+ */
+
+import Owner from './owner';
+import Dog from './dog';
+import Cat from './cat';
+
+export {
+  Owner,
+  Dog,
+  Cat,
+};
+",
+  "path": "tmp/index.js",
+}
+`;
+
+exports[`schema generator spec from one of check 8`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Owner from './base/owner';
+export * from './base/owner';
+
+export default class Owner extends _Owner {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/owner.js",
+}
+`;
+
+exports[`schema generator spec from one of check 9`] = `
+Object {
+  "output": "/* eslint-disable quotes,comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+export default {
+  \\"openapi\\": \\"3.0.0\\",
+  \\"info\\": {
+    \\"title\\": \\"oneOf check\\",
+    \\"version\\": \\"1.0.0\\",
+    \\"contact\\": {
+      \\"name\\": \\"API Support\\",
+      \\"url\\": \\"http://www.example.com/support\\",
+      \\"email\\": \\"support@example.com\\"
+    }
+  },
+  \\"tags\\": [
+    {
+      \\"name\\": \\"default\\",
+      \\"description\\": \\"default API\\"
+    }
+  ],
+  \\"paths\\": {
+    \\"/owner/{name}\\": {
+      \\"get\\": {
+        \\"tags\\": [
+          \\"owner\\"
+        ],
+        \\"operationId\\": \\"getOwner\\",
+        \\"description\\": \\"get pet\\\\n\\",
+        \\"parameters\\": [
+          {
+            \\"description\\": \\"owner name\\",
+            \\"name\\": \\"name\\",
+            \\"in\\": \\"path\\",
+            \\"required\\": true,
+            \\"schema\\": {
+              \\"type\\": \\"string\\"
+            }
+          }
+        ],
+        \\"responses\\": {
+          \\"200\\": {
+            \\"$ref\\": \\"#/components/responses/OwnerResponse\\"
+          }
+        }
+      }
+    }
+  },
+  \\"components\\": {
+    \\"responses\\": {
+      \\"OwnerResponse\\": {
+        \\"description\\": \\"Owner's owner\\",
+        \\"content\\": {
+          \\"application/json\\": {
+            \\"schema\\": {
+              \\"$ref\\": \\"#/components/schemas/Owner\\"
+            }
+          }
+        }
+      }
+    },
+    \\"schemas\\": {
+      \\"Owner\\": {
+        \\"description\\": \\"Pet's owner\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"x-id-attribute\\": \\"name\\",
+        \\"properties\\": {
+          \\"name\\": {
+            \\"description\\": \\"owner name\\",
+            \\"type\\": \\"string\\"
+          },
+          \\"pet\\": {
+            \\"$ref\\": \\"#/components/schemas/Pet\\"
+          }
+        }
+      },
+      \\"Breeder\\": {
+        \\"description\\": \\"Pet's breeder\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"x-id-attribute\\": \\"name\\",
+        \\"properties\\": {
+          \\"name\\": {
+            \\"description\\": \\"owner name\\",
+            \\"type\\": \\"string\\"
+          },
+          \\"pets\\": {
+            \\"type\\": \\"array\\",
+            \\"items\\": {
+              \\"$ref\\": \\"#/components/schemas/Pet\\"
+            }
+          }
+        }
+      },
+      \\"Pet\\": {
+        \\"oneOf\\": [
+          {
+            \\"$ref\\": \\"#/components/schemas/Dog\\"
+          },
+          {
+            \\"$ref\\": \\"#/components/schemas/Cat\\"
+          }
+        ],
+        \\"discriminator\\": {
+          \\"propertyName\\": \\"kind\\",
+          \\"mapping\\": {
+            \\"dog\\": \\"#/components/schemas/Dog\\",
+            \\"cat\\": \\"#/components/schemas/Cat\\"
+          }
+        }
+      },
+      \\"Dog\\": {
+        \\"description\\": \\"Dog\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"description\\": \\"pet id\\",
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"description\\": \\"kind of pet\\",
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"dog\\"
+            ]
+          },
+          \\"name\\": {
+            \\"description\\": \\"name of pet\\",
+            \\"type\\": \\"string\\"
+          }
+        }
+      },
+      \\"Cat\\": {
+        \\"description\\": \\"Cat\\",
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"description\\": \\"pet id\\",
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"description\\": \\"kind of pet\\",
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"cat\\"
+            ]
+          },
+          \\"name\\": {
+            \\"description\\": \\"name of pet\\",
+            \\"type\\": \\"string\\"
+          }
+        }
+      }
+    }
+  }
+};
+",
+  "path": "tmp/sample_api.js",
+}
+`;
+
+exports[`schema generator spec from one of check 10`] = `
+Object {
+  "output": "/* eslint-disable */
+/**
+ * generated from API definition file
+ */
+
+import { schema as OwnerSchema } from './../owner';
+
+export default {
+  get_owner__name_: {
+    200: OwnerSchema
+  }
+};
+",
+  "path": "tmp/schemas/sample_schema.js",
 }
 `;
