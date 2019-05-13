@@ -2,3 +2,4 @@
 node_modules
 tmp
 examples/bundle*
+examples/db.json
