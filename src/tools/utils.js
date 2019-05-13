@@ -194,34 +194,45 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function appendModelName(specFiles) {
-  const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
-  const backupMap = {};
-  const definitions = {};
-  specFiles.forEach((filePath) => {
-    const target = path.join(tmpDir, filePath.split(path.sep).join('_'));
-    fs.copyFileSync(filePath, target);
-    backupMap[filePath] = target;
-  });
+function getRefFilesPath(spec) {
+  if (_.isArray(spec)) {
+    return spec.reduce((acc, item) => acc.concat(getRefFilesPath(item) || []), []);
+  } else if (_.isObject(spec)) {
+    if (spec.$ref) {
+      const matches = spec.$ref.match(/^([^#].*)#/);
+      if (matches) return matches[1];
+    }
+    return Object.keys(spec).reduce((acc, key) => acc.concat(getRefFilesPath(spec[key]) || []), []);
+  }
+}
 
-  specFiles.forEach((filePath) => {
+function getPreparedSpecFiles(specFiles) {
+  const definitions = {};
+  const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
+  const allFiles = specFiles.reduce((acc, filePath) => {
     const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
+    return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
+      return path.join(path.dirname(filePath), p);
+    }));
+  }, []);
+  specFiles.concat(allFiles).forEach((p) => {
+    const target = path.join(tmpDir, p);
+    mkdirp.sync(path.dirname(target));
+
+    const spec = jsYaml.safeLoad(fs.readFileSync(p));
     const schemas = spec.components && spec.components.schemas;
     if (schemas) {
       _.each(schemas, (model, name) => {
         model['x-model-name'] = name;
         definitions[name] = model;
       });
-      fs.writeFileSync(filePath, jsYaml.safeDump(spec));
     }
+    fs.writeFileSync(target, jsYaml.safeDump(spec));
   });
-  return { backupMap, definitions };
-}
-
-function restoreSpecFiles(backupMap) {
-  _.each(backupMap, (target, original) => {
-    fs.copyFileSync(target, original);
-  });
+  return {
+    filesPath: specFiles.map((p) => path.join(tmpDir, p)),
+    definitions,
+  };
 }
 
 module.exports = {
@@ -242,6 +253,5 @@ module.exports = {
   getIdAttribute,
   getModelName,
   writeFile,
-  appendModelName,
-  restoreSpecFiles,
+  getPreparedSpecFiles,
 };

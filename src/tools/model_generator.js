@@ -31,14 +31,15 @@ class ModelGenerator {
    * - Promiseでモデル名(Petなど)を返す
    */
   writeModel(model, name) {
-    const {properties, required} = model; // dereferenced
+    const {properties} = model; // dereferenced
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
-    const baseRequired = this.definitions[name] && this.definitions[name].required;
+    // requiredはモデル定義のものを使う
+    const required = this.definitions[name] && this.definitions[name].required;
     this._modelNameList.push(name);
 
-    return this._renderBaseModel(name, applyRequired(properties, baseRequired || required), idAttribute).then(({ text, props }) => {
+    return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(({ text, props }) => {
       writeFile(path.join(this.outputBaseDir, `${fileName}.js`), text);
       return this._writeOverrideModel(name, fileName, props).then(() => name);
     });

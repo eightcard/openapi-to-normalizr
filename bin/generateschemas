@@ -8,7 +8,7 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFilePromise, appendModelName, restoreSpecFiles } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFiles } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
@@ -37,9 +37,9 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-const { backupMap, definitions } = appendModelName(specFiles);
+const { filesPath, definitions} = getPreparedSpecFiles(specFiles);
 
-Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
+Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
   const spec = _.merge(...schemas);
 
   let actionTypesGenerator, modelGenerator, schemaGenerator;
@@ -76,9 +76,8 @@ Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
       return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
     });
-  }).then(() => restoreSpecFiles(backupMap)).catch((e) => {
+  }).catch((e) => {
     console.error(`Failed: ${e}`);
-    restoreSpecFiles(backupMap);
     process.exit(1);
   });
 }).then(() => {
@@ -92,7 +91,6 @@ Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true
   });
 }).catch((e) => {
   console.error(`Failed: ${e}`);
-  restoreSpecFiles(backupMap);
   process.exit(1);
 });
 
