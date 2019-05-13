@@ -27,18 +27,6 @@ const snapshot = (command, files) => {
   });
 }
 
-describe('model generator spec', () => { // deprecated command
-  beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
-
-  test('from json schema ref', () => {
-    snapshot('generatemodels', ['json_schema_ref.yml'])
-  });
-
-  test('parse oneOf type', () => {
-    snapshot('generatemodels', ['one_of.yml'])
-  });
-});
-
 describe('schema generator spec', () => {
   beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
 

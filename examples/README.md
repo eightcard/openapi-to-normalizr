@@ -12,7 +12,6 @@
     ```
 1. コード自動生成
     ```bash
-    % yarn build:sample:models examples/petstore.v3.yml 
     % yarn build:sample:schemas examples/petstore.v3.yml 
     ```
     
