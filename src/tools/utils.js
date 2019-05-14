@@ -200,7 +200,7 @@ function getRefFilesPath(spec) {
   } else if (_.isObject(spec)) {
     if (spec.$ref) {
       const matches = spec.$ref.match(/^([^#].*)#/);
-      if (matches) return matches[1];
+      if (matches) return [matches[1]];
     }
     return Object.keys(spec).reduce((acc, key) => acc.concat(getRefFilesPath(spec[key]) || []), []);
   }
