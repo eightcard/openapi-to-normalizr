@@ -207,14 +207,11 @@ function getRefFilesPath(spec) {
 }
 
 function getPreparedSpecFiles(specFiles) {
+  const readFiles = {};
   const definitions = {};
   const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
-  const allFiles = specFiles.reduce((acc, filePath) => {
-    const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
-    return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
-      return path.join(path.dirname(filePath), p);
-    }));
-  }, []);
+  const allFiles = _.uniq(_.flattenDeep(getAllRelatedFiles(specFiles)));
+
   specFiles.concat(allFiles).forEach((p) => {
     const target = path.join(tmpDir, p);
     mkdirp.sync(path.dirname(target));
@@ -233,6 +230,21 @@ function getPreparedSpecFiles(specFiles) {
     filesPath: specFiles.map((p) => path.join(tmpDir, p)),
     definitions,
   };
+
+  function getAllRelatedFiles(files) {
+    return files.reduce((acc, filePath) => {
+      const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
+      return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
+        const refSpecPath = path.join(path.dirname(filePath), p);
+        if (readFiles[refSpecPath]) {
+          return refSpecPath;
+        } else {
+          readFiles[refSpecPath] = true;
+          return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
+        }
+      }));
+    }, []);
+  }
 }
 
 module.exports = {
