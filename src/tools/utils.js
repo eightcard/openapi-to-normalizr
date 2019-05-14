@@ -204,6 +204,7 @@ function getRefFilesPath(spec) {
     }
     return Object.keys(spec).reduce((acc, key) => acc.concat(getRefFilesPath(spec[key]) || []), []);
   }
+  return [];
 }
 
 function getPreparedSpecFiles(specFiles) {
