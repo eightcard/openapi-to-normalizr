@@ -71,8 +71,9 @@ class SchemaGenerator {
     return Promise.all([
       this._writeSchemaFile(),
       this.importModels.map(({ modelName, model }) => this.modelGenerator.writeModel(model, modelName)),
-      this.modelGenerator.writeIndex(),
-    ]);
+    ]).then(() => {
+      this.modelGenerator.writeIndex();
+    });
   }
 
   _writeSchemaFile() {
