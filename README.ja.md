@@ -12,11 +12,7 @@
 ## 使い方
 1. コードの自動生成
     - OpenAPI形式のYAMLを準備
-    - モデルコードを生成
-      ```bash
-      % node_modules/.bin/openapi2models --config config.js foo.yml
-      ```
-    - スキーマコードを生成
+    - スキーマコードとモデルコードを生成
       ```bash
       % node_modules/.bin/openapi2schemas --config config.js foo.yml
       ```
@@ -81,7 +77,7 @@
   ```sh
   % yarn eslint
   ```
-- test (src/lib下のテスト)
+- test (src/lib下とspec下のymlパースのテスト)
   ```sh
   % yarn test
   ```
@@ -103,7 +99,7 @@
 ### componentsの定義
 以下の場所にそれぞれスキーマを定義する。
 - `components.schemas`: モデル定義
-- `components.requests` : モデル定義などを利用したリクエスト定義
+- `components.requestBodies` : モデル定義などを利用したリクエスト定義
 - `components.responses` : モデル定義などを利用したレスポンス定義
   
 ### 拡張について

@@ -19,22 +19,22 @@ const walk = (p, fileCallback) => {
   });
 };
 
-const snapshot = (file) => {
-  execSync(`${dir}/../bin/generatemodels --config ${dir}/../config/parser-config-default.js ${dir}/${file}`);
+const snapshot = (command, files) => {
+  execSync(`${dir}/../bin/${command} --config ${dir}/../config/parser-config-default.js ${files.map(file => `${dir}/${file}`).join(' ')}`);
   walk(outputDir, (path) => {
     const output = fs.readFileSync(path, 'utf8');
     expect({ path, output }).toMatchSnapshot();
   });
 }
 
-describe('model generator spec', () => {
+describe('schema generator spec', () => {
   beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
 
   test('from json schema ref', () => {
-    snapshot('json_schema_ref.yml')
+    snapshot('generateschemas', ['json_schema_ref.yml'])
   });
 
-  test('parse oneOf type', () => {
-    snapshot('one_of.yml')
+  test('from one of check', () => {
+    snapshot('generateschemas', ['one_of.yml'])
   });
 });

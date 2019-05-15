@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const mkdirp = require('mkdirp');
 const _ = require('lodash');
@@ -12,6 +13,10 @@ function schemaName(modelName) {
   return `${modelName}Schema`;
 }
 
+function getModelName(schema) {
+  return schema && schema['x-model-name'];
+}
+
 function applyIf(data, applyFn = (val) => val) {
   return data && applyFn(data);
 }
@@ -20,25 +25,19 @@ function getSchemaDir(isV2) {
   return isV2 ? '#/definitions/' : '#/components/schemas/';
 }
 
-function parseModelName(name, isV2) {
-  const schemasDir = getSchemaDir(isV2);
-  return name.split(schemasDir).pop();
-}
-
-function parseOneOf(schema, onSchema, isV2) {
+function parseOneOf(schema, onSchema) {
   const {propertyName, mapping} = schema.discriminator;
   const ret = {propertyName};
-  const components = schema.oneOf.map((ref) => {
-    ref = ref['$$ref'] || ref['$ref'];
-    const model = parseModelName(ref, isV2);
-    onSchema({type: 'model', value: model}); // for import list
-    return {name: model, schemaName: schemaName(model)};
+  const components = schema.oneOf.map((model) => {
+    const modelName = getModelName(model);
+    onSchema({type: 'model', value: model});
+    return {name: modelName, schemaName: schemaName(modelName), value: model};
   });
 
   if (mapping) {
     ret.mapping = _.reduce(mapping, (acc, model, key) => {
-      model = parseModelName(model, isV2);
-      acc[key] = schemaName(model);
+      const { schemaName } = _.find(components, ({ value }) => value['$ref'] === model || value['$$ref'] === model);
+      acc[key] = schemaName;
       return acc;
     }, {});
   } else {
@@ -51,14 +50,11 @@ function parseOneOf(schema, onSchema, isV2) {
 }
 
 function parseSchema(schema, onSchema, isV2) {
-  const schemasDir = getSchemaDir(isV2);
   if (!_.isObject(schema)) return;
 
-  const ref = schema['$$ref'] || schema['$ref']; // $$ref is resolved reference.
-  const matcher = new RegExp(`${schemasDir}[^/]*$`); // allow only model name
-  if (ref && ref.match(matcher) && isModelDefinition(schema)) {
-    const model = parseModelName(ref, isV2);
-    return onSchema({type: 'model', value: model});
+  const modelName = getModelName(schema);
+  if (modelName && getIdAttribute(schema)) {
+    return onSchema({type: 'model', value: schema});
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
   } else if (schema.type === 'object') {
@@ -119,6 +115,10 @@ function mkdirpPromise(dir) {
 
 function writeFilePromise(path, data) {
   return new Promise((resolve, reject) => fs.writeFile(path, data, (err) => err ? reject(err) : resolve()));
+}
+
+function writeFile(path, data) {
+  return fs.writeFileSync(path, data);
 }
 
 function readTemplates(keys = [], templatePath) {
@@ -194,12 +194,58 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function isModelDefinition(model, name) {
-  if (model['$ref'] && !model['$$ref']) {
-    // cannot check because of no dereferenced
-    return true;
+function getRefFilesPath(spec) {
+  if (_.isArray(spec)) {
+    return spec.reduce((acc, item) => acc.concat(getRefFilesPath(item) || []), []);
+  } else if (_.isObject(spec)) {
+    if (spec.$ref) {
+      const matches = spec.$ref.match(/^([^#].*)#/);
+      if (matches) return [matches[1]];
+    }
+    return Object.keys(spec).reduce((acc, key) => acc.concat(getRefFilesPath(spec[key]) || []), []);
   }
-  return Boolean(getIdAttribute(model, name));
+  return [];
+}
+
+function getPreparedSpecFiles(specFiles) {
+  const readFiles = {};
+  const definitions = {};
+  const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
+  const allFiles = _.uniq(_.flattenDeep(getAllRelatedFiles(specFiles)));
+
+  specFiles.concat(allFiles).forEach((p) => {
+    const target = path.join(tmpDir, p);
+    mkdirp.sync(path.dirname(target));
+
+    const spec = jsYaml.safeLoad(fs.readFileSync(p));
+    const schemas = spec.components && spec.components.schemas;
+    if (schemas) {
+      _.each(schemas, (model, name) => {
+        model['x-model-name'] = name;
+        definitions[name] = model;
+      });
+    }
+    fs.writeFileSync(target, jsYaml.safeDump(spec));
+  });
+  return {
+    filesPath: specFiles.map((p) => path.join(tmpDir, p)),
+    definitions,
+  };
+
+  function getAllRelatedFiles(files) {
+    return files.reduce((acc, filePath) => {
+      const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
+      return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
+        const refSpecPath = path.join(path.dirname(filePath), p);
+        if (readFiles[refSpecPath]) {
+          return refSpecPath;
+        } else {
+          readFiles[refSpecPath] = true;
+          return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
+        }
+      }));
+    }, []);
+  }
 }
 
 module.exports = {
@@ -218,6 +264,7 @@ module.exports = {
   getSchemaDir,
   changeFormat,
   getIdAttribute,
-  isModelDefinition,
-  parseModelName,
+  getModelName,
+  writeFile,
+  getPreparedSpecFiles,
 };

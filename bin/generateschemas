@@ -8,7 +8,7 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFilePromise, isModelDefinition } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFiles } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
@@ -37,32 +37,31 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
+const { filesPath, definitions} = getPreparedSpecFiles(specFiles);
+
+Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
   const spec = _.merge(...schemas);
 
   let actionTypesGenerator, modelGenerator, schemaGenerator;
   const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
-  const prepareDirs = [actionsDir, schemasDir, specDir].map((p) => mkdirpPromise(p));
+  const modelsDir = config.modelsDir || 'dist';
+  const baseModelsDir = `${modelsDir}/base`;
+  const prepareDirs = [actionsDir, schemasDir, specDir, modelsDir, baseModelsDir].map((p) => mkdirpPromise(p));
 
   return Swagger({spec}).then(({spec}) => {
     return Promise.all(prepareDirs).then(() => {
       const isV2 = spec.swagger === '2.0';
-      const models = isV2 ? spec.definitions : spec.components.schemas;
-      const writePromises = [];
-      const modelNameList = [];
       const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
+
       modelGenerator = new ModelGenerator({
+        outputDir: modelsDir,
+        outputBaseDir: baseModelsDir,
         templatePath: config.templates,
         usePropType: config.usePropType,
         useFlow: config.useFlow,
         isV2, attributeConverter,
+        definitions,
       });
-      const onModel = (model, name) => {
-        if (isModelDefinition(model, name) && !modelNameList.includes(name)) {
-          modelNameList.push(name);
-        }
-      };
-      walkModels(models, [onModel]);
 
       actionTypesGenerator = new ActionTypesGenerator({
         outputPath: config.outputPath.actions,
@@ -72,12 +71,10 @@ Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true
       schemaGenerator = new SchemaGenerator({
         outputPath: config.outputPath.schemas,
         templatePath: config.templates,
-        modelsDir: config.modelsDir, modelNameList, isV2, attributeConverter,
+        modelsDir, modelGenerator, isV2, attributeConverter,
       });
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
-      writePromises.push(schemaGenerator.write());
-      writePromises.push(actionTypesGenerator.write());
-      return writePromises;
+      return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
     });
   }).catch((e) => {
     console.error(`Failed: ${e}`);
@@ -92,13 +89,10 @@ Promise.all(specFiles.map((file) => readSpecFilePromise(file, {dereference: true
       outputPath: config.outputPath.jsSpec,
     })).write(spec);
   });
+}).catch((e) => {
+  console.error(`Failed: ${e}`);
+  process.exit(1);
 });
-
-function walkModels(models, onModels = []) {
-  return _.each(models, (model, name) => {
-    onModels.forEach((onModel) => onModel(model, name));
-  });
-}
 
 function opId(operation, path, method) {
   return Swagger.helpers.opId(operation, path, method);
@@ -107,7 +101,8 @@ function opId(operation, path, method) {
 function walkResponses(paths, onResponses = []) {
   _.each(paths, (operations, path) => {
     _.each(operations, (operation, method) => {
-      if (!['GET', 'POST', 'PUT', 'DELETE'].includes(method.toUpperCase())) {
+      if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase())) {
+        // use only RESTful methods
         return;
       }
       if (!_.isObject(operation)) {

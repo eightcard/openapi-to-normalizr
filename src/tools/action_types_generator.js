@@ -12,6 +12,7 @@ class ActionTypesGenerator {
     this.operationIdList = operationIdList;
     this.templates = readTemplates(['head', 'actionTypes'], this.templatePath);
     this.appendId = this.appendId.bind(this);
+    this.write = this.write.bind(this);
   }
 
   appendId(id) {

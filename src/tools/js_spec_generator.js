@@ -10,6 +10,7 @@ class JsSpecGenerator {
     const {dir, name, ext} = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}${ext}`;
+    this.write = this.write.bind(this);
   }
 
   write(spec = this.spec) {
