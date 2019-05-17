@@ -37,6 +37,8 @@ class ModelGenerator {
     if (!idAttribute) return;
     // requiredはモデル定義のものを使う
     const required = this.definitions[name] && this.definitions[name].required;
+
+    if (this._modelNameList.includes(name)) return;
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(({ text, props }) => {
