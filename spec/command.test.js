@@ -37,4 +37,8 @@ describe('schema generator spec', () => {
   test('from one of check', () => {
     snapshot('generateschemas', ['one_of.yml'])
   });
+
+  test('from one of other spec file  check', () => {
+    snapshot('generateschemas', ['one_of_from_other_file.yml'])
+  });
 });

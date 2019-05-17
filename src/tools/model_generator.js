@@ -187,8 +187,8 @@ class ModelGenerator {
   generateTypeFrom(prop, definition) {
     if (prop && prop.oneOf) {
       const candidates = prop.oneOf.map((obj) => {
-        const ref = obj.$ref || obj.$$ref;
-        return ref ? { isModel: true, type: getModelName(obj) } : { isModel: false, type: obj.type };
+        const modelName = getModelName(obj);
+        return modelName ? { isModel: true, type: modelName } : { isModel: false, type: obj.type };
       });
       return {
         propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
