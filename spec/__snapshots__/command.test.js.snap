@@ -189,7 +189,6 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"operationId\\": \\"getPet\\",
         \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
@@ -609,7 +608,6 @@ export default {
         \\"tags\\": [
           \\"owner\\"
         ],
-        \\"operationId\\": \\"getOwner\\",
         \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {

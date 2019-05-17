@@ -17,7 +17,6 @@ paths:
     get:
       tags:
         - pet
-      operationId: getPet
       description: |
         get pet
       parameters:

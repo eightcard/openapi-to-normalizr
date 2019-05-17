@@ -15,7 +15,6 @@ paths:
     get:
       tags:
         - owner
-      operationId: getOwner
       description: |
         get pet
       parameters:

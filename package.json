@@ -81,7 +81,7 @@
     "test": "jest src/lib spec",
     "jest": "jest",
     "flow": "flow tmp",
-    "speclint": "find spec -name '*.yml' | xargs -I{} yarn speccy {}",
-    "speccy": "speccy lint "
+    "speclint": "find spec examples -name '*.yml' | xargs -I{} yarn speccy {}",
+    "speccy": "speccy lint -s 'operation-operationId' "
   }
 }
