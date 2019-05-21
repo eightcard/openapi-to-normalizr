@@ -8,6 +8,7 @@ const jsYaml = require('js-yaml');
 const $RefParser = require('json-schema-ref-parser');
 const cwd = process.cwd();
 const now = new Date();
+const alternativeRefKey = '__$ref__';
 
 function schemaName(modelName) {
   return `${modelName}Schema`;
@@ -25,6 +26,10 @@ function getSchemaDir(isV2) {
   return isV2 ? '#/definitions/' : '#/components/schemas/';
 }
 
+function getRef(schema) {
+  return schema.$ref || schema.$$ref || schema[alternativeRefKey]; // $$ref by swagger-client
+}
+
 function parseOneOf(schema, onSchema) {
   const {propertyName, mapping} = schema.discriminator;
   const ret = {propertyName};
@@ -36,7 +41,7 @@ function parseOneOf(schema, onSchema) {
 
   if (mapping) {
     ret.mapping = _.reduce(mapping, (acc, model, key) => {
-      const { schemaName } = _.find(components, ({ value }) => value['$ref'] === model || value['$$ref'] === model);
+      const { schemaName } = _.find(components, ({ value }) => getRef(value) === model);
       acc[key] = schemaName;
       return acc;
     }, {});
@@ -207,6 +212,17 @@ function getRefFilesPath(spec) {
   return [];
 }
 
+function applyAlternativeRef(spec) {
+  if (_.isArray(spec)) {
+    return spec.forEach((item) => applyAlternativeRef(item));
+  } else if (_.isObject(spec)) {
+    if (spec.$ref) {
+      spec[alternativeRefKey] = spec.$ref;
+    }
+    return _.each(spec, (value) => applyAlternativeRef(value));
+  }
+}
+
 function getPreparedSpecFiles(specFiles) {
   const readFiles = {};
   const definitions = {};
@@ -218,6 +234,7 @@ function getPreparedSpecFiles(specFiles) {
     mkdirp.sync(path.dirname(target));
 
     const spec = jsYaml.safeLoad(fs.readFileSync(p));
+    applyAlternativeRef(spec);
     const schemas = spec.components && spec.components.schemas;
     if (schemas) {
       _.each(schemas, (model, name) => {

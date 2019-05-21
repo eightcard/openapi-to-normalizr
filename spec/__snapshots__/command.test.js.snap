@@ -189,7 +189,6 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"operationId\\": \\"getPet\\",
         \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
@@ -609,7 +608,6 @@ export default {
         \\"tags\\": [
           \\"owner\\"
         ],
-        \\"operationId\\": \\"getOwner\\",
         \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
@@ -770,6 +768,271 @@ import { schema as OwnerSchema } from './../owner';
 export default {
   get_owner__name_: {
     200: OwnerSchema
+  }
+};
+",
+  "path": "tmp/schemas/sample_schema.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 1`] = `
+Object {
+  "output": "/* eslint-disable no-underscore-dangle */
+/**
+ * generated from API definition file
+ */
+
+import isFunction from 'lodash/isFunction';
+import { createAction } from 'redux-actions';
+import schemas from '../schemas/sample_schema';
+export const GET_PETS__ID_ = 'GET_PETS__ID_';
+
+export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  let _metaCreator = () => meta;
+  if (isFunction(metaCreator)) {
+    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
+  }
+  return createAction(id, payloadCreator, _metaCreator);
+}
+",
+  "path": "tmp/action_types/sample.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 2`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_CAT: string = 'cat';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Cat's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Cat extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/cat.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 3`] = `
+Object {
+  "output": "/* eslint-disable */
+// @flow
+/**
+ * generated from API definition file
+ */
+
+import { Record, List } from 'immutable';
+import { schema as _schema, denormalize as _denormalize } from 'normalizr';
+import isArray from 'lodash/isArray';
+
+export const KIND_DOG: string = 'dog';
+
+const defaultValues = {
+  id: undefined,
+  kind: undefined,
+  name: undefined,
+};
+
+export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+
+
+/**
+ * @params ids : Dog's id[s]
+ * @params entities : all entities that need to denormalize ids
+ */
+export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+
+export default class Dog extends Record(defaultValues) {
+  id: number;
+  kind: string;
+  name: string;
+  static denormalize(id: number[] | string[], entities: any) {
+    return denormalize(id, entities);
+  }
+}
+",
+  "path": "tmp/base/dog.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 4`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Cat from './base/cat';
+export * from './base/cat';
+
+export default class Cat extends _Cat {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/cat.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 5`] = `
+Object {
+  "output": "/* eslint-disable comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+import _Dog from './base/dog';
+export * from './base/dog';
+
+export default class Dog extends _Dog {
+
+  /**
+   * write custom methods here
+   */
+}
+",
+  "path": "tmp/dog.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 6`] = `
+Object {
+  "output": "/**
+ * generated from API definition file
+ */
+
+import Dog from './dog';
+import Cat from './cat';
+
+export {
+  Dog,
+  Cat,
+};
+",
+  "path": "tmp/index.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 7`] = `
+Object {
+  "output": "/* eslint-disable quotes,comma-dangle */
+/**
+ * generated from API definition file
+ */
+
+export default {
+  \\"openapi\\": \\"3.0.0\\",
+  \\"info\\": {
+    \\"title\\": \\"read one of schema from other file\\",
+    \\"version\\": \\"1.0.0\\",
+    \\"contact\\": {
+      \\"name\\": \\"API Support\\",
+      \\"url\\": \\"http://www.example.com/support\\",
+      \\"email\\": \\"support@example.com\\"
+    }
+  },
+  \\"tags\\": [
+    {
+      \\"name\\": \\"default\\",
+      \\"description\\": \\"default API\\"
+    }
+  ],
+  \\"paths\\": {
+    \\"/pets/{id}\\": {
+      \\"get\\": {
+        \\"tags\\": [
+          \\"pet\\"
+        ],
+        \\"description\\": \\"get pet\\\\n\\",
+        \\"parameters\\": [
+          {
+            \\"description\\": \\"pet id\\",
+            \\"name\\": \\"id\\",
+            \\"in\\": \\"path\\",
+            \\"required\\": true,
+            \\"schema\\": {
+              \\"type\\": \\"integer\\",
+              \\"format\\": \\"int64\\"
+            }
+          }
+        ],
+        \\"responses\\": {
+          \\"200\\": {
+            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+          }
+        }
+      }
+    }
+  },
+  \\"components\\": {
+    \\"responses\\": {
+      \\"PetResponse\\": {
+        \\"description\\": \\"a pet response\\",
+        \\"content\\": {
+          \\"application/json\\": {
+            \\"schema\\": {
+              \\"$ref\\": \\"./one_of.yml#/components/schemas/Pet\\"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+",
+  "path": "tmp/sample_api.js",
+}
+`;
+
+exports[`schema generator spec from one of other spec file  check 8`] = `
+Object {
+  "output": "/* eslint-disable */
+/**
+ * generated from API definition file
+ */
+
+import { schema as DogSchema } from './../dog';
+import { schema as CatSchema } from './../cat';
+import { schema as _schema } from 'normalizr';
+const oneOfSchema1 = new _schema.Union({
+  dog: DogSchema,
+  cat: CatSchema
+}, 'kind');
+
+export default {
+  get_pets__id_: {
+    200: oneOfSchema1
   }
 };
 ",

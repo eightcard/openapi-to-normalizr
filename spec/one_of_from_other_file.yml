@@ -1,0 +1,38 @@
+---
+openapi: '3.0.0'
+info:
+  title: read one of schema from other file
+  version: 1.0.0
+  contact: 
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+tags:
+  - name: default
+    description: default API
+paths:
+  /pets/{id}:
+    get:
+      tags:
+        - pet
+      description: |
+        get pet
+      parameters:
+        - description: pet id
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          $ref: '#/components/responses/PetResponse'
+components:
+  responses:
+    PetResponse:
+      description: a pet response
+      content:
+        application/json:
+          schema:
+            $ref: './one_of.yml#/components/schemas/Pet'
