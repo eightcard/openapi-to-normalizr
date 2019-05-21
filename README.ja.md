@@ -18,7 +18,7 @@
       ```
     - config
       ```js
-      {    
+      {
         templates: { // テンプレートパス
           model: 'ベースモデル用',
           override: '継承モデル用',
@@ -31,9 +31,9 @@
           oneOf: 'oneOf展開用',
         },
         outputPath: {
-          schemas: 'スキーマファイル出力パス',
-          actions: 'action typeファイル出力パス',
-          jsSpec: 'JS版スペック出力パス',
+          schemas: 'スキーマファイル出力パス',
+          actions: 'action typeファイル出力パス',
+          jsSpec: 'JS版スペック出力パス',
         },
         modelsDir: 'モデル出力先',
         useFlow: 'flowtype利用(true/false)',
@@ -41,7 +41,7 @@
         attributeConverter: '属性コンバート用関数',
       }
       ```
-      
+
 2. 自動生成コードの利用
     - `redux`のmiddlewareを利用したAPIリクエストと `normalizr` を利用したレスポンス正規化を行います。
       ```js
@@ -63,11 +63,11 @@
         const action = createEntitiesAction(ActionTypes.GET_PETS__ID_);
         store.dispatch(action({id: 1}));
       });
-      ``` 
+      ```
     - [examples](./examples/README.md)では簡単なAPI定義から動作確認するサンプルがあります。
-    - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。  
+    - [src/lib](./src/lib/README.md)に `createEntitiesReducer`, `createOpenApiMiddleware`の仕様があります。
       各ツールのコンセプトはこちらを参照ください。
-      
+
 ## デプロイ
 - babel処理 (lint -> test -> build)
   ```sh
@@ -84,30 +84,30 @@
 
 ## その他
 ### パスのIDについて
-- パスごとの `operationId` は利用しない。  
-- 自動的に以下の規約でIDが振られることになる。  
-   - `/` -> `_` 
+- パスごとの `operationId` は利用しない。
+- 自動的に以下の規約でIDが振られることになる。
+   - `/` -> `_`
    -  `{foo}` -> `_foo_`
 -  ReduxアクションのtypeなどではこのIDを大文字にしたものを利用する。
 
 ### モデルについて
-- swagger-uiで表現できないため、ディレクトリには分割しない。  
+- swagger-uiで表現できないため、ディレクトリには分割しない。
 - ドメイン依存するような場合はモデル名自体で対応する。
-- モデル名は `UpperCamelCase`  
+- モデル名は `UpperCamelCase`
   例: `User`, `CompanyAccount`
-  
+
 ### componentsの定義
 以下の場所にそれぞれスキーマを定義する。
 - `components.schemas`: モデル定義
 - `components.requestBodies` : モデル定義などを利用したリクエスト定義
 - `components.responses` : モデル定義などを利用したレスポンス定義
-  
+
 ### 拡張について
-OpenAPIでは `^x-` の形式で拡張を許容している。  
+OpenAPIでは `^x-` の形式で拡張を許容している。
 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#specification-extensions
 
 このツールでは以下の拡張を実装する。
-- x-id-attribute  
+- x-id-attribute
   文字列形式でエンティティ化するときのID相当の属性を指定する。(未指定時は `id`)
   ネストしている属性を利用する場合、`xxx.yyy` のような指定もできる。
 - x-attribute-as
