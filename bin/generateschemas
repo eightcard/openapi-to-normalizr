@@ -59,6 +59,7 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
         templatePath: config.templates,
         usePropType: config.usePropType,
         useFlow: config.useFlow,
+        useTypeScript: config.useTypeScript,
         isV2, attributeConverter,
         definitions,
       });
