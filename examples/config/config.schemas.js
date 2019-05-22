@@ -12,5 +12,5 @@ module.exports = {
   attributeConverter: snakeToCamel,
   useFlow: false,
   usePropType: false,
-  useTypeScript: false,
+  useTypeScript: true,
 };

@@ -24,4 +24,5 @@ module.exports = {
   outputPath,
   useFlow: true,
   usePropType: false,
+  useTypeScript: false,
 };

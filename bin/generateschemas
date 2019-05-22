@@ -10,6 +10,7 @@ const program = require('commander');
 const _ = require('lodash');
 const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFiles } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
+const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
 const JsSpecGenerator = require('../src/tools/js_spec_generator');
@@ -42,7 +43,7 @@ const { filesPath, definitions} = getPreparedSpecFiles(specFiles);
 Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
   const spec = _.merge(...schemas);
 
-  let actionTypesGenerator, modelGenerator, schemaGenerator;
+  let actionTypesGenerator, modelGenerator, schemaGenerator, tsModelGenerator;
   const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
   const modelsDir = config.modelsDir || 'dist';
   const baseModelsDir = `${modelsDir}/base`;
@@ -54,6 +55,16 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
       const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 
       modelGenerator = new ModelGenerator({
+        outputDir: modelsDir,
+        outputBaseDir: baseModelsDir,
+        templatePath: config.templates,
+        usePropType: config.usePropType,
+        useFlow: config.useFlow,
+        isV2, attributeConverter,
+        definitions,
+      });
+
+      tsModelGenerator = new TsModelGenerator({
         outputDir: modelsDir,
         outputBaseDir: baseModelsDir,
         templatePath: config.templates,
@@ -72,7 +83,7 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
       schemaGenerator = new SchemaGenerator({
         outputPath: config.outputPath.schemas,
         templatePath: config.templates,
-        modelsDir, modelGenerator, isV2, attributeConverter,
+        modelsDir, modelGenerator, tsModelGenerator, isV2, attributeConverter,
       });
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
       return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));

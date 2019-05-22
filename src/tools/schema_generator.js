@@ -11,13 +11,14 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str}) {
+  constructor({outputPath = '', templatePath = {}, modelGenerator, tsModelGenerator, modelsDir, isV2, attributeConverter = str => str}) {
     this.outputPath = outputPath;
     const {dir, name, ext} = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}${ext}`;
     this.templatePath = templatePath;
     this.modelGenerator = modelGenerator;
+    this.tsModelGenerator = tsModelGenerator;
     this.modelsDir = modelsDir;
     this.isV2 = isV2;
     this.attributeConverter = attributeConverter;
@@ -71,8 +72,10 @@ class SchemaGenerator {
     return Promise.all([
       this._writeSchemaFile(),
       this.importModels.map(({ modelName, model }) => this.modelGenerator.writeModel(model, modelName)),
+      this.importModels.map(({ modelName, model }) => this.tsModelGenerator.writeModel(model, modelName)),
     ]).then(() => {
       this.modelGenerator.writeIndex();
+      this.tsModelGenerator.writeIndex();
     });
   }
 

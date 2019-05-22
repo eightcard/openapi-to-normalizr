@@ -10,13 +10,14 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, useTypeScript, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
     this.isV2 = isV2;
     this.useFlow = useFlow;
     this.usePropType = usePropType;
+    this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
     this.templates = readTemplates(['model', 'models', 'override', 'head', 'dependency', 'oneOf'], this.templatePath);
@@ -42,7 +43,7 @@ class ModelGenerator {
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(({ text, props }) => {
-      writeFile(path.join(this.outputBaseDir, `${fileName}.js`), text);
+      writeFile(path.join(this.outputBaseDir, `${fileName}.ts`), text);
       return this._writeOverrideModel(name, fileName, props).then(() => name);
     });
   }
@@ -53,12 +54,12 @@ class ModelGenerator {
     }, {
       head: this.templates.head,
     });
-    return writeFilePromise(path.join(this.outputDir, 'index.js'), text);
+    return writeFilePromise(path.join(this.outputDir, 'index.ts'), text);
   }
 
   _writeOverrideModel(name, fileName, props) {
     const overrideText = this._renderOverrideModel(name, fileName, props);
-    const filePath = path.join(this.outputDir, `${fileName}.js`);
+    const filePath = path.join(this.outputDir, `${fileName}.ts`);
     return isFileExistPromise(filePath).then((isExist) => isExist || writeFilePromise(filePath, overrideText));
   }
 
@@ -109,6 +110,7 @@ class ModelGenerator {
         name, idAttribute: this._prepareIdAttribute(idAttribute),
         usePropTypes: this.usePropType,
         useFlow: this.useFlow,
+        useTypeScript: this.useTypeScript,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
