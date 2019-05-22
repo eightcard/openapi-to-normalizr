@@ -29,7 +29,7 @@ export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}?: {{&getTypeScriptTypes}},
+  {{&name}}?: {{&getTypeScriptTypes}};
 {{/props}}
 };
 
@@ -57,7 +57,7 @@ export const propTypes = PropTypes.shape(propTypesObject);
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: Array<number> | Array<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} => {
+export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 

@@ -227,8 +227,29 @@ class TsModelGenerator {
 
     if (prop.type === 'object' && prop.properties) {
       if (!this.useImmutableMap) this.useImmutableMap = true;
+      const { typeScript } = this.parseObjectToImmutableMapRecursive(prop, definition);
       return {
-        typeScript: 'any',
+        typeScript,
+      }
+    }
+  }
+
+  parseObjectToImmutableMapRecursive(prop, definition) {
+    if (prop.type === 'object' && prop.properties) {
+      const propertiesUnionType = _.map(prop.properties, (v) => {
+        const { typeScript } = this.parseObjectToImmutableMapRecursive(v, definition);
+        return typeScript;
+      }).join(' | ');
+      return {
+        typeScript: `Map<string, ${propertiesUnionType}>`,
+      }
+    } else if (prop.type === 'array' && prop.items && prop.items.type) {
+      return {
+        typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
+      }
+    } else {
+      return {
+        typeScript: _getTypeScriptTypes(prop.type),
       }
     }
   }

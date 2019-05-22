@@ -223,13 +223,29 @@ components:
         sampleObj:
           type: object
           properties:
-            firstObj:
+            first:
               type: object
               properties:
                 name:
                   type: string
-            secondString:
+                uuid:
+                  type: boolean
+                first:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    uuid:
+                      type: boolean
+                    places:
+                      type: array
+                      items:
+                        type: string
+            second:
               type: string
+            third:
+              type: number
         owner:
           $ref: '#/components/schemas/Person'
     Person:
