@@ -11,7 +11,7 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
-import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
 {{/importList}}
 
 {{#props}}
@@ -20,7 +20,21 @@ export const {{name}}{{#useFlow}}: {{enumType}}{{/useFlow}} = {{#isValueString}}
 {{/enumObjects}}
 {{/props}}
 
-const defaultValues = {
+{{#useTypeScript}}
+{{#props}}
+{{#enumObjects}}
+export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+{{/enumObjects}}
+{{/props}}
+
+export interface {{name}}Props {
+{{#props}}
+  {{&name}}?: {{&getTypeScriptTypes}},
+{{/props}}
+};
+
+{{/useTypeScript}}
+const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{#props}}
   {{&name}}: {{&getDefaults}},
 {{/props}}
@@ -43,15 +57,17 @@ export const propTypes = PropTypes.shape(propTypesObject);
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: Array<number> | Array<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
-export default class {{name}} extends Record(defaultValues) {
+export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/useTypeScript}}(defaultValues) {
 {{#useFlow}}
 {{#props}}
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
+  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: Array<number> | Array<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} {
     return denormalize(id, entities);
   }
 {{#props}}

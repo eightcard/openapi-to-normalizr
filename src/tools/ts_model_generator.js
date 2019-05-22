@@ -9,7 +9,7 @@ const {
  * モデル定義からモデルファイルを作成
  */
 
-class ModelGenerator {
+class TsModelGenerator {
   constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, useTypeScript, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
@@ -115,7 +115,7 @@ class ModelGenerator {
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
         importList: this._prepareImportList(importList),
-        getFlowTypes, getPropTypes, getDefaults
+        getFlowTypes, getPropTypes, getDefaults, getTypeScriptTypes
       };
 
       const text = render(this.templates.model, props, {
@@ -167,12 +167,19 @@ class ModelGenerator {
     return `${convertedName}_${convertedkey}`;
   }
 
+  getEnumLiteralTypeName(enumName, propertyName) {
+    const convertedName = _.startCase(propertyName).split(' ').join('');
+    const convertedkey = _.startCase(enumName).split(' ').join('');
+    return `${convertedName}${convertedkey}`;
+  }
+
   getEnumObjects(name, enums, enumKeyAttributes = []) {
     if (!enums) return false;
     return enums.map((current, index) => {
       const enumName = enumKeyAttributes[index] || current;
       return {
         'name': this.getEnumConstantName(enumName, name),
+        'literalTypeName': this.getEnumLiteralTypeName(enumName, name),
         'value': current,
       };
     });
@@ -197,14 +204,16 @@ class ModelGenerator {
       return {
         propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
         flow: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
+        typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { propType, flow } = this.generateTypeFrom(prop.items, definition);
+      const { propType, flow, typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
         propType: `ImmutablePropTypes.listOf(${propType})`,
         flow: flow ? `(${flow})[]` : '',
+        typeScript: typeScript ? `Array<(${flow})>` : '',
       };
     }
 
@@ -212,6 +221,7 @@ class ModelGenerator {
       return {
         propType: this._generatePropTypeFromDefinition(definition),
         flow: this._generateFlowTypeFromDefinition(definition),
+        typeScript: this._generateTypeScriptTypeFromDefinition(definition),
       };
     }
 
@@ -221,6 +231,7 @@ class ModelGenerator {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
         flow: `${this._getEnumTypes(prop.items.type)}[]`,
+        typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
@@ -230,7 +241,8 @@ class ModelGenerator {
         return acc;
       }, {});
       return {
-        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`
+        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
+        typeScript: 'any',
       }
     }
   }
@@ -266,6 +278,23 @@ class ModelGenerator {
     } else if (_.isObject(definition)) {
       return _.reduce(definition, (acc, value, key) => {
         acc[key] = this._generateFlowTypeFromDefinition(value);
+        return acc;
+      }, {});
+    }
+  }
+
+  _generateTypeScriptTypeFromDefinition(definition) {
+    let def;
+    if (_.isString(definition)) {
+      return definition.replace(/Schema$/, '');
+    }
+    if (_.isArray(definition)) {
+      def = definition[0];
+      const type = this._generateTypeScriptTypeFromDefinition(def);
+      return `[${type}]`;
+    } else if (_.isObject(definition)) {
+      return _.reduce(definition, (acc, value, key) => {
+        acc[key] = this._generateTypeScriptTypeFromDefinition(value);
         return acc;
       }, {});
     }
@@ -330,6 +359,28 @@ function _getFlowTypes(type, enums) {
   }
 }
 
+function getTypeScriptTypes() {
+  return _getTypeScriptTypes(this.type, this.enum)
+}
+
+function _getTypeScriptTypes(type, enums) {
+  if (enums) {
+   const typeList = enums.map(() => _getTypeScriptTypes(type));
+   return _.uniq(typeList).join(' | ');
+  }
+  switch (type) {
+    case 'integer':
+    case 'number':
+      return 'number';
+    case 'string':
+      return 'string';
+    case 'boolean':
+      return 'boolean';
+    default:
+      return type && type.typeScript ? type.typeScript : 'any';
+  }
+}
+
 function getDefaults() {
   if (_.isUndefined(this.default)) { return 'undefined'; }
   if (this.enumObjects) {
@@ -340,4 +391,4 @@ function getDefaults() {
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
-module.exports = ModelGenerator;
+module.exports = TsModelGenerator;
