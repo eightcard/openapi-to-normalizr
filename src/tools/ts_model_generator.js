@@ -10,13 +10,11 @@ const {
  */
 
 class TsModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, useTypeScript, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useTypeScript, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
     this.isV2 = isV2;
-    this.useFlow = useFlow;
-    this.usePropType = usePropType;
     this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
@@ -24,6 +22,7 @@ class TsModelGenerator {
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
     this._modelNameList = [];
+    this.useImmutableMap = false;
   }
 
   /**
@@ -108,14 +107,13 @@ class TsModelGenerator {
 
       const props = {
         name, idAttribute: this._prepareIdAttribute(idAttribute),
-        usePropTypes: this.usePropType,
-        useFlow: this.useFlow,
         useTypeScript: this.useTypeScript,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
         importList: this._prepareImportList(importList),
-        getFlowTypes, getPropTypes, getDefaults, getTypeScriptTypes
+        getDefaults, getTypeScriptTypes,
+        useImmutableMap: this.useImmutableMap,
       };
 
       const text = render(this.templates.model, props, {
@@ -202,25 +200,19 @@ class TsModelGenerator {
         return modelName ? { isModel: true, type: modelName } : { isModel: false, type: obj.type };
       });
       return {
-        propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
-        flow: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
         typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { propType, flow, typeScript } = this.generateTypeFrom(prop.items, definition);
+      const { typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
-        propType: `ImmutablePropTypes.listOf(${propType})`,
-        flow: flow ? `(${flow})[]` : '',
-        typeScript: typeScript ? `Array<(${flow})>` : '',
+        typeScript: typeScript ? `Array<(${typeScript})>` : '',
       };
     }
 
     if (definition) {
       return {
-        propType: this._generatePropTypeFromDefinition(definition),
-        flow: this._generateFlowTypeFromDefinition(definition),
         typeScript: this._generateTypeScriptTypeFromDefinition(definition),
       };
     }
@@ -229,57 +221,15 @@ class TsModelGenerator {
     /* ここではプリミティブ型の配列のパターンを扱う */
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
-        propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        flow: `${this._getEnumTypes(prop.items.type)}[]`,
         typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
     if (prop.type === 'object' && prop.properties) {
-      const props = _.reduce(prop.properties, (acc, value, key) => {
-        acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
-        return acc;
-      }, {});
+      if (!this.useImmutableMap) this.useImmutableMap = true;
       return {
-        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
         typeScript: 'any',
       }
-    }
-  }
-
-  _generatePropTypeFromDefinition(definition) {
-    let def;
-    if (_.isString(definition)) {
-      def = definition.replace(/Schema$/, '');
-      return `${def}PropType`;
-    }
-    if (_.isArray(definition)) {
-      def = definition[0];
-      const type = this._generatePropTypeFromDefinition(def);
-      return `ImmutablePropTypes.listOf(${type})`;
-    } else if (_.isObject(definition)) {
-      const type = _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._generatePropTypeFromDefinition(value);
-        return acc;
-      }, {});
-      return `ImmutablePropTypes.mapContains(${JSON.stringify(type).replace(/"/g, '')})`;
-    }
-  }
-
-  _generateFlowTypeFromDefinition(definition) {
-    let def;
-    if (_.isString(definition)) {
-      return definition.replace(/Schema$/, '');
-    }
-    if (_.isArray(definition)) {
-      def = definition[0];
-      const type = this._generateFlowTypeFromDefinition(def);
-      return `${type}[]`;
-    } else if (_.isObject(definition)) {
-      return _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._generateFlowTypeFromDefinition(value);
-        return acc;
-      }, {});
     }
   }
 
@@ -291,7 +241,7 @@ class TsModelGenerator {
     if (_.isArray(definition)) {
       def = definition[0];
       const type = this._generateTypeScriptTypeFromDefinition(def);
-      return `[${type}]`;
+      return `Array<${type}>`;
     } else if (_.isObject(definition)) {
       return _.reduce(definition, (acc, value, key) => {
         acc[key] = this._generateTypeScriptTypeFromDefinition(value);
@@ -311,62 +261,14 @@ class TsModelGenerator {
   }
 }
 
-function getPropTypes() {
-  return _getPropTypes(this.type, this.enum, this.enumObjects);
-}
-
-function _getPropTypes(type, enums, enumObjects) {
-  if (enumObjects) {
-    const nameMap = enumObjects.map(current => current.name);
-    return `PropTypes.oneOf([${nameMap.join(', ')}])`;
-  } else if (enums) {
-    return `PropTypes.oneOf([${enums.map(n => type === 'string' ? `'${n}'` : n).join(', ')}])`;
-  }
-  switch (type) {
-    case 'integer':
-    case 'number':
-      return 'PropTypes.number';
-    case 'string':
-      return 'PropTypes.string';
-    case 'boolean':
-      return 'PropTypes.bool';
-    case 'array':
-      return 'PropTypes.array';
-    default:
-      return type && type.propType ? type.propType : 'PropTypes.any';
-  }
-}
-
-function getFlowTypes() {
-  return _getFlowTypes(this.type, this.enum)
-}
-
-function _getFlowTypes(type, enums) {
-  if (enums) {
-   const typeList = enums.map(() => _getFlowTypes(type));
-   return _.uniq(typeList).join(' | ');
-  }
-  switch (type) {
-    case 'integer':
-    case 'number':
-      return 'number';
-    case 'string':
-      return 'string';
-    case 'boolean':
-      return 'boolean';
-    default:
-      return type && type.flow ? type.flow : 'any';
-  }
-}
-
 function getTypeScriptTypes() {
-  return _getTypeScriptTypes(this.type, this.enum)
+  return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
-function _getTypeScriptTypes(type, enums) {
-  if (enums) {
-   const typeList = enums.map(() => _getTypeScriptTypes(type));
-   return _.uniq(typeList).join(' | ');
+function _getTypeScriptTypes(type, enumObjects) {
+  if (enumObjects) {
+    const literalTypeNames = enumObjects.map(current => current.literalTypeName);
+    return `${literalTypeNames.join(' | ')}`;
   }
   switch (type) {
     case 'integer':

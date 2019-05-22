@@ -10,7 +10,7 @@ module.exports = {
   },
   modelsDir: './examples/tmp/models',
   attributeConverter: snakeToCamel,
-  useFlow: false,
-  usePropType: false,
+  useFlow: true,
+  usePropType: true,
   useTypeScript: true,
 };
