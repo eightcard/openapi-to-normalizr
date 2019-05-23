@@ -22,7 +22,7 @@ class TsModelGenerator {
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
     this._modelNameList = [];
-    this.useImmutableMap = false;
+    this.importImmutableMap = false;
   }
 
   /**
@@ -105,6 +105,9 @@ class TsModelGenerator {
         }
       }, this.isV2);
 
+      // reset
+      this.importImmutableMap = false;
+
       const props = {
         name, idAttribute: this._prepareIdAttribute(idAttribute),
         useTypeScript: this.useTypeScript,
@@ -113,7 +116,7 @@ class TsModelGenerator {
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
         importList: this._prepareImportList(importList),
         getDefaults, getTypeScriptTypes,
-        useImmutableMap: this.useImmutableMap,
+        importImmutableMap: this.importImmutableMap,
       };
 
       const text = render(this.templates.model, props, {
@@ -226,30 +229,9 @@ class TsModelGenerator {
     }
 
     if (prop.type === 'object' && prop.properties) {
-      if (!this.useImmutableMap) this.useImmutableMap = true;
-      const { typeScript } = this.parseObjectToImmutableMapRecursive(prop, definition);
+      if (!this.importImmutableMap) this.importImmutableMap = true;
       return {
-        typeScript,
-      }
-    }
-  }
-
-  parseObjectToImmutableMapRecursive(prop, definition) {
-    if (prop.type === 'object' && prop.properties) {
-      const propertiesUnionType = _.map(prop.properties, (v) => {
-        const { typeScript } = this.parseObjectToImmutableMapRecursive(v, definition);
-        return typeScript;
-      }).join(' | ');
-      return {
-        typeScript: `Map<string, ${propertiesUnionType}>`,
-      }
-    } else if (prop.type === 'array' && prop.items && prop.items.type) {
-      return {
-        typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
-      }
-    } else {
-      return {
-        typeScript: _getTypeScriptTypes(prop.type),
+        typeScript: 'Map<number | string, any>'
       }
     }
   }
@@ -262,7 +244,7 @@ class TsModelGenerator {
     if (_.isArray(definition)) {
       def = definition[0];
       const type = this._generateTypeScriptTypeFromDefinition(def);
-      return `Array<${type}>`;
+      return `List<${type}>`;
     } else if (_.isObject(definition)) {
       return _.reduce(definition, (acc, value, key) => {
         acc[key] = this._generateTypeScriptTypeFromDefinition(value);

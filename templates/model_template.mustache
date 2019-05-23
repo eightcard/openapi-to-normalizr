@@ -7,7 +7,7 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 {{/usePropTypes}}
-import { Record, List{{#useTypeScript}}{{#useImmutableMap}}, Map{{/useImmutableMap}}{{/useTypeScript}} } from 'immutable';
+import { Record, List{{#importImmutableMap}}, Map{{/importImmutableMap}} } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
@@ -57,7 +57,7 @@ export const propTypes = PropTypes.shape(propTypesObject);
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} => {
+const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
@@ -67,7 +67,7 @@ export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props{{/useTypeScript}} {
+  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
     return denormalize(id, entities);
   }
 {{#props}}
