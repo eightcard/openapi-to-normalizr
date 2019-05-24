@@ -231,7 +231,7 @@ class TsModelGenerator {
     if (prop.type === 'object' && prop.properties) {
       if (!this.importImmutableMap) this.importImmutableMap = true;
       return {
-        typeScript: 'Map<number | string, any>'
+        typeScript: 'Map<unknown, unknown>'
       }
     }
   }
