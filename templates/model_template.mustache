@@ -21,15 +21,14 @@ export const {{name}}{{#useFlow}}: {{enumType}}{{/useFlow}} = {{#isValueString}}
 {{/props}}
 
 {{#useTypeScript}}
-{{#props}}
-{{#enumObjects}}
+{{#props}}{{#enumObjects}}
 export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
 {{/enumObjects}}
 {{/props}}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}?: {{&getTypeScriptTypes}};
+  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#required}} | undefined{{/required}};
 {{/props}}
 };
 

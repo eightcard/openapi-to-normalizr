@@ -259,6 +259,9 @@ components:
           type: integer
           format: int64
     Company:
+      required:
+        - name
+        - email
       x-id-attribute: company_id
       properties:
         name:
