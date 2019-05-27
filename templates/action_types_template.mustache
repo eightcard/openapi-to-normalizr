@@ -1,17 +1,30 @@
 /* eslint-disable no-underscore-dangle */
 {{>head}}
 import isFunction from 'lodash/isFunction';
-import { createAction } from 'redux-actions';
+import { createAction {{#useTypeScript}}, ActionFunctionAny, ActionMeta{{/useTypeScript}} } from 'redux-actions';
 import schemas from '{{&schemasFile}}';
+{{#useTypeScript}}import { Schema } from 'normalizr';{{/useTypeScript}}
 {{#operationIdList}}
 export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
-export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+{{#useTypeScript}}
+interface Meta {
+  openApi: boolean,
+  id: string,
+  schema: Schema,
+}
+
+{{/useTypeScript}}
+export function createOpenApiAction(
+  id{{#useTypeScript}}: string{{/useTypeScript}},
+  payloadCreator{{#useTypeScript}}: ActionFunctionAny<any>{{/useTypeScript}} = (params) => params,
+  metaCreator{{#useTypeScript}}: ActionFunctionAny<Meta>{{/useTypeScript}}
+){{#useTypeScript}}: ActionFunctionAny<ActionMeta<any, Meta>>{{/useTypeScript}} {
   const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
-  let _metaCreator = () => meta;
-  if (isFunction(metaCreator)) {
-    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
-  }
+  const _metaCreator =
+    isFunction(metaCreator)
+      ? (...args{{#useTypeScript}}: Array<any>{{/useTypeScript}}) => Object.assign(metaCreator(...args), meta)
+      : () => meta;
   return createAction(id, payloadCreator, _metaCreator);
 }

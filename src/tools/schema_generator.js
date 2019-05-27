@@ -11,14 +11,13 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputPath = '', templatePath = {}, modelGenerator, tsModelGenerator, modelsDir, isV2, attributeConverter = str => str}) {
+  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str, useTypeScript}) {
     this.outputPath = outputPath;
     const {dir, name, ext} = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}${ext}`;
     this.templatePath = templatePath;
     this.modelGenerator = modelGenerator;
-    this.tsModelGenerator = tsModelGenerator;
     this.modelsDir = modelsDir;
     this.isV2 = isV2;
     this.attributeConverter = attributeConverter;
@@ -28,6 +27,7 @@ class SchemaGenerator {
     this.oneOfs = [];
     this.parse = this.parse.bind(this);
     this.write = this.write.bind(this);
+    this.useTypeScript = useTypeScript;
   }
 
   /**
@@ -72,10 +72,8 @@ class SchemaGenerator {
     return Promise.all([
       this._writeSchemaFile(),
       this.importModels.map(({ modelName, model }) => this.modelGenerator.writeModel(model, modelName)),
-      this.importModels.map(({ modelName, model }) => this.tsModelGenerator.writeModel(model, modelName)),
     ]).then(() => {
       this.modelGenerator.writeIndex();
-      this.tsModelGenerator.writeIndex();
     });
   }
 
@@ -86,6 +84,7 @@ class SchemaGenerator {
       data: objectToTemplateValue(this.formattedSchema),
       hasOneOf: oneOfs.length > 0,
       oneOfs,
+      useTypeScript: this.useTypeScript,
     }, {
       head: this.templates.head,
       oneOf: this.templates.oneOf,

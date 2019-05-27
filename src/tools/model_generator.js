@@ -10,7 +10,7 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow, usePropType, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;

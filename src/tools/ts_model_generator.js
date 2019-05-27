@@ -10,7 +10,7 @@ const {
  */
 
 class TsModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useTypeScript, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useTypeScript = false, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;

@@ -54,34 +54,37 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
       const isV2 = spec.swagger === '2.0';
       const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 
-      modelGenerator = new ModelGenerator({
-        outputDir: modelsDir,
-        outputBaseDir: baseModelsDir,
-        templatePath: config.templates,
-        usePropType: config.usePropType,
-        useFlow: config.useFlow,
-        isV2, attributeConverter,
-        definitions,
-      });
-
-      tsModelGenerator = new TsModelGenerator({
-        outputDir: modelsDir,
-        outputBaseDir: baseModelsDir,
-        templatePath: config.templates,
-        useTypeScript: config.useTypeScript,
-        isV2, attributeConverter,
-        definitions,
-      });
+      modelGenerator =
+        config.useTypeScript
+          ? new TsModelGenerator({
+            outputDir: modelsDir,
+            outputBaseDir: baseModelsDir,
+            templatePath: config.templates,
+            useTypeScript: config.useTypeScript,
+            isV2, attributeConverter,
+            definitions,
+          })
+          : new ModelGenerator({
+            outputDir: modelsDir,
+            outputBaseDir: baseModelsDir,
+            templatePath: config.templates,
+            usePropType: config.usePropType,
+            useFlow: config.useFlow,
+            isV2, attributeConverter,
+            definitions,
+          });
 
       actionTypesGenerator = new ActionTypesGenerator({
         outputPath: config.outputPath.actions,
         templatePath: config.templates,
         schemasFilePath: config.outputPath.schemas,
+        useTypeScript: config.useTypeScript,
       });
       schemaGenerator = new SchemaGenerator({
         outputPath: config.outputPath.schemas,
         templatePath: config.templates,
         modelsDir, modelGenerator, tsModelGenerator, isV2, attributeConverter,
+        useTypeScript: config.useTypeScript,
       });
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
       return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
