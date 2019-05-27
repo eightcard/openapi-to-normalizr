@@ -223,31 +223,29 @@ function applyAlternativeRef(spec) {
   }
 }
 
-function getPreparedSpecFiles(specFiles) {
+function getPreparedSpecFilePaths(specFiles) {
   const readFiles = {};
-  const definitions = {};
   const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
   const allFiles = _.uniq(_.flattenDeep(getAllRelatedFiles(specFiles)));
 
-  specFiles.concat(allFiles).forEach((p) => {
+  return specFiles.concat(allFiles).map((p) => {
     const target = path.join(tmpDir, p);
     mkdirp.sync(path.dirname(target));
 
     const spec = jsYaml.safeLoad(fs.readFileSync(p));
+    if (!specFiles.includes(p)) {
+      delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
+    }
     applyAlternativeRef(spec);
     const schemas = spec.components && spec.components.schemas;
     if (schemas) {
       _.each(schemas, (model, name) => {
         model['x-model-name'] = name;
-        definitions[name] = model;
       });
     }
     fs.writeFileSync(target, jsYaml.safeDump(spec));
+    return target;
   });
-  return {
-    filesPath: specFiles.map((p) => path.join(tmpDir, p)),
-    definitions,
-  };
 
   function getAllRelatedFiles(files) {
     return files.reduce((acc, filePath) => {
@@ -263,6 +261,16 @@ function getPreparedSpecFiles(specFiles) {
       }));
     }, []);
   }
+}
+
+function getModelDefinitions(spec) {
+  return _.reduce(spec.components.schemas, (acc, model) => {
+    const modelName = getModelName(model);
+    if (modelName) {
+      acc[modelName] = model;
+    }
+    return acc;
+  }, {});
 }
 
 module.exports = {
@@ -283,5 +291,6 @@ module.exports = {
   getIdAttribute,
   getModelName,
   writeFile,
-  getPreparedSpecFiles,
+  getPreparedSpecFilePaths,
+  getModelDefinitions,
 };
