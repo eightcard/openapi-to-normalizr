@@ -3,6 +3,7 @@ const path = require('path');
 const {
   applyIf, schemaName, parseSchema, objectToTemplateValue, getModelName,
   readTemplates, writeFilePromise, render, changeFormat, getIdAttribute,
+  getExtensionByTypeScriptFlag,
 } = require('./utils');
 
 /**
@@ -13,9 +14,9 @@ const {
 class SchemaGenerator {
   constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str, useTypeScript}) {
     this.outputPath = outputPath;
-    const {dir, name, ext} = path.parse(this.outputPath);
+    const {dir, name} = path.parse(this.outputPath);
     this.outputDir = dir;
-    this.outputFileName = `${name}${ext}`;
+    this.outputFileName = `${name}.${getExtensionByTypeScriptFlag(useTypeScript)}`;
     this.templatePath = templatePath;
     this.modelGenerator = modelGenerator;
     this.modelsDir = modelsDir;

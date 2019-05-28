@@ -100,6 +100,7 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
     return (new JsSpecGenerator({
       templatePath: config.templates,
       outputPath: config.outputPath.jsSpec,
+      useTypeScript: config.useTypeScript,
     })).write(spec);
   });
 }).catch((e) => {

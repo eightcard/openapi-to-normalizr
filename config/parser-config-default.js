@@ -10,12 +10,10 @@ const templates = {
   spec: 'templates/spec_template.mustache',
   oneOf: 'templates/one_of_template.mustache',
 };
-const useTypeScript = false;
-const ext = useTypeScript ? 'ts' : 'js';
 const outputPath = {
-  schemas: `./tmp/schemas/sample_schema.${ext}`,
-  actions: `./tmp/action_types/sample.${ext}`,
-  jsSpec: `./tmp/sample_api.${ext}`,
+  schemas: './tmp/schemas/sample_schema',
+  actions: './tmp/action_types/sample',
+  jsSpec: './tmp/sample_api',
 };
 module.exports = {
   templates: Object.keys(templates).reduce((acc, key) => {
@@ -26,5 +24,5 @@ module.exports = {
   outputPath,
   useFlow: true,
   usePropType: false,
-  useTypeScript,
+  useTypeScript: false,
 };

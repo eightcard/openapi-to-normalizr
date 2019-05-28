@@ -1,12 +1,12 @@
 const path = require('path');
-const { writeFilePromise, readTemplates, render } = require('./utils');
+const { writeFilePromise, readTemplates, render, getExtensionByTypeScriptFlag } = require('./utils');
 
 class ActionTypesGenerator {
   constructor({outputPath = '', schemasFilePath = '', templatePath = {}, operationIdList = [], useTypeScript = false}) {
     this.outputPath = outputPath;
-    const {dir, name, ext} = path.parse(this.outputPath);
+    const {dir, name} = path.parse(this.outputPath);
     this.outputDir = dir;
-    this.outputFileName = `${name}${ext}`;
+    this.outputFileName = `${name}.${getExtensionByTypeScriptFlag(useTypeScript)}`;
     this.schemasFilePath = schemasFilePath;
     this.templatePath = templatePath;
     this.operationIdList = operationIdList;

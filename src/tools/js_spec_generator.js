@@ -1,15 +1,15 @@
 const path = require('path');
-const { writeFilePromise, readTemplates, render } = require('./utils');
+const { writeFilePromise, readTemplates, render, getExtensionByTypeScriptFlag } = require('./utils');
 
 class JsSpecGenerator {
-  constructor({outputPath = '', templatePath, spec}) {
+  constructor({outputPath = '', templatePath, spec, useTypeScript = false}) {
     this.outputPath = outputPath;
     this.spec = spec;
     this.templatePath = templatePath;
     this.templates = readTemplates(['spec', 'head'], this.templatePath);
-    const {dir, name, ext} = path.parse(this.outputPath);
+    const {dir, name} = path.parse(this.outputPath);
     this.outputDir = dir;
-    this.outputFileName = `${name}${ext}`;
+    this.outputFileName = `${name}.${getExtensionByTypeScriptFlag(useTypeScript)}`;
     this.write = this.write.bind(this);
   }
 
