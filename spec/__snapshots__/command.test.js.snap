@@ -10,14 +10,19 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
+
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
-export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+export function createOpenApiAction(
+  id,
+  payloadCreator = (params) => params,
+  metaCreator
+) {
   const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
-  let _metaCreator = () => meta;
-  if (isFunction(metaCreator)) {
-    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
-  }
+  const _metaCreator =
+    isFunction(metaCreator)
+      ? (...args) => Object.assign(metaCreator(...args), meta)
+      : () => meta;
   return createAction(id, payloadCreator, _metaCreator);
 }
 ",
@@ -53,7 +58,9 @@ export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Owner extends Record(defaultValues) {
   name: string;
@@ -100,7 +107,9 @@ schema.define({
  * @params ids : WrappedPet's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class WrappedPet extends Record(defaultValues) {
   id: number;
@@ -307,11 +316,15 @@ Object {
 
 import { schema as WrappedPetSchema } from './../wrapped_pet';
 
-export default {
+
+
+const schemas = {
   get_pets__id_: {
     200: WrappedPetSchema
   }
 };
+
+export default schemas;
 ",
   "path": "tmp/schemas/sample_schema.js",
 }
@@ -348,14 +361,19 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
+
 export const GET_OWNER__NAME_ = 'GET_OWNER__NAME_';
 
-export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+export function createOpenApiAction(
+  id,
+  payloadCreator = (params) => params,
+  metaCreator
+) {
   const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
-  let _metaCreator = () => meta;
-  if (isFunction(metaCreator)) {
-    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
-  }
+  const _metaCreator =
+    isFunction(metaCreator)
+      ? (...args) => Object.assign(metaCreator(...args), meta)
+      : () => meta;
   return createAction(id, payloadCreator, _metaCreator);
 }
 ",
@@ -390,7 +408,9 @@ export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Cat extends Record(defaultValues) {
   id: number;
@@ -432,7 +452,9 @@ export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Dog extends Record(defaultValues) {
   id: number;
@@ -481,7 +503,9 @@ schema.define({
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Owner extends Record(defaultValues) {
   name: string;
@@ -765,11 +789,15 @@ Object {
 
 import { schema as OwnerSchema } from './../owner';
 
-export default {
+
+
+const schemas = {
   get_owner__name_: {
     200: OwnerSchema
   }
 };
+
+export default schemas;
 ",
   "path": "tmp/schemas/sample_schema.js",
 }
@@ -785,14 +813,19 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
+
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
-export function createOpenApiAction(id, payloadCreator = (params) => params, metaCreator) {
+export function createOpenApiAction(
+  id,
+  payloadCreator = (params) => params,
+  metaCreator
+) {
   const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
-  let _metaCreator = () => meta;
-  if (isFunction(metaCreator)) {
-    _metaCreator = (...args) => Object.assign(metaCreator(...args), meta);
-  }
+  const _metaCreator =
+    isFunction(metaCreator)
+      ? (...args) => Object.assign(metaCreator(...args), meta)
+      : () => meta;
   return createAction(id, payloadCreator, _metaCreator);
 }
 ",
@@ -827,7 +860,9 @@ export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Cat extends Record(defaultValues) {
   id: number;
@@ -869,7 +904,9 @@ export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids: number[] | string[], entities: any) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (ids: number[] | string[], entities: any) => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
 export default class Dog extends Record(defaultValues) {
   id: number;
@@ -1025,16 +1062,19 @@ Object {
 import { schema as DogSchema } from './../dog';
 import { schema as CatSchema } from './../cat';
 import { schema as _schema } from 'normalizr';
+
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,
   cat: CatSchema
 }, 'kind');
 
-export default {
+const schemas = {
   get_pets__id_: {
     200: oneOfSchema1
   }
 };
+
+export default schemas;
 ",
   "path": "tmp/schemas/sample_schema.js",
 }

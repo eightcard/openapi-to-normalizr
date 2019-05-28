@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 {{>head}}
 import isFunction from 'lodash/isFunction';
-import { createAction {{#useTypeScript}}, ActionFunctionAny, ActionMeta{{/useTypeScript}} } from 'redux-actions';
+import { createAction{{#useTypeScript}} , ActionFunctionAny, ActionMeta{{/useTypeScript}} } from 'redux-actions';
 import schemas from '{{&schemasFile}}';
 {{#useTypeScript}}import { Schema } from 'normalizr';{{/useTypeScript}}
 {{#operationIdList}}
