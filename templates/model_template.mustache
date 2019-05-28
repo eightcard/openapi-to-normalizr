@@ -39,10 +39,6 @@ const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{/props}}
 };
 
-export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
-{{>oneOf}}
-{{>dependency}}
-
 {{#usePropTypes}}
 export const propTypesObject = {
 {{#props}}
@@ -50,13 +46,20 @@ export const propTypesObject = {
 {{/props}}
 };
 export const propTypes = PropTypes.shape(propTypesObject);
+
 {{/usePropTypes}}
+export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
+{{>oneOf}}
+{{>dependency}}
 
 /**
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
+const denormalize = (
+  ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+  entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
@@ -66,7 +69,10 @@ export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}}, entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
+  static denormalize(
+    id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+    entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+  ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
     return denormalize(id, entities);
   }
 {{#props}}

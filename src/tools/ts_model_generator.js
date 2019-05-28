@@ -242,8 +242,7 @@ class TsModelGenerator {
       }, {});
       return {
         propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
-        typeScript: 'Map<unknown, unknown>',
-
+        typeScript: 'Map<any, any>',
       }
     }
   }
