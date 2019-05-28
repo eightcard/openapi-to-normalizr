@@ -10,11 +10,12 @@ const {
  */
 
 class TsModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useTypeScript = false, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
     this.isV2 = isV2;
+    this.usePropType = usePropType;
     this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
@@ -110,12 +111,13 @@ class TsModelGenerator {
 
       const props = {
         name, idAttribute: this._prepareIdAttribute(idAttribute),
+        usePropTypes: this.usePropType,
         useTypeScript: this.useTypeScript,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
         importList: this._prepareImportList(importList),
-        getDefaults, getTypeScriptTypes,
+        getPropTypes, getTypeScriptTypes, getDefaults,
         importImmutableMap: this.importImmutableMap,
       };
 
@@ -203,19 +205,22 @@ class TsModelGenerator {
         return modelName ? { isModel: true, type: modelName } : { isModel: false, type: obj.type };
       });
       return {
+        propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
         typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { typeScript } = this.generateTypeFrom(prop.items, definition);
+      const { propType, typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
+        propType: `ImmutablePropTypes.listOf(${propType})`,
         typeScript: typeScript ? `Array<(${typeScript})>` : '',
       };
     }
 
     if (definition) {
       return {
+        propType: this._generatePropTypeFromDefinition(definition),
         typeScript: this._generateTypeScriptTypeFromDefinition(definition),
       };
     }
@@ -224,15 +229,41 @@ class TsModelGenerator {
     /* ここではプリミティブ型の配列のパターンを扱う */
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
+        propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
         typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
     if (prop.type === 'object' && prop.properties) {
       if (!this.importImmutableMap) this.importImmutableMap = true;
+      const props = _.reduce(prop.properties, (acc, value, key) => {
+        acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
+        return acc;
+      }, {});
       return {
-        typeScript: 'Map<unknown, unknown>'
+        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
+        typeScript: 'Map<unknown, unknown>',
+
       }
+    }
+  }
+
+  _generatePropTypeFromDefinition(definition) {
+    let def;
+    if (_.isString(definition)) {
+      def = definition.replace(/Schema$/, '');
+      return `${def}PropType`;
+    }
+    if (_.isArray(definition)) {
+      def = definition[0];
+      const type = this._generatePropTypeFromDefinition(def);
+      return `ImmutablePropTypes.listOf(${type})`;
+    } else if (_.isObject(definition)) {
+      const type = _.reduce(definition, (acc, value, key) => {
+        acc[key] = this._generatePropTypeFromDefinition(value);
+        return acc;
+      }, {});
+      return `ImmutablePropTypes.mapContains(${JSON.stringify(type).replace(/"/g, '')})`;
     }
   }
 
@@ -261,6 +292,32 @@ class TsModelGenerator {
     }, {
       head: this.templates.head,
     });
+  }
+}
+
+function getPropTypes() {
+  return _getPropTypes(this.type, this.enum, this.enumObjects);
+}
+
+function _getPropTypes(type, enums, enumObjects) {
+  if (enumObjects) {
+    const nameMap = enumObjects.map(current => current.name);
+    return `PropTypes.oneOf([${nameMap.join(', ')}])`;
+  } else if (enums) {
+    return `PropTypes.oneOf([${enums.map(n => type === 'string' ? `'${n}'` : n).join(', ')}])`;
+  }
+  switch (type) {
+    case 'integer':
+    case 'number':
+      return 'PropTypes.number';
+    case 'string':
+      return 'PropTypes.string';
+    case 'boolean':
+      return 'PropTypes.bool';
+    case 'array':
+      return 'PropTypes.array';
+    default:
+      return type && type.propType ? type.propType : 'PropTypes.any';
   }
 }
 

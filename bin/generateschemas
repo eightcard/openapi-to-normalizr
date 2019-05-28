@@ -60,6 +60,7 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
             outputDir: modelsDir,
             outputBaseDir: baseModelsDir,
             templatePath: config.templates,
+            usePropType: config.usePropType,
             useTypeScript: config.useTypeScript,
             isV2, attributeConverter,
             definitions,
