@@ -53,7 +53,6 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
     const definitions = getModelDefinitions(spec);
 
     return Promise.all(prepareDirs).then(() => {
-      const isV2 = spec.swagger === '2.0';
       const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 
       modelGenerator = new ModelGenerator({
@@ -62,7 +61,7 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
         templatePath: config.templates,
         usePropType: config.usePropType,
         useFlow: config.useFlow,
-        isV2, attributeConverter,
+        attributeConverter,
         definitions,
       });
 
@@ -74,7 +73,7 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
       schemaGenerator = new SchemaGenerator({
         outputPath: config.outputPath.schemas,
         templatePath: config.templates,
-        modelsDir, modelGenerator, isV2, attributeConverter,
+        modelsDir, modelGenerator, attributeConverter,
       });
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
       return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));

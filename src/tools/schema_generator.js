@@ -11,7 +11,7 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str}) {
+  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, attributeConverter = str => str}) {
     this.outputPath = outputPath;
     const {dir, name, ext} = path.parse(this.outputPath);
     this.outputDir = dir;
@@ -19,7 +19,6 @@ class SchemaGenerator {
     this.templatePath = templatePath;
     this.modelGenerator = modelGenerator;
     this.modelsDir = modelsDir;
-    this.isV2 = isV2;
     this.attributeConverter = attributeConverter;
     this.templates = readTemplates(['schema', 'head', 'oneOf'], this.templatePath);
     this.parsedObjects = {};
@@ -35,7 +34,7 @@ class SchemaGenerator {
    */
   parse(id, responses) {
     _.each(responses, (response, code) => {
-      const contents = this.isV2 ? response : SchemaGenerator.getJsonContents(response);
+      const contents = SchemaGenerator.getJsonContents(response);
       if (!contents) {
         console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
         return;
@@ -57,7 +56,7 @@ class SchemaGenerator {
           return key;
         }
       };
-      applyIf(parseSchema(contents.schema, onSchema, this.isV2), (val) => {
+      applyIf(parseSchema(contents.schema, onSchema), (val) => {
         this.parsedObjects[id] = this.parsedObjects[id] || {};
         this.parsedObjects[id][code] = val;
       });
