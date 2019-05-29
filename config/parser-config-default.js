@@ -11,9 +11,9 @@ const templates = {
   oneOf: 'templates/one_of_template.mustache',
 };
 const outputPath = {
-  schemas: './tmp/schemas/sample_schema',
-  actions: './tmp/action_types/sample',
-  jsSpec: './tmp/sample_api',
+  schemas: './tmp/schemas/sample_schema.{ext}',
+  actions: './tmp/action_types/sample.{ext}',
+  jsSpec: './tmp/sample_api.{ext}',
 };
 module.exports = {
   templates: Object.keys(templates).reduce((acc, key) => {

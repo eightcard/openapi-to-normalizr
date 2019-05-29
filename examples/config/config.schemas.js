@@ -4,9 +4,9 @@ function snakeToCamel(str) {
 
 module.exports = {
   outputPath: {
-    schemas: `./examples/tmp/schemas/sample_schema`,
-    actions: `./examples/tmp/action_types/sample`,
-    jsSpec: `./examples/tmp/sample_api`,
+    schemas: `./examples/tmp/schemas/sample_schema.{ext}`,
+    actions: `./examples/tmp/action_types/sample.{ext}`,
+    jsSpec: `./examples/tmp/sample_api.{ext}`,
   },
   modelsDir: './examples/tmp/models',
   attributeConverter: snakeToCamel,

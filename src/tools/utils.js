@@ -265,10 +265,6 @@ function getPreparedSpecFiles(specFiles) {
   }
 }
 
-function getExtensionByTypeScriptFlag(useTypeScript) {
-  return useTypeScript ? 'ts' : 'js';
-}
-
 module.exports = {
   resolvePath,
   mkdirpPromise,
@@ -288,5 +284,4 @@ module.exports = {
   getModelName,
   writeFile,
   getPreparedSpecFiles,
-  getExtensionByTypeScriptFlag,
 };

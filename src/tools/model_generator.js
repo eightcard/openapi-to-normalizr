@@ -10,7 +10,7 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
@@ -19,6 +19,7 @@ class ModelGenerator {
     this.usePropType = usePropType;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
+    this.extension = extension;
     this.templates = readTemplates(['model', 'models', 'override', 'head', 'dependency', 'oneOf'], this.templatePath);
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
@@ -26,6 +27,7 @@ class ModelGenerator {
   }
 
   /**
+   * @deprecated
    * モデル定義ごとに呼び出し
    * - モデルファイルを書き出す
    * - Promiseでモデル名(Petなど)を返す
@@ -42,7 +44,7 @@ class ModelGenerator {
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(({ text, props }) => {
-      writeFile(path.join(this.outputBaseDir, `${fileName}.js`), text);
+      writeFile(path.join(this.outputBaseDir, `${fileName}.${this.extension}`), text);
       return this._writeOverrideModel(name, fileName, props).then(() => name);
     });
   }
@@ -53,12 +55,12 @@ class ModelGenerator {
     }, {
       head: this.templates.head,
     });
-    return writeFilePromise(path.join(this.outputDir, 'index.js'), text);
+    return writeFilePromise(path.join(this.outputDir, `index.${this.extension}`), text);
   }
 
   _writeOverrideModel(name, fileName, props) {
     const overrideText = this._renderOverrideModel(name, fileName, props);
-    const filePath = path.join(this.outputDir, `${fileName}.js`);
+    const filePath = path.join(this.outputDir, `${fileName}.${this.extension}`);
     return isFileExistPromise(filePath).then((isExist) => isExist || writeFilePromise(filePath, overrideText));
   }
 

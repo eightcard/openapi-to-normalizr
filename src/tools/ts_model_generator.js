@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, getModelName, writeFile,ß
+  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, getModelName, writeFile,
 } = require('./utils');
 
 /**
@@ -10,7 +10,7 @@ const {
  */
 
 class TsModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
@@ -19,6 +19,7 @@ class TsModelGenerator {
     this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
+    this.extension = extension;
     this.templates = readTemplates(['model', 'models', 'override', 'head', 'dependency', 'oneOf'], this.templatePath);
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
@@ -43,7 +44,7 @@ class TsModelGenerator {
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(({ text, props }) => {
-      writeFile(path.join(this.outputBaseDir, `${fileName}.ts`), text);
+      writeFile(path.join(this.outputBaseDir, `${fileName}.${this.extension}`), text);
       return this._writeOverrideModel(name, fileName, props).then(() => name);
     });
   }
@@ -54,12 +55,12 @@ class TsModelGenerator {
     }, {
       head: this.templates.head,
     });
-    return writeFilePromise(path.join(this.outputDir, 'index.ts'), text);
+    return writeFilePromise(path.join(this.outputDir, `index.${this.extension}`), text);
   }
 
   _writeOverrideModel(name, fileName, props) {
     const overrideText = this._renderOverrideModel(name, fileName, props);
-    const filePath = path.join(this.outputDir, `${fileName}.ts`);
+    const filePath = path.join(this.outputDir, `${fileName}.${this.extension}`);
     return isFileExistPromise(filePath).then((isExist) => isExist || writeFilePromise(filePath, overrideText));
   }
 
