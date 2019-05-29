@@ -175,12 +175,12 @@ export default {
   },
   \\"tags\\": [
     {
-      \\"name\\": \\"pet\\",
-      \\"description\\": \\"pet API\\"
-    },
-    {
       \\"name\\": \\"default\\",
       \\"description\\": \\"default API\\"
+    },
+    {
+      \\"name\\": \\"pet\\",
+      \\"description\\": \\"pet API\\"
     }
   ],
   \\"paths\\": {
