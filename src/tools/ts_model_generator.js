@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable max-lines*/
 const _ = require('lodash');
 const path = require('path');
 const {
