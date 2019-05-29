@@ -2,7 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const {
   parseSchema, schemaName, render, objectToTemplateValue, applyRequired, getIdAttribute,
-  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, getModelName, writeFile,
+  readTemplates, isFileExistPromise, writeFilePromise, changeFormat, getModelName, writeFile,ß
 } = require('./utils');
 
 /**
@@ -214,7 +214,7 @@ class TsModelGenerator {
       const { propType, typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
         propType: `ImmutablePropTypes.listOf(${propType})`,
-        typeScript: typeScript ? `Array<(${typeScript})>` : '',
+        typeScript: typeScript ? `List<(${typeScript})>` : '',
       };
     }
 
@@ -230,7 +230,7 @@ class TsModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        typeScript: `Array<${this._getEnumTypes(prop.items.type)}>`,
+        typeScript: `List<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
