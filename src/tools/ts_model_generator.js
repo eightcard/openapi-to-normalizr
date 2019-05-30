@@ -242,11 +242,9 @@ class TsModelGenerator {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
         return acc;
       }, {});
-      const keys = new Set(Object.keys(props).map(k => `'${k}'`));
-      const keysUnionType = [...keys.values()].join(' | ');
       return {
         propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
-        typeScript: `Map<${keysUnionType}, any>`,
+        typeScript: 'Map<any, any>',
       }
     }
   }
@@ -280,15 +278,7 @@ class TsModelGenerator {
       const type = this._generateTypeScriptTypeFromDefinition(def);
       return `List<${type}>`;
     } else if (_.isObject(definition)) {
-      const keys = new Set([]);
-      const types = new Set([]);
-      _.forEach(definition, (value, key) => {
-        keys.add(`'${key}'`);
-        types.add(this._generateTypeScriptTypeFromDefinition(value));
-      });
-      const keysUnionType = [...keys.values()].join(' | ');
-      const definitionsUnionType = [...types.values()].join(' | ');
-      return `Map<${keysUnionType}, ${definitionsUnionType}>`;
+      return 'Map<any, any>';
     }
   }
 
