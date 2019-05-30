@@ -8,7 +8,7 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFiles } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFilePaths, getModelDefinitions } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
@@ -40,9 +40,9 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-const { filesPath, definitions} = getPreparedSpecFiles(specFiles);
+const filePaths = getPreparedSpecFilePaths(specFiles);
 
-Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
+Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
   const spec = _.merge(...schemas);
 
   let actionTypesGenerator, modelGenerator, schemaGenerator;
@@ -51,6 +51,9 @@ Promise.all(filesPath.map((file) => readSpecFilePromise(file, {dereference: true
   const prepareDirs = [actionsDir, schemasDir, specDir, config.modelsDir, baseModelsDir].map((p) => mkdirpPromise(p));
 
   return Swagger({spec}).then(({spec}) => {
+    // refとOpenAPI記法(oneOfなど)解決済みのspecからモデル定義を取得
+    const definitions = getModelDefinitions(spec);
+
     return Promise.all(prepareDirs).then(() => {
       const isV2 = spec.swagger === '2.0';
 
