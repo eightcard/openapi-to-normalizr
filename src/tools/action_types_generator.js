@@ -26,7 +26,7 @@ class ActionTypesGenerator {
   write() {
     const text = render(this.templates.actionTypes, {
       operationIdList: this.operationIdList,
-      schemasFile: path.relative(this.outputDir, this.schemasFilePath).replace(/\.\w+$/, ''),
+      schemasFile: path.relative(this.outputDir, this.schemasFilePath),
       useTypeScript: this.useTypeScript,
     }, {
       head: this.templates.head,
