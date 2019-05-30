@@ -242,9 +242,12 @@ class TsModelGenerator {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
         return acc;
       }, {});
+      const keys = new Set([]);
+      _.forEach(props, (value, key) => keys.add(`'${key}'`)); // eslint-disable-line
+      const keysUnionType = [...keys.values()].join(' | ');
       return {
         propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
-        typeScript: 'Map<any, any>',
+        typeScript: `Map<${keysUnionType}, any>`,
       }
     }
   }
@@ -278,13 +281,15 @@ class TsModelGenerator {
       const type = this._generateTypeScriptTypeFromDefinition(def);
       return `List<${type}>`;
     } else if (_.isObject(definition)) {
-      const definitions = new Set([]);
-      _.forEach(definition, (value) => {
-        const type = this._generateTypeScriptTypeFromDefinition(value);
-        definitions.add(type);
+      const keys = new Set([]);
+      const types = new Set([]);
+      _.forEach(definition, (value, key) => {
+        keys.add(`'${key}'`);
+        types.add(this._generateTypeScriptTypeFromDefinition(value));
       });
-      const definitionsUnionType = [...definitions.values()].join(' | ');
-      return `Map<string, ${definitionsUnionType}>`;
+      const keysUnionType = [...keys.values()].join(' | ');
+      const definitionsUnionType = [...types.values()].join(' | ');
+      return `Map<${keysUnionType}, ${definitionsUnionType}>`;
     }
   }
 
