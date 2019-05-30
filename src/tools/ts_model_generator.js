@@ -278,10 +278,13 @@ class TsModelGenerator {
       const type = this._generateTypeScriptTypeFromDefinition(def);
       return `List<${type}>`;
     } else if (_.isObject(definition)) {
-      return _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._generateTypeScriptTypeFromDefinition(value);
-        return acc;
-      }, {});
+      const definitions = new Set([]);
+      _.forEach(definition, (value) => {
+        const type = this._generateTypeScriptTypeFromDefinition(value);
+        definitions.add(type);
+      });
+      const definitionsUnionType = [...definitions.values()].join(' | ');
+      return `Map<string, ${definitionsUnionType}>`;
     }
   }
 
