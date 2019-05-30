@@ -242,8 +242,7 @@ class TsModelGenerator {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
         return acc;
       }, {});
-      const keys = new Set([]);
-      _.forEach(props, (value, key) => keys.add(`'${key}'`)); // eslint-disable-line
+      const keys = new Set(Object.keys(props).map(k => `'${k}'`));
       const keysUnionType = [...keys.values()].join(' | ');
       return {
         propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
