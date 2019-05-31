@@ -7,11 +7,11 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 {{/usePropTypes}}
-import { Record, List } from 'immutable';
+import { Record, List{{#importImmutableMap}}, Map{{/importImmutableMap}} } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
-import {{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
 {{/importList}}
 
 {{#props}}
@@ -20,15 +20,24 @@ export const {{name}}{{#useFlow}}: {{enumType}}{{/useFlow}} = {{#isValueString}}
 {{/enumObjects}}
 {{/props}}
 
-const defaultValues = {
+{{#useTypeScript}}
+{{#props}}{{#enumObjects}}
+export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+{{/enumObjects}}
+{{/props}}
+
+export interface {{name}}Props {
+{{#props}}
+  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#required}} | undefined{{/required}};
+{{/props}}
+};
+
+{{/useTypeScript}}
+const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{#props}}
   {{&name}}: {{&getDefaults}},
 {{/props}}
 };
-
-export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
-{{>oneOf}}
-{{>dependency}}
 
 {{#usePropTypes}}
 export const propTypesObject = {
@@ -37,21 +46,33 @@ export const propTypesObject = {
 {{/props}}
 };
 export const propTypes = PropTypes.shape(propTypesObject);
+
 {{/usePropTypes}}
+export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
+{{>oneOf}}
+{{>dependency}}
 
 /**
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-export const denormalize = (ids{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) => _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+const denormalize = (
+  ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+  entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
+  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+}
 
-export default class {{name}} extends Record(defaultValues) {
+export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/useTypeScript}}(defaultValues) {
 {{#useFlow}}
 {{#props}}
   {{&name}}: {{&getFlowTypes}};
 {{/props}}
 {{/useFlow}}
-  static denormalize(id{{#useFlow}}: number[] | string[]{{/useFlow}}, entities{{#useFlow}}: any{{/useFlow}}) {
+  static denormalize(
+    id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+    entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+  ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
     return denormalize(id, entities);
   }
 {{#props}}

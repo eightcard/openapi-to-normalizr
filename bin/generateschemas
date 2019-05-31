@@ -10,9 +10,11 @@ const program = require('commander');
 const _ = require('lodash');
 const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFilePaths, getModelDefinitions } = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
+const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
 const JsSpecGenerator = require('../src/tools/js_spec_generator');
+const Config = require('../src/tools/config');
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -22,7 +24,8 @@ const specFiles = program.args;
 
 const userConfig = program.config ? require(resolvePath(program.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
-const config = _.merge({}, defaultConfig, userConfig);
+const mergedConfig = _.merge({}, defaultConfig, userConfig);
+const config = new Config(mergedConfig);
 console.info(`parse file: ${specFiles}`);
 
 if (_.isEmpty(specFiles)) {
@@ -44,9 +47,8 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
 
   let actionTypesGenerator, modelGenerator, schemaGenerator;
   const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path.dirname(config.outputPath[key]));
-  const modelsDir = config.modelsDir || 'dist';
-  const baseModelsDir = `${modelsDir}/base`;
-  const prepareDirs = [actionsDir, schemasDir, specDir, modelsDir, baseModelsDir].map((p) => mkdirpPromise(p));
+  const baseModelsDir = `${config.modelsDir}/base`;
+  const prepareDirs = [actionsDir, schemasDir, specDir, config.modelsDir, baseModelsDir].map((p) => mkdirpPromise(p));
 
   return Swagger({spec}).then(({spec}) => {
     // refとOpenAPI記法(oneOfなど)解決済みのspecからモデル定義を取得
@@ -54,28 +56,31 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
 
     return Promise.all(prepareDirs).then(() => {
       const isV2 = spec.swagger === '2.0';
-      const attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
 
-      modelGenerator = new ModelGenerator({
-        outputDir: modelsDir,
-        outputBaseDir: baseModelsDir,
-        templatePath: config.templates,
-        usePropType: config.usePropType,
-        useFlow: config.useFlow,
-        isV2, attributeConverter,
-        definitions,
-      });
+      const configForModelGenerator = Object.assign(
+        {
+          outputBaseDir: baseModelsDir,
+          isV2,
+          definitions,
+        },
+        config.formatForModelGenerator()
+      );
 
-      actionTypesGenerator = new ActionTypesGenerator({
-        outputPath: config.outputPath.actions,
-        templatePath: config.templates,
-        schemasFilePath: config.outputPath.schemas,
-      });
-      schemaGenerator = new SchemaGenerator({
-        outputPath: config.outputPath.schemas,
-        templatePath: config.templates,
-        modelsDir, modelGenerator, isV2, attributeConverter,
-      });
+      modelGenerator =
+        config.useTypeScript
+          ? new TsModelGenerator(configForModelGenerator)
+          : new ModelGenerator(configForModelGenerator);
+
+      actionTypesGenerator = new ActionTypesGenerator(config.formatForActionTypesGenerator());
+
+      const configForSchemaGenerator = Object.assign(
+        {
+          modelGenerator,
+          isV2,
+        },
+        config.formatForSchemaGenerator()
+      );
+      schemaGenerator = new SchemaGenerator(configForSchemaGenerator);
       walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
       return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
     });
@@ -87,10 +92,7 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
   // no need dereference for js spec file
   return Promise.all(specFiles.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
     const spec = _.merge(...schemas);
-    return (new JsSpecGenerator({
-      templatePath: config.templates,
-      outputPath: config.outputPath.jsSpec,
-    })).write(spec);
+    return (new JsSpecGenerator(config.formatForJsSpecGenerator())).write(spec);
   });
 }).catch((e) => {
   console.error(`Failed: ${e}`);

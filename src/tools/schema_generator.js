@@ -11,11 +11,11 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str}) {
+  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, isV2, attributeConverter = str => str, useTypeScript, extension = 'js'}) {
     this.outputPath = outputPath;
-    const {dir, name, ext} = path.parse(this.outputPath);
+    const {dir, name} = path.parse(this.outputPath);
     this.outputDir = dir;
-    this.outputFileName = `${name}${ext}`;
+    this.outputFileName = `${name}.${extension}`;
     this.templatePath = templatePath;
     this.modelGenerator = modelGenerator;
     this.modelsDir = modelsDir;
@@ -27,6 +27,7 @@ class SchemaGenerator {
     this.oneOfs = [];
     this.parse = this.parse.bind(this);
     this.write = this.write.bind(this);
+    this.useTypeScript = useTypeScript;
   }
 
   /**
@@ -83,6 +84,7 @@ class SchemaGenerator {
       data: objectToTemplateValue(this.formattedSchema),
       hasOneOf: oneOfs.length > 0,
       oneOfs,
+      useTypeScript: this.useTypeScript,
     }, {
       head: this.templates.head,
       oneOf: this.templates.oneOf,
