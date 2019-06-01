@@ -45,7 +45,7 @@
     "rimraf": "2.6.3",
     "serve": "11.0.0",
     "speccy": "0.10.1",
-    "typescript": "3.4.5",
+    "typescript": "3.5.1",
     "webpack": "4.32.2",
     "webpack-cli": "3.3.2"
   },
