@@ -43,7 +43,7 @@
     "react-immutable-proptypes": "2.1.0",
     "redux": "4.0.1",
     "rimraf": "2.6.3",
-    "serve": "11.0.0",
+    "serve": "11.0.1",
     "speccy": "0.10.1",
     "typescript": "3.4.5",
     "webpack": "4.32.2",
