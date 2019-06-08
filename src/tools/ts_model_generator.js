@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 const _ = require('lodash');
 const path = require('path');
 const {
@@ -9,13 +10,13 @@ const {
  * モデル定義からモデルファイルを作成
  */
 
-class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
+class TsModelGenerator {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
-    this.useFlow = useFlow;
     this.usePropType = usePropType;
+    this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
     this.extension = extension;
@@ -23,10 +24,10 @@ class ModelGenerator {
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
     this._modelNameList = [];
+    this.importImmutableMap = false;
   }
 
   /**
-   * @deprecated
    * モデル定義ごとに呼び出し
    * - モデルファイルを書き出す
    * - Promiseでモデル名(Petなど)を返す
@@ -106,15 +107,19 @@ class ModelGenerator {
         }
       });
 
+      // reset
+      this.importImmutableMap = false;
+
       const props = {
         name, idAttribute: this._prepareIdAttribute(idAttribute),
         usePropTypes: this.usePropType,
-        useFlow: this.useFlow,
+        useTypeScript: this.useTypeScript,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: this._prepareIdAttribute(obj.propertyName)})),
         importList: this._prepareImportList(importList),
-        getFlowTypes, getPropTypes, getDefaults
+        getPropTypes, getTypeScriptTypes, getDefaults,
+        importImmutableMap: this.importImmutableMap,
       };
 
       const text = render(this.templates.model, props, {
@@ -166,12 +171,19 @@ class ModelGenerator {
     return `${convertedName}_${convertedkey}`;
   }
 
+  getEnumLiteralTypeName(enumName, propertyName) {
+    const convertedName = _.startCase(propertyName).split(' ').join('');
+    const convertedkey = _.startCase(enumName).split(' ').join('');
+    return `${convertedName}${convertedkey}`;
+  }
+
   getEnumObjects(name, enums, enumKeyAttributes = []) {
     if (!enums) return false;
     return enums.map((current, index) => {
       const enumName = enumKeyAttributes[index] || current;
       return {
         'name': this.getEnumConstantName(enumName, name),
+        'literalTypeName': this.getEnumLiteralTypeName(enumName, name),
         'value': current,
       };
     });
@@ -195,22 +207,22 @@ class ModelGenerator {
       });
       return {
         propType: `PropTypes.oneOfType([${_.uniq(candidates.map(c => c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))).join(', ')}])`,
-        flow: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
+        typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { propType, flow } = this.generateTypeFrom(prop.items, definition);
+      const { propType, typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
         propType: `ImmutablePropTypes.listOf(${propType})`,
-        flow: flow ? `(${flow})[]` : '',
+        typeScript: typeScript ? `List<(${typeScript})>` : '',
       };
     }
 
     if (definition) {
       return {
         propType: this._generatePropTypeFromDefinition(definition),
-        flow: this._generateFlowTypeFromDefinition(definition),
+        typeScript: this._generateTypeScriptTypeFromDefinition(definition),
       };
     }
 
@@ -219,17 +231,19 @@ class ModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        flow: `${this._getEnumTypes(prop.items.type)}[]`,
+        typeScript: `List<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
     if (prop.type === 'object' && prop.properties) {
+      if (!this.importImmutableMap) this.importImmutableMap = true;
       const props = _.reduce(prop.properties, (acc, value, key) => {
         acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
         return acc;
       }, {});
       return {
-        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`
+        propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
+        typeScript: 'Map<any, any>',
       }
     }
   }
@@ -253,20 +267,17 @@ class ModelGenerator {
     }
   }
 
-  _generateFlowTypeFromDefinition(definition) {
+  _generateTypeScriptTypeFromDefinition(definition) {
     let def;
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
     if (_.isArray(definition)) {
       def = definition[0];
-      const type = this._generateFlowTypeFromDefinition(def);
-      return `${type}[]`;
+      const type = this._generateTypeScriptTypeFromDefinition(def);
+      return `List<${type}>`;
     } else if (_.isObject(definition)) {
-      return _.reduce(definition, (acc, value, key) => {
-        acc[key] = this._generateFlowTypeFromDefinition(value);
-        return acc;
-      }, {});
+      return 'Map<any, any>';
     }
   }
 
@@ -307,14 +318,14 @@ function _getPropTypes(type, enums, enumObjects) {
   }
 }
 
-function getFlowTypes() {
-  return _getFlowTypes(this.type, this.enum)
+function getTypeScriptTypes() {
+  return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
-function _getFlowTypes(type, enums) {
-  if (enums) {
-   const typeList = enums.map(() => _getFlowTypes(type));
-   return _.uniq(typeList).join(' | ');
+function _getTypeScriptTypes(type, enumObjects) {
+  if (enumObjects) {
+    const literalTypeNames = enumObjects.map(current => current.literalTypeName);
+    return `${literalTypeNames.join(' | ')}`;
   }
   switch (type) {
     case 'integer':
@@ -325,7 +336,7 @@ function _getFlowTypes(type, enums) {
     case 'boolean':
       return 'boolean';
     default:
-      return type && type.flow ? type.flow : 'any';
+      return type && type.typeScript ? type.typeScript : 'any';
   }
 }
 
@@ -339,4 +350,4 @@ function getDefaults() {
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
-module.exports = ModelGenerator;
+module.exports = TsModelGenerator;
