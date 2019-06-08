@@ -11,11 +11,10 @@ const {
  */
 
 class TsModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, usePropType = false, useTypeScript = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
-    this.isV2 = isV2;
     this.usePropType = usePropType;
     this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
@@ -106,7 +105,7 @@ class TsModelGenerator {
           oneOfs.push(value);
           return key;
         }
-      }, this.isV2);
+      });
 
       // reset
       this.importImmutableMap = false;

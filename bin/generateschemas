@@ -55,12 +55,9 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
     const definitions = getModelDefinitions(spec);
 
     return Promise.all(prepareDirs).then(() => {
-      const isV2 = spec.swagger === '2.0';
-
       const configForModelGenerator = Object.assign(
         {
           outputBaseDir: baseModelsDir,
-          isV2,
           definitions,
         },
         config.formatForModelGenerator()
@@ -76,7 +73,6 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
       const configForSchemaGenerator = Object.assign(
         {
           modelGenerator,
-          isV2,
         },
         config.formatForSchemaGenerator()
       );

@@ -10,11 +10,10 @@ const {
  */
 
 class ModelGenerator {
-  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, isV2, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
+  constructor({outputDir = '', outputBaseDir = '', templatePath = {}, useFlow = false, usePropType = false, attributeConverter = str => str, definitions = {}, extension = 'js'}) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
-    this.isV2 = isV2;
     this.useFlow = useFlow;
     this.usePropType = usePropType;
     this.attributeConverter = attributeConverter;
@@ -105,7 +104,7 @@ class ModelGenerator {
           oneOfs.push(value);
           return key;
         }
-      }, this.isV2);
+      });
 
       const props = {
         name, idAttribute: this._prepareIdAttribute(idAttribute),

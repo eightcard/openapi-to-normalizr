@@ -22,10 +22,6 @@ function applyIf(data, applyFn = (val) => val) {
   return data && applyFn(data);
 }
 
-function getSchemaDir(isV2) {
-  return isV2 ? '#/definitions/' : '#/components/schemas/';
-}
-
 function getRef(schema) {
   return schema.$ref || schema.$$ref || schema[alternativeRefKey]; // $$ref by swagger-client
 }
@@ -54,21 +50,21 @@ function parseOneOf(schema, onSchema) {
   return ret;
 }
 
-function parseSchema(schema, onSchema, isV2) {
+function parseSchema(schema, onSchema) {
   if (!_.isObject(schema)) return;
 
   const modelName = getModelName(schema);
   if (modelName && getIdAttribute(schema)) {
     return onSchema({type: 'model', value: schema});
   } else if (schema.oneOf && schema.discriminator) {
-    return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema, isV2)});
+    return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema)});
   } else if (schema.type === 'object') {
-    return applyIf(parseSchema(schema.properties, onSchema, isV2));
+    return applyIf(parseSchema(schema.properties, onSchema));
   } else if (schema.type === 'array') {
-    return applyIf(parseSchema(schema.items, onSchema, isV2), (val) => [val]);
+    return applyIf(parseSchema(schema.items, onSchema), (val) => [val]);
   } else {
     const reduced =_.reduce(schema, (ret, val, key) => {
-      const tmp = parseSchema(val, onSchema, isV2);
+      const tmp = parseSchema(val, onSchema);
       if (tmp) {
         ret[key] = tmp;
       }
@@ -286,7 +282,6 @@ module.exports = {
   render,
   objectToTemplateValue,
   readSpecFilePromise,
-  getSchemaDir,
   changeFormat,
   getIdAttribute,
   getModelName,
