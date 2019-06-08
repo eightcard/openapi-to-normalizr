@@ -5,6 +5,10 @@ class Config {
     this.modelsDir = config.modelsDir || 'dist';
   }
 
+  get tags() {
+    return this._config.tags;
+  }
+
   get outputPath() {
     return this._config.outputPath;
   }

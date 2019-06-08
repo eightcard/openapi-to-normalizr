@@ -45,7 +45,7 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-const filePaths = getPreparedSpecFilePaths(specFiles);
+const filePaths = getPreparedSpecFilePaths(specFiles, config.tags);
 
 Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true}))).then((schemas) => {
   const spec = _.merge(...schemas);

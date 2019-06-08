@@ -63,7 +63,7 @@ function convertToLocalDefinition(spec) {
   return spec;
 }
 
-function getPreparedSpecFilePaths(specFiles) {
+function getPreparedSpecFilePaths(specFiles, tags = []) {
   const readFiles = {};
   const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
   const allFiles = _.uniq(_.flattenDeep(getAllRelatedFiles(specFiles)));
@@ -73,7 +73,9 @@ function getPreparedSpecFilePaths(specFiles) {
     mkdirp.sync(path.dirname(target));
 
     const spec = jsYaml.safeLoad(fs.readFileSync(p));
-    if (!specFiles.includes(p)) {
+    if (specFiles.includes(p)) {
+      removeUnusableOperation(spec);
+    } else {
       delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
     }
     applyAlternativeRef(spec);
@@ -86,6 +88,19 @@ function getPreparedSpecFilePaths(specFiles) {
     fs.writeFileSync(target, jsYaml.safeDump(spec));
     return target;
   });
+
+  function isUsableOperation(operationTags) {
+    if (tags.length === 0) return true;
+    return operationTags && tags.some((t) => operationTags.includes(t))
+  }
+
+  function removeUnusableOperation(spec) {
+    _.each(spec.paths, (operations) => {
+      _.each(operations, (operation, method) => {
+        if (!isUsableOperation(operation.tags)) delete operations[method];
+      });
+    });
+  }
 
   function getAllRelatedFiles(files) {
     return files.reduce((acc, filePath) => {
