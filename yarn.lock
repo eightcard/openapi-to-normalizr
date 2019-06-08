@@ -7925,10 +7925,10 @@ supports-color@^6.0.0, supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-client@3.8.25:
-  version "3.8.25"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.8.25.tgz#89cb58b000c103ee5e23accc13a9db1e686035e6"
-  integrity sha512-7ZtSSPnempsUbCAOJCQ6PyGaNkRoCm6ghOpJlI62ChfMGbLWtlOm8dLlgYiTkP9OAWuNHoRoTzOW14+QmZY1HA==
+swagger-client@3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.0.tgz#b94ea65baa0194f4cb3fad2f8bd552c531d57e03"
+  integrity sha512-uyCq2xoaAtmE0oIQ0fCfnsDoy/v97ANnAZywtyk4yumBP74xXp4NFlpZaqZJHN9K9dbPzgs3MH98VocZeM0ExQ==
   dependencies:
     "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.0"
@@ -7944,6 +7944,7 @@ swagger-client@3.8.25:
     lodash "^4.16.2"
     qs "^6.3.0"
     querystring-browser "^1.0.4"
+    traverse "^0.6.6"
     url "^0.11.0"
     utf8-bytes "0.0.1"
     utfstring "^2.0.0"

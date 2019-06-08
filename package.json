@@ -16,7 +16,7 @@
     "lodash": "4.17.11",
     "mkdirp": "0.5.1",
     "mustache": "3.0.1",
-    "swagger-client": "3.8.25"
+    "swagger-client": "3.9.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.4",
