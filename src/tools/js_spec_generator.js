@@ -1,10 +1,11 @@
 const path = require('path');
 const _ = require('lodash');
-const { writeFilePromise, readTemplates, render, walkSchema } = require('./utils');
+const { writeFilePromise, readTemplates, render } = require('./utils');
+const { walkSchema, MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('./spec_file_utils');
 
 const UNNECESSARY_PROPS = [
-  '__$ref__', 'description', 'info',
-  'x-model-name', 'x-id-attribute', 'x-attribute-as', 'x-enum-key-attributes',
+  ALTERNATIVE_REF_KEY, 'description', 'info',
+  MODEL_DEF_KEY, 'x-id-attribute', 'x-attribute-as', 'x-enum-key-attributes',
 ];
 
 class JsSpecGenerator {
