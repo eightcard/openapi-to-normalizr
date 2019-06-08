@@ -183,23 +183,12 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"JSON schema ref spec\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     },
     {
-      \\"name\\": \\"pet\\",
-      \\"description\\": \\"pet API\\"
+      \\"name\\": \\"pet\\"
     }
   ],
   \\"paths\\": {
@@ -208,10 +197,8 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"pet id\\",
             \\"name\\": \\"id\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -232,7 +219,6 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"PetResponse\\": {
-        \\"description\\": \\"a pet response\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
@@ -244,7 +230,6 @@ export default {
     },
     \\"schemas\\": {
       \\"WrappedPet\\": {
-        \\"description\\": \\"Wrapped pet\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -254,7 +239,7 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"$ref\\": \\"./only_components.yml#/components/schemas/Pet/properties/id\\"
+            \\"$ref\\": \\"#/components/schemas/Pet/properties/id\\"
           },
           \\"name\\": {
             \\"type\\": \\"string\\"
@@ -268,7 +253,6 @@ export default {
         }
       },
       \\"Pet\\": {
-        \\"description\\": \\"Pet\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -276,12 +260,10 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"Dog\\",
@@ -292,14 +274,11 @@ export default {
       },
       \\"Owner\\": {
         \\"type\\": \\"object\\",
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner's name\\",
             \\"type\\": \\"string\\"
           },
           \\"gender\\": {
-            \\"description\\": \\"owner's gender\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"male\\",
@@ -561,23 +540,12 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"JSON schema ref spec\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     },
     {
-      \\"name\\": \\"pet\\",
-      \\"description\\": \\"pet API\\"
+      \\"name\\": \\"pet\\"
     }
   ],
   \\"paths\\": {
@@ -586,10 +554,8 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"pet id\\",
             \\"name\\": \\"id\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -610,7 +576,6 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"PetResponse\\": {
-        \\"description\\": \\"a pet response\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
@@ -622,7 +587,6 @@ export default {
     },
     \\"schemas\\": {
       \\"WrappedPet\\": {
-        \\"description\\": \\"Wrapped pet\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -632,7 +596,7 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"$ref\\": \\"./only_components.yml#/components/schemas/Pet/properties/id\\"
+            \\"$ref\\": \\"#/components/schemas/Pet/properties/id\\"
           },
           \\"name\\": {
             \\"type\\": \\"string\\"
@@ -646,7 +610,6 @@ export default {
         }
       },
       \\"Pet\\": {
-        \\"description\\": \\"Pet\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -654,12 +617,10 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"Dog\\",
@@ -670,14 +631,11 @@ export default {
       },
       \\"Owner\\": {
         \\"type\\": \\"object\\",
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner's name\\",
             \\"type\\": \\"string\\"
           },
           \\"gender\\": {
-            \\"description\\": \\"owner's gender\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"male\\",
@@ -1020,19 +978,9 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"oneOf check\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     }
   ],
   \\"paths\\": {
@@ -1041,10 +989,8 @@ export default {
         \\"tags\\": [
           \\"owner\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"owner name\\",
             \\"name\\": \\"name\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -1064,7 +1010,6 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"OwnerResponse\\": {
-        \\"description\\": \\"Owner's owner\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
@@ -1076,15 +1021,12 @@ export default {
     },
     \\"schemas\\": {
       \\"Owner\\": {
-        \\"description\\": \\"Pet's owner\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"name\\"
         ],
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner name\\",
             \\"type\\": \\"string\\"
           },
           \\"pet\\": {
@@ -1093,15 +1035,12 @@ export default {
         }
       },
       \\"Breeder\\": {
-        \\"description\\": \\"Pet's breeder\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"name\\"
         ],
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner name\\",
             \\"type\\": \\"string\\"
           },
           \\"pets\\": {
@@ -1130,7 +1069,6 @@ export default {
         }
       },
       \\"Dog\\": {
-        \\"description\\": \\"Dog\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -1138,25 +1076,21 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"dog\\"
             ]
           },
           \\"name\\": {
-            \\"description\\": \\"name of pet\\",
             \\"type\\": \\"string\\"
           }
         }
       },
       \\"Cat\\": {
-        \\"description\\": \\"Cat\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -1164,19 +1098,16 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"cat\\"
             ]
           },
           \\"name\\": {
-            \\"description\\": \\"name of pet\\",
             \\"type\\": \\"string\\"
           }
         }
@@ -1504,19 +1435,9 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"oneOf check\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     }
   ],
   \\"paths\\": {
@@ -1525,10 +1446,8 @@ export default {
         \\"tags\\": [
           \\"owner\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"owner name\\",
             \\"name\\": \\"name\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -1548,7 +1467,6 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"OwnerResponse\\": {
-        \\"description\\": \\"Owner's owner\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
@@ -1560,15 +1478,12 @@ export default {
     },
     \\"schemas\\": {
       \\"Owner\\": {
-        \\"description\\": \\"Pet's owner\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"name\\"
         ],
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner name\\",
             \\"type\\": \\"string\\"
           },
           \\"pet\\": {
@@ -1577,15 +1492,12 @@ export default {
         }
       },
       \\"Breeder\\": {
-        \\"description\\": \\"Pet's breeder\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"name\\"
         ],
-        \\"x-id-attribute\\": \\"name\\",
         \\"properties\\": {
           \\"name\\": {
-            \\"description\\": \\"owner name\\",
             \\"type\\": \\"string\\"
           },
           \\"pets\\": {
@@ -1614,7 +1526,6 @@ export default {
         }
       },
       \\"Dog\\": {
-        \\"description\\": \\"Dog\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -1622,25 +1533,21 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"dog\\"
             ]
           },
           \\"name\\": {
-            \\"description\\": \\"name of pet\\",
             \\"type\\": \\"string\\"
           }
         }
       },
       \\"Cat\\": {
-        \\"description\\": \\"Cat\\",
         \\"type\\": \\"object\\",
         \\"required\\": [
           \\"id\\",
@@ -1648,19 +1555,16 @@ export default {
         ],
         \\"properties\\": {
           \\"id\\": {
-            \\"description\\": \\"pet id\\",
             \\"type\\": \\"integer\\",
             \\"format\\": \\"int64\\"
           },
           \\"kind\\": {
-            \\"description\\": \\"kind of pet\\",
             \\"type\\": \\"string\\",
             \\"enum\\": [
               \\"cat\\"
             ]
           },
           \\"name\\": {
-            \\"description\\": \\"name of pet\\",
             \\"type\\": \\"string\\"
           }
         }
@@ -1899,19 +1803,9 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"read one of schema from other file\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     }
   ],
   \\"paths\\": {
@@ -1920,10 +1814,8 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"pet id\\",
             \\"name\\": \\"id\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -1944,12 +1836,114 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"PetResponse\\": {
-        \\"description\\": \\"a pet response\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
-              \\"$ref\\": \\"./one_of.yml#/components/schemas/Pet\\"
+              \\"$ref\\": \\"#/components/schemas/Pet\\"
             }
+          }
+        }
+      },
+      \\"OwnerResponse\\": {
+        \\"content\\": {
+          \\"application/json\\": {
+            \\"schema\\": {
+              \\"$ref\\": \\"#/components/schemas/Owner\\"
+            }
+          }
+        }
+      }
+    },
+    \\"schemas\\": {
+      \\"Owner\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"properties\\": {
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"pet\\": {
+            \\"$ref\\": \\"#/components/schemas/Pet\\"
+          }
+        }
+      },
+      \\"Breeder\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"properties\\": {
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"pets\\": {
+            \\"type\\": \\"array\\",
+            \\"items\\": {
+              \\"$ref\\": \\"#/components/schemas/Pet\\"
+            }
+          }
+        }
+      },
+      \\"Pet\\": {
+        \\"oneOf\\": [
+          {
+            \\"$ref\\": \\"#/components/schemas/Dog\\"
+          },
+          {
+            \\"$ref\\": \\"#/components/schemas/Cat\\"
+          }
+        ],
+        \\"discriminator\\": {
+          \\"propertyName\\": \\"kind\\",
+          \\"mapping\\": {
+            \\"dog\\": \\"#/components/schemas/Dog\\",
+            \\"cat\\": \\"#/components/schemas/Cat\\"
+          }
+        }
+      },
+      \\"Dog\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"dog\\"
+            ]
+          },
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          }
+        }
+      },
+      \\"Cat\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"cat\\"
+            ]
+          },
+          \\"name\\": {
+            \\"type\\": \\"string\\"
           }
         }
       }
@@ -2200,19 +2194,9 @@ Object {
 
 export default {
   \\"openapi\\": \\"3.0.0\\",
-  \\"info\\": {
-    \\"title\\": \\"read one of schema from other file\\",
-    \\"version\\": \\"1.0.0\\",
-    \\"contact\\": {
-      \\"name\\": \\"API Support\\",
-      \\"url\\": \\"http://www.example.com/support\\",
-      \\"email\\": \\"support@example.com\\"
-    }
-  },
   \\"tags\\": [
     {
-      \\"name\\": \\"default\\",
-      \\"description\\": \\"default API\\"
+      \\"name\\": \\"default\\"
     }
   ],
   \\"paths\\": {
@@ -2221,10 +2205,8 @@ export default {
         \\"tags\\": [
           \\"pet\\"
         ],
-        \\"description\\": \\"get pet\\\\n\\",
         \\"parameters\\": [
           {
-            \\"description\\": \\"pet id\\",
             \\"name\\": \\"id\\",
             \\"in\\": \\"path\\",
             \\"required\\": true,
@@ -2245,12 +2227,114 @@ export default {
   \\"components\\": {
     \\"responses\\": {
       \\"PetResponse\\": {
-        \\"description\\": \\"a pet response\\",
         \\"content\\": {
           \\"application/json\\": {
             \\"schema\\": {
-              \\"$ref\\": \\"./one_of.yml#/components/schemas/Pet\\"
+              \\"$ref\\": \\"#/components/schemas/Pet\\"
             }
+          }
+        }
+      },
+      \\"OwnerResponse\\": {
+        \\"content\\": {
+          \\"application/json\\": {
+            \\"schema\\": {
+              \\"$ref\\": \\"#/components/schemas/Owner\\"
+            }
+          }
+        }
+      }
+    },
+    \\"schemas\\": {
+      \\"Owner\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"properties\\": {
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"pet\\": {
+            \\"$ref\\": \\"#/components/schemas/Pet\\"
+          }
+        }
+      },
+      \\"Breeder\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"name\\"
+        ],
+        \\"properties\\": {
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"pets\\": {
+            \\"type\\": \\"array\\",
+            \\"items\\": {
+              \\"$ref\\": \\"#/components/schemas/Pet\\"
+            }
+          }
+        }
+      },
+      \\"Pet\\": {
+        \\"oneOf\\": [
+          {
+            \\"$ref\\": \\"#/components/schemas/Dog\\"
+          },
+          {
+            \\"$ref\\": \\"#/components/schemas/Cat\\"
+          }
+        ],
+        \\"discriminator\\": {
+          \\"propertyName\\": \\"kind\\",
+          \\"mapping\\": {
+            \\"dog\\": \\"#/components/schemas/Dog\\",
+            \\"cat\\": \\"#/components/schemas/Cat\\"
+          }
+        }
+      },
+      \\"Dog\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"dog\\"
+            ]
+          },
+          \\"name\\": {
+            \\"type\\": \\"string\\"
+          }
+        }
+      },
+      \\"Cat\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"id\\",
+          \\"kind\\"
+        ],
+        \\"properties\\": {
+          \\"id\\": {
+            \\"type\\": \\"integer\\",
+            \\"format\\": \\"int64\\"
+          },
+          \\"kind\\": {
+            \\"type\\": \\"string\\",
+            \\"enum\\": [
+              \\"cat\\"
+            ]
+          },
+          \\"name\\": {
+            \\"type\\": \\"string\\"
           }
         }
       }
