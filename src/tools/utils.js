@@ -224,6 +224,16 @@ function applyAlternativeRef(spec) {
   return spec;
 }
 
+function convertToLocalDefinition(spec) {
+  walkSchema(spec, (obj) => {
+    if (obj.$ref) {
+      const index = obj.$ref.indexOf('#');
+      obj.$ref = obj.$ref.slice(index);
+    }
+  });
+  return spec;
+}
+
 function getPreparedSpecFilePaths(specFiles) {
   const readFiles = {};
   const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
