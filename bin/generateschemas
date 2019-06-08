@@ -89,7 +89,7 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
   });
 }).then(() => {
   // no need dereference for js spec file
-  return Promise.all(specFiles.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
+  return Promise.all(filePaths.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
     const spec = convertToLocalDefinition(_.merge(...schemas));
     return (new JsSpecGenerator(config.formatForJsSpecGenerator())).write(spec);
   });
