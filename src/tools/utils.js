@@ -261,8 +261,7 @@ function getPreparedSpecFilePaths(specFiles) {
   function getAllRelatedFiles(files) {
     return files.reduce((acc, filePath) => {
       const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
-      const refFilePaths = getRefFilesPath(spec);
-      return acc.concat(_.uniq(refFilePaths).map((p) => {
+      return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
         const refSpecPath = path.join(path.dirname(filePath), p);
         if (readFiles[refSpecPath]) {
           return refSpecPath;
