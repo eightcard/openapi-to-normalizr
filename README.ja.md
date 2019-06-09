@@ -39,6 +39,7 @@
         useFlow: 'flowtype利用(true/false)',
         usePropType: 'prop-type利用(true/false)',
         attributeConverter: '属性コンバート用関数',
+        tags: ['xxx', 'yyy'], // 指定したタグで生成対象を制限(未指定時はすべてのパスが対象)
       }
       ```
 
