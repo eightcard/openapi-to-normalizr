@@ -53,8 +53,9 @@ class JsSpecGenerator {
       });
     });
 
-    function checkRef(ref) {
-      const [, components, group, name] = ref.split('/');
+    function checkRef(targetRef) {
+      // eslint-disable-next-line no-unused-vars
+      const [, components, group, name, ...rest] = targetRef.split('/');
       walkSchema(spec[components][group][name], (obj) => {
         if (obj.$ref) {
           // eslint-disable-next-line no-unused-vars
