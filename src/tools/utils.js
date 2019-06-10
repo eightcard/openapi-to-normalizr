@@ -195,28 +195,43 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function getRefFilesPath(spec) {
+function walkSchema(spec, cb = _.noop) {
   if (_.isArray(spec)) {
-    return spec.reduce((acc, item) => acc.concat(getRefFilesPath(item) || []), []);
+    return spec.forEach((item) => walkSchema(item, cb));
   } else if (_.isObject(spec)) {
-    if (spec.$ref) {
-      const matches = spec.$ref.match(/^([^#].*)#/);
-      if (matches) return [matches[1]];
-    }
-    return Object.keys(spec).reduce((acc, key) => acc.concat(getRefFilesPath(spec[key]) || []), []);
+    cb(spec);
+    return _.each(spec, (value) => walkSchema(value, cb));
   }
-  return [];
+}
+
+function getRefFilesPath(spec) {
+  const paths = [];
+  walkSchema(spec, (obj) => {
+    if (obj.$ref) {
+      const matches = obj.$ref.match(/^([^#].*)#/);
+      if (matches) paths.push(matches[1]);
+    }
+  });
+  return paths;
 }
 
 function applyAlternativeRef(spec) {
-  if (_.isArray(spec)) {
-    return spec.forEach((item) => applyAlternativeRef(item));
-  } else if (_.isObject(spec)) {
-    if (spec.$ref) {
-      spec[alternativeRefKey] = spec.$ref;
+  walkSchema(spec, (obj) => {
+    if (obj.$ref) {
+      obj[alternativeRefKey] = obj.$ref;
     }
-    return _.each(spec, (value) => applyAlternativeRef(value));
-  }
+  });
+  return spec;
+}
+
+function convertToLocalDefinition(spec) {
+  walkSchema(spec, (obj) => {
+    if (obj.$ref) {
+      const index = obj.$ref.indexOf('#');
+      obj.$ref = obj.$ref.slice(index);
+    }
+  });
+  return spec;
 }
 
 function getPreparedSpecFilePaths(specFiles) {
@@ -288,4 +303,6 @@ module.exports = {
   writeFile,
   getPreparedSpecFilePaths,
   getModelDefinitions,
+  convertToLocalDefinition,
+  walkSchema,
 };

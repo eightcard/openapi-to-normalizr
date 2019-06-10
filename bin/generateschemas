@@ -8,7 +8,10 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFilePaths, getModelDefinitions } = require('../src/tools/utils');
+const {
+  resolvePath, mkdirpPromise, readSpecFilePromise, getPreparedSpecFilePaths,
+  getModelDefinitions, convertToLocalDefinition,
+} = require('../src/tools/utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
@@ -86,8 +89,8 @@ Promise.all(filePaths.map((file) => readSpecFilePromise(file, {dereference: true
   });
 }).then(() => {
   // no need dereference for js spec file
-  return Promise.all(specFiles.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
-    const spec = _.merge(...schemas);
+  return Promise.all(filePaths.map((file) => readSpecFilePromise(file, { dereference: false }))).then((schemas) => {
+    const spec = convertToLocalDefinition(_.merge(...schemas));
     return (new JsSpecGenerator(config.formatForJsSpecGenerator())).write(spec);
   });
 }).catch((e) => {
