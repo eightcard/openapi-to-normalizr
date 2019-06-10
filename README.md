@@ -44,6 +44,7 @@ $ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
     useFlow: 'use flowtype?(true/false)', // default: false (experiment)
     usePropType: 'use prop-type?(true/false)',  // default: true
     attributeConverter: 'attribute converter function',
+    tags: ['xxx', 'yyy'], // all path include target without tags
   }
   ```
 
