@@ -19,8 +19,8 @@ class JsSpecGenerator {
   }
 
   write(spec) {
-    this.reduceUnnecessaryProps(spec);
-    this.reduceUnusedComponents(spec);
+    this.deleteUnnecessaryProps(spec);
+    this.deleteUnusedComponents(spec);
     const text = render(this.templates.spec, {
       spec: JSON.stringify(spec, null, 2),
     }, {
@@ -29,13 +29,13 @@ class JsSpecGenerator {
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 
-  reduceUnnecessaryProps(spec) {
+  deleteUnnecessaryProps(spec) {
     walkSchema(spec, (obj) => {
       UNNECESSARY_PROPS.forEach((key) => delete obj[key]);
     });
   }
 
-  reduceUnusedComponents(spec) {
+  deleteUnusedComponents(spec) {
     const useRefs = {};
 
     // pathから利用しているrefを取得
