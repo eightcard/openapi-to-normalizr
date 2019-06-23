@@ -47,7 +47,7 @@
     "speccy": "0.11.0",
     "typescript": "3.5.2",
     "webpack": "4.35.0",
-    "webpack-cli": "3.3.4"
+    "webpack-cli": "3.3.5"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc",
