@@ -30,7 +30,7 @@
     "babel-loader": "8.0.6",
     "babel-polyfill": "6.26.0",
     "babel-preset-power-assert": "3.0.0",
-    "eslint": "6.0.0",
+    "eslint": "6.0.1",
     "flow-bin": "0.101.1",
     "flow-typed": "2.5.2",
     "immutable": "4.0.0-rc.12",
