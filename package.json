@@ -32,7 +32,7 @@
     "babel-preset-power-assert": "3.0.0",
     "eslint": "6.0.1",
     "flow-bin": "0.103.0",
-    "flow-typed": "2.5.2",
+    "flow-typed": "2.6.0",
     "immutable": "4.0.0-rc.12",
     "jest": "24.8.0",
     "json-server": "0.15.0",
