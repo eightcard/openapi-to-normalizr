@@ -3507,7 +3507,7 @@ fast-deep-equal@^2.0.1:
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
   integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
 
-fast-json-patch@^2.0.6:
+fast-json-patch@~2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-2.1.0.tgz#e348c330a5b2481b14f5fffd707aebfef8b7bef6"
   integrity sha512-PipOsAKamRw7+CXtKiieehyjUeDVPJ5J7b2kdJYerEf6TSUQoD2ijpVyZ88KQm5YXziff4h762bz3+vzf56khg==
@@ -8085,10 +8085,10 @@ supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-client@3.9.0:
-  version "3.9.0"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.0.tgz#b94ea65baa0194f4cb3fad2f8bd552c531d57e03"
-  integrity sha512-uyCq2xoaAtmE0oIQ0fCfnsDoy/v97ANnAZywtyk4yumBP74xXp4NFlpZaqZJHN9K9dbPzgs3MH98VocZeM0ExQ==
+swagger-client@3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.1.tgz#3898c07ff2a01d376591042ecb94e56997206904"
+  integrity sha512-WGRPdJEW/cbvlopFXhCsB31SwTtRFIcgBIV01lwP8t9Wqr3bAPwmeOSobQgzdu7s2qS9dkOGnMT3GvQp2ogG/A==
   dependencies:
     "@kyleshockey/js-yaml" "^1.0.1"
     "@kyleshockey/object-assign-deep" "^0.4.0"
@@ -8099,7 +8099,7 @@ swagger-client@3.9.0:
     cross-fetch "0.0.8"
     deep-extend "^0.5.1"
     encode-3986 "^1.0.0"
-    fast-json-patch "^2.0.6"
+    fast-json-patch "~2.1.0"
     isomorphic-form-data "0.0.1"
     lodash "^4.16.2"
     qs "^6.3.0"
