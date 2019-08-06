@@ -18,7 +18,7 @@ const server = http.createServer((request, response) => {
     public: dir,
     unlisted: ['node_modules', '.*'],
   });
-})
+});
 
 server.listen(port, () => {
   console.log(`Running at http://localhost:${port}`);

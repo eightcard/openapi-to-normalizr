@@ -1,7 +1,7 @@
 class Config {
   constructor(config) {
     this._config = config;
-    this.attributeConverter = config.attributeConverter ? config.attributeConverter : str => str;
+    this.attributeConverter = config.attributeConverter ? config.attributeConverter : (str) => str;
     this.modelsDir = config.modelsDir || 'dist';
   }
 
@@ -28,7 +28,7 @@ class Config {
       usePropType,
       useFlow,
       useTypeScript,
-      attributeConverter
+      attributeConverter,
     } = this._config;
     return {
       outputDir,
@@ -42,11 +42,7 @@ class Config {
   }
 
   formatForActionTypesGenerator() {
-    const {
-      outputPath,
-      templates: templatePath,
-      useTypeScript,
-    } = this._config;
+    const { outputPath, templates: templatePath, useTypeScript } = this._config;
     return {
       templatePath,
       outputPath: outputPath.actions,
@@ -63,7 +59,7 @@ class Config {
       modelsDir,
       attributeConverter,
       useTypeScript,
-     } = this._config;
+    } = this._config;
     return {
       templatePath,
       outputPath: outputPath.schemas,
@@ -75,10 +71,7 @@ class Config {
   }
 
   formatForJsSpecGenerator() {
-    const {
-      templates: templatePath,
-      outputPath,
-    } = this._config;
+    const { templates: templatePath, outputPath } = this._config;
     return {
       templatePath,
       outputPath: outputPath.jsSpec,

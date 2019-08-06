@@ -2,12 +2,25 @@ import assert from 'assert';
 import { createReducer } from './entities-reducer';
 import { Map, Record } from 'immutable';
 
-class DummyClass extends Record({id: undefined, name: undefined, label: 'default'}) {} // eslint-disable-line no-undefined
+class DummyClass extends Record({
+  id: undefined, // eslint-disable-line no-undefined
+  name: undefined, // eslint-disable-line no-undefined
+  label: 'default',
+}) {}
 const additionalReducer = (state) => state;
 
 describe('createReducer', () => {
   let initialState;
-  const subject = () => createReducer({dummy: DummyClass}, {initialState, additionalReducer});
+  const subject = () =>
+    createReducer(
+      {
+        dummy: DummyClass,
+      },
+      {
+        initialState,
+        additionalReducer,
+      },
+    );
 
   afterEach(() => {
     initialState = undefined; // eslint-disable-line no-undefined
@@ -18,7 +31,9 @@ describe('createReducer', () => {
   });
 
   test('can send initialState', () => {
-    initialState = Map({foo: 'bar'});
+    initialState = Map({
+      foo: 'bar',
+    });
     const reducer = subject();
     assert.deepStrictEqual(reducer(), initialState);
   });
@@ -71,7 +86,7 @@ describe('createReducer', () => {
           dummy: {
             1: {
               id: 1,
-              label: 'some label'
+              label: 'some label',
             },
           },
           other: {
@@ -91,7 +106,7 @@ describe('createReducer', () => {
         1: {
           id: 1,
           name: 'foo-bar',
-          label: 'some label'
+          label: 'some label',
         },
       },
       other: {

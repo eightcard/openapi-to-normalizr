@@ -2,9 +2,16 @@ const path = require('path');
 const { writeFilePromise, readTemplates, render } = require('./utils');
 
 class ActionTypesGenerator {
-  constructor({outputPath = '', schemasFilePath = '', templatePath = {}, operationIdList = [], useTypeScript = false, extension = 'js'}) {
+  constructor({
+    outputPath = '',
+    schemasFilePath = '',
+    templatePath = {},
+    operationIdList = [],
+    useTypeScript = false,
+    extension = 'js',
+  }) {
     this.outputPath = outputPath;
-    const {dir, name, ext} = path.parse(this.outputPath);
+    const { dir, name, ext } = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}.${extension}`;
     this.schemasFilePath = schemasFilePath.replace(ext, '');
@@ -24,13 +31,17 @@ class ActionTypesGenerator {
    * actionTypes.jsを書き出し
    */
   write() {
-    const text = render(this.templates.actionTypes, {
-      operationIdList: this.operationIdList,
-      schemasFile: path.relative(this.outputDir, this.schemasFilePath),
-      useTypeScript: this.useTypeScript,
-    }, {
-      head: this.templates.head,
-    });
+    const text = render(
+      this.templates.actionTypes,
+      {
+        operationIdList: this.operationIdList,
+        schemasFile: path.relative(this.outputDir, this.schemasFilePath),
+        useTypeScript: this.useTypeScript,
+      },
+      {
+        head: this.templates.head,
+      },
+    );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 }

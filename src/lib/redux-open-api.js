@@ -14,7 +14,9 @@ function isOpenApiAction(action) {
 export const HttpClient = Swagger.http;
 
 export default (spec, httpOptions) => {
-  return Swagger({spec}).then(({apis}) => {
+  return Swagger({
+    spec,
+  }).then(({ apis }) => {
     const apiCache = {};
     const apiTags = Object.keys(apis);
 
@@ -26,20 +28,20 @@ export default (spec, httpOptions) => {
         }
         apiCache[operationId] = apis[tag][operationId];
       }
-      return apiCache[operationId]
+      return apiCache[operationId];
     }
 
-    return () => next => action => {
+    return () => (next) => (action) => {
       if (!isOpenApiAction(action)) {
         return next(action);
       }
 
-      const {id, schema} = action.meta;
+      const { id, schema } = action.meta;
       const api = findApi(id);
       const options = {};
       const requestBody = getRequestBody(id, action.payload);
       if (requestBody) {
-        options.requestBody = requestBody;  // for OAS v3
+        options.requestBody = requestBody; // for OAS v3
       }
       action.meta.requestPayload = action.payload;
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
@@ -61,8 +63,8 @@ export default (spec, httpOptions) => {
             error: true,
           });
           return Promise.reject(error);
-        }
+        },
       );
-    }
+    };
   });
 };

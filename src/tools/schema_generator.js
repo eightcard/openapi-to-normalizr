@@ -1,8 +1,16 @@
 const _ = require('lodash');
 const path = require('path');
 const {
-  applyIf, schemaName, parseSchema, objectToTemplateValue, getModelName,
-  readTemplates, writeFilePromise, render, changeFormat, getIdAttribute,
+  applyIf,
+  schemaName,
+  parseSchema,
+  objectToTemplateValue,
+  getModelName,
+  readTemplates,
+  writeFilePromise,
+  render,
+  changeFormat,
+  getIdAttribute,
 } = require('./utils');
 
 /**
@@ -11,9 +19,17 @@ const {
  */
 
 class SchemaGenerator {
-  constructor({outputPath = '', templatePath = {}, modelGenerator, modelsDir, attributeConverter = str => str, useTypeScript, extension = 'js'}) {
+  constructor({
+    outputPath = '',
+    templatePath = {},
+    modelGenerator,
+    modelsDir,
+    attributeConverter = (str) => str,
+    useTypeScript,
+    extension = 'js',
+  }) {
     this.outputPath = outputPath;
-    const {dir, name} = path.parse(this.outputPath);
+    const { dir, name } = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}.${extension}`;
     this.templatePath = templatePath;
@@ -41,11 +57,14 @@ class SchemaGenerator {
         return;
       }
 
-      const onSchema = ({type, value}) => {
+      const onSchema = ({ type, value }) => {
         if (type === 'model') {
           const modelName = getModelName(value);
           if (getIdAttribute(value, modelName)) {
-            this._importModels.push({ modelName, model: value });
+            this._importModels.push({
+              modelName,
+              model: value,
+            });
             return schemaName(modelName);
           }
         }
@@ -70,24 +89,35 @@ class SchemaGenerator {
   write() {
     return Promise.all([
       this._writeSchemaFile(),
-      this.importModels.map(({ modelName, model }) => this.modelGenerator.writeModel(model, modelName)),
+      this.importModels.map(({ modelName, model }) =>
+        this.modelGenerator.writeModel(model, modelName),
+      ),
     ]).then(() => {
       this.modelGenerator.writeIndex();
     });
   }
 
   _writeSchemaFile() {
-    const oneOfs = this.oneOfs.map((obj) => Object.assign(obj, {mapping: objectToTemplateValue(obj.mapping), propertyName: `'${this.attributeConverter(obj.propertyName)}'`}));
-    const text = render(this.templates.schema, {
-      importList: this._prepareImportList(),
-      data: objectToTemplateValue(this.formattedSchema),
-      hasOneOf: oneOfs.length > 0,
-      oneOfs,
-      useTypeScript: this.useTypeScript,
-    }, {
-      head: this.templates.head,
-      oneOf: this.templates.oneOf,
-    });
+    const oneOfs = this.oneOfs.map((obj) =>
+      Object.assign(obj, {
+        mapping: objectToTemplateValue(obj.mapping),
+        propertyName: `'${this.attributeConverter(obj.propertyName)}'`,
+      }),
+    );
+    const text = render(
+      this.templates.schema,
+      {
+        importList: this._prepareImportList(),
+        data: objectToTemplateValue(this.formattedSchema),
+        hasOneOf: oneOfs.length > 0,
+        oneOfs,
+        useTypeScript: this.useTypeScript,
+      },
+      {
+        head: this.templates.head,
+        oneOf: this.templates.oneOf,
+      },
+    );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 
@@ -97,7 +127,7 @@ class SchemaGenerator {
       return {
         name: schemaName(modelName),
         path: path.join(relative, _.snakeCase(modelName)),
-      }
+      };
     });
   }
 
@@ -106,10 +136,14 @@ class SchemaGenerator {
   }
 
   get formattedSchema() {
-    return _.reduce(this.parsedObjects, (acc, schema, key) => {
-      acc[key] = changeFormat(schema, this.attributeConverter);
-      return acc;
-    }, {});
+    return _.reduce(
+      this.parsedObjects,
+      (acc, schema, key) => {
+        acc[key] = changeFormat(schema, this.attributeConverter);
+        return acc;
+      },
+      {},
+    );
   }
 
   static getJsonContents(response) {

@@ -30,7 +30,7 @@ class EntitiesReducer {
     return this.additionalReducer(state, action);
   }
 
-  _mergeEntities(state, newEntities, {meta} = {}) {
+  _mergeEntities(state, newEntities, { meta } = {}) {
     const reset = meta && meta.reset;
     return state.withMutations((state) => {
       fromJS(newEntities).forEach((entities, modelName) => {
@@ -52,9 +52,9 @@ class EntitiesReducer {
   }
 }
 
-const merger = (prev, next) => isUndefined(next) ? prev : next;
+const merger = (prev, next) => (isUndefined(next) ? prev : next);
 
-export function createReducer(Models, {initialState, additionalReducer} = {}) {
+export function createReducer(Models, { initialState, additionalReducer } = {}) {
   const reducer = new EntitiesReducer(Models, initialState, additionalReducer);
   return reducer.reduce;
 }

@@ -18,9 +18,10 @@ describe('middleware', () => {
 
   describe('not open api action', () => {
     const action = 'foo';
-    test('call next action.', () => subject(action).then(() => {
-      expect(nextFunction).toBeCalledWith(action);
-    }));
+    test('call next action.', () =>
+      subject(action).then(() => {
+        expect(nextFunction).toBeCalledWith(action);
+      }));
   });
 
   const action = {
@@ -28,43 +29,76 @@ describe('middleware', () => {
     meta: {
       openApi: true,
       id: 'get_pets',
-      schema: {200: {}}
+      schema: {
+        200: {},
+      },
     },
   };
   describe('open api action (success)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(200, {response: 'test response'});
+      nock(/.*/)
+        .get('/pets')
+        .reply(200, {
+          response: 'test response',
+        });
     });
-    test('call action with response.', () => subject(action).then(() => {
-      const expected = Object.assign(action, {payload: {entities: {}, result: {response: 'test response'}}});
-      expect(nextFunction).toBeCalledWith(expected);
-    }));
+    test('call action with response.', () =>
+      subject(action).then(() => {
+        const expected = Object.assign(action, {
+          payload: {
+            entities: {},
+            result: {
+              response: 'test response',
+            },
+          },
+        });
+        expect(nextFunction).toBeCalledWith(expected);
+      }));
   });
 
   describe('open api action (success & no-schema)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(202, {response: 'no schema'});
+      nock(/.*/)
+        .get('/pets')
+        .reply(202, {
+          response: 'no schema',
+        });
     });
-    test('call action with response.', () => subject(action).then(() => {
-      const expected = Object.assign(action, {payload: {response: 'no schema'}});
-      expect(nextFunction).toBeCalledWith(expected);
-    }));
+    test('call action with response.', () =>
+      subject(action).then(() => {
+        const expected = Object.assign(action, {
+          payload: {
+            response: 'no schema',
+          },
+        });
+        expect(nextFunction).toBeCalledWith(expected);
+      }));
   });
 
   describe('open api action (failed)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(400);
+      nock(/.*/)
+        .get('/pets')
+        .reply(400);
     });
-    test('call action with error.', () => subject(action).then(noop, () => {
-      expect(nextFunction.mock.calls[0][0]).toMatchObject({error: true, type: 'ERROR_GET_PETS'});
-    }));
+    test('call action with error.', () =>
+      subject(action).then(noop, () => {
+        expect(nextFunction.mock.calls[0][0]).toMatchObject({
+          error: true,
+          type: 'ERROR_GET_PETS',
+        });
+      }));
   });
 });
 
 describe('http client', () => {
-  const res = {response: 'test response'};
+  const res = {
+    response: 'test response',
+  };
   beforeEach(() => {
-    nock(/.*/).get('/pets').reply(200, res);
+    nock(/.*/)
+      .get('/pets')
+      .reply(200, res);
   });
 
   test('can request', () => {
