@@ -42,7 +42,7 @@
     "prop-types": "15.7.2",
     "react-immutable-proptypes": "2.1.0",
     "redux": "4.0.4",
-    "rimraf": "2.6.3",
+    "rimraf": "2.7.1",
     "serve": "11.1.0",
     "speccy": "0.11.0",
     "typescript": "3.5.3",
