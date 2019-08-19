@@ -180,9 +180,9 @@ class TsModelGenerator {
     const convertedkey = _.startCase(enumName).split(' ').join('');
     // enumNameがマイナスの数値の時
     const resolvedkey = typeof enumName === 'number' && enumName < 0
-      ? `MINUS_${convertedkey}`
+      ? `Minus${convertedkey}`
       : convertedkey;
-    return `${convertedName}_${resolvedkey}`;
+    return `${convertedName}${resolvedkey}`;
   }
 
   getEnumObjects(name, enums, enumKeyAttributes = []) {
