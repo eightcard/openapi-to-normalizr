@@ -11,7 +11,7 @@ var _normalizr = require("normalizr");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NEED_REQUEST_BODY_REG = new RegExp('^(POST|PUT)');
+var NEED_REQUEST_BODY_REG = new RegExp('^(POST|PUT|PATCH)');
 
 function getRequestBody(id, payload) {
   return payload && id.toUpperCase().match(NEED_REQUEST_BODY_REG) ? payload : null;
