@@ -65,7 +65,9 @@ function convertToLocalDefinition(spec) {
 
 function getPreparedSpecFilePaths(specFiles, tags = []) {
   const readFiles = {};
-  const tmpDir = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'));
+  const tmpDir = fs.mkdtempSync(
+    path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'),
+  );
   const allFiles = _.uniq(_.flattenDeep(getAllRelatedFiles(specFiles)));
 
   return specFiles.concat(allFiles).map((p) => {
@@ -91,7 +93,7 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
 
   function isUsableOperation(operationTags) {
     if (tags.length === 0) return true;
-    return operationTags && tags.some((t) => operationTags.includes(t))
+    return operationTags && tags.some((t) => operationTags.includes(t));
   }
 
   function removeUnusableOperation(spec) {
@@ -105,15 +107,17 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
   function getAllRelatedFiles(files) {
     return files.reduce((acc, filePath) => {
       const spec = jsYaml.safeLoad(fs.readFileSync(filePath));
-      return acc.concat(_.uniq(getRefFilesPath(spec)).map((p) => {
-        const refSpecPath = path.join(path.dirname(filePath), p);
-        if (readFiles[refSpecPath]) {
-          return refSpecPath;
-        } else {
-          readFiles[refSpecPath] = true;
-          return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
-        }
-      }));
+      return acc.concat(
+        _.uniq(getRefFilesPath(spec)).map((p) => {
+          const refSpecPath = path.join(path.dirname(filePath), p);
+          if (readFiles[refSpecPath]) {
+            return refSpecPath;
+          } else {
+            readFiles[refSpecPath] = true;
+            return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
+          }
+        }),
+      );
     }, []);
   }
 }

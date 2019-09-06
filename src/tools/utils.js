@@ -24,25 +24,42 @@ function getRef(schema) {
 }
 
 function parseOneOf(schema, onSchema) {
-  const {propertyName, mapping} = schema.discriminator;
-  const ret = {propertyName};
+  const { propertyName, mapping } = schema.discriminator;
+  const ret = {
+    propertyName,
+  };
   const components = schema.oneOf.map((model) => {
     const modelName = getModelName(model);
-    onSchema({type: 'model', value: model});
-    return {name: modelName, schemaName: schemaName(modelName), value: model};
+    onSchema({
+      type: 'model',
+      value: model,
+    });
+    return {
+      name: modelName,
+      schemaName: schemaName(modelName),
+      value: model,
+    };
   });
 
   if (mapping) {
-    ret.mapping = _.reduce(mapping, (acc, model, key) => {
-      const { schemaName } = _.find(components, ({ value }) => getRef(value) === model);
-      acc[key] = schemaName;
-      return acc;
-    }, {});
+    ret.mapping = _.reduce(
+      mapping,
+      (acc, model, key) => {
+        const { schemaName } = _.find(components, ({ value }) => getRef(value) === model);
+        acc[key] = schemaName;
+        return acc;
+      },
+      {},
+    );
   } else {
-    ret.mapping = _.reduce(components, (acc, {name, schemaName}) => {
-      acc[name] = schemaName;
-      return acc;
-    }, {});
+    ret.mapping = _.reduce(
+      components,
+      (acc, { name, schemaName }) => {
+        acc[name] = schemaName;
+        return acc;
+      },
+      {},
+    );
   }
   return ret;
 }
@@ -52,21 +69,31 @@ function parseSchema(schema, onSchema) {
 
   const modelName = getModelName(schema);
   if (modelName && getIdAttribute(schema)) {
-    return onSchema({type: 'model', value: schema});
+    return onSchema({
+      type: 'model',
+      value: schema,
+    });
   } else if (schema.oneOf && schema.discriminator) {
-    return onSchema({type: 'oneOf', value: parseOneOf(schema, onSchema)});
+    return onSchema({
+      type: 'oneOf',
+      value: parseOneOf(schema, onSchema),
+    });
   } else if (schema.type === 'object') {
     return applyIf(parseSchema(schema.properties, onSchema));
   } else if (schema.type === 'array') {
     return applyIf(parseSchema(schema.items, onSchema), (val) => [val]);
   } else {
-    const reduced =_.reduce(schema, (ret, val, key) => {
-      const tmp = parseSchema(val, onSchema);
-      if (tmp) {
-        ret[key] = tmp;
-      }
-      return ret;
-    }, {});
+    const reduced = _.reduce(
+      schema,
+      (ret, val, key) => {
+        const tmp = parseSchema(val, onSchema);
+        if (tmp) {
+          ret[key] = tmp;
+        }
+        return ret;
+      },
+      {},
+    );
     if (Object.keys(reduced).length > 0) {
       return reduced;
     }
@@ -80,7 +107,8 @@ function isFileExistPromise(path) {
         resolve(true); // file is exist.
         return;
       }
-      if (err.code === 'ENOENT') {  // file is not exist.
+      if (err.code === 'ENOENT') {
+        // file is not exist.
         resolve(false);
       } else {
         reject(err);
@@ -93,14 +121,17 @@ function applyRequired(props, requiredList) {
   if (!_.isArray(requiredList)) {
     return props;
   }
-
-  return _.reduce(props, (ret, prop, key) => {
-    ret[key] = prop;
-    if (requiredList.includes(key)) {
-      prop.required = true;
-    }
-    return ret;
-  }, {});
+  return _.reduce(
+    props,
+    (ret, prop, key) => {
+      ret[key] = prop;
+      if (requiredList.includes(key)) {
+        prop.required = true;
+      }
+      return ret;
+    },
+    {},
+  );
 }
 
 function resolvePath(str) {
@@ -108,11 +139,13 @@ function resolvePath(str) {
 }
 
 function mkdirpPromise(dir) {
-  return new Promise((resolve, reject) => mkdirp(dir, (err) => err ? reject(err) : resolve()));
+  return new Promise((resolve, reject) => mkdirp(dir, (err) => (err ? reject(err) : resolve())));
 }
 
 function writeFilePromise(path, data) {
-  return new Promise((resolve, reject) => fs.writeFile(path, data, (err) => err ? reject(err) : resolve()));
+  return new Promise((resolve, reject) =>
+    fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
+  );
 }
 
 function writeFile(path, data) {
@@ -159,7 +192,7 @@ function changeFormat(obj, transformer) {
 }
 
 function getIdAttribute(model, name) {
-  const {properties} = model;
+  const { properties } = model;
   if (!properties) {
     if (name) {
       console.warn(`${name} is not model definition.`); // eslint-disable-line no-console
@@ -177,13 +210,17 @@ function getIdAttribute(model, name) {
 }
 
 function getModelDefinitions(spec) {
-  return _.reduce(spec.components.schemas, (acc, model) => {
-    const modelName = getModelName(model);
-    if (modelName) {
-      acc[modelName] = model;
-    }
-    return acc;
-  }, {});
+  return _.reduce(
+    spec.components.schemas,
+    (acc, model) => {
+      const modelName = getModelName(model);
+      if (modelName) {
+        acc[modelName] = model;
+      }
+      return acc;
+    },
+    {},
+  );
 }
 
 module.exports = {

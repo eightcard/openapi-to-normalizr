@@ -13,6 +13,7 @@ export const HttpClient = _HttpClient;
 export default {
   createEntitiesReducer,
   createOpenApiMiddleware,
-  immutable, normalizr,
+  immutable,
+  normalizr,
   HttpClient,
 };

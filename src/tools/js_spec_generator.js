@@ -4,16 +4,21 @@ const { writeFilePromise, readTemplates, render } = require('./utils');
 const { walkSchema, MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('./spec_file_utils');
 
 const UNNECESSARY_PROPS = [
-  ALTERNATIVE_REF_KEY, 'description', 'info',
-  MODEL_DEF_KEY, 'x-id-attribute', 'x-attribute-as', 'x-enum-key-attributes',
+  ALTERNATIVE_REF_KEY,
+  'description',
+  'info',
+  MODEL_DEF_KEY,
+  'x-id-attribute',
+  'x-attribute-as',
+  'x-enum-key-attributes',
 ];
 
 class JsSpecGenerator {
-  constructor({outputPath = '', templatePath, extension = 'js'}) {
+  constructor({ outputPath = '', templatePath, extension = 'js' }) {
     this.outputPath = outputPath;
     this.templatePath = templatePath;
     this.templates = readTemplates(['spec', 'head'], this.templatePath);
-    const {dir, name} = path.parse(this.outputPath);
+    const { dir, name } = path.parse(this.outputPath);
     this.outputDir = dir;
     this.outputFileName = `${name}.${extension}`;
     this.write = this.write.bind(this);
@@ -22,11 +27,15 @@ class JsSpecGenerator {
   write(spec) {
     this.deleteUnnecessaryProps(spec);
     this.deleteUnusedComponents(spec);
-    const text = render(this.templates.spec, {
-      spec: JSON.stringify(spec, null, 2),
-    }, {
-      head: this.templates.head,
-    });
+    const text = render(
+      this.templates.spec,
+      {
+        spec: JSON.stringify(spec, null, 2),
+      },
+      {
+        head: this.templates.head,
+      },
+    );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 

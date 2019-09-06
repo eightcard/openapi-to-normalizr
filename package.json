@@ -4,10 +4,13 @@
   "version": "0.1.5",
   "author": {
     "name": "Eight",
-    "url": "github.com/eightcard/openapi-to-normalizr"
+    "url": "https://github.com/eightcard/openapi-to-normalizr"
   },
   "bin": {
     "openapi2schemas": "./bin/generateschemas"
+  },
+  "engines": {
+    "node": ">=10.15.1"
   },
   "dependencies": {
     "commander": "3.0.1",
@@ -30,15 +33,20 @@
     "babel-loader": "8.0.6",
     "babel-polyfill": "6.26.0",
     "babel-preset-power-assert": "3.0.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "husky": "3.0.2",
     "eslint": "6.3.0",
     "flow-bin": "0.106.3",
     "flow-typed": "2.6.1",
     "immutable": "4.0.0-rc.12",
     "jest": "24.9.0",
     "json-server": "0.15.0",
+    "lint-staged": "9.2.1",
     "nock": "10.0.6",
     "normalizr": "3.4.1",
     "power-assert": "1.6.1",
+    "prettier": "1.18.2",
     "prop-types": "15.7.2",
     "react-immutable-proptypes": "2.1.0",
     "redux": "4.0.4",
@@ -54,6 +62,19 @@
     "normalizr": "^3.2.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-checkout": "yarn",
+      "post-merge": "yarn"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "files": [
     "config",
