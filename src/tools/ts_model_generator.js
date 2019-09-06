@@ -222,7 +222,10 @@ class TsModelGenerator {
     const convertedkey = _.upperCase(enumName)
       .split(' ')
       .join('_');
-    return `${convertedName}_${convertedkey}`;
+    // enumNameがマイナスの数値の時
+    const resolvedkey =
+      typeof enumName === 'number' && enumName < 0 ? `MINUS_${convertedkey}` : convertedkey;
+    return `${convertedName}_${resolvedkey}`;
   }
 
   getEnumLiteralTypeName(enumName, propertyName) {
@@ -232,7 +235,10 @@ class TsModelGenerator {
     const convertedkey = _.startCase(enumName)
       .split(' ')
       .join('');
-    return `${convertedName}${convertedkey}`;
+    // enumNameがマイナスの数値の時
+    const resolvedkey =
+      typeof enumName === 'number' && enumName < 0 ? `Minus${convertedkey}` : convertedkey;
+    return `${convertedName}${resolvedkey}`;
   }
 
   getEnumObjects(name, enums, enumKeyAttributes = []) {

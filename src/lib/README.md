@@ -52,7 +52,8 @@
   ```
 - `openapi2schema`コマンドで生成される `spec.js`をrequireして `spec`引数として利用できます。
 - このmiddlewareはAPI定義に従った通信結果をnormalizeする責務を持ちます。(immutable.jsのインスタンスは入り込みません)
-
+- middlewareではエラーをハンドリングして、`ERROR_${ACTION_TYPE}` のアクションを発行します。
+  エラー時にはこちらをreducerで利用してください。
 
 ## createOpenApiAction
 - 自動生成される `action_types/sample.js`から `export`される関数です。  
