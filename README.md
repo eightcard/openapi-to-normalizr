@@ -1,15 +1,15 @@
 [![CircleCI](https://circleci.com/gh/eightcard/openapi-to-normalizr.svg?style=svg)](https://circleci.com/gh/eightcard/openapi-to-normalizr)
-# openapi-to-normalizr 
+
+# openapi-to-normalizr
 
 > schemas generator for normalizr
 
 [日本語](README.ja.md)
 
-
 ## Install
 
 ```
-$ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git 
+$ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ $ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
   ```
 - about config
   ```js
-  {    
+  {
     templates: { // default: this repo's templates directory
       model: 'for base model',
       override: 'for extends model',
@@ -58,36 +58,38 @@ const reducers = combineReducers({
   entities: createEntitiesReducer(Models),
 });
 
-createOpenApiMiddleware(Spec).then((middleware) => {
-  return createStore(
-    reducers,
-    applyMiddleware(middleware)
-  );
-}).then((store) => {
-  // React Application code.
-});
+createOpenApiMiddleware(Spec)
+  .then((middleware) => {
+    return createStore(reducers, applyMiddleware(middleware));
+  })
+  .then((store) => {
+    // React Application code.
+  });
 ```
-
 
 ## API
 
 ### createEntitiesReducer(Models, {additionalReducer, initialState})
+
 create reducer that output normalized state as model. (normalized by [normalizr](https://github.com/paularmstrong/normalizr))
 
 #### Models
+
 Type: {[key: string]: Model}
 
 #### additionalReducer
+
 Type: Function
 
 additional reducer that support no automatic merge reduce.
 
 Example:
+
 ```js
 import * as ActionTypes from 'actions/actionTypes';
 function additionalReducer(state = Map(), action = {}) {
   const id = action.payload.id;
-  switch(action.type) {
+  switch (action.type) {
     case ActionTypes.DELETE_PETS__ID_:
       return state.removeIn(['Pet', id.toString()]);
     default:
@@ -97,23 +99,27 @@ function additionalReducer(state = Map(), action = {}) {
 ```
 
 #### initialState
+
 Type: Immutable.Map
 
 reducer's initial state object.
 
 ### createOpenApiMiddleware(spec, [httpOptions])
+
 create redux middleware support [swagger-js](https://github.com/swagger-api/swagger-js).
 
 #### spec
+
 Type: Object
 
-OpenAPI Spec 
+OpenAPI Spec
 
 #### httpOptions
+
 Type: Object
 
 Same as httpOptions of swagger-js.
 
-
 ## Release
+
 - release is specified by only tag.

@@ -20,38 +20,44 @@ const walk = (p, fileCallback) => {
 };
 
 const snapshot = (command, files, customConfigFilePath) => {
-  const customConfigOption = customConfigFilePath ? `--config ${path.join(dir, customConfigFilePath)}` : '';
-  execSync(`${dir}/../bin/${command} ${customConfigOption} ${files.map(file => `${dir}/${file}`).join(' ')}`);
+  const customConfigOption = customConfigFilePath
+    ? `--config ${path.join(dir, customConfigFilePath)}`
+    : '';
+  execSync(
+    `${dir}/../bin/${command} ${customConfigOption} ${files
+      .map((file) => `${dir}/${file}`)
+      .join(' ')}`,
+  );
   walk(outputDir, (path) => {
     const output = fs.readFileSync(path, 'utf8');
     expect({ path, output }).toMatchSnapshot();
   });
-}
+};
 
 describe('schema generator spec', () => {
   beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
 
   test('from json schema ref', () => {
-    snapshot('generateschemas', ['json_schema_ref.yml'])
+    snapshot('generateschemas', ['json_schema_ref.yml']);
   });
 
   test('from one of check', () => {
-    snapshot('generateschemas', ['one_of.yml'])
+    snapshot('generateschemas', ['one_of.yml']);
   });
 
   test('from one of other spec file  check', () => {
-    snapshot('generateschemas', ['one_of_from_other_file.yml'])
+    snapshot('generateschemas', ['one_of_from_other_file.yml']);
   });
 
   test('from json schema ref TS', () => {
-    snapshot('generateschemas', ['json_schema_ref.yml'], './config_ts.js')
+    snapshot('generateschemas', ['json_schema_ref.yml'], './config_ts.js');
   });
 
   test('from one of check TS', () => {
-    snapshot('generateschemas', ['one_of.yml'], './config_ts.js')
+    snapshot('generateschemas', ['one_of.yml'], './config_ts.js');
   });
 
   test('from one of other spec file  check TS', () => {
-    snapshot('generateschemas', ['one_of_from_other_file.yml'], './config_ts.js')
+    snapshot('generateschemas', ['one_of_from_other_file.yml'], './config_ts.js');
   });
 });

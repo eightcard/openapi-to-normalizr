@@ -1,8 +1,4 @@
 {
-  "extends": [
-    "config:base",
-    ":automergeMinor",
-    ":label(renovate)"
-  ],
+  "extends": ["config:base", ":automergeMinor", ":label(renovate)"],
   "schedule": ["every weekend"]
 }

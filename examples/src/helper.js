@@ -3,12 +3,12 @@ export function snakeToCamel(str) {
 }
 
 export function camelToSnake(str) {
-  return str.replace(/([A-Z])/g, (c) => '_' + c.toLowerCase());
+  return str.replace(/([A-Z])/g, (c) => `_${c.toLowerCase()}`);
 }
 
 function changeFormat(obj, transformer) {
-  if(typeof obj === 'object') {
-    if(obj === null) {
+  if (typeof obj === 'object') {
+    if (obj === null) {
       return obj;
     }
     const formattedObj = Array.isArray(obj) ? [] : {};
