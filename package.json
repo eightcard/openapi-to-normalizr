@@ -27,7 +27,7 @@
     "@babel/preset-env": "7.6.2",
     "@babel/register": "7.6.2",
     "@types/lodash": "4.14.138",
-    "@types/prop-types": "15.7.2",
+    "@types/prop-types": "15.7.3",
     "@types/redux-actions": "2.6.1",
     "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
