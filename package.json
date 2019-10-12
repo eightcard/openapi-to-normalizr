@@ -22,9 +22,9 @@
     "swagger-client": "3.9.4"
   },
   "devDependencies": {
-    "@babel/cli": "7.6.2",
-    "@babel/core": "7.6.2",
-    "@babel/preset-env": "7.6.2",
+    "@babel/cli": "7.6.4",
+    "@babel/core": "7.6.4",
+    "@babel/preset-env": "7.6.3",
     "@babel/register": "7.6.2",
     "@types/lodash": "4.14.141",
     "@types/prop-types": "15.7.3",
