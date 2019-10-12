@@ -8940,10 +8940,10 @@ supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
-swagger-client@3.9.4:
-  version "3.9.4"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.4.tgz#9ce181cf117274122a85fcd97d52adce2aa95b8b"
-  integrity sha512-Rd4BrAUQeVIFYqzg7lkJMpd1P/oMVzcXEaKKaD+hfF8x4ZTTElNClCikD2yjFvmRCx0J2eIWs908kQOPkwc63w==
+swagger-client@3.9.5:
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.9.5.tgz#187d1a601028d8251fb849ad76bc1519af40aa93"
+  integrity sha512-DQa4NNnA4fOW2xwEuEIptww3zVr5uWe5ryMq1ZLkYbEsOh5aIeFzEadIEA6xzkwvD3PV694csOmbjOmnapwpKA==
   dependencies:
     "@babel/runtime-corejs2" "^7.0.0"
     "@kyleshockey/object-assign-deep" "^0.4.0"
