@@ -1,7 +1,8 @@
 # ツール
 
 ## createEntitiesReducer
-- [normalizr](https://github.com/paularmstrong/normalizr)で正規化された `enitites`をモデル化して格納するreducerを準備する関数です。  
+
+- [normalizr](https://github.com/paularmstrong/normalizr)で正規化された `enitites`をモデル化して格納する reducer を準備する関数です。
   取得したレスポンスを正規化したうえでマージします。
   ```js
   /**
@@ -10,16 +11,16 @@
    * @params initialState Map reducerのinitial state
    * @returns Function reducer関数を返します
    */
-  createEntitiesReducer(Models, {additionalReducer, initialState})
+  createEntitiesReducer(Models, { additionalReducer, initialState });
   ```
-- このreducerが扱うstateはimmutable.jsのインスタンス群です。  
-  **payload経由で取得されたJavaScriptオブジェクト(immutable.jsでもよい)をimmutable.jsのインスタンスに変換しマージする責務を持ちます。**
-- additionalReducerの例
+- この reducer が扱う state は immutable.js のインスタンス群です。
+  **payload 経由で取得された JavaScript オブジェクト(immutable.js でもよい)を immutable.js のインスタンスに変換しマージする責務を持ちます。**
+- additionalReducer の例
   ```js
   import * as ActionTypes from 'actions/actionTypes';
   function additionalReducer(state = Map(), action = {}) {
     const id = action.payload.id;
-    switch(action.type) {
+    switch (action.type) {
       case ActionTypes.DELETE_PETS__ID_:
         return state.removeIn(['Pet', id.toString()]);
       default:
@@ -28,8 +29,9 @@
   }
   ```
 - resetMetaCreator
-  該当のaction結果でマージではなく置き換えが必要な場合は `meta.reset = true`とします。  
+  該当の action 結果でマージではなく置き換えが必要な場合は `meta.reset = true`とします。
   以下のようにすることで対応できます。
+
   ```js
   import { resetMetaCreator } from 'openapi-to-normalizr';
   import { createOpenApiAction, SOME_ACTION } from 'generated_action_types_action_types';
@@ -38,9 +40,10 @@
   ```
 
 ## createOpenApiMiddleware
-- [swagger-js](https://github.com/swagger-api/swagger-js)を使ってAPI定義から通信部分を自動化するmiddlewareを準備します。  
-  ```js
 
+- [swagger-js](https://github.com/swagger-api/swagger-js)を使って API 定義から通信部分を自動化する middleware を準備します。
+
+  ```js
   /**
    * @params spec Object OpenAPI形式のJSオブジェクト
    * @params httpOptions Object `swagger-js`のhttpオブジェクトへのオプションと同様(以下は一部)
@@ -50,14 +53,16 @@
    */
   createOpenApiMiddleware(spec, [httpOptions]);
   ```
-- `openapi2schema`コマンドで生成される `spec.js`をrequireして `spec`引数として利用できます。
-- このmiddlewareはAPI定義に従った通信結果をnormalizeする責務を持ちます。(immutable.jsのインスタンスは入り込みません)
-- middlewareではエラーをハンドリングして、`ERROR_${ACTION_TYPE}` のアクションを発行します。
-  エラー時にはこちらをreducerで利用してください。
+
+- `openapi2schema`コマンドで生成される `spec.js`を require して `spec`引数として利用できます。
+- この middleware は API 定義に従った通信結果を normalize する責務を持ちます。(immutable.js のインスタンスは入り込みません)
+- middleware ではエラーをハンドリングして、`ERROR_${ACTION_TYPE}` のアクションを発行します。
+  エラー時にはこちらを reducer で利用してください。
 
 ## createOpenApiAction
-- 自動生成される `action_types/sample.js`から `export`される関数です。  
-  I/Fは [redux-actions](https://www.gitbook.com/book/vinnymac/redux-actions)の `createAction` と同様です。
+
+- 自動生成される `action_types/sample.js`から `export`される関数です。
+  I/F は [redux-actions](https://www.gitbook.com/book/vinnymac/redux-actions)の `createAction` と同様です。
   ```js
   import { createOpenApiAction, GET_PETS__ID_ } from 'action_types/sample';
   const action = createOpenApiAction(GET_PETS__ID_);

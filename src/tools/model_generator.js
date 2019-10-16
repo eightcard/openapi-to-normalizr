@@ -202,12 +202,15 @@ class ModelGenerator {
   }
 
   getEnumConstantName(enumName, propertyName) {
-    const convertedName = _.upperCase(propertyName).split(' ').join('_');
-    const convertedkey = _.upperCase(enumName).split(' ').join('_');
+    const convertedName = _.upperCase(propertyName)
+      .split(' ')
+      .join('_');
+    const convertedkey = _.upperCase(enumName)
+      .split(' ')
+      .join('_');
     // enumNameがマイナスの数値の時
-    const resolvedkey = typeof enumName === 'number' && enumName < 0
-    ? `MINUS_${convertedkey}`
-      : convertedkey;
+    const resolvedkey =
+      typeof enumName === 'number' && enumName < 0 ? `MINUS_${convertedkey}` : convertedkey;
     return `${convertedName}_${resolvedkey}`;
   }
 

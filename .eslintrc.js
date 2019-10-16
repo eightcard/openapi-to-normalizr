@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'prettier'],
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2019,
@@ -96,7 +96,7 @@ module.exports = {
     'max-params': 'error',
     'max-statements': 'off',
     'max-statements-per-line': 'off',
-    'multiline-comment-style': 'error',
+    'multiline-comment-style': 'off',
     'new-parens': 'error',
     'newline-after-var': 'off',
     'newline-before-return': 'off',

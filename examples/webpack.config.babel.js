@@ -16,7 +16,7 @@ export default {
   },
 
   entry: {
-    'bundle': `${__dirname}/src/index.js`,
+    bundle: `${__dirname}/src/index.js`,
   },
 
   module: {
