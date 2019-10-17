@@ -33,7 +33,6 @@ export function createOpenApiAction(
 exports[`schema generator spec from json schema ref 2`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -42,9 +41,9 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
-export const GENDER_MALE: string = 'male';
-export const GENDER_FEMALE: string = 'female';
-export const GENDER_OTHER: string = 'other';
+export const GENDER_MALE = 'male';
+export const GENDER_FEMALE = 'female';
+export const GENDER_OTHER = 'other';
 
 const defaultValues = {
   name: undefined,
@@ -58,18 +57,16 @@ export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Owner extends Record(defaultValues) {
-  name: string;
-  gender: string;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -82,7 +79,6 @@ export default class Owner extends Record(defaultValues) {
 exports[`schema generator spec from json schema ref 3`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -90,10 +86,10 @@ Object {
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import Owner, { schema as OwnerSchema } from './owner';
+import { schema as OwnerSchema } from './owner';
 
-export const KIND_DOG: string = 'Dog';
-export const KIND_CAT: string = 'Cat';
+export const KIND_DOG = 'Dog';
+export const KIND_CAT = 'Cat';
 
 const defaultValues = {
   id: undefined,
@@ -112,20 +108,16 @@ schema.define({
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class WrappedPet extends Record(defaultValues) {
-  id: number;
-  name: string;
-  kind: string;
-  owner: Owner;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -736,7 +728,6 @@ export function createOpenApiAction(
 exports[`schema generator spec from one of check 2`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -745,7 +736,7 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
-export const KIND_CAT: string = 'cat';
+export const KIND_CAT = 'cat';
 
 const defaultValues = {
   id: undefined,
@@ -760,19 +751,16 @@ export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Cat extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -785,7 +773,6 @@ export default class Cat extends Record(defaultValues) {
 exports[`schema generator spec from one of check 3`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -794,7 +781,7 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
-export const KIND_DOG: string = 'dog';
+export const KIND_DOG = 'dog';
 
 const defaultValues = {
   id: undefined,
@@ -809,19 +796,16 @@ export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Dog extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -834,7 +818,6 @@ export default class Dog extends Record(defaultValues) {
 exports[`schema generator spec from one of check 4`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -842,8 +825,8 @@ Object {
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import Dog, { schema as DogSchema } from './dog';
-import Cat, { schema as CatSchema } from './cat';
+import { schema as DogSchema } from './dog';
+import { schema as CatSchema } from './cat';
 
 
 const defaultValues = {
@@ -865,18 +848,16 @@ schema.define({
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Owner extends Record(defaultValues) {
-  name: string;
-  pet: Dog | Cat;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -1605,7 +1586,6 @@ export function createOpenApiAction(
 exports[`schema generator spec from one of other spec file  check 2`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -1614,7 +1594,7 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
-export const KIND_CAT: string = 'cat';
+export const KIND_CAT = 'cat';
 
 const defaultValues = {
   id: undefined,
@@ -1629,19 +1609,16 @@ export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Cat extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
@@ -1654,7 +1631,6 @@ export default class Cat extends Record(defaultValues) {
 exports[`schema generator spec from one of other spec file  check 3`] = `
 Object {
   "output": "/* eslint-disable */
-// @flow
 /**
  * generated from API definition file
  */
@@ -1663,7 +1639,7 @@ import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
-export const KIND_DOG: string = 'dog';
+export const KIND_DOG = 'dog';
 
 const defaultValues = {
   id: undefined,
@@ -1678,19 +1654,16 @@ export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids: number[] | string[],
-  entities: any
+  ids,
+  entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class Dog extends Record(defaultValues) {
-  id: number;
-  kind: string;
-  name: string;
   static denormalize(
-    id: number[] | string[],
-    entities: any
+    id,
+    entities
   ) {
     return denormalize(id, entities);
   }
