@@ -40,8 +40,8 @@
          jsSpec: 'JS版スペック出力パス',
        },
        modelsDir: 'モデル出力先',
-       useFlow: 'flowtype利用(true/false)',
        usePropType: 'prop-type利用(true/false)',
+       useTypeScript: 'TypeScript利用(true/false)',
        attributeConverter: '属性コンバート用関数',
        tags: ['xxx', 'yyy'], // 指定したタグで生成対象を制限(未指定時はすべてのパスが対象)
      }
