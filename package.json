@@ -37,8 +37,6 @@
     "eslint-plugin-prettier": "3.1.1",
     "husky": "3.0.9",
     "eslint": "6.5.1",
-    "flow-bin": "0.109.0",
-    "flow-typed": "2.6.1",
     "immutable": "4.0.0-rc.12",
     "jest": "24.9.0",
     "json-server": "0.15.1",
@@ -110,7 +108,6 @@
     "serve": "bin/serve examples ",
     "test": "jest src/lib spec && yarn check:typescript",
     "jest": "jest",
-    "flow": "flow tmp",
     "speclint": "find spec examples -name '*.yml' | xargs -I{} yarn speccy {}",
     "speccy": "speccy lint -s 'operation-operationId' "
   }

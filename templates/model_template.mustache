@@ -1,7 +1,4 @@
 /* eslint-disable */
-{{#useFlow}}
-// @flow
-{{/useFlow}}
 {{>head}}
 {{#usePropTypes}}
 import PropTypes from 'prop-types';
@@ -11,12 +8,12 @@ import { Record, List{{#importImmutableMap}}, Map{{/importImmutableMap}} } from 
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
-import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{{#useFlow}}{{name}}, {{/useFlow}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
 {{/importList}}
 
 {{#props}}
 {{#enumObjects}}
-export const {{name}}{{#useFlow}}: {{enumType}}{{/useFlow}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
+export const {{name}} = {{#isValueString}}'{{value}}'{{/isValueString}}{{^isValueString}}{{value}}{{/isValueString}};
 {{/enumObjects}}
 {{/props}}
 
@@ -57,21 +54,16 @@ export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttr
  * @params entities : all entities that need to denormalize ids
  */
 const denormalize = (
-  ids{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
-  entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+  ids{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+  entities{{#useTypeScript}}: any{{/useTypeScript}}
 ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 }
 
 export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/useTypeScript}}(defaultValues) {
-{{#useFlow}}
-{{#props}}
-  {{&name}}: {{&getFlowTypes}};
-{{/props}}
-{{/useFlow}}
   static denormalize(
-    id{{#useFlow}}: number[] | string[]{{/useFlow}}{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
-    entities{{#useFlow}}: any{{/useFlow}}{{#useTypeScript}}: any{{/useTypeScript}}
+    id{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+    entities{{#useTypeScript}}: any{{/useTypeScript}}
   ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
     return denormalize(id, entities);
   }

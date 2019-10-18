@@ -26,7 +26,6 @@ class Config {
       modelsDir: outputDir,
       templates: templatePath,
       usePropType,
-      useFlow,
       useTypeScript,
       attributeConverter,
     } = this._config;
@@ -34,7 +33,6 @@ class Config {
       outputDir,
       templatePath,
       usePropType,
-      useFlow,
       useTypeScript,
       attributeConverter,
       extension: this.extension,
