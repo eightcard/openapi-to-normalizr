@@ -9,7 +9,8 @@
               "browsers": ["last 2 versions"]
             }
           }
-        ]
+        ],
+        "@babel/preset-typescript"
       ]
     },
     "test": {
@@ -22,7 +23,8 @@
             }
           },
           "babel-preset-power-assert"
-        ]
+        ],
+        "@babel/preset-typescript"
       ]
     }
   }
