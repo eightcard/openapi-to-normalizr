@@ -25,7 +25,6 @@ class ModelGenerator {
     outputDir = '',
     outputBaseDir = '',
     templatePath = {},
-    useFlow = false,
     usePropType = false,
     attributeConverter = (str) => str,
     definitions = {},
@@ -34,7 +33,6 @@ class ModelGenerator {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
-    this.useFlow = useFlow;
     this.usePropType = usePropType;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
@@ -143,7 +141,6 @@ class ModelGenerator {
         name,
         idAttribute: this._prepareIdAttribute(idAttribute),
         usePropTypes: this.usePropType,
-        useFlow: this.useFlow,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) =>
@@ -153,7 +150,6 @@ class ModelGenerator {
           }),
         ),
         importList: this._prepareImportList(importList),
-        getFlowTypes,
         getPropTypes,
         getDefaults,
       };
@@ -245,22 +241,19 @@ class ModelGenerator {
         propType: `PropTypes.oneOfType([${_.uniq(
           candidates.map((c) => (c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))),
         ).join(', ')}])`,
-        flow: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { propType, flow } = this.generateTypeFrom(prop.items, definition);
+      const { propType } = this.generateTypeFrom(prop.items, definition);
       return {
         propType: `ImmutablePropTypes.listOf(${propType})`,
-        flow: flow ? `(${flow})[]` : '',
       };
     }
 
     if (definition) {
       return {
         propType: this._generatePropTypeFromDefinition(definition),
-        flow: this._generateFlowTypeFromDefinition(definition),
       };
     }
 
@@ -269,7 +262,6 @@ class ModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
-        flow: `${this._getEnumTypes(prop.items.type)}[]`,
       };
     }
 
@@ -308,27 +300,6 @@ class ModelGenerator {
         {},
       );
       return `ImmutablePropTypes.mapContains(${JSON.stringify(type).replace(/"/g, '')})`;
-    }
-  }
-
-  _generateFlowTypeFromDefinition(definition) {
-    let def;
-    if (_.isString(definition)) {
-      return definition.replace(/Schema$/, '');
-    }
-    if (_.isArray(definition)) {
-      def = definition[0];
-      const type = this._generateFlowTypeFromDefinition(def);
-      return `${type}[]`;
-    } else if (_.isObject(definition)) {
-      return _.reduce(
-        definition,
-        (acc, value, key) => {
-          acc[key] = this._generateFlowTypeFromDefinition(value);
-          return acc;
-        },
-        {},
-      );
     }
   }
 
@@ -377,28 +348,6 @@ function _getPropTypes(type, enums, enumObjects) {
       return 'PropTypes.array';
     default:
       return type && type.propType ? type.propType : 'PropTypes.any';
-  }
-}
-
-function getFlowTypes() {
-  return _getFlowTypes(this.type, this.enum);
-}
-
-function _getFlowTypes(type, enums) {
-  if (enums) {
-    const typeList = enums.map(() => _getFlowTypes(type));
-    return _.uniq(typeList).join(' | ');
-  }
-  switch (type) {
-    case 'integer':
-    case 'number':
-      return 'number';
-    case 'string':
-      return 'string';
-    case 'boolean':
-      return 'boolean';
-    default:
-      return type && type.flow ? type.flow : 'any';
   }
 }
 
