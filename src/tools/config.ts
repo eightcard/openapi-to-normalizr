@@ -1,5 +1,11 @@
 class Config {
-  constructor(config) {
+  _config: ConfigObject;
+
+  attributeConverter: AttributeConverter;
+
+  modelsDir: string;
+
+  constructor(config: ConfigObject) {
     this._config = config;
     this.attributeConverter = config.attributeConverter ? config.attributeConverter : (str) => str;
     this.modelsDir = config.modelsDir || 'dist';
