@@ -260,5 +260,6 @@ module.exports = {
     'wrap-regex': 'error',
     'yield-star-spacing': 'error',
     yoda: ['error', 'never'],
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 };
