@@ -5,10 +5,15 @@ module.exports = {
     node: true,
   },
   extends: [
+    /* ESLintの推奨ルール */
     'eslint:recommended',
+    /* ESLintチームが作ったTS用の推奨ルール */
     'plugin:@typescript-eslint/eslint-recommended',
+    /* TS用の推奨ルール */
     'plugin:@typescript-eslint/recommended',
+    /* Prettierのルールと競合するものを無効化 */
     'prettier',
+    /* PrettierのTS用のルールと競合するものを無効化 */
     'prettier/@typescript-eslint',
   ],
   plugins: ['@typescript-eslint'],
