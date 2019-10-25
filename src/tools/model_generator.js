@@ -20,12 +20,13 @@ const {
  * モデル定義からモデルファイルを作成
  */
 
-class ModelGenerator {
+class TsModelGenerator {
   constructor({
     outputDir = '',
     outputBaseDir = '',
     templatePath = {},
     usePropType = false,
+    useTypeScript = false,
     attributeConverter = (str) => str,
     definitions = {},
     extension = 'js',
@@ -34,6 +35,7 @@ class ModelGenerator {
     this.outputBaseDir = outputBaseDir;
     this.templatePath = templatePath;
     this.usePropType = usePropType;
+    this.useTypeScript = useTypeScript;
     this.attributeConverter = attributeConverter;
     this.definitions = definitions;
     this.extension = extension;
@@ -44,10 +46,10 @@ class ModelGenerator {
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
     this._modelNameList = [];
+    this.importImmutableMap = false;
   }
 
   /**
-   * @deprecated
    * モデル定義ごとに呼び出し
    * - モデルファイルを書き出す
    * - Promiseでモデル名(Petなど)を返す
@@ -137,10 +139,14 @@ class ModelGenerator {
         }
       });
 
+      // reset
+      this.importImmutableMap = false;
+
       const props = {
         name,
         idAttribute: this._prepareIdAttribute(idAttribute),
         usePropTypes: this.usePropType,
+        useTypeScript: this.useTypeScript,
         props: this._convertPropForTemplate(properties, dependencySchema),
         schema: objectToTemplateValue(changeFormat(dependencySchema, this.attributeConverter)),
         oneOfs: oneOfs.map((obj) =>
@@ -151,7 +157,9 @@ class ModelGenerator {
         ),
         importList: this._prepareImportList(importList),
         getPropTypes,
+        getTypeScriptTypes,
         getDefaults,
+        importImmutableMap: this.importImmutableMap,
       };
 
       const text = render(this.templates.model, props, {
@@ -210,12 +218,26 @@ class ModelGenerator {
     return `${convertedName}_${resolvedkey}`;
   }
 
+  getEnumLiteralTypeName(enumName, propertyName) {
+    const convertedName = _.startCase(propertyName)
+      .split(' ')
+      .join('');
+    const convertedkey = _.startCase(enumName)
+      .split(' ')
+      .join('');
+    // enumNameがマイナスの数値の時
+    const resolvedkey =
+      typeof enumName === 'number' && enumName < 0 ? `Minus${convertedkey}` : convertedkey;
+    return `${convertedName}${resolvedkey}`;
+  }
+
   getEnumObjects(name, enums, enumKeyAttributes = []) {
     if (!enums) return false;
     return enums.map((current, index) => {
       const enumName = enumKeyAttributes[index] || current;
       return {
         name: this.getEnumConstantName(enumName, name),
+        literalTypeName: this.getEnumLiteralTypeName(enumName, name),
         value: current,
       };
     });
@@ -241,19 +263,22 @@ class ModelGenerator {
         propType: `PropTypes.oneOfType([${_.uniq(
           candidates.map((c) => (c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))),
         ).join(', ')}])`,
+        typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
     if (prop.type === 'array' && prop.items && prop.items.oneOf) {
-      const { propType } = this.generateTypeFrom(prop.items, definition);
+      const { propType, typeScript } = this.generateTypeFrom(prop.items, definition);
       return {
         propType: `ImmutablePropTypes.listOf(${propType})`,
+        typeScript: typeScript ? `List<(${typeScript})>` : '',
       };
     }
 
     if (definition) {
       return {
         propType: this._generatePropTypeFromDefinition(definition),
+        typeScript: this._generateTypeScriptTypeFromDefinition(definition),
       };
     }
 
@@ -262,10 +287,12 @@ class ModelGenerator {
     if (prop.type === 'array' && prop.items && prop.items.type) {
       return {
         propType: `ImmutablePropTypes.listOf(${_getPropTypes(prop.items.type)})`,
+        typeScript: `List<${this._getEnumTypes(prop.items.type)}>`,
       };
     }
 
     if (prop.type === 'object' && prop.properties) {
+      if (!this.importImmutableMap) this.importImmutableMap = true;
       const props = _.reduce(
         prop.properties,
         (acc, value, key) => {
@@ -276,6 +303,7 @@ class ModelGenerator {
       );
       return {
         propType: `ImmutablePropTypes.mapContains(${JSON.stringify(props).replace(/"/g, '')})`,
+        typeScript: 'Map<any, any>',
       };
     }
   }
@@ -300,6 +328,20 @@ class ModelGenerator {
         {},
       );
       return `ImmutablePropTypes.mapContains(${JSON.stringify(type).replace(/"/g, '')})`;
+    }
+  }
+
+  _generateTypeScriptTypeFromDefinition(definition) {
+    let def;
+    if (_.isString(definition)) {
+      return definition.replace(/Schema$/, '');
+    }
+    if (_.isArray(definition)) {
+      def = definition[0];
+      const type = this._generateTypeScriptTypeFromDefinition(def);
+      return `List<${type}>`;
+    } else if (_.isObject(definition)) {
+      return 'Map<any, any>';
     }
   }
 
@@ -351,6 +393,28 @@ function _getPropTypes(type, enums, enumObjects) {
   }
 }
 
+function getTypeScriptTypes() {
+  return _getTypeScriptTypes(this.type, this.enumObjects);
+}
+
+function _getTypeScriptTypes(type, enumObjects) {
+  if (enumObjects) {
+    const literalTypeNames = enumObjects.map((current) => current.literalTypeName);
+    return `${literalTypeNames.join(' | ')}`;
+  }
+  switch (type) {
+    case 'integer':
+    case 'number':
+      return 'number';
+    case 'string':
+      return 'string';
+    case 'boolean':
+      return 'boolean';
+    default:
+      return type && type.typeScript ? type.typeScript : 'any';
+  }
+}
+
 function getDefaults() {
   if (_.isUndefined(this.default)) {
     return 'undefined';
@@ -363,4 +427,4 @@ function getDefaults() {
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
-module.exports = ModelGenerator;
+module.exports = TsModelGenerator;
