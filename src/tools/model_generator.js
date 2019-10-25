@@ -20,7 +20,7 @@ const {
  * モデル定義からモデルファイルを作成
  */
 
-class TsModelGenerator {
+class ModelGenerator {
   constructor({
     outputDir = '',
     outputBaseDir = '',
@@ -427,4 +427,4 @@ function getDefaults() {
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
 
-module.exports = TsModelGenerator;
+module.exports = ModelGenerator;
