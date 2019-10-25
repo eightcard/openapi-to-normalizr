@@ -4,10 +4,24 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
+  extends: [
+    /* ESLintの推奨ルール */
+    'eslint:recommended',
+    /* ESLintチームが作ったTS用の推奨ルール */
+    'plugin:@typescript-eslint/eslint-recommended',
+    /* TS用の推奨ルール */
+    'plugin:@typescript-eslint/recommended',
+    /* Prettierのルールと競合するものを無効化 */
+    'prettier',
+    /* PrettierのTS用のルールと競合するものを無効化 */
+    'prettier/@typescript-eslint',
+  ],
+  plugins: ['@typescript-eslint'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2019,
+    project: './tsconfig.json',
   },
   globals: {
     jest: true,
@@ -246,5 +260,6 @@ module.exports = {
     'wrap-regex': 'error',
     'yield-star-spacing': 'error',
     yoda: ['error', 'never'],
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
 };

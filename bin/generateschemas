@@ -19,7 +19,7 @@ const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
 const JsSpecGenerator = require('../src/tools/js_spec_generator');
-const Config = require('../src/tools/config');
+const Config = require('../dist/compiled/config');
 
 program
   .option('-c, --config <configPath>', 'config path')
