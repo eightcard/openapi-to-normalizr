@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 {{/usePropTypes}}
-import { Record, List{{#usePropTypes}}{{#importImmutableMap}}, Map{{/importImmutableMap}}{{/usePropTypes}} } from 'immutable';
+import { Record, List{{#useTypeScript}}{{#importImmutableMap}}, Map{{/importImmutableMap}}{{/useTypeScript}} } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
