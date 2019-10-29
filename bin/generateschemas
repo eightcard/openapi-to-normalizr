@@ -15,7 +15,6 @@ const {
   convertToLocalDefinition,
 } = require('../src/tools/spec_file_utils');
 const ModelGenerator = require('../src/tools/model_generator');
-const TsModelGenerator = require('../src/tools/ts_model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');
 const JsSpecGenerator = require('../src/tools/js_spec_generator');
@@ -82,10 +81,7 @@ Promise.all(
             config.formatForModelGenerator(),
           );
 
-          modelGenerator = config.useTypeScript
-            ? new TsModelGenerator(configForModelGenerator)
-            : new ModelGenerator(configForModelGenerator);
-
+          modelGenerator = new ModelGenerator(configForModelGenerator);
           actionTypesGenerator = new ActionTypesGenerator(config.formatForActionTypesGenerator());
 
           const configForSchemaGenerator = Object.assign(
