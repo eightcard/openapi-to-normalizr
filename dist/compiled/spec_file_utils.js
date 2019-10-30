@@ -21,6 +21,21 @@ const MODEL_DEF_KEY = 'x-model-name';
 function isOperation(object) {
     return 'tags' in object;
 }
+function isMethodName(str) {
+    switch (str) {
+        case 'get':
+        case 'put':
+        case 'post':
+        case 'delete':
+        case 'options':
+        case 'head':
+        case 'patch':
+        case 'trace':
+            return true;
+        default:
+            return false;
+    }
+}
 function readSpecFilePromise(path, options = {}) {
     const data = fs_1.default.readFileSync(path, 'utf8');
     const original = js_yaml_1.default.safeLoad(data);
@@ -106,28 +121,60 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
     function removeUnusableOperation(spec) {
         each_1.default(spec.paths, (operations) => {
             each_1.default(operations, (operation, method) => {
-                if (isOperation(operation)) {
-                    if (!isUsableOperation(operation.tags))
-                        delete operations[method];
+                if (isOperation(operation) && isMethodName(method) && !isUsableOperation(operation.tags)) {
+                    delete operations[method];
                 }
             });
         });
     }
+    /* 再帰的に関連ファイルを読み込んでいるっぽい */
     function getAllRelatedFiles(files) {
         return files.reduce((acc, filePath) => {
             const spec = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filePath).toString());
-            return acc.concat(uniq_1.default(getRefFilesPath(spec)).map((p) => {
+            const refFilesPaths = getRefFilesPath(spec);
+            const noDuplicatedFilesPaths = uniq_1.default(refFilesPaths);
+            const mapFunc = (p) => {
                 const refSpecPath = path_1.default.join(path_1.default.dirname(filePath), p);
                 if (readFiles[refSpecPath]) {
                     return refSpecPath;
                 }
                 else {
                     readFiles[refSpecPath] = true;
-                    return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
+                    const relatedFiles = getAllRelatedFiles([refSpecPath]);
+                    const M = [refSpecPath].concat(relatedFiles);
+                    console.log('M', M);
+                    return [refSpecPath].concat(relatedFiles);
                 }
-            }));
+            };
+            const mappedFilesPaths = noDuplicatedFilesPaths.map(mapFunc);
+            //  '(string | string[])[]' の引数を型 'ConcatArray<string>'
+            /**
+              interface ConcatArray<T> {
+                readonly length: number;
+                readonly [n: number]: T;
+                join(separator?: string): string;
+                slice(start?: number, end?: number): T[];
+              }
+            */
+            return acc.concat(mappedFilesPaths);
         }, []);
     }
+    // function getAllRelatedFiles(files: string[]) {
+    //   return files.reduce((acc, filePath) => {
+    //     const spec = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
+    //     return acc.concat(
+    //       uniq(getRefFilesPath(spec)).map((p) => {
+    //         const refSpecPath = path.join(path.dirname(filePath), p);
+    //         if (readFiles[refSpecPath]) {
+    //           return refSpecPath;
+    //         } else {
+    //           readFiles[refSpecPath] = true;
+    //           return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
+    //         }
+    //       }),
+    //     );
+    //   }, []);
+    // }
 }
 module.exports = {
     readSpecFilePromise,
