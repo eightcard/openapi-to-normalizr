@@ -7,21 +7,13 @@ module.exports = {
   extends: [
     /* ESLintの推奨ルール */
     'eslint:recommended',
-    /* ESLintチームが作ったTS用の推奨ルール */
-    'plugin:@typescript-eslint/eslint-recommended',
-    /* TS用の推奨ルール */
-    'plugin:@typescript-eslint/recommended',
     /* Prettierのルールと競合するものを無効化 */
     'prettier',
     /* PrettierのTS用のルールと競合するものを無効化 */
     'prettier/@typescript-eslint',
   ],
-  plugins: ['@typescript-eslint'],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
-    sourceType: 'module',
-    ecmaVersion: 2019,
-    project: './tsconfig.json',
+    ecmaVersion: 6,
   },
   globals: {
     jest: true,
@@ -248,7 +240,7 @@ module.exports = {
     'space-infix-ops': 'off',
     'space-unary-ops': 'error',
     'spaced-comment': ['error', 'always'],
-    strict: 'error',
+    strict: 'warn',
     'switch-colon-spacing': 'error',
     'symbol-description': 'error',
     'template-curly-spacing': ['error', 'never'],
@@ -260,6 +252,29 @@ module.exports = {
     'wrap-regex': 'error',
     'yield-star-spacing': 'error',
     yoda: ['error', 'never'],
-    '@typescript-eslint/explicit-function-return-type': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts'],
+      extends: [
+        /* ESLintチームが作ったTS用の推奨ルール */
+        'plugin:@typescript-eslint/eslint-recommended',
+        /* TS用の推奨ルール */
+        'plugin:@typescript-eslint/recommended',
+      ],
+      plugins: ['@typescript-eslint'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 2019,
+        project: './tsconfig.json',
+      },
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/ban-ts-ignore': 'warn',
+      },
+    },
+  ],
 };
