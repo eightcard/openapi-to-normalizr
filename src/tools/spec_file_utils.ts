@@ -32,7 +32,7 @@ const isOperation = (obj: any): obj is Operation => 'tags' in obj;
 
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'] as const;
 
-// メソッド名のLiteral Type = 'get' | 'put' | ... | 'trace';
+// メソッド名の Union String Literal Types = 'get' | 'put' | ... | 'trace';
 type MethodName = (typeof methodNames)[number];
 
 const isMethodName = (str: string): str is MethodName => methodNames.includes(str as any);
