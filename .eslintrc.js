@@ -9,8 +9,6 @@ module.exports = {
     'eslint:recommended',
     /* Prettierのルールと競合するものを無効化 */
     'prettier',
-    /* PrettierのTS用のルールと競合するものを無効化 */
-    'prettier/@typescript-eslint',
   ],
   parserOptions: {
     sourceType: 'module',
@@ -241,7 +239,7 @@ module.exports = {
     'space-infix-ops': 'off',
     'space-unary-ops': 'error',
     'spaced-comment': ['error', 'always'],
-    strict: 'warn',
+    strict: 'error',
     'switch-colon-spacing': 'error',
     'symbol-description': 'error',
     'template-curly-spacing': ['error', 'never'],
@@ -262,6 +260,8 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         /* TS用の推奨ルール */
         'plugin:@typescript-eslint/recommended',
+        /* PrettierのTS用のルールと競合するものを無効化 */
+        'prettier/@typescript-eslint',
       ],
       plugins: ['@typescript-eslint'],
       parser: '@typescript-eslint/parser',
