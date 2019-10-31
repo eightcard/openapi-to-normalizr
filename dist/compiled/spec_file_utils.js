@@ -113,6 +113,7 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
         });
     }
     function getAllRelatedFiles(files) {
+        console.log('hell');
         return files.reduce((acc, filePath) => {
             const spec = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filePath).toString());
             const refFilesPaths = uniq_1.default(getRefFilesPath(spec));

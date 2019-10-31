@@ -135,6 +135,7 @@ function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = []) {
   }
 
   function getAllRelatedFiles(files: string[]): string[] {
+    console.log('hell');
     return files.reduce((acc: string[], filePath) => {
       const spec: Document = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
       const refFilesPaths = uniq(getRefFilesPath(spec));
