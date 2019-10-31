@@ -13,7 +13,7 @@ const {
   readSpecFilePromise,
   getPreparedSpecFilePaths,
   convertToLocalDefinition,
-} = require('../src/tools/spec_file_utils');
+} = require('../dist/compiled/spec_file_utils');
 const ModelGenerator = require('../src/tools/model_generator');
 const SchemaGenerator = require('../src/tools/schema_generator');
 const ActionTypesGenerator = require('../src/tools/action_types_generator');

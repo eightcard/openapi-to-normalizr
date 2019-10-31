@@ -1,3 +1,7 @@
+declare interface OptionObject {
+  dereference?: boolean;
+}
+
 declare type AttributeConverter = (s: string) => string;
 
 declare interface ConfigObject {
