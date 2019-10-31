@@ -13,8 +13,8 @@ import jsYaml from 'js-yaml';
 import $RefParser from 'json-schema-ref-parser';
 import { OpenAPIV3 } from 'openapi-types';
 
-const ALTERNATIVE_REF_KEY = '__$ref__';
-const MODEL_DEF_KEY = 'x-model-name';
+export const ALTERNATIVE_REF_KEY = '__$ref__';
+export const MODEL_DEF_KEY = 'x-model-name';
 
 /* library alias */
 
