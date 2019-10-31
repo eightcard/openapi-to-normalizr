@@ -1,7 +1,11 @@
 const path = require('path');
 const _ = require('lodash');
 const { writeFilePromise, readTemplates, render } = require('./utils');
-const { walkSchema, MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('./spec_file_utils');
+const {
+  walkSchema,
+  MODEL_DEF_KEY,
+  ALTERNATIVE_REF_KEY,
+} = require('../../dist/compiled/spec_file_utils');
 
 const UNNECESSARY_PROPS = [
   ALTERNATIVE_REF_KEY,

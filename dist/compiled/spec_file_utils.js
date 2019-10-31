@@ -13,29 +13,14 @@ const isArray_1 = __importDefault(require("lodash/isArray"));
 const isObject_1 = __importDefault(require("lodash/isObject"));
 const each_1 = __importDefault(require("lodash/each"));
 const uniq_1 = __importDefault(require("lodash/uniq"));
-const flattenDeep_1 = __importDefault(require("lodash/flattenDeep"));
+const flatten_1 = __importDefault(require("lodash/flatten"));
 const js_yaml_1 = __importDefault(require("js-yaml"));
 const json_schema_ref_parser_1 = __importDefault(require("json-schema-ref-parser"));
 const ALTERNATIVE_REF_KEY = '__$ref__';
 const MODEL_DEF_KEY = 'x-model-name';
-function isOperation(object) {
-    return 'tags' in object;
-}
-function isMethodName(str) {
-    switch (str) {
-        case 'get':
-        case 'put':
-        case 'post':
-        case 'delete':
-        case 'options':
-        case 'head':
-        case 'patch':
-        case 'trace':
-            return true;
-        default:
-            return false;
-    }
-}
+const isOperation = (obj) => 'tags' in obj;
+const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
+const isMethodName = (str) => methodNames.includes(str);
 function readSpecFilePromise(path, options = {}) {
     const data = fs_1.default.readFileSync(path, 'utf8');
     const original = js_yaml_1.default.safeLoad(data);
@@ -92,7 +77,7 @@ function convertToLocalDefinition(spec) {
 function getPreparedSpecFilePaths(specFiles, tags = []) {
     const readFiles = {};
     const tmpDir = fs_1.default.mkdtempSync(path_1.default.join(fs_1.default.realpathSync(os_1.default.tmpdir()), '__openapi_to_normalizr__'));
-    const allFiles = uniq_1.default(flattenDeep_1.default(getAllRelatedFiles(specFiles)));
+    const allFiles = uniq_1.default(getAllRelatedFiles(specFiles));
     return specFiles.concat(allFiles).map((p) => {
         const target = path_1.default.join(tmpDir, p);
         mkdirp_1.default.sync(path_1.default.dirname(target));
@@ -127,13 +112,11 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
             });
         });
     }
-    /* 再帰的に関連ファイルを読み込んでいるっぽい */
     function getAllRelatedFiles(files) {
         return files.reduce((acc, filePath) => {
             const spec = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filePath).toString());
-            const refFilesPaths = getRefFilesPath(spec);
-            const noDuplicatedFilesPaths = uniq_1.default(refFilesPaths);
-            const mapFunc = (p) => {
+            const refFilesPaths = uniq_1.default(getRefFilesPath(spec));
+            const relatedFilesPaths = flatten_1.default(refFilesPaths.map((p) => {
                 const refSpecPath = path_1.default.join(path_1.default.dirname(filePath), p);
                 if (readFiles[refSpecPath]) {
                     return refSpecPath;
@@ -141,40 +124,12 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
                 else {
                     readFiles[refSpecPath] = true;
                     const relatedFiles = getAllRelatedFiles([refSpecPath]);
-                    const M = [refSpecPath].concat(relatedFiles);
-                    console.log('M', M);
                     return [refSpecPath].concat(relatedFiles);
                 }
-            };
-            const mappedFilesPaths = noDuplicatedFilesPaths.map(mapFunc);
-            //  '(string | string[])[]' の引数を型 'ConcatArray<string>'
-            /**
-              interface ConcatArray<T> {
-                readonly length: number;
-                readonly [n: number]: T;
-                join(separator?: string): string;
-                slice(start?: number, end?: number): T[];
-              }
-            */
-            return acc.concat(mappedFilesPaths);
+            }));
+            return acc.concat(relatedFilesPaths);
         }, []);
     }
-    // function getAllRelatedFiles(files: string[]) {
-    //   return files.reduce((acc, filePath) => {
-    //     const spec = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
-    //     return acc.concat(
-    //       uniq(getRefFilesPath(spec)).map((p) => {
-    //         const refSpecPath = path.join(path.dirname(filePath), p);
-    //         if (readFiles[refSpecPath]) {
-    //           return refSpecPath;
-    //         } else {
-    //           readFiles[refSpecPath] = true;
-    //           return [refSpecPath].concat(getAllRelatedFiles([refSpecPath]));
-    //         }
-    //       }),
-    //     );
-    //   }, []);
-    // }
 }
 module.exports = {
     readSpecFilePromise,

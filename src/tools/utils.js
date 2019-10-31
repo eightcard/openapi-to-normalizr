@@ -5,7 +5,7 @@ const _ = require('lodash');
 const mustache = require('mustache');
 const cwd = process.cwd();
 const now = new Date();
-const { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('./spec_file_utils');
+const { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('../../dist/compiled/spec_file_utils');
 
 function schemaName(modelName) {
   return `${modelName}Schema`;

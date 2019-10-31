@@ -13,7 +13,8 @@ module.exports = {
     'prettier/@typescript-eslint',
   ],
   parserOptions: {
-    ecmaVersion: 6,
+    sourceType: 'module',
+    ecmaVersion: 2019,
   },
   globals: {
     jest: true,
@@ -271,8 +272,8 @@ module.exports = {
       },
       rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/no-explicit-any': 'warn',
         '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
         '@typescript-eslint/ban-ts-ignore': 'warn',
       },
     },
