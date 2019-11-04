@@ -13,7 +13,7 @@
     "node": ">=10.15.1"
   },
   "dependencies": {
-    "commander": "3.0.2",
+    "commander": "4.0.0",
     "js-yaml": "3.13.1",
     "json-schema-ref-parser": "7.1.2",
     "lodash": "4.17.15",
