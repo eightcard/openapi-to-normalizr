@@ -29,7 +29,7 @@
     "@babel/register": "7.7.0",
     "@types/js-yaml": "3.12.1",
     "@types/json-schema": "7.0.3",
-    "@types/lodash": "4.14.146",
+    "@types/lodash": "4.14.148",
     "@types/mkdirp": "0.5.2",
     "@types/prop-types": "15.7.3",
     "@types/react-immutable-proptypes": "2.1.0",
