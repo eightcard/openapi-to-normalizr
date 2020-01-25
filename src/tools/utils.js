@@ -139,7 +139,7 @@ function resolvePath(str) {
 }
 
 function mkdirpPromise(dir) {
-  return new Promise((resolve, reject) => mkdirp(dir, (err) => (err ? reject(err) : resolve())));
+  return mkdirp(dir);
 }
 
 function writeFilePromise(path, data) {
