@@ -71,9 +71,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --allow-empty",
-      "post-checkout": "yarn",
-      "post-merge": "yarn"
+      "pre-commit": "lint-staged --allow-empty"
     }
   },
   "lint-staged": {
