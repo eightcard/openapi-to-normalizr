@@ -123,3 +123,11 @@ Same as httpOptions of swagger-js.
 ## Release
 
 - release is specified by only tag.
+
+## Contributors
+
+<a href="https://github.com/eightcard/openapi-to-normalizr/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=eightcard/openapi-to-normalizr" />
+</a>
+
+Made with [contributors-img](https://contributors-img.firebaseapp.com).
