@@ -46,7 +46,7 @@
     "husky": "4.2.1",
     "immutable": "4.0.0-rc.12",
     "jest": "25.1.0",
-    "json-server": "0.15.1",
+    "json-server": "0.16.0",
     "lint-staged": "10.0.7",
     "nock": "11.7.2",
     "normalizr": "3.5.0",
