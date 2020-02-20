@@ -50,7 +50,7 @@ const defaultValues = {
   gender: undefined,
 };
 
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 
 /**
  * @params ids : Owner's id[s]
@@ -61,7 +61,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Owner extends Record(defaultValues) {
   static denormalize(
@@ -98,7 +98,7 @@ const defaultValues = {
   owner: undefined,
 };
 
-export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('WrappedPet', {}, { idAttribute: 'id' });
 schema.define({
   owner: OwnerSchema
 });
@@ -112,7 +112,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class WrappedPet extends Record(defaultValues) {
   static denormalize(
@@ -156,7 +156,6 @@ import _Owner from './base/owner';
 export * from './base/owner';
 
 export default class Owner extends _Owner {
-
   /**
    * write custom methods here
    */
@@ -322,7 +321,6 @@ import _WrappedPet from './base/wrapped_pet';
 export * from './base/wrapped_pet';
 
 export default class WrappedPet extends _WrappedPet {
-
   /**
    * write custom methods here
    */
@@ -397,7 +395,7 @@ const defaultValues: OwnerProps = {
   gender: undefined,
 };
 
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 
 /**
  * @params ids : Owner's id[s]
@@ -408,7 +406,7 @@ const denormalize = (
   entities: any
 ): OwnerProps | List<OwnerProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Owner extends Record<OwnerProps>(defaultValues) {
   static denormalize(
@@ -455,7 +453,7 @@ const defaultValues: WrappedPetProps = {
   owner: undefined,
 };
 
-export const schema = new _schema.Entity('WrappedPet', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('WrappedPet', {}, { idAttribute: 'id' });
 schema.define({
   owner: OwnerSchema
 });
@@ -469,7 +467,7 @@ const denormalize = (
   entities: any
 ): WrappedPetProps | List<WrappedPetProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class WrappedPet extends Record<WrappedPetProps>(defaultValues) {
   static denormalize(
@@ -513,7 +511,6 @@ import _Owner from './base/owner';
 export * from './base/owner';
 
 export default class Owner extends _Owner {
-
   /**
    * write custom methods here
    */
@@ -685,7 +682,6 @@ import _WrappedPet from './base/wrapped_pet';
 export * from './base/wrapped_pet';
 
 export default class WrappedPet extends _WrappedPet {
-
   /**
    * write custom methods here
    */
@@ -744,7 +740,7 @@ const defaultValues = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Cat's id[s]
@@ -755,7 +751,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Cat extends Record(defaultValues) {
   static denormalize(
@@ -789,7 +785,7 @@ const defaultValues = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Dog's id[s]
@@ -800,7 +796,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Dog extends Record(defaultValues) {
   static denormalize(
@@ -834,7 +830,7 @@ const defaultValues = {
   pet: undefined,
 };
 
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,
   cat: CatSchema
@@ -852,7 +848,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Owner extends Record(defaultValues) {
   static denormalize(
@@ -878,7 +874,6 @@ import _Cat from './base/cat';
 export * from './base/cat';
 
 export default class Cat extends _Cat {
-
   /**
    * write custom methods here
    */
@@ -899,7 +894,6 @@ import _Dog from './base/dog';
 export * from './base/dog';
 
 export default class Dog extends _Dog {
-
   /**
    * write custom methods here
    */
@@ -940,7 +934,6 @@ import _Owner from './base/owner';
 export * from './base/owner';
 
 export default class Owner extends _Owner {
-
   /**
    * write custom methods here
    */
@@ -1170,7 +1163,7 @@ const defaultValues: CatProps = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Cat's id[s]
@@ -1181,7 +1174,7 @@ const denormalize = (
   entities: any
 ): CatProps | List<CatProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Cat extends Record<CatProps>(defaultValues) {
   static denormalize(
@@ -1223,7 +1216,7 @@ const defaultValues: DogProps = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Dog's id[s]
@@ -1234,7 +1227,7 @@ const denormalize = (
   entities: any
 ): DogProps | List<DogProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Dog extends Record<DogProps>(defaultValues) {
   static denormalize(
@@ -1274,7 +1267,7 @@ const defaultValues: OwnerProps = {
   pet: undefined,
 };
 
-export const schema = new _schema.Entity('Owner', {}, {idAttribute: 'name'});
+export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,
   cat: CatSchema
@@ -1292,7 +1285,7 @@ const denormalize = (
   entities: any
 ): OwnerProps | List<OwnerProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Owner extends Record<OwnerProps>(defaultValues) {
   static denormalize(
@@ -1318,7 +1311,6 @@ import _Cat from './base/cat';
 export * from './base/cat';
 
 export default class Cat extends _Cat {
-
   /**
    * write custom methods here
    */
@@ -1339,7 +1331,6 @@ import _Dog from './base/dog';
 export * from './base/dog';
 
 export default class Dog extends _Dog {
-
   /**
    * write custom methods here
    */
@@ -1380,7 +1371,6 @@ import _Owner from './base/owner';
 export * from './base/owner';
 
 export default class Owner extends _Owner {
-
   /**
    * write custom methods here
    */
@@ -1602,7 +1592,7 @@ const defaultValues = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Cat's id[s]
@@ -1613,7 +1603,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Cat extends Record(defaultValues) {
   static denormalize(
@@ -1647,7 +1637,7 @@ const defaultValues = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Dog's id[s]
@@ -1658,7 +1648,7 @@ const denormalize = (
   entities
 ) => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Dog extends Record(defaultValues) {
   static denormalize(
@@ -1684,7 +1674,6 @@ import _Cat from './base/cat';
 export * from './base/cat';
 
 export default class Cat extends _Cat {
-
   /**
    * write custom methods here
    */
@@ -1705,7 +1694,6 @@ import _Dog from './base/dog';
 export * from './base/dog';
 
 export default class Dog extends _Dog {
-
   /**
    * write custom methods here
    */
@@ -1945,7 +1933,7 @@ const defaultValues: CatProps = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Cat', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Cat's id[s]
@@ -1956,7 +1944,7 @@ const denormalize = (
   entities: any
 ): CatProps | List<CatProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Cat extends Record<CatProps>(defaultValues) {
   static denormalize(
@@ -1998,7 +1986,7 @@ const defaultValues: DogProps = {
   name: undefined,
 };
 
-export const schema = new _schema.Entity('Dog', {}, {idAttribute: 'id'});
+export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
 /**
  * @params ids : Dog's id[s]
@@ -2009,7 +1997,7 @@ const denormalize = (
   entities: any
 ): DogProps | List<DogProps> => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class Dog extends Record<DogProps>(defaultValues) {
   static denormalize(
@@ -2035,7 +2023,6 @@ import _Cat from './base/cat';
 export * from './base/cat';
 
 export default class Cat extends _Cat {
-
   /**
    * write custom methods here
    */
@@ -2056,7 +2043,6 @@ import _Dog from './base/dog';
 export * from './base/dog';
 
 export default class Dog extends _Dog {
-
   /**
    * write custom methods here
    */
