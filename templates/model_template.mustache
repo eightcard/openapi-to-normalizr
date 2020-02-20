@@ -45,7 +45,7 @@ export const propTypesObject = {
 export const propTypes = PropTypes.shape(propTypesObject);
 
 {{/usePropTypes}}
-export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, {idAttribute: {{&idAttribute}}}{{/idAttribute}});
+export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, { idAttribute: {{&idAttribute}} }{{/idAttribute}});
 {{>oneOf}}
 {{>dependency}}
 
@@ -58,7 +58,7 @@ const denormalize = (
   entities{{#useTypeScript}}: any{{/useTypeScript}}
 ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-}
+};
 
 export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/useTypeScript}}(defaultValues) {
   static denormalize(
