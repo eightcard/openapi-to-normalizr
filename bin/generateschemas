@@ -8,16 +8,16 @@ const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, getModelDefinitions } = require('../src/tools/utils');
+const { resolvePath, mkdirpPromise, getModelDefinitions } = require('../dist/compiled/utils');
 const {
   readSpecFilePromise,
   getPreparedSpecFilePaths,
   convertToLocalDefinition,
 } = require('../dist/compiled/spec_file_utils');
-const ModelGenerator = require('../src/tools/model_generator');
-const SchemaGenerator = require('../src/tools/schema_generator');
-const ActionTypesGenerator = require('../src/tools/action_types_generator');
-const JsSpecGenerator = require('../src/tools/js_spec_generator');
+const ModelGenerator = require('../dist/compiled/model_generator');
+const SchemaGenerator = require('../dist/compiled/schema_generator');
+const ActionTypesGenerator = require('../dist/compiled/action_types_generator');
+const JsSpecGenerator = require('../dist/compiled/js_spec_generator');
 const Config = require('../dist/compiled/config');
 
 program
