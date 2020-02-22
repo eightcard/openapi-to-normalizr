@@ -14,7 +14,7 @@ const UNNECESSARY_PROPS = [
   'x-enum-key-attributes',
 ];
 
-class JsSpecGenerator {
+export default class JsSpecGenerator {
   constructor({ outputPath = '', templatePath, extension = 'js' }) {
     this.outputPath = outputPath;
     this.templatePath = templatePath;
@@ -79,5 +79,3 @@ class JsSpecGenerator {
     }
   }
 }
-
-module.exports = JsSpecGenerator;

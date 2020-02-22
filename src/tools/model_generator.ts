@@ -21,7 +21,7 @@ import {
  * モデル定義からモデルファイルを作成
  */
 
-class ModelGenerator {
+export default class ModelGenerator {
   constructor({
     outputDir = '',
     outputBaseDir = '',
@@ -427,5 +427,3 @@ function getDefaults() {
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
-
-module.exports = ModelGenerator;

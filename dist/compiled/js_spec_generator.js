@@ -83,5 +83,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
         }
     }
-    module.exports = JsSpecGenerator;
+    exports.default = JsSpecGenerator;
 });

@@ -2,7 +2,7 @@
 import path from 'path';
 import { writeFilePromise, readTemplates, render } from './utils';
 
-class ActionTypesGenerator {
+export default class ActionTypesGenerator {
   constructor({
     outputPath = '',
     schemasFilePath = '',
@@ -46,5 +46,3 @@ class ActionTypesGenerator {
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 }
-
-module.exports = ActionTypesGenerator;

@@ -46,5 +46,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return utils_1.writeFilePromise(path_1.default.join(this.outputDir, this.outputFileName), text);
         }
     }
-    module.exports = ActionTypesGenerator;
+    exports.default = ActionTypesGenerator;
 });

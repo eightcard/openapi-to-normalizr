@@ -299,6 +299,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             });
         }
     }
+    exports.default = ModelGenerator;
     function getPropTypes() {
         return _getPropTypes(this.type, this.enum, this.enumObjects);
     }
@@ -356,5 +357,4 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         return this.type === 'string' ? `'${this.default}'` : this.default;
     }
-    module.exports = ModelGenerator;
 });

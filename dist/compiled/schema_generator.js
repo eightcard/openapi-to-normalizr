@@ -124,5 +124,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return response.content && response.content['application/json'];
         }
     }
-    module.exports = SchemaGenerator;
+    exports.default = SchemaGenerator;
 });

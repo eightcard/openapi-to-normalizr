@@ -19,7 +19,7 @@ import {
  * content-typeはjsonのみサポート
  */
 
-class SchemaGenerator {
+export default class SchemaGenerator {
   constructor({
     outputPath = '',
     templatePath = {},
@@ -151,5 +151,3 @@ class SchemaGenerator {
     return response.content && response.content['application/json'];
   }
 }
-
-module.exports = SchemaGenerator;

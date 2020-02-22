@@ -14,11 +14,11 @@ const {
   getPreparedSpecFilePaths,
   convertToLocalDefinition,
 } = require('../dist/compiled/spec_file_utils');
-const ModelGenerator = require('../dist/compiled/model_generator');
-const SchemaGenerator = require('../dist/compiled/schema_generator');
-const ActionTypesGenerator = require('../dist/compiled/action_types_generator');
-const JsSpecGenerator = require('../dist/compiled/js_spec_generator');
-const Config = require('../dist/compiled/config');
+const ModelGenerator = require('../dist/compiled/model_generator').default;
+const SchemaGenerator = require('../dist/compiled/schema_generator').default;
+const ActionTypesGenerator = require('../dist/compiled/action_types_generator').default;
+const JsSpecGenerator = require('../dist/compiled/js_spec_generator').default;
+const Config = require('../dist/compiled/config').default;
 
 program
   .option('-c, --config <configPath>', 'config path')

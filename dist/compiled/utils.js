@@ -24,12 +24,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     function schemaName(modelName) {
         return `${modelName}Schema`;
     }
+    exports.schemaName = schemaName;
     function getModelName(schema) {
         return schema && schema[spec_file_utils_1.MODEL_DEF_KEY];
     }
+    exports.getModelName = getModelName;
     function applyIf(data, applyFn = (val) => val) {
         return data && applyFn(data);
     }
+    exports.applyIf = applyIf;
     function getRef(schema) {
         return schema.$ref || schema.$$ref || schema[spec_file_utils_1.ALTERNATIVE_REF_KEY]; // $$ref by swagger-client
     }
@@ -100,6 +103,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             }
         }
     }
+    exports.parseSchema = parseSchema;
     function isFileExistPromise(path) {
         return new Promise((resolve, reject) => {
             fs_1.default.access(path, (err) => {
@@ -117,6 +121,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             });
         });
     }
+    exports.isFileExistPromise = isFileExistPromise;
     function applyRequired(props, requiredList) {
         if (!lodash_1.default.isArray(requiredList)) {
             return props;
@@ -129,24 +134,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return ret;
         }, {});
     }
+    exports.applyRequired = applyRequired;
     function resolvePath(str) {
         return path_1.default.isAbsolute(str) ? str : path_1.default.join(cwd, str);
     }
+    exports.resolvePath = resolvePath;
     function mkdirpPromise(dir) {
         return mkdirp_1.default(dir);
     }
+    exports.mkdirpPromise = mkdirpPromise;
     function writeFilePromise(path, data) {
         return new Promise((resolve, reject) => fs_1.default.writeFile(path, data, (err) => (err ? reject(err) : resolve())));
     }
+    exports.writeFilePromise = writeFilePromise;
     function writeFile(path, data) {
         return fs_1.default.writeFileSync(path, data);
     }
+    exports.writeFile = writeFile;
     function readTemplates(keys = [], templatePath) {
         return keys.reduce((ret, key) => {
             ret[key] = fs_1.default.readFileSync(templatePath[key], 'utf8');
             return ret;
         }, {});
     }
+    exports.readTemplates = readTemplates;
     function render(template, data = {}, option = {}) {
         if (option.withDate) {
             data.date = now;
@@ -154,12 +165,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         return mustache_1.default.render(template, data, option);
     }
+    exports.render = render;
     function objectToTemplateValue(object) {
         if (!lodash_1.default.isObject(object)) {
             return;
         }
         return JSON.stringify(object, null, 2).replace(/"/g, '');
     }
+    exports.objectToTemplateValue = objectToTemplateValue;
     function changeFormat(obj, transformer) {
         if (typeof obj === 'object') {
             if (obj === null) {
@@ -177,6 +190,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return obj;
         }
     }
+    exports.changeFormat = changeFormat;
     function getIdAttribute(model, name) {
         const { properties } = model;
         if (!properties) {
@@ -194,6 +208,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         return idAttribute;
     }
+    exports.getIdAttribute = getIdAttribute;
     function getModelDefinitions(spec) {
         return lodash_1.default.reduce(spec.components.schemas, (acc, model) => {
             const modelName = getModelName(model);
@@ -203,22 +218,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             return acc;
         }, {});
     }
-    module.exports = {
-        resolvePath,
-        mkdirpPromise,
-        writeFilePromise,
-        readTemplates,
-        parseSchema,
-        schemaName,
-        applyIf,
-        isFileExistPromise,
-        applyRequired,
-        render,
-        objectToTemplateValue,
-        changeFormat,
-        getIdAttribute,
-        getModelName,
-        writeFile,
-        getModelDefinitions,
-    };
+    exports.getModelDefinitions = getModelDefinitions;
 });
