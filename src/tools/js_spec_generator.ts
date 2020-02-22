@@ -1,11 +1,8 @@
-const path = require('path');
-const _ = require('lodash');
-const { writeFilePromise, readTemplates, render } = require('./utils');
-const {
-  walkSchema,
-  MODEL_DEF_KEY,
-  ALTERNATIVE_REF_KEY,
-} = require('../../dist/compiled/spec_file_utils');
+// @ts-nocheck
+import path from 'path';
+import _ from 'lodash';
+import { writeFilePromise, readTemplates, render } from './utils';
+import { walkSchema, MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
 
 const UNNECESSARY_PROPS = [
   ALTERNATIVE_REF_KEY,
@@ -68,11 +65,11 @@ class JsSpecGenerator {
     });
 
     function checkRef(targetRef) {
-      // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [, components, group, name, ...rest] = targetRef.split('/');
       walkSchema(spec[components][group][name], (obj) => {
         if (obj.$ref) {
-          // eslint-disable-next-line no-unused-vars
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [hash, components, group, name, ...rest] = obj.$ref.split('/');
           const ref = [hash, components, group, name].join('/');
           useRefs[ref] = true;

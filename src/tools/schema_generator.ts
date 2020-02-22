@@ -1,6 +1,7 @@
-const _ = require('lodash');
-const path = require('path');
-const {
+// @ts-nocheck
+import _ from 'lodash';
+import path from 'path';
+import {
   applyIf,
   schemaName,
   parseSchema,
@@ -11,7 +12,7 @@ const {
   render,
   changeFormat,
   getIdAttribute,
-} = require('./utils');
+} from './utils';
 
 /**
  * レスポンス定義からnormalizr用のschemaを作成

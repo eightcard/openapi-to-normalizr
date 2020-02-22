@@ -1,11 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const _ = require('lodash');
-const mustache = require('mustache');
+// @ts-nocheck
+import fs from 'fs';
+import path from 'path';
+import mkdirp from 'mkdirp';
+import _ from 'lodash';
+import mustache from 'mustache';
+import { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
+
 const cwd = process.cwd();
 const now = new Date();
-const { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('../../dist/compiled/spec_file_utils');
 
 function schemaName(modelName) {
   return `${modelName}Schema`;

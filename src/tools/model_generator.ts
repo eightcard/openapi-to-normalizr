@@ -1,7 +1,8 @@
 /* eslint-disable */
-const _ = require('lodash');
-const path = require('path');
-const {
+// @ts-nocheck
+import _ from 'lodash';
+import path from 'path';
+import {
   parseSchema,
   schemaName,
   render,
@@ -14,7 +15,7 @@ const {
   changeFormat,
   getModelName,
   writeFile,
-} = require('./utils');
+} from './utils';
 
 /**
  * モデル定義からモデルファイルを作成
