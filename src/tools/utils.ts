@@ -1,21 +1,23 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const _ = require('lodash');
-const mustache = require('mustache');
+// @ts-nocheck
+import fs from 'fs';
+import path from 'path';
+import mkdirp from 'mkdirp';
+import _ from 'lodash';
+import mustache from 'mustache';
+import { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
+
 const cwd = process.cwd();
 const now = new Date();
-const { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } = require('../../dist/compiled/spec_file_utils');
 
-function schemaName(modelName) {
+export function schemaName(modelName) {
   return `${modelName}Schema`;
 }
 
-function getModelName(schema) {
+export function getModelName(schema) {
   return schema && schema[MODEL_DEF_KEY];
 }
 
-function applyIf(data, applyFn = (val) => val) {
+export function applyIf(data, applyFn = (val) => val) {
   return data && applyFn(data);
 }
 
@@ -64,7 +66,7 @@ function parseOneOf(schema, onSchema) {
   return ret;
 }
 
-function parseSchema(schema, onSchema) {
+export function parseSchema(schema, onSchema) {
   if (!_.isObject(schema)) return;
 
   const modelName = getModelName(schema);
@@ -100,7 +102,7 @@ function parseSchema(schema, onSchema) {
   }
 }
 
-function isFileExistPromise(path) {
+export function isFileExistPromise(path) {
   return new Promise((resolve, reject) => {
     fs.access(path, (err) => {
       if (!err) {
@@ -117,7 +119,7 @@ function isFileExistPromise(path) {
   });
 }
 
-function applyRequired(props, requiredList) {
+export function applyRequired(props, requiredList) {
   if (!_.isArray(requiredList)) {
     return props;
   }
@@ -134,32 +136,32 @@ function applyRequired(props, requiredList) {
   );
 }
 
-function resolvePath(str) {
+export function resolvePath(str) {
   return path.isAbsolute(str) ? str : path.join(cwd, str);
 }
 
-function mkdirpPromise(dir) {
+export function mkdirpPromise(dir) {
   return mkdirp(dir);
 }
 
-function writeFilePromise(path, data) {
+export function writeFilePromise(path, data) {
   return new Promise((resolve, reject) =>
     fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
   );
 }
 
-function writeFile(path, data) {
+export function writeFile(path, data) {
   return fs.writeFileSync(path, data);
 }
 
-function readTemplates(keys = [], templatePath) {
+export function readTemplates(keys = [], templatePath) {
   return keys.reduce((ret, key) => {
     ret[key] = fs.readFileSync(templatePath[key], 'utf8');
     return ret;
   }, {});
 }
 
-function render(template, data = {}, option = {}) {
+export function render(template, data = {}, option = {}) {
   if (option.withDate) {
     data.date = now;
     delete option.withDate;
@@ -167,14 +169,14 @@ function render(template, data = {}, option = {}) {
   return mustache.render(template, data, option);
 }
 
-function objectToTemplateValue(object) {
+export function objectToTemplateValue(object) {
   if (!_.isObject(object)) {
     return;
   }
   return JSON.stringify(object, null, 2).replace(/"/g, '');
 }
 
-function changeFormat(obj, transformer) {
+export function changeFormat(obj, transformer) {
   if (typeof obj === 'object') {
     if (obj === null) {
       return obj;
@@ -191,7 +193,7 @@ function changeFormat(obj, transformer) {
   }
 }
 
-function getIdAttribute(model, name) {
+export function getIdAttribute(model, name) {
   const { properties } = model;
   if (!properties) {
     if (name) {
@@ -209,7 +211,7 @@ function getIdAttribute(model, name) {
   return idAttribute;
 }
 
-function getModelDefinitions(spec) {
+export function getModelDefinitions(spec) {
   return _.reduce(
     spec.components.schemas,
     (acc, model) => {
@@ -222,22 +224,3 @@ function getModelDefinitions(spec) {
     {},
   );
 }
-
-module.exports = {
-  resolvePath,
-  mkdirpPromise,
-  writeFilePromise,
-  readTemplates,
-  parseSchema,
-  schemaName,
-  applyIf,
-  isFileExistPromise,
-  applyRequired,
-  render,
-  objectToTemplateValue,
-  changeFormat,
-  getIdAttribute,
-  getModelName,
-  writeFile,
-  getModelDefinitions,
-};

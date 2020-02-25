@@ -1,4 +1,4 @@
-class Config {
+export default class Config {
   _config: ConfigObject;
 
   attributeConverter: AttributeConverter;
@@ -83,5 +83,3 @@ class Config {
     };
   }
 }
-
-module.exports = Config;

@@ -1,6 +1,7 @@
-const _ = require('lodash');
-const path = require('path');
-const {
+// @ts-nocheck
+import _ from 'lodash';
+import path from 'path';
+import {
   applyIf,
   schemaName,
   parseSchema,
@@ -11,14 +12,14 @@ const {
   render,
   changeFormat,
   getIdAttribute,
-} = require('./utils');
+} from './utils';
 
 /**
  * レスポンス定義からnormalizr用のschemaを作成
  * content-typeはjsonのみサポート
  */
 
-class SchemaGenerator {
+export default class SchemaGenerator {
   constructor({
     outputPath = '',
     templatePath = {},
@@ -150,5 +151,3 @@ class SchemaGenerator {
     return response.content && response.content['application/json'];
   }
 }
-
-module.exports = SchemaGenerator;

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Config {
     constructor(config) {
         this._config = config;
@@ -58,4 +59,4 @@ class Config {
         };
     }
 }
-module.exports = Config;
+exports.default = Config;

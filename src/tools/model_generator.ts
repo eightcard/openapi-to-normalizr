@@ -1,7 +1,8 @@
 /* eslint-disable */
-const _ = require('lodash');
-const path = require('path');
-const {
+// @ts-nocheck
+import _ from 'lodash';
+import path from 'path';
+import {
   parseSchema,
   schemaName,
   render,
@@ -14,13 +15,13 @@ const {
   changeFormat,
   getModelName,
   writeFile,
-} = require('./utils');
+} from './utils';
 
 /**
  * モデル定義からモデルファイルを作成
  */
 
-class ModelGenerator {
+export default class ModelGenerator {
   constructor({
     outputDir = '',
     outputBaseDir = '',
@@ -426,5 +427,3 @@ function getDefaults() {
   }
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
-
-module.exports = ModelGenerator;

@@ -16,8 +16,9 @@ const uniq_1 = __importDefault(require("lodash/uniq"));
 const flatten_1 = __importDefault(require("lodash/flatten"));
 const js_yaml_1 = __importDefault(require("js-yaml"));
 const json_schema_ref_parser_1 = __importDefault(require("json-schema-ref-parser"));
-const ALTERNATIVE_REF_KEY = '__$ref__';
-const MODEL_DEF_KEY = 'x-model-name';
+exports.ALTERNATIVE_REF_KEY = '__$ref__';
+exports.MODEL_DEF_KEY = 'x-model-name';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isOperation = (obj) => 'tags' in obj;
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
 const isMethodName = (str) => methodNames.includes(str);
@@ -37,6 +38,8 @@ function readSpecFilePromise(path, options = {}) {
         });
     });
 }
+exports.readSpecFilePromise = readSpecFilePromise;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function walkSchema(spec, callback = noop_1.default) {
     if (isArray_1.default(spec)) {
         return spec.forEach((item) => walkSchema(item, callback));
@@ -46,6 +49,7 @@ function walkSchema(spec, callback = noop_1.default) {
         return each_1.default(spec, (value) => walkSchema(value, callback));
     }
 }
+exports.walkSchema = walkSchema;
 function getRefFilesPath(spec) {
     const paths = [];
     walkSchema(spec, (obj) => {
@@ -60,7 +64,7 @@ function getRefFilesPath(spec) {
 function applyAlternativeRef(spec) {
     walkSchema(spec, (obj) => {
         if (obj.$ref) {
-            obj[ALTERNATIVE_REF_KEY] = obj.$ref;
+            obj[exports.ALTERNATIVE_REF_KEY] = obj.$ref;
         }
     });
     return spec;
@@ -74,6 +78,7 @@ function convertToLocalDefinition(spec) {
     });
     return spec;
 }
+exports.convertToLocalDefinition = convertToLocalDefinition;
 function getPreparedSpecFilePaths(specFiles, tags = []) {
     const readFiles = {};
     const tmpDir = fs_1.default.mkdtempSync(path_1.default.join(fs_1.default.realpathSync(os_1.default.tmpdir()), '__openapi_to_normalizr__'));
@@ -92,7 +97,7 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
         const schemas = spec.components && spec.components.schemas;
         if (schemas) {
             each_1.default(schemas, (model, name) => {
-                model[MODEL_DEF_KEY] = name;
+                model[exports.MODEL_DEF_KEY] = name;
             });
         }
         fs_1.default.writeFileSync(target, js_yaml_1.default.safeDump(spec));
@@ -113,7 +118,6 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
         });
     }
     function getAllRelatedFiles(files) {
-        console.log('hell');
         return files.reduce((acc, filePath) => {
             const spec = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(filePath).toString());
             const refFilesPaths = uniq_1.default(getRefFilesPath(spec));
@@ -132,11 +136,4 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
         }, []);
     }
 }
-module.exports = {
-    readSpecFilePromise,
-    getPreparedSpecFilePaths,
-    convertToLocalDefinition,
-    walkSchema,
-    ALTERNATIVE_REF_KEY,
-    MODEL_DEF_KEY,
-};
+exports.getPreparedSpecFilePaths = getPreparedSpecFilePaths;

@@ -13,8 +13,8 @@ import jsYaml from 'js-yaml';
 import $RefParser from 'json-schema-ref-parser';
 import { OpenAPIV3 } from 'openapi-types';
 
-const ALTERNATIVE_REF_KEY = '__$ref__';
-const MODEL_DEF_KEY = 'x-model-name';
+export const ALTERNATIVE_REF_KEY = '__$ref__';
+export const MODEL_DEF_KEY = 'x-model-name';
 
 /* library alias */
 
@@ -28,16 +28,17 @@ type Model = Schema & {
   [MODEL_DEF_KEY]?: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isOperation = (obj: any): obj is Operation => 'tags' in obj;
 
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'] as const;
 
 // メソッド名の Union String Literal Types = 'get' | 'put' | ... | 'trace';
-type MethodName = (typeof methodNames)[number];
+type MethodName = typeof methodNames[number];
 
 const isMethodName = (str: string): str is MethodName => methodNames.includes(str as any);
 
-function readSpecFilePromise(path: string, options: OptionObject = {}) {
+export function readSpecFilePromise(path: string, options: OptionObject = {}) {
   const data = fs.readFileSync(path, 'utf8');
   const original: Document = jsYaml.safeLoad(data);
   if (!options.dereference) return Promise.resolve(original);
@@ -53,7 +54,8 @@ function readSpecFilePromise(path: string, options: OptionObject = {}) {
   });
 }
 
-function walkSchema(spec: any, callback: (s: any) => void = noop): any {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function walkSchema(spec: any, callback: (s: any) => void = noop): any {
   if (isArray(spec)) {
     return spec.forEach((item) => walkSchema(item, callback));
   } else if (isObject(spec)) {
@@ -82,7 +84,7 @@ function applyAlternativeRef(spec: Document) {
   return spec;
 }
 
-function convertToLocalDefinition(spec: Document) {
+export function convertToLocalDefinition(spec: Document) {
   walkSchema(spec, (obj) => {
     if (obj.$ref) {
       const index = obj.$ref.indexOf('#');
@@ -92,7 +94,7 @@ function convertToLocalDefinition(spec: Document) {
   return spec;
 }
 
-function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = []) {
+export function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = []) {
   const readFiles: { [key: string]: boolean } = {};
   const tmpDir = fs.mkdtempSync(
     path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'),
@@ -154,12 +156,3 @@ function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = []) {
     }, []);
   }
 }
-
-module.exports = {
-  readSpecFilePromise,
-  getPreparedSpecFilePaths,
-  convertToLocalDefinition,
-  walkSchema,
-  ALTERNATIVE_REF_KEY,
-  MODEL_DEF_KEY,
-};
