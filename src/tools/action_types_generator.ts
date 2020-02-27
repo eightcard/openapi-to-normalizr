@@ -1,8 +1,23 @@
-// @ts-nocheck
 import path from 'path';
 import { writeFilePromise, readTemplates, render } from './utils';
 
 export default class ActionTypesGenerator {
+  outputPath: Actions;
+
+  outputDir: string;
+
+  outputFileName: string;
+
+  schemasFilePath: SchemasFilePath;
+
+  templatePath: TemplatePath;
+
+  operationIdList: string[];
+
+  templates: { [key: string]: string };
+
+  useTypeScript: UseTypeScript;
+
   constructor({
     outputPath = '',
     schemasFilePath = '',
@@ -10,6 +25,13 @@ export default class ActionTypesGenerator {
     operationIdList = [],
     useTypeScript = false,
     extension = 'js',
+  }: {
+    outputPath: Actions;
+    schemasFilePath: SchemasFilePath;
+    templatePath: TemplatePath;
+    operationIdList: string[];
+    useTypeScript: UseTypeScript;
+    extension: Extension;
   }) {
     this.outputPath = outputPath;
     const { dir, name, ext } = path.parse(this.outputPath);
@@ -24,7 +46,7 @@ export default class ActionTypesGenerator {
     this.useTypeScript = useTypeScript;
   }
 
-  appendId(id) {
+  appendId(id: string) {
     this.operationIdList.push(id.toUpperCase());
   }
 
