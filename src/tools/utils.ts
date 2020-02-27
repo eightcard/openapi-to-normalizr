@@ -144,7 +144,7 @@ export function mkdirpPromise(dir) {
   return mkdirp(dir);
 }
 
-export function writeFilePromise(path: string, data: TODO) {
+export function writeFilePromise(path: string, data: string) {
   return new Promise<void>((resolve, reject) =>
     fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
   );
