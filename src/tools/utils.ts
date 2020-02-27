@@ -144,8 +144,8 @@ export function mkdirpPromise(dir) {
   return mkdirp(dir);
 }
 
-export function writeFilePromise(path, data) {
-  return new Promise((resolve, reject) =>
+export function writeFilePromise(path: string, data) {
+  return new Promise<void>((resolve, reject) =>
     fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
   );
 }
@@ -154,14 +154,18 @@ export function writeFile(path, data) {
   return fs.writeFileSync(path, data);
 }
 
-export function readTemplates(keys = [], templatePath) {
-  return keys.reduce((ret, key) => {
+export function readTemplates(keys: string[] = [], templatePath: TemplatePath = {}) {
+  return keys.reduce((ret: { [key: string]: string }, key) => {
     ret[key] = fs.readFileSync(templatePath[key], 'utf8');
     return ret;
   }, {});
 }
 
-export function render(template, data = {}, option = {}) {
+export function render(
+  template: string,
+  data: { [key: string]: TODO } = {},
+  option: { [key: string]: string } = {},
+) {
   if (option.withDate) {
     data.date = now;
     delete option.withDate;
