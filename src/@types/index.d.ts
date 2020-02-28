@@ -7,25 +7,22 @@ declare interface OptionObject {
 
 declare type AttributeConverter = (s: string) => string;
 
+declare type SchemasFilePath = string;
+declare type Actions = string;
+declare type TemplatePath = { [K: string]: string };
+declare type UseTypeScript = boolean;
 declare interface ConfigObject {
-  templates: {
-    [K: string]: string;
-  };
+  templates: TemplatePath;
   outputPath: {
-    schemas: string;
-    actions: string;
+    schemas: SchemasFilePath;
+    actions: Actions;
     jsSpec: string;
   };
   modelsDir?: string;
   tags?: string[];
   attributeConverter?: AttributeConverter;
   usePropType: boolean;
-  useTypeScript: boolean;
+  useTypeScript: UseTypeScript;
 }
-
-declare type SchemasFilePath = ConfigObject['outputPath']['schemas'];
-declare type Actions = ConfigObject['outputPath']['actions'];
-declare type TemplatePath = ConfigObject['templates'];
-declare type UseTypeScript = ConfigObject['useTypeScript'];
 
 declare type Extension = 'ts' | 'js';
