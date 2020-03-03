@@ -1,5 +1,8 @@
-// @ts-nocheck
-import _ from 'lodash';
+import each from 'lodash/each';
+import snakeCase from 'lodash/snakeCase';
+import uniqBy from 'lodash/uniqBy';
+import reduce from 'lodash/reduce';
+
 import path from 'path';
 import {
   applyIf,
@@ -51,7 +54,7 @@ export default class SchemaGenerator {
    * - 内部でモデル情報をメモ
    */
   parse(id, responses) {
-    _.each(responses, (response, code) => {
+    each(responses, (response, code) => {
       const contents = SchemaGenerator.getJsonContents(response);
       if (!contents) {
         console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
@@ -127,17 +130,17 @@ export default class SchemaGenerator {
     return this.importModels.map(({ modelName }) => {
       return {
         name: schemaName(modelName),
-        path: path.join(relative, _.snakeCase(modelName)),
+        path: path.join(relative, snakeCase(modelName)),
       };
     });
   }
 
   get importModels() {
-    return _.uniqBy(this._importModels, 'modelName');
+    return uniqBy(this._importModels, 'modelName');
   }
 
   get formattedSchema() {
-    return _.reduce(
+    return reduce(
       this.parsedObjects,
       (acc, schema, key) => {
         acc[key] = changeFormat(schema, this.attributeConverter);
