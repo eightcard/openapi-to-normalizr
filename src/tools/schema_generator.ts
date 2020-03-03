@@ -23,6 +23,30 @@ import {
  */
 
 export default class SchemaGenerator {
+  outputPath: Actions;
+
+  outputDir: string;
+
+  outputFileName: string;
+
+  templatePath: TemplatePath;
+
+  modelGenerator: ModelGenerator;
+
+  modelsDir: string;
+
+  attributeConverter: AttributeConverter;
+
+  templates: { [key: string]: string };
+
+  parsedObjects;
+
+  _importModels;
+
+  oneOfs;
+
+  useTypeScript: UseTypeScript;
+
   constructor({
     outputPath = '',
     templatePath = {},
