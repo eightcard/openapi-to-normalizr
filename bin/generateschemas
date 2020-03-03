@@ -61,9 +61,13 @@ Promise.all(
       path.dirname(config.outputPath[key]),
     );
     const baseModelsDir = `${config.modelsDir}/base`;
-    const prepareDirs = [actionsDir, schemasDir, specDir, config.modelsDir, baseModelsDir].map(
-      (p) => mkdirpPromise(p),
-    );
+    const prepareDirs = [
+      actionsDir,
+      schemasDir,
+      specDir,
+      config.modelsDir,
+      baseModelsDir,
+    ].map((p) => mkdirpPromise(p));
 
     return Swagger({
       spec,
