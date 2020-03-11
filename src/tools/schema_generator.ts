@@ -2,7 +2,6 @@ import each from 'lodash/each';
 import snakeCase from 'lodash/snakeCase';
 import uniqBy from 'lodash/uniqBy';
 import reduce from 'lodash/reduce';
-
 import path from 'path';
 import {
   applyIf,
@@ -16,6 +15,8 @@ import {
   changeFormat,
   getIdAttribute,
 } from './utils';
+import ModelGenerator from './model_generator';
+import { OpenAPIV3 } from 'openapi-types';
 
 /**
  * レスポンス定義からnormalizr用のschemaを作成
@@ -39,11 +40,14 @@ export default class SchemaGenerator {
 
   templates: { [key: string]: string };
 
-  parsedObjects;
+  parsedObjects: { [key: string]: TODO };
 
-  _importModels;
+  _importModels: {
+    modelName: string | undefined;
+    model: TODO;
+  }[];
 
-  oneOfs;
+  oneOfs: TODO[];
 
   useTypeScript: UseTypeScript;
 
@@ -55,6 +59,14 @@ export default class SchemaGenerator {
     attributeConverter = (str) => str,
     useTypeScript,
     extension = 'js',
+  }: {
+    outputPath: Actions;
+    templatePath: TemplatePath;
+    modelGenerator: ModelGenerator;
+    modelsDir: string;
+    attributeConverter: AttributeConverter;
+    useTypeScript: UseTypeScript;
+    extension: Extension;
   }) {
     this.outputPath = outputPath;
     const { dir, name } = path.parse(this.outputPath);
@@ -77,15 +89,15 @@ export default class SchemaGenerator {
    * API(id)ごとのスキーマをパース
    * - 内部でモデル情報をメモ
    */
-  parse(id, responses) {
+  parse(id: string, responses: OpenAPIV3.ResponsesObject) {
     each(responses, (response, code) => {
       const contents = SchemaGenerator.getJsonContents(response);
       if (!contents) {
-        console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
+        console.warn(`${id}:${code} does not have content.`);
         return;
       }
 
-      const onSchema = ({ type, value }) => {
+      const onSchema = ({ type, value }: { type: string; value: TODO }) => {
         if (type === 'model') {
           const modelName = getModelName(value);
           if (getIdAttribute(value, modelName)) {
@@ -104,7 +116,9 @@ export default class SchemaGenerator {
           return key;
         }
       };
-      applyIf(parseSchema(contents.schema, onSchema), (val) => {
+
+      const data = parseSchema(contents.schema, onSchema);
+      applyIf(data, (val) => {
         this.parsedObjects[id] = this.parsedObjects[id] || {};
         this.parsedObjects[id][code] = val;
       });
@@ -166,7 +180,13 @@ export default class SchemaGenerator {
   get formattedSchema() {
     return reduce(
       this.parsedObjects,
-      (acc, schema, key) => {
+      (
+        acc: {
+          [key: string]: TODO;
+        },
+        schema,
+        key,
+      ) => {
         acc[key] = changeFormat(schema, this.attributeConverter);
         return acc;
       },
@@ -174,7 +194,10 @@ export default class SchemaGenerator {
     );
   }
 
-  static getJsonContents(response) {
-    return response.content && response.content['application/json'];
+  static getJsonContents(response: OpenAPIV3.ReferenceObject | OpenAPIV3.ResponseObject) {
+    // ResponseObject
+    if ('content' in response) {
+      return response.content && response.content['application/json'];
+    }
   }
 }

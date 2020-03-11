@@ -9,15 +9,15 @@ import { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
 const cwd = process.cwd();
 const now = new Date();
 
-export function schemaName(modelName) {
+export function schemaName(modelName: string | undefined): string {
   return `${modelName}Schema`;
 }
 
-export function getModelName(schema) {
+export function getModelName(schema: TODO): string | undefined {
   return schema && schema[MODEL_DEF_KEY];
 }
 
-export function applyIf(data, applyFn = (val) => val) {
+export function applyIf<Data>(data: Data, applyFn: (val: Data) => TODO = (val) => val) {
   return data && applyFn(data);
 }
 
