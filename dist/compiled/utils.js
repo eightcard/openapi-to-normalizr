@@ -142,7 +142,7 @@ function writeFile(path, data) {
     return fs_1.default.writeFileSync(path, data);
 }
 exports.writeFile = writeFile;
-function readTemplates(keys = [], templatePath) {
+function readTemplates(keys = [], templatePath = {}) {
     return keys.reduce((ret, key) => {
         ret[key] = fs_1.default.readFileSync(templatePath[key], 'utf8');
         return ret;

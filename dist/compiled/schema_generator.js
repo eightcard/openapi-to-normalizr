@@ -3,8 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// @ts-nocheck
-const lodash_1 = __importDefault(require("lodash"));
+const each_1 = __importDefault(require("lodash/each"));
+const snakeCase_1 = __importDefault(require("lodash/snakeCase"));
+const uniqBy_1 = __importDefault(require("lodash/uniqBy"));
+const reduce_1 = __importDefault(require("lodash/reduce"));
 const path_1 = __importDefault(require("path"));
 const utils_1 = require("./utils");
 /**
@@ -34,10 +36,10 @@ class SchemaGenerator {
      * - 内部でモデル情報をメモ
      */
     parse(id, responses) {
-        lodash_1.default.each(responses, (response, code) => {
+        each_1.default(responses, (response, code) => {
             const contents = SchemaGenerator.getJsonContents(response);
             if (!contents) {
-                console.warn(`${id}:${code} does not have content.`); // eslint-disable-line no-console
+                console.warn(`${id}:${code} does not have content.`);
                 return;
             }
             const onSchema = ({ type, value }) => {
@@ -59,7 +61,8 @@ class SchemaGenerator {
                     return key;
                 }
             };
-            utils_1.applyIf(utils_1.parseSchema(contents.schema, onSchema), (val) => {
+            const data = utils_1.parseSchema(contents.schema, onSchema);
+            utils_1.applyIf(data, (val) => {
                 this.parsedObjects[id] = this.parsedObjects[id] || {};
                 this.parsedObjects[id][code] = val;
             });
@@ -98,21 +101,24 @@ class SchemaGenerator {
         return this.importModels.map(({ modelName }) => {
             return {
                 name: utils_1.schemaName(modelName),
-                path: path_1.default.join(relative, lodash_1.default.snakeCase(modelName)),
+                path: path_1.default.join(relative, snakeCase_1.default(modelName)),
             };
         });
     }
     get importModels() {
-        return lodash_1.default.uniqBy(this._importModels, 'modelName');
+        return uniqBy_1.default(this._importModels, 'modelName');
     }
     get formattedSchema() {
-        return lodash_1.default.reduce(this.parsedObjects, (acc, schema, key) => {
+        return reduce_1.default(this.parsedObjects, (acc, schema, key) => {
             acc[key] = utils_1.changeFormat(schema, this.attributeConverter);
             return acc;
         }, {});
     }
     static getJsonContents(response) {
-        return response.content && response.content['application/json'];
+        // ResponseObject
+        if ('content' in response) {
+            return response.content && response.content['application/json'];
+        }
     }
 }
 exports.default = SchemaGenerator;
