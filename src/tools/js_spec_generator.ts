@@ -1,6 +1,6 @@
 // @ts-nocheck
 import path from 'path';
-import _ from 'lodash';
+import each from 'lodash/each';
 import { writeFilePromise, readTemplates, render } from './utils';
 import { walkSchema, MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
 
@@ -54,11 +54,11 @@ export default class JsSpecGenerator {
       if (obj.$ref) useRefs[obj.$ref] = true;
     });
     // pathで利用しているrefから芋づる式に利用しているrefを取得
-    _.each(useRefs, (_bool, ref) => checkRef(ref));
+    each(useRefs, (_bool, ref) => checkRef(ref));
 
     // ↑で取得した以外のcomponents情報を削除
-    _.each(spec.components, (schemas, key) => {
-      _.each(schemas, (_obj, name) => {
+    each(spec.components, (schemas, key) => {
+      each(schemas, (_obj, name) => {
         const p = `#/components/${key}/${name}`;
         if (!useRefs[p]) delete schemas[name];
       });

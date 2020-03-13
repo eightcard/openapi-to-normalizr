@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import _ from 'lodash';
+import isString from 'lodash/isString';
 import { Map } from 'immutable';
 import { beforeSend, camelKeys, snakeKeys } from './helper';
 
@@ -52,7 +52,7 @@ createOpenApiMiddleware(rawSpec, httpOption).then((middleware) => {
 
   // View作成
   _(ActionTypes)
-    .filter(_.isString)
+    .filter(isString)
     .each((actionType) => {
       const li = document.createElement('li');
       const button = document.createElement('button');

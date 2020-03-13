@@ -7,7 +7,11 @@
 const path = require('path');
 const Swagger = require('swagger-client');
 const program = require('commander');
-const _ = require('lodash');
+const merge = require('lodash/merge');
+const isEmpty = require('lodash/isEmpty');
+const each = require('lodash/each');
+const isObject = require('lodash/isObject');
+
 const { resolvePath, mkdirpPromise, getModelDefinitions } = require('../dist/compiled/utils');
 const {
   readSpecFilePromise,
@@ -28,11 +32,11 @@ const specFiles = program.args;
 
 const userConfig = program.config ? require(resolvePath(program.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
-const mergedConfig = _.merge({}, defaultConfig, userConfig);
+const mergedConfig = merge({}, defaultConfig, userConfig);
 const config = new Config(mergedConfig);
 console.info(`parse file: ${specFiles}`);
 
-if (_.isEmpty(specFiles)) {
+if (isEmpty(specFiles)) {
   console.error('need spec files');
   process.exit(1);
 }
@@ -54,7 +58,7 @@ Promise.all(
   ),
 )
   .then((schemas) => {
-    const spec = _.merge(...schemas);
+    const spec = merge(...schemas);
 
     let actionTypesGenerator, modelGenerator, schemaGenerator;
     const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) =>
@@ -113,7 +117,7 @@ Promise.all(
         }),
       ),
     ).then((schemas) => {
-      const spec = convertToLocalDefinition(_.merge(...schemas));
+      const spec = convertToLocalDefinition(merge(...schemas));
       return new JsSpecGenerator(config.formatForJsSpecGenerator()).write(spec);
     });
   })
@@ -127,13 +131,13 @@ function opId(operation, path, method) {
 }
 
 function walkResponses(paths, onResponses = []) {
-  _.each(paths, (operations, path) => {
-    _.each(operations, (operation, method) => {
+  each(paths, (operations, path) => {
+    each(operations, (operation, method) => {
       if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase())) {
         // use only RESTful methods
         return;
       }
-      if (!_.isObject(operation)) {
+      if (!isObject(operation)) {
         console.warn(`not processed. path:${path}, method:${method}`);
         return;
       }

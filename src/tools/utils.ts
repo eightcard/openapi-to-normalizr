@@ -1,8 +1,11 @@
 // @ts-nocheck
 import fs from 'fs';
 import path from 'path';
+import reduce from 'lodash/reduce';
+import find from 'lodash/find';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
 import mkdirp from 'mkdirp';
-import _ from 'lodash';
 import mustache from 'mustache';
 import { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
 
@@ -44,17 +47,17 @@ function parseOneOf(schema, onSchema) {
   });
 
   if (mapping) {
-    ret.mapping = _.reduce(
+    ret.mapping = reduce(
       mapping,
       (acc, model, key) => {
-        const { schemaName } = _.find(components, ({ value }) => getRef(value) === model);
+        const { schemaName } = find(components, ({ value }) => getRef(value) === model);
         acc[key] = schemaName;
         return acc;
       },
       {},
     );
   } else {
-    ret.mapping = _.reduce(
+    ret.mapping = reduce(
       components,
       (acc, { name, schemaName }) => {
         acc[name] = schemaName;
@@ -67,7 +70,7 @@ function parseOneOf(schema, onSchema) {
 }
 
 export function parseSchema(schema, onSchema) {
-  if (!_.isObject(schema)) return;
+  if (!isObject(schema)) return;
 
   const modelName = getModelName(schema);
   if (modelName && getIdAttribute(schema)) {
@@ -85,7 +88,7 @@ export function parseSchema(schema, onSchema) {
   } else if (schema.type === 'array') {
     return applyIf(parseSchema(schema.items, onSchema), (val) => [val]);
   } else {
-    const reduced = _.reduce(
+    const reduced = reduce(
       schema,
       (ret, val, key) => {
         const tmp = parseSchema(val, onSchema);
@@ -120,10 +123,10 @@ export function isFileExistPromise(path) {
 }
 
 export function applyRequired(props, requiredList) {
-  if (!_.isArray(requiredList)) {
+  if (!isArray(requiredList)) {
     return props;
   }
-  return _.reduce(
+  return reduce(
     props,
     (ret, prop, key) => {
       ret[key] = prop;
@@ -174,7 +177,7 @@ export function render(
 }
 
 export function objectToTemplateValue(object) {
-  if (!_.isObject(object)) {
+  if (!isObject(object)) {
     return;
   }
   return JSON.stringify(object, null, 2).replace(/"/g, '');
@@ -216,7 +219,7 @@ export function getIdAttribute(model, name) {
 }
 
 export function getModelDefinitions(spec) {
-  return _.reduce(
+  return reduce(
     spec.components.schemas,
     (acc, model) => {
       const modelName = getModelName(model);

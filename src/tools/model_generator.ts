@@ -1,7 +1,17 @@
 /* eslint-disable */
 // @ts-nocheck
-import _ from 'lodash';
 import path from 'path';
+import snakeCase from 'lodash/snakeCase';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+import map from 'lodash/map';
+import upperCase from 'lodash/upperCase';
+import startCase from 'lodash/startCase';
+import reduce from 'lodash/reduce';
+import isString from 'lodash/isString';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import isUndefined from 'lodash/isUndefined';
 import {
   parseSchema,
   schemaName,
@@ -57,7 +67,7 @@ export default class ModelGenerator {
    */
   writeModel(model, name) {
     const { properties } = model; // dereferenced
-    const fileName = _.snakeCase(name);
+    const fileName = snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return;
     // requiredはモデル定義のものを使う
@@ -78,7 +88,7 @@ export default class ModelGenerator {
     const text = render(
       this.templates.models,
       {
-        models: _.uniq(modelNameList).map((name) => ({ fileName: _.snakeCase(name), name })),
+        models: uniq(modelNameList).map((name) => ({ fileName: snakeCase(name), name })),
       },
       {
         head: this.templates.head,
@@ -96,11 +106,11 @@ export default class ModelGenerator {
   }
 
   _prepareImportList(importList) {
-    return _.uniqBy(importList, 'modelName').map(({ modelName, filePath }) => {
+    return uniqBy(importList, 'modelName').map(({ modelName, filePath }) => {
       return {
         name: modelName,
         schemaName: schemaName(modelName),
-        filePath: filePath ? filePath : _.snakeCase(modelName),
+        filePath: filePath ? filePath : snakeCase(modelName),
       };
     });
   }
@@ -182,7 +192,7 @@ export default class ModelGenerator {
   }
 
   _convertPropForTemplate(properties, dependencySchema = {}) {
-    return _.map(properties, (prop, name) => {
+    return map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
         type: this.generateTypeFrom(prop, dependencySchema[name]),
@@ -207,10 +217,10 @@ export default class ModelGenerator {
   }
 
   getEnumConstantName(enumName, propertyName) {
-    const convertedName = _.upperCase(propertyName)
+    const convertedName = upperCase(propertyName)
       .split(' ')
       .join('_');
-    const convertedkey = _.upperCase(enumName)
+    const convertedkey = upperCase(enumName)
       .split(' ')
       .join('_');
     // enumNameがマイナスの数値の時
@@ -220,10 +230,10 @@ export default class ModelGenerator {
   }
 
   getEnumLiteralTypeName(enumName, propertyName) {
-    const convertedName = _.startCase(propertyName)
+    const convertedName = startCase(propertyName)
       .split(' ')
       .join('');
-    const convertedkey = _.startCase(enumName)
+    const convertedkey = startCase(enumName)
       .split(' ')
       .join('');
     // enumNameがマイナスの数値の時
@@ -261,10 +271,10 @@ export default class ModelGenerator {
         return modelName ? { isModel: true, type: modelName } : { isModel: false, type: obj.type };
       });
       return {
-        propType: `PropTypes.oneOfType([${_.uniq(
+        propType: `PropTypes.oneOfType([${uniq(
           candidates.map((c) => (c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))),
         ).join(', ')}])`,
-        typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
+        typeScript: uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
@@ -294,7 +304,7 @@ export default class ModelGenerator {
 
     if (prop.type === 'object' && prop.properties) {
       if (!this.importImmutableMap) this.importImmutableMap = true;
-      const props = _.reduce(
+      const props = reduce(
         prop.properties,
         (acc, value, key) => {
           acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
@@ -311,16 +321,16 @@ export default class ModelGenerator {
 
   _generatePropTypeFromDefinition(definition) {
     let def;
-    if (_.isString(definition)) {
+    if (isString(definition)) {
       def = definition.replace(/Schema$/, '');
       return `${def}PropType`;
     }
-    if (_.isArray(definition)) {
+    if (isArray(definition)) {
       def = definition[0];
       const type = this._generatePropTypeFromDefinition(def);
       return `ImmutablePropTypes.listOf(${type})`;
-    } else if (_.isObject(definition)) {
-      const type = _.reduce(
+    } else if (isObject(definition)) {
+      const type = reduce(
         definition,
         (acc, value, key) => {
           acc[key] = this._generatePropTypeFromDefinition(value);
@@ -334,14 +344,14 @@ export default class ModelGenerator {
 
   _generateTypeScriptTypeFromDefinition(definition) {
     let def;
-    if (_.isString(definition)) {
+    if (isString(definition)) {
       return definition.replace(/Schema$/, '');
     }
-    if (_.isArray(definition)) {
+    if (isArray(definition)) {
       def = definition[0];
       const type = this._generateTypeScriptTypeFromDefinition(def);
       return `List<${type}>`;
-    } else if (_.isObject(definition)) {
+    } else if (isObject(definition)) {
       return 'Map<any, any>';
     }
   }
@@ -417,7 +427,7 @@ function _getTypeScriptTypes(type, enumObjects) {
 }
 
 function getDefaults() {
-  if (_.isUndefined(this.default)) {
+  if (isUndefined(this.default)) {
     return 'undefined';
   }
   if (this.enumObjects) {
