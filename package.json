@@ -18,7 +18,7 @@
     "json-schema-ref-parser": "7.1.4",
     "lodash": "4.17.15",
     "mkdirp": "1.0.3",
-    "mustache": "4.0.0",
+    "mustache": "4.0.1",
     "swagger-client": "3.10.0"
   },
   "devDependencies": {
