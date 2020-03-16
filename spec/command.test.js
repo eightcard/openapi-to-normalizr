@@ -23,7 +23,10 @@ const snapshot = (files, customConfigFilePath) => {
   const customConfigOption = customConfigFilePath
     ? require(path.join(dir, customConfigFilePath)) // eslint-disable-line global-require
     : null;
-  main(files.map((f) => path.join(dir, f)).join(' '), customConfigOption || config);
+  main(
+    files.map((f) => path.join(dir, f)),
+    customConfigOption || config,
+  );
   walk(outputDir, (path) => {
     const output = fs.readFileSync(path, 'utf8');
     expect({ path, output }).toMatchSnapshot();
