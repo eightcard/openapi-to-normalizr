@@ -1,24 +1,13 @@
 #!/usr/bin/env node
-/* eslint-disable dot-location,no-console,no-process-exit,no-unused-vars*/
+/* eslint-disable no-console,no-process-exit */
 /**
  * generate actionType.js, schema.js, spec.js from multi spec files.
  * - need models directory before execution
  */
 const path = require('path');
-const Swagger = require('swagger-client');
 const program = require('commander');
 const _ = require('lodash');
-const { resolvePath, mkdirpPromise, getModelDefinitions } = require('../dist/compiled/utils');
-const {
-  readSpecFilePromise,
-  getPreparedSpecFilePaths,
-  convertToLocalDefinition,
-} = require('../dist/compiled/spec_file_utils');
-const ModelGenerator = require('../dist/compiled/model_generator').default;
-const SchemaGenerator = require('../dist/compiled/schema_generator').default;
-const ActionTypesGenerator = require('../dist/compiled/action_types_generator').default;
-const JsSpecGenerator = require('../dist/compiled/js_spec_generator').default;
-const Config = require('../dist/compiled/config').default;
+const main = require('../dist/compiled/main');
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -26,10 +15,9 @@ program
   .parse(process.argv);
 const specFiles = program.args;
 
-const userConfig = program.config ? require(resolvePath(program.config)) : {};
+const userConfig = program.config ? require(program.config) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
-const mergedConfig = _.merge({}, defaultConfig, userConfig);
-const config = new Config(mergedConfig);
+const config = _.merge({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
 
 if (_.isEmpty(specFiles)) {
@@ -44,114 +32,4 @@ console.log(`
     js-spec    : ${config.outputPath.jsSpec}
 `);
 
-const filePaths = getPreparedSpecFilePaths(specFiles, config.tags);
-
-Promise.all(
-  filePaths.map((file) =>
-    readSpecFilePromise(file, {
-      dereference: true,
-    }),
-  ),
-)
-  .then((schemas) => {
-    const spec = _.merge(...schemas);
-
-    let actionTypesGenerator, modelGenerator, schemaGenerator;
-    const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) =>
-      path.dirname(config.outputPath[key]),
-    );
-    const baseModelsDir = `${config.modelsDir}/base`;
-    const prepareDirs = [
-      actionsDir,
-      schemasDir,
-      specDir,
-      config.modelsDir,
-      baseModelsDir,
-    ].map((p) => mkdirpPromise(p));
-
-    return Swagger({
-      spec,
-    })
-      .then(({ spec }) => {
-        // refとOpenAPI記法(oneOfなど)解決済みのspecからモデル定義を取得
-        const definitions = getModelDefinitions(spec);
-
-        return Promise.all(prepareDirs).then(() => {
-          const configForModelGenerator = Object.assign(
-            {
-              outputBaseDir: baseModelsDir,
-              definitions,
-            },
-            config.formatForModelGenerator(),
-          );
-
-          modelGenerator = new ModelGenerator(configForModelGenerator);
-          actionTypesGenerator = new ActionTypesGenerator(config.formatForActionTypesGenerator());
-
-          const configForSchemaGenerator = Object.assign(
-            {
-              modelGenerator,
-            },
-            config.formatForSchemaGenerator(),
-          );
-          schemaGenerator = new SchemaGenerator(configForSchemaGenerator);
-          walkResponses(spec.paths, [schemaGenerator.parse, actionTypesGenerator.appendId]);
-          return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
-        });
-      })
-      .catch((e) => {
-        console.error(`Failed: ${e}`);
-        process.exit(1);
-      });
-  })
-  .then(() => {
-    // no need dereference for js spec file
-    return Promise.all(
-      filePaths.map((file) =>
-        readSpecFilePromise(file, {
-          dereference: false,
-        }),
-      ),
-    ).then((schemas) => {
-      const spec = convertToLocalDefinition(_.merge(...schemas));
-      return new JsSpecGenerator(config.formatForJsSpecGenerator()).write(spec);
-    });
-  })
-  .catch((e) => {
-    console.error(`Failed: ${e}`);
-    process.exit(1);
-  });
-
-function opId(operation, path, method) {
-  return Swagger.helpers.opId(operation, path, method);
-}
-
-function walkResponses(paths, onResponses = []) {
-  _.each(paths, (operations, path) => {
-    _.each(operations, (operation, method) => {
-      if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase())) {
-        // use only RESTful methods
-        return;
-      }
-      if (!_.isObject(operation)) {
-        console.warn(`not processed. path:${path}, method:${method}`);
-        return;
-      }
-      if (operation.operationId) {
-        console.info(
-          `no use specified operationId. path:${path}, method:${method}, operationId:${operation.operationId}`,
-        );
-        delete operation.operationId;
-      }
-      const response = operation.responses;
-      const id = opId(operation, path, method);
-      onResponses.forEach((onResponse) =>
-        onResponse(id, response, {
-          path,
-          method,
-          operation,
-        }),
-      );
-    });
-  });
-}
+main(specFiles, config);
