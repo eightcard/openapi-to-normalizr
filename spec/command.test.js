@@ -23,9 +23,7 @@ const snapshot = async (files, customConfigFilePath) => {
   const customConfigOption = customConfigFilePath
     ? require(path.join(dir, customConfigFilePath)) // eslint-disable-line global-require
     : {};
-  const config = customConfigFilePath
-    ? Object.assign({}, defaultConfig, customConfigOption)
-    : defaultConfig;
+  const config = Object.assign({}, defaultConfig, customConfigOption);
   await main(
     files.map((f) => path.join(dir, f)),
     config,
