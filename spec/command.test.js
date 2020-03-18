@@ -19,11 +19,11 @@ const walk = (p, fileCallback) => {
   });
 };
 
-const snapshot = (files, customConfigFilePath) => {
+const snapshot = async (files, customConfigFilePath) => {
   const customConfigOption = customConfigFilePath
     ? require(path.join(dir, customConfigFilePath)) // eslint-disable-line global-require
     : null;
-  main(
+  await main(
     files.map((f) => path.join(dir, f)),
     customConfigOption || config,
   );
@@ -48,15 +48,15 @@ describe('schema generator spec', () => {
     snapshot(['one_of_from_other_file.yml']);
   });
 
-  test('from json schema ref TS', () => {
-    snapshot(['json_schema_ref.yml'], './config_ts.js');
-  });
+  // test('from json schema ref TS', () => {
+  //   snapshot(['json_schema_ref.yml'], './config_ts.js');
+  // });
 
-  test('from one of check TS', () => {
-    snapshot(['one_of.yml'], './config_ts.js');
-  });
+  // test('from one of check TS', () => {
+  //   snapshot(['one_of.yml'], './config_ts.js');
+  // });
 
-  test('from one of other spec file  check TS', () => {
-    snapshot(['one_of_from_other_file.yml'], './config_ts.js');
-  });
+  // test('from one of other spec file  check TS', () => {
+  //   snapshot(['one_of_from_other_file.yml'], './config_ts.js');
+  // });
 });

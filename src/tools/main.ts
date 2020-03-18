@@ -14,11 +14,11 @@ import ActionTypesGenerator from './action_types_generator';
 import JsSpecGenerator from './js_spec_generator';
 import Config from './config';
 
-export default function main(specFiles, c) {
+export default async function main(specFiles, c) {
   const config = new Config(c);
   const filePaths = getPreparedSpecFilePaths(specFiles, config.tags);
 
-  Promise.all(
+  await Promise.all(
     filePaths.map((file) =>
       readSpecFilePromise(file, {
         dereference: true,
