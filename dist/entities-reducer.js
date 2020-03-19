@@ -32,9 +32,7 @@ function resetMetaCreator() {
  */
 
 
-var EntitiesReducer =
-/*#__PURE__*/
-function () {
+var EntitiesReducer = /*#__PURE__*/function () {
   function EntitiesReducer() {
     var Models = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var initialState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _immutable.Map)();
