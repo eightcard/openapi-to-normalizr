@@ -37,27 +37,16 @@ const snapshot = async (files, customConfigFilePath) => {
 describe('schema generator spec', () => {
   beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
 
-  test('from json schema ref', () => {
-    snapshot(['json_schema_ref.yml']);
-  });
+  test('from json schema ref', () => snapshot(['json_schema_ref.yml']));
 
-  test('from one of check', () => {
-    snapshot(['one_of.yml']);
-  });
+  test('from one of check', () => snapshot(['one_of.yml']));
 
-  test('from one of other spec file  check', () => {
-    snapshot(['one_of_from_other_file.yml']);
-  });
+  test('from one of other spec file  check', () => snapshot(['one_of_from_other_file.yml']));
 
-  test('from json schema ref TS', () => {
-    snapshot(['json_schema_ref.yml'], './config_ts.js');
-  });
+  test('from json schema ref TS', () => snapshot(['json_schema_ref.yml'], './config_ts.js'));
 
-  test('from one of check TS', () => {
-    snapshot(['one_of.yml'], './config_ts.js');
-  });
+  test('from one of check TS', () => snapshot(['one_of.yml'], './config_ts.js'));
 
-  test('from one of other spec file  check TS', () => {
-    snapshot(['one_of_from_other_file.yml'], './config_ts.js');
-  });
+  test('from one of other spec file  check TS', () =>
+    snapshot(['one_of_from_other_file.yml'], './config_ts.js'));
 });
