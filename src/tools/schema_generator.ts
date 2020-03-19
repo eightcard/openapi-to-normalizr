@@ -131,7 +131,7 @@ export default class SchemaGenerator {
   write() {
     return Promise.all([
       this._writeSchemaFile(),
-      this.importModels.map(({ modelName, model }) =>
+      ...this.importModels.map(({ modelName, model }) =>
         this.modelGenerator.writeModel(model, modelName),
       ),
     ]).then(() => {
