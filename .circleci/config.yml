@@ -36,8 +36,8 @@ jobs:
             - yarn-packages-v2-master
             - yarn-packages-v2-
       - run:
-          name: Spec lint
-          command: yarn speclint
+          name: lint
+          command: yarn lint
   test:
     docker:
       - <<: *base_image

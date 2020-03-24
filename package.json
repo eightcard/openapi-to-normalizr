@@ -107,12 +107,14 @@
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
     "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
     "check:typescript": "tsc --noEmit",
+    "check:prettier": "prettier --check src/**.{js,ts} spec/**.{js,ts}",
     "eslint": "eslint src bin/*",
     "mock": "json-server --watch examples/db.json --port 10010",
     "prepare:mock": "cd examples/petstore && yarn",
     "serve": "bin/serve examples ",
     "test": "jest src/lib spec && yarn check:typescript",
     "jest": "jest",
+    "lint": "yarn check:prettier && yarn eslint && yarn speclint",
     "speclint": "find spec examples -name '*.yml' | xargs -I{} yarn speccy {}",
     "speccy": "speccy lint -s 'operation-operationId' "
   }
