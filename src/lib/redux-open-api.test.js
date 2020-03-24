@@ -36,11 +36,9 @@ describe('middleware', () => {
   };
   describe('open api action (success)', () => {
     beforeEach(() => {
-      nock(/.*/)
-        .get('/pets')
-        .reply(200, {
-          response: 'test response',
-        });
+      nock(/.*/).get('/pets').reply(200, {
+        response: 'test response',
+      });
     });
     test('call action with response.', () =>
       subject(action).then(() => {
@@ -58,11 +56,9 @@ describe('middleware', () => {
 
   describe('open api action (success & no-schema)', () => {
     beforeEach(() => {
-      nock(/.*/)
-        .get('/pets')
-        .reply(202, {
-          response: 'no schema',
-        });
+      nock(/.*/).get('/pets').reply(202, {
+        response: 'no schema',
+      });
     });
     test('call action with response.', () =>
       subject(action).then(() => {
@@ -77,9 +73,7 @@ describe('middleware', () => {
 
   describe('open api action (failed)', () => {
     beforeEach(() => {
-      nock(/.*/)
-        .get('/pets')
-        .reply(400);
+      nock(/.*/).get('/pets').reply(400);
     });
     test('call action with error.', () =>
       subject(action).then(noop, () => {
@@ -96,9 +90,7 @@ describe('http client', () => {
     response: 'test response',
   };
   beforeEach(() => {
-    nock(/.*/)
-      .get('/pets')
-      .reply(200, res);
+    nock(/.*/).get('/pets').reply(200, res);
   });
 
   test('can request', () => {
