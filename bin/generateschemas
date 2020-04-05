@@ -7,7 +7,7 @@
 const path = require('path');
 const program = require('commander');
 const _ = require('lodash');
-const main = require('../dist/compiled/main');
+const main = require('../dist/compiled/main').default;
 
 program
   .option('-c, --config <configPath>', 'config path')
@@ -15,7 +15,7 @@ program
   .parse(process.argv);
 const specFiles = program.args;
 
-const userConfig = program.config ? require(program.config) : {};
+const userConfig = program.config ? require(path.join(process.cwd(), program.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
 const config = _.merge({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
