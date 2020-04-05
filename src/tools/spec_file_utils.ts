@@ -1,7 +1,5 @@
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import merge from 'lodash/merge';
 import noop from 'lodash/noop';
 import isArray from 'lodash/isArray';
@@ -38,20 +36,8 @@ type MethodName = typeof methodNames[number];
 
 const isMethodName = (str: string): str is MethodName => methodNames.includes(str as any);
 
-export function readSpecFilePromise(path: string, options: OptionObject = {}) {
-  const data = fs.readFileSync(path, 'utf8');
-  const original: Document = jsYaml.safeLoad(data);
-  if (!options.dereference) return Promise.resolve(original);
-  return new Promise((resolve, reject) => {
-    $RefParser.dereference(path, (err, schema) => {
-      schema = merge(original, schema);
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(schema);
-    });
-  });
+export function dereferenceSchema(spec: Document) {
+  return $RefParser.dereference(spec);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,51 +61,29 @@ function getRefFilesPath(spec: Document) {
   return paths;
 }
 
-function applyAlternativeRef(spec: Document) {
-  walkSchema(spec, (obj) => {
-    if (obj.$ref) {
-      obj[ALTERNATIVE_REF_KEY] = obj.$ref;
-    }
-  });
-  return spec;
-}
-
-export function convertToLocalDefinition(spec: Document) {
-  walkSchema(spec, (obj) => {
-    if (obj.$ref) {
-      const index = obj.$ref.indexOf('#');
-      obj.$ref = obj.$ref.slice(index);
-    }
-  });
-  return spec;
-}
-
-export function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = []) {
+export function getPreparedSpec(specFiles: string[], tags: string[] = []) {
   const readFiles: { [key: string]: boolean } = {};
-  const tmpDir = fs.mkdtempSync(
-    path.join(fs.realpathSync(os.tmpdir()), '__openapi_to_normalizr__'),
-  );
   const allFiles = uniq(getAllRelatedFiles(specFiles));
 
-  return specFiles.concat(allFiles).map((p) => {
-    const target = path.join(tmpDir, p);
-    mkdirp.sync(path.dirname(target));
-    const spec: Document = jsYaml.safeLoad(fs.readFileSync(p).toString());
-    if (specFiles.includes(p)) {
-      removeUnusableOperation(spec);
-    } else {
-      delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
-    }
-    applyAlternativeRef(spec);
-    const schemas = spec.components && spec.components.schemas;
-    if (schemas) {
-      each(schemas, (model: Model, name) => {
-        model[MODEL_DEF_KEY] = name;
-      });
-    }
-    fs.writeFileSync(target, jsYaml.safeDump(spec));
-    return target;
-  });
+  return merge(
+    {},
+    ...specFiles.concat(allFiles).map((p) => {
+      const spec: Document = jsYaml.safeLoad(fs.readFileSync(p).toString());
+      if (specFiles.includes(p)) {
+        removeUnusableOperation(spec);
+      } else {
+        delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
+      }
+      applyAlternativeRef(spec);
+      const schemas = spec.components && spec.components.schemas;
+      if (schemas) {
+        each(schemas, (model: Model, name) => {
+          model[MODEL_DEF_KEY] = name;
+        });
+      }
+      return spec;
+    }),
+  );
 
   function isUsableOperation(operationTags?: string[]) {
     if (tags.length === 0) return true;
@@ -154,5 +118,17 @@ export function getPreparedSpecFilePaths(specFiles: string[], tags: string[] = [
       );
       return acc.concat(relatedFilesPaths);
     }, []);
+  }
+
+  function applyAlternativeRef(spec: Document) {
+    walkSchema(spec, (obj) => {
+      if (obj.$ref) {
+        // mergeされるので内部refに変換
+        const index = obj.$ref.indexOf('#');
+        obj.$ref = obj.$ref.slice(index);
+        obj[ALTERNATIVE_REF_KEY] = obj.$ref;
+      }
+    });
+    return spec;
   }
 }
