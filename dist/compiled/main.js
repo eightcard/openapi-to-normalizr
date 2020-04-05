@@ -16,12 +16,10 @@ const js_spec_generator_1 = __importDefault(require("./js_spec_generator"));
 const config_1 = __importDefault(require("./config"));
 async function main(specFiles, c) {
     const config = new config_1.default(c);
-    const filePaths = spec_file_utils_1.getPreparedSpecFilePaths(specFiles, config.tags);
-    await Promise.all(filePaths.map((file) => spec_file_utils_1.readSpecFilePromise(file, {
-        dereference: true,
-    })))
-        .then((schemas) => {
-        const spec = lodash_1.default.merge(...schemas);
+    const spec = spec_file_utils_1.getPreparedSpec(specFiles, config.tags);
+    const copiedSpec = JSON.stringify(spec); // dereferenceが内部状態を変えてしまうためcopy
+    await spec_file_utils_1.dereferenceSchema(spec)
+        .then((spec) => {
         let actionTypesGenerator, modelGenerator, schemaGenerator;
         const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) => path_1.default.dirname(config.outputPath[key]));
         const baseModelsDir = `${config.modelsDir}/base`;
@@ -58,15 +56,7 @@ async function main(specFiles, c) {
             throw e;
         });
     })
-        .then(() => {
-        // no need dereference for js spec file
-        return Promise.all(filePaths.map((file) => spec_file_utils_1.readSpecFilePromise(file, {
-            dereference: false,
-        }))).then((schemas) => {
-            const spec = spec_file_utils_1.convertToLocalDefinition(lodash_1.default.merge(...schemas));
-            return new js_spec_generator_1.default(config.formatForJsSpecGenerator()).write(spec);
-        });
-    })
+        .then(() => new js_spec_generator_1.default(config.formatForJsSpecGenerator()).write(JSON.parse(copiedSpec)))
         .catch((e) => {
         console.error(`Failed: ${e}`);
         throw e;
