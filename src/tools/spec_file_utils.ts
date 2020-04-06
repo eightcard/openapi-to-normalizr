@@ -61,7 +61,7 @@ function getRefFilesPath(spec: Document) {
   return paths;
 }
 
-export function getPreparedSpec(specFiles: string[], tags: string[] = []) {
+export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
   const readFiles: { [key: string]: boolean } = {};
   const allFiles = uniq(getAllRelatedFiles(specFiles));
 
