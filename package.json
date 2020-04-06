@@ -112,7 +112,7 @@
     "mock": "json-server --watch examples/db.json --port 10010",
     "prepare:mock": "cd examples/petstore && yarn",
     "serve": "bin/serve examples ",
-    "test": "jest src/lib spec && yarn check:typescript",
+    "test": "yarn check:typescript && jest src/lib spec",
     "jest": "jest",
     "lint": "yarn check:prettier && yarn eslint && yarn speclint",
     "speclint": "find spec examples -name '*.yml' | xargs -I{} yarn speccy {}",
