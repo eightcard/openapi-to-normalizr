@@ -13,7 +13,8 @@ import Config from './config';
 export default async function main(specFiles, c) {
   const config = new Config(c);
   const spec = getPreparedSpec(specFiles, config.tags);
-  const copiedSpec = JSON.stringify(spec); // dereferenceが内部状態を変えてしまうためcopy
+  // dereferenceが内部状態を変えてしまうためcopy
+  const copiedSpec = JSON.parse(JSON.stringify(spec));
 
   await dereferenceSchema(spec)
     .then((spec) => {
@@ -65,9 +66,7 @@ export default async function main(specFiles, c) {
           throw e;
         });
     })
-    .then(() =>
-      new JsSpecGenerator(config.formatForJsSpecGenerator()).write(JSON.parse(copiedSpec)),
-    )
+    .then(() => new JsSpecGenerator(config.formatForJsSpecGenerator()).write(copiedSpec))
     .catch((e) => {
       console.error(`Failed: ${e}`);
       throw e;

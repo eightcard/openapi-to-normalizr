@@ -46,7 +46,7 @@ function getRefFilesPath(spec) {
     });
     return paths;
 }
-function getPreparedSpec(specFiles, tags = []) {
+function getPreparedSpec(specFiles = [], tags = []) {
     const readFiles = {};
     const allFiles = uniq_1.default(getAllRelatedFiles(specFiles));
     return merge_1.default({}, ...specFiles.concat(allFiles).map((p) => {
@@ -55,7 +55,8 @@ function getPreparedSpec(specFiles, tags = []) {
             removeUnusableOperation(spec);
         }
         else {
-            delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
+            // 指定されたspecファイル以外のpath情報は不要
+            delete spec.paths;
         }
         applyAlternativeRef(spec);
         const schemas = spec.components && spec.components.schemas;

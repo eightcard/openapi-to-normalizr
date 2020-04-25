@@ -17,7 +17,8 @@ const config_1 = __importDefault(require("./config"));
 async function main(specFiles, c) {
     const config = new config_1.default(c);
     const spec = spec_file_utils_1.getPreparedSpec(specFiles, config.tags);
-    const copiedSpec = JSON.stringify(spec); // dereferenceが内部状態を変えてしまうためcopy
+    // dereferenceが内部状態を変えてしまうためcopy
+    const copiedSpec = JSON.parse(JSON.stringify(spec));
     await spec_file_utils_1.dereferenceSchema(spec)
         .then((spec) => {
         let actionTypesGenerator, modelGenerator, schemaGenerator;
@@ -56,7 +57,7 @@ async function main(specFiles, c) {
             throw e;
         });
     })
-        .then(() => new js_spec_generator_1.default(config.formatForJsSpecGenerator()).write(JSON.parse(copiedSpec)))
+        .then(() => new js_spec_generator_1.default(config.formatForJsSpecGenerator()).write(copiedSpec))
         .catch((e) => {
         console.error(`Failed: ${e}`);
         throw e;
