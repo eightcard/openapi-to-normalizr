@@ -156,23 +156,15 @@ class ModelGenerator {
         });
     }
     getEnumConstantName(enumName, propertyName) {
-        const convertedName = lodash_1.default.upperCase(propertyName)
-            .split(' ')
-            .join('_');
-        const convertedkey = lodash_1.default.upperCase(enumName)
-            .split(' ')
-            .join('_');
+        const convertedName = lodash_1.default.upperCase(propertyName).split(' ').join('_');
+        const convertedkey = lodash_1.default.upperCase(enumName).split(' ').join('_');
         // enumNameがマイナスの数値の時
         const resolvedkey = typeof enumName === 'number' && enumName < 0 ? `MINUS_${convertedkey}` : convertedkey;
         return `${convertedName}_${resolvedkey}`;
     }
     getEnumLiteralTypeName(enumName, propertyName) {
-        const convertedName = lodash_1.default.startCase(propertyName)
-            .split(' ')
-            .join('');
-        const convertedkey = lodash_1.default.startCase(enumName)
-            .split(' ')
-            .join('');
+        const convertedName = lodash_1.default.startCase(propertyName).split(' ').join('');
+        const convertedkey = lodash_1.default.startCase(enumName).split(' ').join('');
         // enumNameがマイナスの数値の時
         const resolvedkey = typeof enumName === 'number' && enumName < 0 ? `Minus${convertedkey}` : convertedkey;
         return `${convertedName}${resolvedkey}`;

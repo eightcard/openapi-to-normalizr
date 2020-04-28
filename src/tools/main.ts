@@ -3,11 +3,7 @@ import path from 'path';
 import Swagger from 'swagger-client';
 import _ from 'lodash';
 import { mkdirpPromise, getModelDefinitions } from './utils';
-import {
-  readSpecFilePromise,
-  getPreparedSpecFilePaths,
-  convertToLocalDefinition,
-} from './spec_file_utils';
+import { getPreparedSpec, dereferenceSchema } from './spec_file_utils';
 import ModelGenerator from './model_generator';
 import SchemaGenerator from './schema_generator';
 import ActionTypesGenerator from './action_types_generator';
@@ -16,18 +12,12 @@ import Config from './config';
 
 export default async function main(specFiles, c) {
   const config = new Config(c);
-  const filePaths = getPreparedSpecFilePaths(specFiles, config.tags);
+  const spec = getPreparedSpec(specFiles, config.tags);
+  // dereferenceが内部状態を変えてしまうためcopy
+  const copiedSpec = JSON.parse(JSON.stringify(spec));
 
-  await Promise.all(
-    filePaths.map((file) =>
-      readSpecFilePromise(file, {
-        dereference: true,
-      }),
-    ),
-  )
-    .then((schemas) => {
-      const spec = _.merge(...schemas);
-
+  await dereferenceSchema(spec)
+    .then((spec) => {
       let actionTypesGenerator, modelGenerator, schemaGenerator;
       const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) =>
         path.dirname(config.outputPath[key]),
@@ -76,19 +66,7 @@ export default async function main(specFiles, c) {
           throw e;
         });
     })
-    .then(() => {
-      // no need dereference for js spec file
-      return Promise.all(
-        filePaths.map((file) =>
-          readSpecFilePromise(file, {
-            dereference: false,
-          }),
-        ),
-      ).then((schemas) => {
-        const spec = convertToLocalDefinition(_.merge(...schemas));
-        return new JsSpecGenerator(config.formatForJsSpecGenerator()).write(spec);
-      });
-    })
+    .then(() => new JsSpecGenerator(config.formatForJsSpecGenerator()).write(copiedSpec))
     .catch((e) => {
       console.error(`Failed: ${e}`);
       throw e;

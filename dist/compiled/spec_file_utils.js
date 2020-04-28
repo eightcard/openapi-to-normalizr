@@ -4,9 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const os_1 = __importDefault(require("os"));
 const path_1 = __importDefault(require("path"));
-const mkdirp_1 = __importDefault(require("mkdirp"));
 const merge_1 = __importDefault(require("lodash/merge"));
 const noop_1 = __importDefault(require("lodash/noop"));
 const isArray_1 = __importDefault(require("lodash/isArray"));
@@ -22,23 +20,10 @@ exports.MODEL_DEF_KEY = 'x-model-name';
 const isOperation = (obj) => 'tags' in obj;
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'];
 const isMethodName = (str) => methodNames.includes(str);
-function readSpecFilePromise(path, options = {}) {
-    const data = fs_1.default.readFileSync(path, 'utf8');
-    const original = js_yaml_1.default.safeLoad(data);
-    if (!options.dereference)
-        return Promise.resolve(original);
-    return new Promise((resolve, reject) => {
-        json_schema_ref_parser_1.default.dereference(path, (err, schema) => {
-            schema = merge_1.default(original, schema);
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(schema);
-        });
-    });
+function dereferenceSchema(spec) {
+    return json_schema_ref_parser_1.default.dereference(spec);
 }
-exports.readSpecFilePromise = readSpecFilePromise;
+exports.dereferenceSchema = dereferenceSchema;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function walkSchema(spec, callback = noop_1.default) {
     if (isArray_1.default(spec)) {
@@ -61,37 +46,17 @@ function getRefFilesPath(spec) {
     });
     return paths;
 }
-function applyAlternativeRef(spec) {
-    walkSchema(spec, (obj) => {
-        if (obj.$ref) {
-            obj[exports.ALTERNATIVE_REF_KEY] = obj.$ref;
-        }
-    });
-    return spec;
-}
-function convertToLocalDefinition(spec) {
-    walkSchema(spec, (obj) => {
-        if (obj.$ref) {
-            const index = obj.$ref.indexOf('#');
-            obj.$ref = obj.$ref.slice(index);
-        }
-    });
-    return spec;
-}
-exports.convertToLocalDefinition = convertToLocalDefinition;
-function getPreparedSpecFilePaths(specFiles, tags = []) {
+function getPreparedSpec(specFiles = [], tags = []) {
     const readFiles = {};
-    const tmpDir = fs_1.default.mkdtempSync(path_1.default.join(fs_1.default.realpathSync(os_1.default.tmpdir()), '__openapi_to_normalizr__'));
     const allFiles = uniq_1.default(getAllRelatedFiles(specFiles));
-    return specFiles.concat(allFiles).map((p) => {
-        const target = path_1.default.join(tmpDir, p);
-        mkdirp_1.default.sync(path_1.default.dirname(target));
+    return merge_1.default({}, ...specFiles.concat(allFiles).map((p) => {
         const spec = js_yaml_1.default.safeLoad(fs_1.default.readFileSync(p).toString());
         if (specFiles.includes(p)) {
             removeUnusableOperation(spec);
         }
         else {
-            delete spec.paths; // 指定されたspecファイル以外のpath情報は不要
+            // 指定されたspecファイル以外のpath情報は不要
+            delete spec.paths;
         }
         applyAlternativeRef(spec);
         const schemas = spec.components && spec.components.schemas;
@@ -100,9 +65,8 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
                 model[exports.MODEL_DEF_KEY] = name;
             });
         }
-        fs_1.default.writeFileSync(target, js_yaml_1.default.safeDump(spec));
-        return target;
-    });
+        return spec;
+    }));
     function isUsableOperation(operationTags) {
         if (tags.length === 0)
             return true;
@@ -135,5 +99,16 @@ function getPreparedSpecFilePaths(specFiles, tags = []) {
             return acc.concat(relatedFilesPaths);
         }, []);
     }
+    function applyAlternativeRef(spec) {
+        walkSchema(spec, (obj) => {
+            if (obj.$ref) {
+                // mergeされるので内部refに変換
+                const index = obj.$ref.indexOf('#');
+                obj.$ref = obj.$ref.slice(index);
+                obj[exports.ALTERNATIVE_REF_KEY] = obj.$ref;
+            }
+        });
+        return spec;
+    }
 }
-exports.getPreparedSpecFilePaths = getPreparedSpecFilePaths;
+exports.getPreparedSpec = getPreparedSpec;
