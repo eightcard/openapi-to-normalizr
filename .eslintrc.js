@@ -5,8 +5,10 @@ module.exports = {
     node: true,
   },
   extends: [
+
     /* ESLintの推奨ルール */
     'eslint:recommended',
+
     /* Prettierのルールと競合するものを無効化 */
     'prettier',
   ],
@@ -256,10 +258,13 @@ module.exports = {
     {
       files: ['*.ts'],
       extends: [
+
         /* ESLintチームが作ったTS用の推奨ルール */
         'plugin:@typescript-eslint/eslint-recommended',
+
         /* TS用の推奨ルール */
         'plugin:@typescript-eslint/recommended',
+
         /* PrettierのTS用のルールと競合するものを無効化 */
         'prettier/@typescript-eslint',
       ],
@@ -274,7 +279,7 @@ module.exports = {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-use-before-define': 'off',
         '@typescript-eslint/no-explicit-any': 'warn',
-        '@typescript-eslint/ban-ts-ignore': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
       },
     },
   ],
