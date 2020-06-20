@@ -8628,10 +8628,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.10.7:
-  version "3.10.7"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.10.7.tgz#b5c2ad9c5189b30d4b4264762a418e8da0893f4f"
-  integrity sha512-k/ZxMPWGGBlGrsRr1uM5u2WTF96JYNZXqYCEvFHF/OSCGoP75qNFqIecpVmsavGeTpEPtQPLm8wu+X3I5rRT5w==
+swagger-client@3.10.8:
+  version "3.10.8"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.10.8.tgz#1cad7bc21429c7b9548197a0f4c869ed1f67288e"
+  integrity sha512-yg1imCjQvBqBBYXXu8gJ9J7gC611BR4nUjnFh4Dygjvq+GAtk61Kr817a4SIQKc+Iu8411rPB8DWIF+QE98xFA==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@kyleshockey/object-assign-deep" "^0.4.0"
