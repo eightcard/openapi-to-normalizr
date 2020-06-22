@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from 'path';
 import _ from 'lodash';
 import { writeFilePromise, readTemplates, render } from './utils';
@@ -15,7 +14,25 @@ const UNNECESSARY_PROPS = [
 ];
 
 export default class JsSpecGenerator {
-  constructor({ outputPath = '', templatePath, extension = 'js' }) {
+  outputPath: TODO;
+
+  templatePath: TODO;
+
+  templates: TODO;
+
+  outputDir: TODO;
+
+  outputFileName: TODO;
+
+  constructor({
+    outputPath = '',
+    templatePath,
+    extension = 'js',
+  }: {
+    outputPath?: string;
+    templatePath: TODO;
+    extension?: string;
+  }) {
     this.outputPath = outputPath;
     this.templatePath = templatePath;
     this.templates = readTemplates(['spec', 'head'], this.templatePath);
@@ -25,7 +42,7 @@ export default class JsSpecGenerator {
     this.write = this.write.bind(this);
   }
 
-  write(spec) {
+  write(spec: TODO) {
     this.deleteUnnecessaryProps(spec);
     this.deleteUnusedComponents(spec);
     const text = render(
@@ -40,14 +57,14 @@ export default class JsSpecGenerator {
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
   }
 
-  deleteUnnecessaryProps(spec) {
+  deleteUnnecessaryProps(spec: TODO) {
     walkSchema(spec, (obj) => {
       UNNECESSARY_PROPS.forEach((key) => delete obj[key]);
     });
   }
 
-  deleteUnusedComponents(spec) {
-    const useRefs = {};
+  deleteUnusedComponents(spec: TODO) {
+    const useRefs: TODO = {};
 
     // pathから利用しているrefを取得
     walkSchema(spec.paths, (obj) => {
@@ -64,7 +81,7 @@ export default class JsSpecGenerator {
       });
     });
 
-    function checkRef(targetRef) {
+    function checkRef(targetRef: TODO) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const [, components, group, name, ...rest] = targetRef.split('/');
       walkSchema(spec[components][group][name], (obj) => {

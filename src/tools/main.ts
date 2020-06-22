@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from 'path';
 import Swagger from 'swagger-client';
 import _ from 'lodash';
@@ -10,7 +9,7 @@ import ActionTypesGenerator from './action_types_generator';
 import JsSpecGenerator from './js_spec_generator';
 import Config from './config';
 
-export default async function main(specFiles, c) {
+export default async function main(specFiles: TODO, c: TODO) {
   const config = new Config(c);
   const spec = getPreparedSpec(specFiles, config.tags);
   // dereferenceが内部状態を変えてしまうためcopy
@@ -19,9 +18,11 @@ export default async function main(specFiles, c) {
   await dereferenceSchema(spec)
     .then((spec) => {
       let actionTypesGenerator, modelGenerator, schemaGenerator;
-      const [actionsDir, schemasDir, specDir] = ['actions', 'schemas', 'jsSpec'].map((key) =>
-        path.dirname(config.outputPath[key]),
-      );
+      const [actionsDir, schemasDir, specDir] = ([
+        'actions',
+        'schemas',
+        'jsSpec',
+      ] as const).map((key) => path.dirname(config.outputPath[key]));
       const baseModelsDir = `${config.modelsDir}/base`;
       const prepareDirs = [
         actionsDir,
@@ -34,7 +35,7 @@ export default async function main(specFiles, c) {
       return Swagger({
         spec,
       })
-        .then(({ spec }) => {
+        .then(({ spec }: { spec: TODO }) => {
           // refとOpenAPI記法(oneOfなど)解決済みのspecからモデル定義を取得
           const definitions = getModelDefinitions(spec);
 
@@ -61,7 +62,7 @@ export default async function main(specFiles, c) {
             return Promise.all([schemaGenerator, actionTypesGenerator].map((g) => g.write()));
           });
         })
-        .catch((e) => {
+        .catch((e: Error) => {
           console.error(`Failed: ${e}`);
           throw e;
         });
@@ -72,13 +73,13 @@ export default async function main(specFiles, c) {
       throw e;
     });
 
-  function opId(operation, path, method) {
+  function opId(operation: TODO, path: TODO, method: TODO) {
     return Swagger.helpers.opId(operation, path, method);
   }
 
-  function walkResponses(paths, onResponses = []) {
+  function walkResponses(paths: TODO, onResponses: TODO[] = []) {
     _.each(paths, (operations, path) => {
-      _.each(operations, (operation, method) => {
+      _.each(operations, (operation: TODO, method) => {
         if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase())) {
           // use only RESTful methods
           return;
@@ -87,15 +88,19 @@ export default async function main(specFiles, c) {
           console.warn(`not processed. path:${path}, method:${method}`);
           return;
         }
+        // @ts-ignore
         if (operation.operationId) {
           console.info(
+            // @ts-ignore
             `no use specified operationId. path:${path}, method:${method}, operationId:${operation.operationId}`,
           );
+          // @ts-ignore
           delete operation.operationId;
         }
+        // @ts-ignore
         const response = operation.responses;
         const id = opId(operation, path, method);
-        onResponses.forEach((onResponse) =>
+        onResponses.forEach((onResponse: TODO) =>
           onResponse(id, response, {
             path,
             method,
