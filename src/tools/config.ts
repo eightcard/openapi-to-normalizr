@@ -28,50 +28,40 @@ export default class Config {
   }
 
   formatForModelGenerator() {
-    const {
-      modelsDir: outputDir,
-      templates: templatePath,
-      usePropType,
-      useTypeScript,
-      attributeConverter,
-    } = this._config;
+    const { templates: templatePath, usePropType, useTypeScript } = this._config;
     return {
-      outputDir,
+      outputDir: this.modelsDir,
       templatePath,
       usePropType,
       useTypeScript,
-      attributeConverter,
+      attributeConverter: this.attributeConverter,
       extension: this.extension,
-    };
+    } as const;
   }
 
   formatForActionTypesGenerator() {
     const { outputPath, templates: templatePath, useTypeScript } = this._config;
+    const operationIdList: string[] = [];
     return {
-      templatePath,
       outputPath: outputPath.actions,
       schemasFilePath: outputPath.schemas,
+      templatePath,
+      operationIdList,
       useTypeScript,
       extension: this.extension,
-    };
+    } as const;
   }
 
   formatForSchemaGenerator() {
-    const {
-      outputPath,
-      templates: templatePath,
-      modelsDir,
-      attributeConverter,
-      useTypeScript,
-    } = this._config;
+    const { outputPath, templates: templatePath, useTypeScript } = this._config;
     return {
       templatePath,
       outputPath: outputPath.schemas,
-      modelsDir,
-      attributeConverter,
+      modelsDir: this.modelsDir,
+      attributeConverter: this.attributeConverter,
       useTypeScript,
       extension: this.extension,
-    };
+    } as const;
   }
 
   formatForJsSpecGenerator() {
@@ -80,6 +70,6 @@ export default class Config {
       templatePath,
       outputPath: outputPath.jsSpec,
       extension: this.extension,
-    };
+    } as const;
   }
 }
