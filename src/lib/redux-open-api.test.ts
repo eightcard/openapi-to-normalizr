@@ -1,5 +1,6 @@
 import fs from 'fs';
 import nock from 'nock';
+// @ts-ignore
 import createMiddleware, { HttpClient } from './redux-open-api';
 import jsYaml from 'js-yaml';
 import noop from 'lodash/noop';
@@ -10,8 +11,8 @@ const spec = jsYaml.safeLoad(fs.readFileSync('examples/petstore.v3.yml', 'utf8')
 
 describe('middleware', () => {
   const nextFunction = jest.fn();
-  const subject = (...args) => {
-    return createMiddleware(spec).then((middleware) => {
+  const subject = (...args: TODO) => {
+    return createMiddleware(spec).then((middleware: TODO) => {
       return middleware()(nextFunction)(...args);
     });
   };
@@ -96,8 +97,8 @@ describe('http client', () => {
   test('can request', () => {
     return HttpClient({
       url: 'http://localhost/pets',
-    }).then((res) => {
-      assert(res.status, 200);
+    }).then((res: TODO) => {
+      assert(res.status, '200');
       assert(res.body, res);
     });
   });

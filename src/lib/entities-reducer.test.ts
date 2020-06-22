@@ -1,4 +1,5 @@
 import assert from 'assert';
+// @ts-ignore
 import { createReducer } from './entities-reducer';
 import { Map, Record } from 'immutable';
 
@@ -7,10 +8,10 @@ class DummyClass extends Record({
   name: undefined, // eslint-disable-line no-undefined
   label: 'default',
 }) {}
-const additionalReducer = (state) => state;
+const additionalReducer = (state: TODO) => state;
 
 describe('createReducer', () => {
-  let initialState;
+  let initialState: TODO;
   const subject = () =>
     createReducer(
       {
