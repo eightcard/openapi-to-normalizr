@@ -103,7 +103,9 @@
   "main": "dist/index.js",
   "repository": "eightcard/openapi-to-normalizr",
   "scripts": {
-    "build:dist": "yarn eslint && yarn test && tsc && babel -d dist --env-name=development src/lib/**/*[^test].js",
+    "build:dist": "yarn eslint && yarn test && yarn build:dist:lib && yarn build:dist:tools",
+    "build:dist:lib": "babel -d dist --env-name=development --extensions '.ts' src/lib/**/*[^test].ts",
+    "build:dist:tools": "babel -d dist/compiled --env-name=development --extensions '.ts' src/tools/**/*.ts",
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
     "build:sample:schemas": "./bin/generateschemas --config examples/config/config.schemas.js",
     "check:typescript": "tsc --noEmit",
