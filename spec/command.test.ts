@@ -1,13 +1,14 @@
+// @ts-ignore
 import defaultConfig from '../config/parser-config-default';
 import rimraf from 'rimraf';
 import fs from 'fs';
 import path from 'path';
 import main from '../src/tools/main';
 
-const outputDir = defaultConfig.modelsDir;
+const outputDir: string = defaultConfig.modelsDir;
 const dir = __dirname;
 
-const walk = (p, fileCallback) => {
+const walk = (p: string, fileCallback: (fp: string) => void) => {
   const files = fs.readdirSync(p);
   files.forEach((f) => {
     const fp = path.join(p, f);
@@ -19,7 +20,7 @@ const walk = (p, fileCallback) => {
   });
 };
 
-const snapshot = async (files, customConfigFilePath) => {
+const snapshot = async (files: string[], customConfigFilePath?: string) => {
   const customConfigOption = customConfigFilePath
     ? require(path.join(dir, customConfigFilePath)) // eslint-disable-line global-require
     : {};
@@ -28,7 +29,7 @@ const snapshot = async (files, customConfigFilePath) => {
     files.map((f) => path.join(dir, f)),
     config,
   );
-  walk(outputDir, (path) => {
+  walk(outputDir, (path: string) => {
     const output = fs.readFileSync(path, 'utf8');
     expect({ path, output }).toMatchSnapshot();
   });
