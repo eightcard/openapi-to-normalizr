@@ -12,6 +12,7 @@ declare type AttributeConverter = (s: string) => string;
 declare type SchemasFilePath = string;
 declare type Actions = string;
 declare type TemplatePath = { [K: string]: string };
+declare type UsePropType = boolean;
 declare type UseTypeScript = boolean;
 declare interface ConfigObject {
   templates: TemplatePath;

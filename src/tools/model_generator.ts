@@ -21,21 +21,21 @@ import {
  */
 
 export default class ModelGenerator {
-  outputDir: TODO;
+  outputDir: string;
 
-  outputBaseDir: TODO;
+  outputBaseDir: string;
 
   templatePath: TODO;
 
-  usePropType: TODO;
+  usePropType: UsePropType;
 
-  useTypeScript: TODO;
+  useTypeScript: UseTypeScript;
 
-  attributeConverter: TODO;
+  attributeConverter: AttributeConverter;
 
   definitions: TODO;
 
-  extension: TODO;
+  extension: Extension;
 
   templates: TODO;
 
@@ -52,6 +52,15 @@ export default class ModelGenerator {
     attributeConverter = (str: string) => str,
     definitions = {},
     extension = 'js',
+  }: {
+    outputDir?: string;
+    outputBaseDir: string;
+    templatePath?: TODO;
+    usePropType?: UsePropType;
+    useTypeScript?: UseTypeScript;
+    attributeConverter?: AttributeConverter;
+    definitions?: TODO;
+    extension?: Extension;
   }) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;

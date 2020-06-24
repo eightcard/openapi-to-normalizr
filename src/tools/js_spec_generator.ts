@@ -14,15 +14,15 @@ const UNNECESSARY_PROPS = [
 ];
 
 export default class JsSpecGenerator {
-  outputPath: TODO;
+  outputPath: string;
 
   templatePath: TODO;
 
   templates: TODO;
 
-  outputDir: TODO;
+  outputDir: string;
 
-  outputFileName: TODO;
+  outputFileName: string;
 
   constructor({
     outputPath = '',
@@ -31,7 +31,7 @@ export default class JsSpecGenerator {
   }: {
     outputPath?: string;
     templatePath: TODO;
-    extension?: string;
+    extension?: Extension;
   }) {
     this.outputPath = outputPath;
     this.templatePath = templatePath;
