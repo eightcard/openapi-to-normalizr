@@ -1,5 +1,4 @@
-/* eslint-disable */
-// @ts-nocheck
+/* eslint-disable max-lines */
 import _ from 'lodash';
 import path from 'path';
 import {
@@ -22,15 +21,46 @@ import {
  */
 
 export default class ModelGenerator {
+  outputDir: string;
+
+  outputBaseDir: string;
+
+  templatePath: TODO;
+
+  usePropType: UsePropType;
+
+  useTypeScript: UseTypeScript;
+
+  attributeConverter: AttributeConverter;
+
+  definitions: TODO;
+
+  extension: Extension;
+
+  templates: TODO;
+
+  _modelNameList: TODO[];
+
+  importImmutableMap: boolean;
+
   constructor({
     outputDir = '',
     outputBaseDir = '',
     templatePath = {},
     usePropType = false,
     useTypeScript = false,
-    attributeConverter = (str) => str,
+    attributeConverter = (str: string) => str,
     definitions = {},
     extension = 'js',
+  }: {
+    outputDir?: string;
+    outputBaseDir: string;
+    templatePath?: TODO;
+    usePropType?: UsePropType;
+    useTypeScript?: UseTypeScript;
+    attributeConverter?: AttributeConverter;
+    definitions?: TODO;
+    extension?: Extension;
   }) {
     this.outputDir = outputDir;
     this.outputBaseDir = outputBaseDir;
@@ -55,7 +85,7 @@ export default class ModelGenerator {
    * - モデルファイルを書き出す
    * - Promiseでモデル名(Petなど)を返す
    */
-  writeModel(model, name) {
+  writeModel(model: TODO, name: string) {
     const { properties } = model; // dereferenced
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
@@ -67,7 +97,7 @@ export default class ModelGenerator {
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(
-      ({ text, props }) => {
+      ({ text, props }: TODO) => {
         writeFile(path.join(this.outputBaseDir, `${fileName}.${this.extension}`), text);
         return this._writeOverrideModel(name, fileName, props).then(() => name);
       },
@@ -87,7 +117,7 @@ export default class ModelGenerator {
     return writeFilePromise(path.join(this.outputDir, `index.${this.extension}`), text);
   }
 
-  _writeOverrideModel(name, fileName, props) {
+  _writeOverrideModel(name: TODO, fileName: string, props: TODO) {
     const overrideText = this._renderOverrideModel(name, fileName, props);
     const filePath = path.join(this.outputDir, `${fileName}.${this.extension}`);
     return isFileExistPromise(filePath).then(
@@ -95,8 +125,8 @@ export default class ModelGenerator {
     );
   }
 
-  _prepareImportList(importList) {
-    return _.uniqBy(importList, 'modelName').map(({ modelName, filePath }) => {
+  _prepareImportList(importList: TODO) {
+    return _.uniqBy(importList, 'modelName').map(({ modelName, filePath }: TODO) => {
       return {
         name: modelName,
         schemaName: schemaName(modelName),
@@ -105,7 +135,7 @@ export default class ModelGenerator {
     });
   }
 
-  _prepareIdAttribute(idAttribute) {
+  _prepareIdAttribute(idAttribute: string) {
     const splits = idAttribute.split('.');
     if (splits[0] === 'parent') {
       splits.shift();
@@ -119,11 +149,12 @@ export default class ModelGenerator {
     return `(value) => value${splits.map((str) => `['${this.attributeConverter(str)}']`).join('')}`;
   }
 
-  _renderBaseModel(name, properties, idAttribute) {
+  _renderBaseModel(name: string, properties: TODO, idAttribute: TODO) {
     return new Promise((resolve, reject) => {
-      const importList = [];
-      const oneOfs = [];
+      const importList: TODO[] = [];
+      const oneOfs: TODO[] = [];
       let oneOfsCounter = 1;
+      // @ts-ignore
       const dependencySchema = parseSchema(properties, ({ type, value }) => {
         if (type === 'model') {
           const modelName = getModelName(value);
@@ -181,7 +212,7 @@ export default class ModelGenerator {
     return ['type', 'default', 'enum'];
   }
 
-  _convertPropForTemplate(properties, dependencySchema = {}) {
+  _convertPropForTemplate(properties: TODO, dependencySchema: { [key: string]: TODO } = {}) {
     return _.map(properties, (prop, name) => {
       const base = {
         name: () => this.attributeConverter(name),
@@ -199,32 +230,36 @@ export default class ModelGenerator {
         enumType: this._getEnumTypes(prop.type),
         items: prop.items,
       };
-      return this.constructor.templatePropNames.reduce((ret, key) => {
-        ret[key] = ret[key] || properties[name][key];
-        return ret;
-      }, base);
+      // @ts-ignore
+      return this.constructor.templatePropNames.reduce(
+        (ret: { [key: string]: TODO }, key: TODO) => {
+          ret[key] = ret[key] || properties[name][key];
+          return ret;
+        },
+        base,
+      );
     });
   }
 
-  getEnumConstantName(enumName, propertyName) {
+  getEnumConstantName(enumName: string | number, propertyName: string) {
     const convertedName = _.upperCase(propertyName).split(' ').join('_');
-    const convertedkey = _.upperCase(enumName).split(' ').join('_');
+    const convertedkey = _.upperCase(`${enumName}`).split(' ').join('_');
     // enumNameがマイナスの数値の時
     const resolvedkey =
       typeof enumName === 'number' && enumName < 0 ? `MINUS_${convertedkey}` : convertedkey;
     return `${convertedName}_${resolvedkey}`;
   }
 
-  getEnumLiteralTypeName(enumName, propertyName) {
+  getEnumLiteralTypeName(enumName: string | number, propertyName: string) {
     const convertedName = _.startCase(propertyName).split(' ').join('');
-    const convertedkey = _.startCase(enumName).split(' ').join('');
+    const convertedkey = _.startCase(`${enumName}`).split(' ').join('');
     // enumNameがマイナスの数値の時
     const resolvedkey =
       typeof enumName === 'number' && enumName < 0 ? `Minus${convertedkey}` : convertedkey;
     return `${convertedName}${resolvedkey}`;
   }
 
-  getEnumObjects(name, enums, enumKeyAttributes = []) {
+  getEnumObjects(name: string, enums?: TODO[], enumKeyAttributes: TODO[] = []) {
     if (!enums) return false;
     return enums.map((current, index) => {
       const enumName = enumKeyAttributes[index] || current;
@@ -236,7 +271,7 @@ export default class ModelGenerator {
     });
   }
 
-  _getEnumTypes(type) {
+  _getEnumTypes(type: TODO) {
     switch (type) {
       case 'integer':
       case 'number':
@@ -246,17 +281,17 @@ export default class ModelGenerator {
     }
   }
 
-  generateTypeFrom(prop, definition) {
+  generateTypeFrom(prop: TODO, definition: TODO): TODO {
     if (prop && prop.oneOf) {
-      const candidates = prop.oneOf.map((obj) => {
+      const candidates = prop.oneOf.map((obj: TODO) => {
         const modelName = getModelName(obj);
         return modelName ? { isModel: true, type: modelName } : { isModel: false, type: obj.type };
       });
       return {
         propType: `PropTypes.oneOfType([${_.uniq(
-          candidates.map((c) => (c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))),
+          candidates.map((c: TODO) => (c.isModel ? `${c.type}PropType` : _getPropTypes(c.type))),
         ).join(', ')}])`,
-        typeScript: _.uniq(candidates.map((c) => this._getEnumTypes(c.type))).join(' | '),
+        typeScript: _.uniq(candidates.map((c: TODO) => this._getEnumTypes(c.type))).join(' | '),
       };
     }
 
@@ -288,7 +323,7 @@ export default class ModelGenerator {
       if (!this.importImmutableMap) this.importImmutableMap = true;
       const props = _.reduce(
         prop.properties,
-        (acc, value, key) => {
+        (acc: { [key: string]: TODO }, value, key) => {
           acc[this.attributeConverter(key)] = _getPropTypes(value.type, value.enum);
           return acc;
         },
@@ -301,7 +336,7 @@ export default class ModelGenerator {
     }
   }
 
-  _generatePropTypeFromDefinition(definition) {
+  _generatePropTypeFromDefinition(definition: TODO): TODO {
     let def;
     if (_.isString(definition)) {
       def = definition.replace(/Schema$/, '');
@@ -314,7 +349,7 @@ export default class ModelGenerator {
     } else if (_.isObject(definition)) {
       const type = _.reduce(
         definition,
-        (acc, value, key) => {
+        (acc: { [key: string]: TODO }, value, key) => {
           acc[key] = this._generatePropTypeFromDefinition(value);
           return acc;
         },
@@ -324,7 +359,7 @@ export default class ModelGenerator {
     }
   }
 
-  _generateTypeScriptTypeFromDefinition(definition) {
+  _generateTypeScriptTypeFromDefinition(definition: TODO): TODO {
     let def;
     if (_.isString(definition)) {
       return definition.replace(/Schema$/, '');
@@ -338,11 +373,12 @@ export default class ModelGenerator {
     }
   }
 
-  _renderOverrideModel(name, fileName, { props }) {
+  _renderOverrideModel(name: string, fileName: string, { props }: TODO) {
     const enums = props
-      .filter((prop) => prop.enumObjects)
+      .filter((prop: TODO) => prop.enumObjects)
       .reduce(
-        (acc, prop) => acc.concat(prop.enumObjects.reduce((acc, eo) => acc.concat(eo.name), [])),
+        (acc: TODO[], prop: TODO) =>
+          acc.concat(prop.enumObjects.reduce((acc: TODO[], eo: TODO) => acc.concat(eo.name), [])),
         [],
       );
     return render(
@@ -361,12 +397,13 @@ export default class ModelGenerator {
 }
 
 function getPropTypes() {
+  // @ts-ignore
   return _getPropTypes(this.type, this.enum, this.enumObjects);
 }
 
-function _getPropTypes(type, enums, enumObjects) {
+function _getPropTypes(type: TODO, enums?: TODO[], enumObjects?: TODO[]) {
   if (enumObjects) {
-    const nameMap = enumObjects.map((current) => current.name);
+    const nameMap = enumObjects.map((current: { [key: string]: string }) => current.name);
     return `PropTypes.oneOf([${nameMap.join(', ')}])`;
   } else if (enums) {
     return `PropTypes.oneOf([${enums.map((n) => (type === 'string' ? `'${n}'` : n)).join(', ')}])`;
@@ -387,12 +424,13 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getTypeScriptTypes() {
+  // @ts-ignore
   return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
-function _getTypeScriptTypes(type, enumObjects) {
+function _getTypeScriptTypes(type: TODO, enumObjects: TODO[]) {
   if (enumObjects) {
-    const literalTypeNames = enumObjects.map((current) => current.literalTypeName);
+    const literalTypeNames = enumObjects.map((current: TODO) => current.literalTypeName);
     return `${literalTypeNames.join(' | ')}`;
   }
   switch (type) {
@@ -409,13 +447,18 @@ function _getTypeScriptTypes(type, enumObjects) {
 }
 
 function getDefaults() {
+  // @ts-ignore
   if (_.isUndefined(this.default)) {
     return 'undefined';
   }
+  // @ts-ignore
   if (this.enumObjects) {
+    // @ts-ignore
     for (const enumObject of this.enumObjects) {
+      // @ts-ignore
       if (enumObject.value === this.default) return enumObject.name;
     }
   }
+  // @ts-ignore
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }

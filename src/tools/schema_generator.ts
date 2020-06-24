@@ -129,9 +129,11 @@ export default class SchemaGenerator {
    * パース情報とテンプレートからschema.jsとmodels/index.js書き出し
    */
   write() {
+    // @ts-ignore
     return Promise.all([
       this._writeSchemaFile(),
       ...this.importModels.map(({ modelName, model }) =>
+        // @ts-ignore
         this.modelGenerator.writeModel(model, modelName),
       ),
     ]).then(() => {
