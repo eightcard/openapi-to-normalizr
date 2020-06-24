@@ -98,7 +98,7 @@ describe('http client', () => {
     return HttpClient({
       url: 'http://localhost/pets',
     }).then((res: TODO) => {
-      assert(res.status, '200');
+      assert.strictEqual(res.status, 200);
       assert(res.body, res);
     });
   });
