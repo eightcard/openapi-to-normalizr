@@ -88,16 +88,16 @@ export default async function main(specFiles: TODO, c: TODO) {
           console.warn(`not processed. path:${path}, method:${method}`);
           return;
         }
-        // @ts-ignore
+        // @ts-expect-error
         if (operation.operationId) {
           console.info(
-            // @ts-ignore
+            // @ts-expect-error
             `no use specified operationId. path:${path}, method:${method}, operationId:${operation.operationId}`,
           );
-          // @ts-ignore
+          // @ts-expect-error
           delete operation.operationId;
         }
-        // @ts-ignore
+        // @ts-expect-error
         const response = operation.responses;
         const id = opId(operation, path, method);
         onResponses.forEach((onResponse: TODO) =>

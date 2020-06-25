@@ -74,19 +74,19 @@ export function parseSchema(schema: TODO, onSchema: TODO): TODO {
       type: 'model',
       value: schema,
     });
-    // @ts-ignore
+    // @ts-expect-error
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({
       type: 'oneOf',
       value: parseOneOf(schema, onSchema),
     });
-    // @ts-ignore
+    // @ts-expect-error
   } else if (schema.type === 'object') {
-    // @ts-ignore
+    // @ts-expect-error
     return applyIf(parseSchema(schema.properties, onSchema));
-    // @ts-ignore
+    // @ts-expect-error
   } else if (schema.type === 'array') {
-    // @ts-ignore
+    // @ts-expect-error
     return applyIf(parseSchema(schema.items, onSchema), (val) => [val]);
   } else {
     const reduced = _.reduce(
