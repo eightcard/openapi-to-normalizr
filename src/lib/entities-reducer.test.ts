@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-ignore
 import { createReducer } from './entities-reducer';
 import { Map, Record } from 'immutable';
 

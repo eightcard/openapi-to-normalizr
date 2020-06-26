@@ -154,7 +154,7 @@ export default class ModelGenerator {
       const importList: TODO[] = [];
       const oneOfs: TODO[] = [];
       let oneOfsCounter = 1;
-      // @ts-ignore
+      // @ts-expect-error
       const dependencySchema = parseSchema(properties, ({ type, value }) => {
         if (type === 'model') {
           const modelName = getModelName(value);
@@ -230,7 +230,7 @@ export default class ModelGenerator {
         enumType: this._getEnumTypes(prop.type),
         items: prop.items,
       };
-      // @ts-ignore
+      // @ts-expect-error
       return this.constructor.templatePropNames.reduce(
         (ret: { [key: string]: TODO }, key: TODO) => {
           ret[key] = ret[key] || properties[name][key];
@@ -397,7 +397,7 @@ export default class ModelGenerator {
 }
 
 function getPropTypes() {
-  // @ts-ignore
+  // @ts-expect-error
   return _getPropTypes(this.type, this.enum, this.enumObjects);
 }
 
@@ -424,7 +424,7 @@ function _getPropTypes(type: TODO, enums?: TODO[], enumObjects?: TODO[]) {
 }
 
 function getTypeScriptTypes() {
-  // @ts-ignore
+  // @ts-expect-error
   return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
@@ -447,18 +447,18 @@ function _getTypeScriptTypes(type: TODO, enumObjects: TODO[]) {
 }
 
 function getDefaults() {
-  // @ts-ignore
+  // @ts-expect-error
   if (_.isUndefined(this.default)) {
     return 'undefined';
   }
-  // @ts-ignore
+  // @ts-expect-error
   if (this.enumObjects) {
-    // @ts-ignore
+    // @ts-expect-error
     for (const enumObject of this.enumObjects) {
-      // @ts-ignore
+      // @ts-expect-error
       if (enumObject.value === this.default) return enumObject.name;
     }
   }
-  // @ts-ignore
+  // @ts-expect-error
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }

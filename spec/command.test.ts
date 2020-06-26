@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import defaultConfig from '../config/parser-config-default';
 import rimraf from 'rimraf';
 import fs from 'fs';

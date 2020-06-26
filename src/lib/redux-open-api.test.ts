@@ -1,6 +1,5 @@
 import fs from 'fs';
 import nock from 'nock';
-// @ts-ignore
 import createMiddleware, { HttpClient } from './redux-open-api';
 import jsYaml from 'js-yaml';
 import noop from 'lodash/noop';
