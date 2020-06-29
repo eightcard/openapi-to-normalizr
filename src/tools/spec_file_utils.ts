@@ -27,6 +27,10 @@ type Model = Schema & {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isDocument = (obj: any): obj is Document =>
+  'openapi' in obj && 'info' in obj && 'paths' in obj;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isOperation = (obj: any): obj is Operation => 'tags' in obj;
 
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'] as const;
@@ -68,19 +72,21 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
   return merge(
     {},
     ...specFiles.concat(allFiles).map((p) => {
-      const spec: Document = jsYaml.safeLoad(fs.readFileSync(p).toString());
-      if (specFiles.includes(p)) {
-        removeUnusableOperation(spec);
-      } else {
-        // 指定されたspecファイル以外のpath情報は不要
-        delete spec.paths;
-      }
-      applyAlternativeRef(spec);
-      const schemas = spec.components && spec.components.schemas;
-      if (schemas) {
-        each(schemas, (model: Model, name) => {
-          model[MODEL_DEF_KEY] = name;
-        });
+      const spec = jsYaml.safeLoad(fs.readFileSync(p).toString());
+      if (isDocument(spec)) {
+        if (specFiles.includes(p)) {
+          removeUnusableOperation(spec);
+        } else {
+          // 指定されたspecファイル以外のpath情報は不要
+          delete spec.paths;
+        }
+        applyAlternativeRef(spec);
+        const schemas = spec.components && spec.components.schemas;
+        if (schemas) {
+          each(schemas, (model: Model, name) => {
+            model[MODEL_DEF_KEY] = name;
+          });
+        }
       }
       return spec;
     }),
@@ -103,8 +109,8 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
 
   function getAllRelatedFiles(files: string[]): string[] {
     return files.reduce((acc: string[], filePath) => {
-      const spec: Document = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
-      const refFilesPaths = uniq(getRefFilesPath(spec));
+      const spec = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
+      const refFilesPaths = isDocument(spec) ? uniq(getRefFilesPath(spec)) : [];
       const relatedFilesPaths = flatten(
         refFilesPaths.map((p: string): string | string[] => {
           const refSpecPath = path.join(path.dirname(filePath), p);
