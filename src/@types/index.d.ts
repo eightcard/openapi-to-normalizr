@@ -11,7 +11,20 @@ declare type AttributeConverter = (s: string) => string;
 
 declare type SchemasFilePath = string;
 declare type Actions = string;
-declare type TemplatePath = { [K: string]: string };
+declare type TemplatePath = {
+  model?: string;
+  override?: string;
+  schema?: string;
+  head?: string;
+  dependency?: string;
+  models?: string;
+  actionTypes?: string;
+  spec?: string;
+  oneOf?: string;
+};
+declare type Templates = {
+  [key in keyof TemplatePath]: string;
+};
 declare type UsePropType = boolean;
 declare type UseTypeScript = boolean;
 declare interface ConfigObject {

@@ -38,7 +38,7 @@ export default class SchemaGenerator {
 
   attributeConverter: AttributeConverter;
 
-  templates: { [key: string]: string };
+  templates: Templates;
 
   parsedObjects: { [key: string]: TODO };
 
@@ -148,8 +148,10 @@ export default class SchemaGenerator {
         propertyName: `'${this.attributeConverter(obj.propertyName)}'`,
       }),
     );
+    const { schema, head, oneOf } = this.templates;
+    if (!schema || !head || !oneOf) return;
     const text = render(
-      this.templates.schema,
+      schema,
       {
         importList: this._prepareImportList(),
         data: objectToTemplateValue(this.formattedSchema),
@@ -158,8 +160,8 @@ export default class SchemaGenerator {
         useTypeScript: this.useTypeScript,
       },
       {
-        head: this.templates.head,
-        oneOf: this.templates.oneOf,
+        head,
+        oneOf,
       },
     );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
