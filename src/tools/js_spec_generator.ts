@@ -50,7 +50,7 @@ export default class JsSpecGenerator {
     const text = render(
       spec,
       {
-        spec: JSON.stringify(spec, null, 2),
+        spec: JSON.stringify(specData, null, 2),
       },
       {
         head,
