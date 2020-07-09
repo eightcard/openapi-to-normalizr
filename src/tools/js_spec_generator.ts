@@ -16,9 +16,9 @@ const UNNECESSARY_PROPS = [
 export default class JsSpecGenerator {
   outputPath: string;
 
-  templatePath: TODO;
+  templatePath: TemplatePath;
 
-  templates: TODO;
+  templates: Templates;
 
   outputDir: string;
 
@@ -30,7 +30,7 @@ export default class JsSpecGenerator {
     extension = 'js',
   }: {
     outputPath?: string;
-    templatePath: TODO;
+    templatePath: TemplatePath;
     extension?: Extension;
   }) {
     this.outputPath = outputPath;
@@ -42,16 +42,18 @@ export default class JsSpecGenerator {
     this.write = this.write.bind(this);
   }
 
-  write(spec: TODO) {
-    this.deleteUnnecessaryProps(spec);
-    this.deleteUnusedComponents(spec);
+  write(specData: TODO) {
+    this.deleteUnnecessaryProps(specData);
+    this.deleteUnusedComponents(specData);
+    const { spec, head } = this.templates;
+    if (!spec || !head) return;
     const text = render(
-      this.templates.spec,
+      spec,
       {
-        spec: JSON.stringify(spec, null, 2),
+        spec: JSON.stringify(specData, null, 2),
       },
       {
-        head: this.templates.head,
+        head,
       },
     );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);

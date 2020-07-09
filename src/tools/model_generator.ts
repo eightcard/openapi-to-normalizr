@@ -25,7 +25,7 @@ export default class ModelGenerator {
 
   outputBaseDir: string;
 
-  templatePath: TODO;
+  templatePath: TemplatePath;
 
   usePropType: UsePropType;
 
@@ -37,7 +37,7 @@ export default class ModelGenerator {
 
   extension: Extension;
 
-  templates: TODO;
+  templates: Templates;
 
   _modelNameList: TODO[];
 
@@ -105,19 +105,21 @@ export default class ModelGenerator {
   }
 
   writeIndex(modelNameList = this._modelNameList) {
+    const { models, head } = this.templates;
+    if (!models || !head) return;
     const text = render(
-      this.templates.models,
+      models,
       {
         models: _.uniq(modelNameList).map((name) => ({ fileName: _.snakeCase(name), name })),
       },
       {
-        head: this.templates.head,
+        head,
       },
     );
     return writeFilePromise(path.join(this.outputDir, `index.${this.extension}`), text);
   }
 
-  _writeOverrideModel(name: TODO, fileName: string, props: TODO) {
+  _writeOverrideModel(name: string, fileName: string, props: TODO) {
     const overrideText = this._renderOverrideModel(name, fileName, props);
     const filePath = path.join(this.outputDir, `${fileName}.${this.extension}`);
     return isFileExistPromise(filePath).then(
@@ -194,10 +196,12 @@ export default class ModelGenerator {
         importImmutableMap: this.importImmutableMap,
       };
 
-      const text = render(this.templates.model, props, {
-        head: this.templates.head,
-        dependency: this.templates.dependency,
-        oneOf: this.templates.oneOf,
+      const { model, head, dependency, oneOf } = this.templates;
+      if (!model || !head || !dependency || !oneOf) return;
+      const text = render(model, props, {
+        head,
+        dependency,
+        oneOf,
       });
 
       // import先のモデルを書き出し
@@ -381,8 +385,10 @@ export default class ModelGenerator {
           acc.concat(prop.enumObjects.reduce((acc: TODO[], eo: TODO) => acc.concat(eo.name), [])),
         [],
       );
+    const { override, head } = this.templates;
+    if (!override || !head) return;
     return render(
-      this.templates.override,
+      override,
       {
         name,
         fileName,
@@ -390,7 +396,7 @@ export default class ModelGenerator {
         usePropTypes: this.usePropType,
       },
       {
-        head: this.templates.head,
+        head,
       },
     );
   }

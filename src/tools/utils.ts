@@ -149,7 +149,7 @@ export function mkdirpPromise(dir: string) {
   return mkdirp(dir);
 }
 
-export function writeFilePromise(path: string, data: string) {
+export function writeFilePromise(path: string, data?: string) {
   return new Promise<void>((resolve, reject) =>
     fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
   );
@@ -159,9 +159,12 @@ export function writeFile(path: string, data: TODO) {
   return fs.writeFileSync(path, data);
 }
 
-export function readTemplates(keys: string[] = [], templatePath: TemplatePath = {}) {
-  return keys.reduce((ret: { [key: string]: string }, key) => {
-    ret[key] = fs.readFileSync(templatePath[key], 'utf8');
+export function readTemplates(keys: (keyof TemplatePath)[] = [], templatePath: TemplatePath = {}) {
+  return keys.reduce((ret: Templates, key) => {
+    const path = templatePath[key];
+    if (path) {
+      ret[key] = fs.readFileSync(path, 'utf8');
+    }
     return ret;
   }, {});
 }

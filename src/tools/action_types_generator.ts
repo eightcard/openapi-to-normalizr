@@ -14,7 +14,7 @@ export default class ActionTypesGenerator {
 
   operationIdList: string[];
 
-  templates: { [key: string]: string };
+  templates: Templates;
 
   useTypeScript: UseTypeScript;
 
@@ -54,15 +54,17 @@ export default class ActionTypesGenerator {
    * actionTypes.jsを書き出し
    */
   write() {
+    const { actionTypes, head } = this.templates;
+    if (!actionTypes || !head) return;
     const text = render(
-      this.templates.actionTypes,
+      actionTypes,
       {
         operationIdList: this.operationIdList,
         schemasFile: path.relative(this.outputDir, this.schemasFilePath),
         useTypeScript: this.useTypeScript,
       },
       {
-        head: this.templates.head,
+        head,
       },
     );
     return writeFilePromise(path.join(this.outputDir, this.outputFileName), text);
