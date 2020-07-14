@@ -109,15 +109,17 @@ function parseSchema(schema, onSchema) {
     return onSchema({
       type: 'model',
       value: schema
-    });
+    }); // @ts-expect-error
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({
       type: 'oneOf',
       value: parseOneOf(schema, onSchema)
-    });
+    }); // @ts-expect-error
   } else if (schema.type === 'object') {
-    return applyIf(parseSchema(schema.properties, onSchema));
+    // @ts-expect-error
+    return applyIf(parseSchema(schema.properties, onSchema)); // @ts-expect-error
   } else if (schema.type === 'array') {
+    // @ts-expect-error
     return applyIf(parseSchema(schema.items, onSchema), function (val) {
       return [val];
     });
@@ -142,8 +144,8 @@ function isFileExistPromise(path) {
   return new Promise(function (resolve, reject) {
     _fs.default.access(path, function (err) {
       if (!err) {
-        resolve(true); // file is exist.
-
+        // file is exist.
+        resolve(true);
         return;
       }
 
@@ -197,7 +199,12 @@ function readTemplates() {
   var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var templatePath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return keys.reduce(function (ret, key) {
-    ret[key] = _fs.default.readFileSync(templatePath[key], 'utf8');
+    var path = templatePath[key];
+
+    if (path) {
+      ret[key] = _fs.default.readFileSync(path, 'utf8');
+    }
+
     return ret;
   }, {});
 }
@@ -251,7 +258,7 @@ function getIdAttribute(model, name) {
     return false;
   }
 
-  var idAttribute = model['x-id-attribute'] ? model['x-id-attribute'] : 'id';
+  var idAttribute = model['x-id-attribute'] || 'id';
 
   if (!idAttribute.includes('.') && !properties[idAttribute]) {
     if (name) {

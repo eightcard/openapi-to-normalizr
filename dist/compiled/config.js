@@ -26,17 +26,15 @@ var Config = /*#__PURE__*/function () {
     key: "formatForModelGenerator",
     value: function formatForModelGenerator() {
       var _this$_config = this._config,
-          outputDir = _this$_config.modelsDir,
           templatePath = _this$_config.templates,
           usePropType = _this$_config.usePropType,
-          useTypeScript = _this$_config.useTypeScript,
-          attributeConverter = _this$_config.attributeConverter;
+          useTypeScript = _this$_config.useTypeScript;
       return {
-        outputDir: outputDir,
+        outputDir: this.modelsDir,
         templatePath: templatePath,
         usePropType: usePropType,
         useTypeScript: useTypeScript,
-        attributeConverter: attributeConverter,
+        attributeConverter: this.attributeConverter,
         extension: this.extension
       };
     }
@@ -47,10 +45,12 @@ var Config = /*#__PURE__*/function () {
           outputPath = _this$_config2.outputPath,
           templatePath = _this$_config2.templates,
           useTypeScript = _this$_config2.useTypeScript;
+      var operationIdList = [];
       return {
-        templatePath: templatePath,
         outputPath: outputPath.actions,
         schemasFilePath: outputPath.schemas,
+        templatePath: templatePath,
+        operationIdList: operationIdList,
         useTypeScript: useTypeScript,
         extension: this.extension
       };
@@ -61,14 +61,12 @@ var Config = /*#__PURE__*/function () {
       var _this$_config3 = this._config,
           outputPath = _this$_config3.outputPath,
           templatePath = _this$_config3.templates,
-          modelsDir = _this$_config3.modelsDir,
-          attributeConverter = _this$_config3.attributeConverter,
           useTypeScript = _this$_config3.useTypeScript;
       return {
         templatePath: templatePath,
         outputPath: outputPath.schemas,
-        modelsDir: modelsDir,
-        attributeConverter: attributeConverter,
+        modelsDir: this.modelsDir,
+        attributeConverter: this.attributeConverter,
         useTypeScript: useTypeScript,
         extension: this.extension
       };

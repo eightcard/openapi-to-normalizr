@@ -144,10 +144,13 @@ var SchemaGenerator = /*#__PURE__*/function () {
     value: function write() {
       var _this2 = this;
 
+      // @ts-expect-error
       return Promise.all([this._writeSchemaFile()].concat(_toConsumableArray(this.importModels.map(function (_ref3) {
         var modelName = _ref3.modelName,
             model = _ref3.model;
-        return _this2.modelGenerator.writeModel(model, modelName);
+        return (// @ts-expect-error
+          _this2.modelGenerator.writeModel(model, modelName)
+        );
       })))).then(function () {
         _this2.modelGenerator.writeIndex();
       });
@@ -163,15 +166,20 @@ var SchemaGenerator = /*#__PURE__*/function () {
           propertyName: "'".concat(_this3.attributeConverter(obj.propertyName), "'")
         });
       });
-      var text = (0, _utils.render)(this.templates.schema, {
+      var _this$templates = this.templates,
+          schema = _this$templates.schema,
+          head = _this$templates.head,
+          oneOf = _this$templates.oneOf;
+      if (!schema || !head || !oneOf) return;
+      var text = (0, _utils.render)(schema, {
         importList: this._prepareImportList(),
         data: (0, _utils.objectToTemplateValue)(this.formattedSchema),
         hasOneOf: oneOfs.length > 0,
         oneOfs: oneOfs,
         useTypeScript: this.useTypeScript
       }, {
-        head: this.templates.head,
-        oneOf: this.templates.oneOf
+        head: head,
+        oneOf: oneOf
       });
       return (0, _utils.writeFilePromise)(_path.default.join(this.outputDir, this.outputFileName), text);
     }

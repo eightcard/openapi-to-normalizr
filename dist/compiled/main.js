@@ -67,12 +67,16 @@ function _main() {
                   if (!_lodash.default.isObject(operation)) {
                     console.warn("not processed. path:".concat(path, ", method:").concat(method));
                     return;
-                  }
+                  } // @ts-expect-error
+
 
                   if (operation.operationId) {
-                    console.info("no use specified operationId. path:".concat(path, ", method:").concat(method, ", operationId:").concat(operation.operationId));
+                    console.info( // @ts-expect-error
+                    "no use specified operationId. path:".concat(path, ", method:").concat(method, ", operationId:").concat(operation.operationId)); // @ts-expect-error
+
                     delete operation.operationId;
-                  }
+                  } // @ts-expect-error
+
 
                   var response = operation.responses;
                   var id = opId(operation, path, method);
