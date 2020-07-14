@@ -64,12 +64,16 @@ var ActionTypesGenerator = /*#__PURE__*/function () {
   }, {
     key: "write",
     value: function write() {
-      var text = (0, _utils.render)(this.templates.actionTypes, {
+      var _this$templates = this.templates,
+          actionTypes = _this$templates.actionTypes,
+          head = _this$templates.head;
+      if (!actionTypes || !head) return;
+      var text = (0, _utils.render)(actionTypes, {
         operationIdList: this.operationIdList,
         schemasFile: _path.default.relative(this.outputDir, this.schemasFilePath),
         useTypeScript: this.useTypeScript
       }, {
-        head: this.templates.head
+        head: head
       });
       return (0, _utils.writeFilePromise)(_path.default.join(this.outputDir, this.outputFileName), text);
     }

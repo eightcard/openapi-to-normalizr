@@ -52,6 +52,11 @@ var MODEL_DEF_KEY = 'x-model-name';
 exports.MODEL_DEF_KEY = MODEL_DEF_KEY;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+var isDocument = function isDocument(obj) {
+  return 'openapi' in obj && 'info' in obj && 'paths' in obj;
+}; // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+
 var isOperation = function isOperation(obj) {
   return 'tags' in obj;
 };
@@ -101,20 +106,22 @@ function getPreparedSpec() {
   return _merge.default.apply(void 0, [{}].concat(_toConsumableArray(specFiles.concat(allFiles).map(function (p) {
     var spec = _jsYaml.default.safeLoad(_fs.default.readFileSync(p).toString());
 
-    if (specFiles.includes(p)) {
-      removeUnusableOperation(spec);
-    } else {
-      // 指定されたspecファイル以外のpath情報は不要
-      delete spec.paths;
-    }
+    if (isDocument(spec)) {
+      if (specFiles.includes(p)) {
+        removeUnusableOperation(spec);
+      } else {
+        // 指定されたspecファイル以外のpath情報は不要
+        delete spec.paths;
+      }
 
-    applyAlternativeRef(spec);
-    var schemas = spec.components && spec.components.schemas;
+      applyAlternativeRef(spec);
+      var schemas = spec.components && spec.components.schemas;
 
-    if (schemas) {
-      (0, _each.default)(schemas, function (model, name) {
-        model[MODEL_DEF_KEY] = name;
-      });
+      if (schemas) {
+        (0, _each.default)(schemas, function (model, name) {
+          model[MODEL_DEF_KEY] = name;
+        });
+      }
     }
 
     return spec;
@@ -141,7 +148,7 @@ function getPreparedSpec() {
     return files.reduce(function (acc, filePath) {
       var spec = _jsYaml.default.safeLoad(_fs.default.readFileSync(filePath).toString());
 
-      var refFilesPaths = (0, _uniq.default)(getRefFilesPath(spec));
+      var refFilesPaths = isDocument(spec) ? (0, _uniq.default)(getRefFilesPath(spec)) : [];
       var relatedFilesPaths = (0, _flatten.default)(refFilesPaths.map(function (p) {
         var refSpecPath = _path.default.join(_path.default.dirname(filePath), p);
 

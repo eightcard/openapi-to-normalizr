@@ -10,7 +10,7 @@
     "openapi2schemas": "./bin/generateschemas"
   },
   "engines": {
-    "node": ">=10.15.1"
+    "node": ">=12.18.0"
   },
   "dependencies": {
     "commander": "5.1.0",

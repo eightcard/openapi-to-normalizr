@@ -102,7 +102,11 @@ var ModelGenerator = /*#__PURE__*/function () {
     key: "writeIndex",
     value: function writeIndex() {
       var modelNameList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._modelNameList;
-      var text = (0, _utils.render)(this.templates.models, {
+      var _this$templates = this.templates,
+          models = _this$templates.models,
+          head = _this$templates.head;
+      if (!models || !head) return;
+      var text = (0, _utils.render)(models, {
         models: _lodash.default.uniq(modelNameList).map(function (name) {
           return {
             fileName: _lodash.default.snakeCase(name),
@@ -110,7 +114,7 @@ var ModelGenerator = /*#__PURE__*/function () {
           };
         })
       }, {
-        head: this.templates.head
+        head: head
       });
       return (0, _utils.writeFilePromise)(_path.default.join(this.outputDir, "index.".concat(this.extension)), text);
     }
@@ -168,7 +172,8 @@ var ModelGenerator = /*#__PURE__*/function () {
       return new Promise(function (resolve, reject) {
         var importList = [];
         var oneOfs = [];
-        var oneOfsCounter = 1;
+        var oneOfsCounter = 1; // @ts-expect-error
+
         var dependencySchema = (0, _utils.parseSchema)(properties, function (_ref4) {
           var type = _ref4.type,
               value = _ref4.value;
@@ -186,10 +191,11 @@ var ModelGenerator = /*#__PURE__*/function () {
           }
 
           if (type === 'oneOf') {
-            var key = "oneOfSchema".concat(oneOfsCounter++);
-            value.key = key;
+            var _key = "oneOfSchema".concat(oneOfsCounter++);
+
+            value.key = _key;
             oneOfs.push(value);
-            return key;
+            return _key;
           }
         }); // reset
 
@@ -213,10 +219,16 @@ var ModelGenerator = /*#__PURE__*/function () {
           getDefaults: getDefaults,
           importImmutableMap: _this3.importImmutableMap
         };
-        var text = (0, _utils.render)(_this3.templates.model, props, {
-          head: _this3.templates.head,
-          dependency: _this3.templates.dependency,
-          oneOf: _this3.templates.oneOf
+        var _this3$templates = _this3.templates,
+            model = _this3$templates.model,
+            head = _this3$templates.head,
+            dependency = _this3$templates.dependency,
+            oneOf = _this3$templates.oneOf;
+        if (!model || !head || !dependency || !oneOf) return;
+        var text = (0, _utils.render)(model, props, {
+          head: head,
+          dependency: dependency,
+          oneOf: oneOf
         }); // import先のモデルを書き出し
 
         Promise.all(importList.map(function (_ref5) {
@@ -252,7 +264,8 @@ var ModelGenerator = /*#__PURE__*/function () {
           enumObjects: _this4.getEnumObjects(_this4.attributeConverter(_name), prop.enum, prop['x-enum-key-attributes']),
           enumType: _this4._getEnumTypes(prop.type),
           items: prop.items
-        };
+        }; // @ts-expect-error
+
         return _this4.constructor.templatePropNames.reduce(function (ret, key) {
           ret[key] = ret[key] || properties[_name][key];
           return ret;
@@ -264,7 +277,7 @@ var ModelGenerator = /*#__PURE__*/function () {
     value: function getEnumConstantName(enumName, propertyName) {
       var convertedName = _lodash.default.upperCase(propertyName).split(' ').join('_');
 
-      var convertedkey = _lodash.default.upperCase(enumName).split(' ').join('_'); // enumNameがマイナスの数値の時
+      var convertedkey = _lodash.default.upperCase("".concat(enumName)).split(' ').join('_'); // enumNameがマイナスの数値の時
 
 
       var resolvedkey = typeof enumName === 'number' && enumName < 0 ? "MINUS_".concat(convertedkey) : convertedkey;
@@ -275,7 +288,7 @@ var ModelGenerator = /*#__PURE__*/function () {
     value: function getEnumLiteralTypeName(enumName, propertyName) {
       var convertedName = _lodash.default.startCase(propertyName).split(' ').join('');
 
-      var convertedkey = _lodash.default.startCase(enumName).split(' ').join(''); // enumNameがマイナスの数値の時
+      var convertedkey = _lodash.default.startCase("".concat(enumName)).split(' ').join(''); // enumNameがマイナスの数値の時
 
 
       var resolvedkey = typeof enumName === 'number' && enumName < 0 ? "Minus".concat(convertedkey) : convertedkey;
@@ -435,13 +448,17 @@ var ModelGenerator = /*#__PURE__*/function () {
           return acc.concat(eo.name);
         }, []));
       }, []);
-      return (0, _utils.render)(this.templates.override, {
+      var _this$templates2 = this.templates,
+          override = _this$templates2.override,
+          head = _this$templates2.head;
+      if (!override || !head) return;
+      return (0, _utils.render)(override, {
         name: name,
         fileName: fileName,
         enums: enums,
         usePropTypes: this.usePropType
       }, {
-        head: this.templates.head
+        head: head
       });
     }
   }], [{
@@ -457,6 +474,7 @@ var ModelGenerator = /*#__PURE__*/function () {
 exports.default = ModelGenerator;
 
 function getPropTypes() {
+  // @ts-expect-error
   return _getPropTypes(this.type, this.enum, this.enumObjects);
 }
 
@@ -492,6 +510,7 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getTypeScriptTypes() {
+  // @ts-expect-error
   return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
@@ -520,17 +539,21 @@ function _getTypeScriptTypes(type, enumObjects) {
 }
 
 function getDefaults() {
+  // @ts-expect-error
   if (_lodash.default.isUndefined(this.default)) {
     return 'undefined';
-  }
+  } // @ts-expect-error
+
 
   if (this.enumObjects) {
+    // @ts-expect-error
     var _iterator = _createForOfIteratorHelper(this.enumObjects),
         _step;
 
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var enumObject = _step.value;
+        // @ts-expect-error
         if (enumObject.value === this.default) return enumObject.name;
       }
     } catch (err) {
@@ -538,7 +561,8 @@ function getDefaults() {
     } finally {
       _iterator.f();
     }
-  }
+  } // @ts-expect-error
+
 
   return this.type === 'string' ? "'".concat(this.default, "'") : this.default;
 }

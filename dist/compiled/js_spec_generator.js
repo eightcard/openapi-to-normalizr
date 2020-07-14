@@ -60,13 +60,17 @@ var JsSpecGenerator = /*#__PURE__*/function () {
 
   _createClass(JsSpecGenerator, [{
     key: "write",
-    value: function write(spec) {
-      this.deleteUnnecessaryProps(spec);
-      this.deleteUnusedComponents(spec);
-      var text = (0, _utils.render)(this.templates.spec, {
-        spec: JSON.stringify(spec, null, 2)
+    value: function write(specData) {
+      this.deleteUnnecessaryProps(specData);
+      this.deleteUnusedComponents(specData);
+      var _this$templates = this.templates,
+          spec = _this$templates.spec,
+          head = _this$templates.head;
+      if (!spec || !head) return;
+      var text = (0, _utils.render)(spec, {
+        spec: JSON.stringify(specData, null, 2)
       }, {
-        head: this.templates.head
+        head: head
       });
       return (0, _utils.writeFilePromise)(_path.default.join(this.outputDir, this.outputFileName), text);
     }
