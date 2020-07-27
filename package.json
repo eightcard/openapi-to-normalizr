@@ -105,7 +105,7 @@
   "main": "dist/index.js",
   "repository": "eightcard/openapi-to-normalizr",
   "scripts": {
-    "build:dist": "yarn eslint && yarn test && yarn build:dist:lib && yarn build:dist:tools",
+    "build:dist": "yarn build:dist:lib && yarn build:dist:tools",
     "build:dist:lib": "babel -d dist --env-name=development --extensions '.ts' src/lib/**/*[^test].ts",
     "build:dist:tools": "babel -d dist/compiled --env-name=development --extensions '.ts' src/tools/**/*.ts",
     "build:sample": "webpack --config examples/webpack.config.babel.js --progress",
