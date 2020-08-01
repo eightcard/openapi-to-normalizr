@@ -27,7 +27,7 @@
     "@babel/preset-env": "7.10.4",
     "@babel/preset-typescript": "7.10.4",
     "@babel/register": "7.10.5",
-    "@types/jest": "26.0.7",
+    "@types/jest": "26.0.8",
     "@types/js-yaml": "3.12.5",
     "@types/json-schema": "7.0.5",
     "@types/lodash": "4.14.158",
