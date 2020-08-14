@@ -650,7 +650,7 @@ Object {
  */
 
 import { schema as WrappedPetSchema } from './../wrapped_pet';
-import { Schema,  } from 'normalizr';
+import { Schema } from 'normalizr';
 
 
 interface Schemas {
@@ -1522,7 +1522,7 @@ Object {
  */
 
 import { schema as OwnerSchema } from './../owner';
-import { Schema,  } from 'normalizr';
+import { Schema } from 'normalizr';
 
 
 interface Schemas {
@@ -2200,7 +2200,7 @@ Object {
 
 import { schema as DogSchema } from './../dog';
 import { schema as CatSchema } from './../cat';
-import { Schema, schema as _schema, } from 'normalizr';
+import { Schema, schema as _schema } from 'normalizr';
 
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,
