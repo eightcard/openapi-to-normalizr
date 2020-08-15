@@ -51,7 +51,7 @@
     "jest": "26.2.2",
     "json-server": "0.16.1",
     "lint-staged": "10.2.11",
-    "nock": "13.0.3",
+    "nock": "13.0.4",
     "normalizr": "3.6.0",
     "openapi-types": "7.0.0",
     "power-assert": "1.6.1",
