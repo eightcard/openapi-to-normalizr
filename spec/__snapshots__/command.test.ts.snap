@@ -408,7 +408,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Owner extends Record<OwnerProps>(defaultValues) {
+export default class Owner extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -469,7 +469,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class WrappedPet extends Record<WrappedPetProps>(defaultValues) {
+export default class WrappedPet extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -650,7 +650,7 @@ Object {
  */
 
 import { schema as WrappedPetSchema } from './../wrapped_pet';
-import { Schema,  } from 'normalizr';
+import { Schema } from 'normalizr';
 
 
 interface Schemas {
@@ -1176,7 +1176,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Cat extends Record<CatProps>(defaultValues) {
+export default class Cat extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1229,7 +1229,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Dog extends Record<DogProps>(defaultValues) {
+export default class Dog extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1287,7 +1287,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Owner extends Record<OwnerProps>(defaultValues) {
+export default class Owner extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1522,7 +1522,7 @@ Object {
  */
 
 import { schema as OwnerSchema } from './../owner';
-import { Schema,  } from 'normalizr';
+import { Schema } from 'normalizr';
 
 
 interface Schemas {
@@ -1946,7 +1946,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Cat extends Record<CatProps>(defaultValues) {
+export default class Cat extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1999,7 +1999,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class Dog extends Record<DogProps>(defaultValues) {
+export default class Dog extends Record(defaultValues) {
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -2200,7 +2200,7 @@ Object {
 
 import { schema as DogSchema } from './../dog';
 import { schema as CatSchema } from './../cat';
-import { Schema, schema as _schema, } from 'normalizr';
+import { Schema, schema as _schema } from 'normalizr';
 
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,

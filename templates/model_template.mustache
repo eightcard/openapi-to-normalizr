@@ -60,7 +60,7 @@ const denormalize = (
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
-export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/useTypeScript}}(defaultValues) {
+export default class {{name}} extends Record(defaultValues) {
   static denormalize(
     id{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
     entities{{#useTypeScript}}: any{{/useTypeScript}}
@@ -71,6 +71,7 @@ export default class {{name}} extends Record{{#useTypeScript}}<{{name}}Props>{{/
 {{#alias}}
   // created by 'x-attribute-as'
   get {{&alias}}() {
+{{#useTypeScript}}    // @ts-expect-error{{/useTypeScript}}
     return this.get('{{&alias}}', this.{{name}});
   }
 {{/alias}}
