@@ -6849,10 +6849,10 @@ openapi-sampler@1.0.0-beta.14:
   dependencies:
     json-pointer "^0.6.0"
 
-openapi-types@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-7.0.0.tgz#548bd72c8eea62e8be9cdb72d3d779e7eaa75f96"
-  integrity sha512-AikFLY/joHpJz+6OcyWUfXR0xjsh0jXR+oxcB1oosjH3YFZI3uPTJcmuf7koBFQyjd9GYmClmCSK8mGZ7thsOQ==
+openapi-types@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-7.0.1.tgz#966bcacfd14119fa12000dbc9d588bfd8df2e4d1"
+  integrity sha512-6pi4/Fw+JIW1HHda2Ij7LRJ5QJ8f6YzaXnsRA6m44BJz8nLq/j5gVFzPBKJo+uOFhAeHqZC/3uzhTpYPga3Q/A==
 
 opencollective-postinstall@^2.0.2:
   version "2.0.2"
