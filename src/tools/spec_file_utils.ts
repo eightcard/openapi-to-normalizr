@@ -78,7 +78,7 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
           removeUnusableOperation(spec);
         } else {
           // 指定されたspecファイル以外のpath情報は不要
-          delete spec.paths;
+          spec.paths = {};
         }
         applyAlternativeRef(spec);
         const schemas = spec.components && spec.components.schemas;
