@@ -55,7 +55,7 @@
     "normalizr": "3.6.0",
     "openapi-types": "7.0.1",
     "power-assert": "1.6.1",
-    "prettier": "2.0.5",
+    "prettier": "2.1.1",
     "prop-types": "15.7.2",
     "react-immutable-proptypes": "2.2.0",
     "redux": "4.0.5",
