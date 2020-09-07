@@ -88,16 +88,16 @@ export default async function main(specFiles: TODO, c: TODO) {
           console.warn(`not processed. path:${path}, method:${method}`);
           return;
         }
-        // @ts-expect-error
-        if (operation.operationId) {
+        // @ts-expect-error operationIdがあると認識されていない
+        const operationId = operation.operationId;
+        if (operationId) {
           console.info(
-            // @ts-expect-error
-            `no use specified operationId. path:${path}, method:${method}, operationId:${operation.operationId}`,
+            `no use specified operationId. path:${path}, method:${method}, operationId:${operationId}`,
           );
-          // @ts-expect-error
+          // @ts-expect-error operationIdがあると認識されていない
           delete operation.operationId;
         }
-        // @ts-expect-error
+        // @ts-expect-error responsesがあると認識されていない
         const response = operation.responses;
         const id = opId(operation, path, method);
         onResponses.forEach((onResponse: TODO) =>
