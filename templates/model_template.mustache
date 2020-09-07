@@ -71,8 +71,8 @@ export default class {{name}} extends Record(defaultValues) {
 {{#alias}}
   // created by 'x-attribute-as'
   get {{&alias}}() {
-{{#useTypeScript}}    // @ts-expect-error generated from API definition file{{/useTypeScript}}
-    return this.get('{{&alias}}', this.{{name}});
+{{#useTypeScript}}    // @ts-expect-error generated from API definition file
+{{/useTypeScript}}    return this.get('{{&alias}}', this.{{name}});
   }
 {{/alias}}
 {{/props}}
