@@ -15,7 +15,7 @@
   "dependencies": {
     "commander": "6.1.0",
     "js-yaml": "3.14.0",
-    "json-schema-ref-parser": "7.1.4",
+    "json-schema-ref-parser": "9.0.6",
     "lodash": "4.17.20",
     "mkdirp": "1.0.4",
     "mustache": "4.0.1",
