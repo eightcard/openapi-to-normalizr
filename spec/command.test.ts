@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error configファイルの想定する型がまだわかりきってない。書くならindex.d.tsに
 import defaultConfig from '../config/parser-config-default';
 import rimraf from 'rimraf';
 import fs from 'fs';

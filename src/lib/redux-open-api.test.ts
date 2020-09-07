@@ -11,7 +11,6 @@ const spec = jsYaml.safeLoad(fs.readFileSync('examples/petstore.v3.yml', 'utf8')
 describe('middleware', () => {
   const nextFunction = jest.fn();
   const subject = (...args: TODO) => {
-    // @ts-expect-error
     return createMiddleware(spec).then((middleware: TODO) => {
       return middleware()(nextFunction)(...args);
     });
