@@ -43,7 +43,7 @@ export default class SchemaGenerator {
   parsedObjects: { [key: string]: TODO };
 
   _importModels: {
-    modelName: string | undefined;
+    modelName?: string;
     model: TODO;
   }[];
 
@@ -129,11 +129,10 @@ export default class SchemaGenerator {
    * パース情報とテンプレートからschema.jsとmodels/index.js書き出し
    */
   write() {
-    // @ts-expect-error
-    return Promise.all([
+    return Promise.all<void | string>([
       this._writeSchemaFile(),
       ...this.importModels.map(({ modelName, model }) =>
-        // @ts-expect-error
+        // @ts-expect-error utilsのgetModelNameで生成されるmodelNameがundefinedの可能性がある
         this.modelGenerator.writeModel(model, modelName),
       ),
     ]).then(() => {
@@ -149,7 +148,7 @@ export default class SchemaGenerator {
       }),
     );
     const { schema, head, oneOf } = this.templates;
-    if (!schema || !head || !oneOf) return;
+    if (!schema || !head || !oneOf) return Promise.reject();
     const text = render(
       schema,
       {

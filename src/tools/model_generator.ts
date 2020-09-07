@@ -89,11 +89,13 @@ export default class ModelGenerator {
     const { properties } = model; // dereferenced
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
-    if (!idAttribute) return;
+    if (!idAttribute) return Promise.reject('idAttribute does not exists');
     // requiredはモデル定義のものを使う
     const required = this.definitions[name] && this.definitions[name].required;
 
-    if (this._modelNameList.includes(name)) return;
+    if (this._modelNameList.includes(name)) {
+      return Promise.reject('_modelNameList does not includes modelName');
+    }
     this._modelNameList.push(name);
 
     return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(
