@@ -13,7 +13,7 @@ function isOpenApiAction(action: TODO) {
 
 export const HttpClient = Swagger.http;
 
-export default (spec: TODO, httpOptions: TODO): TODO => {
+export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
   return Swagger({
     spec,
   }).then(({ apis }: { apis: TODO }) => {
