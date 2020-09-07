@@ -74,19 +74,19 @@ export function parseSchema(schema: TODO, onSchema: TODO): TODO {
       type: 'model',
       value: schema,
     });
-    // @ts-expect-error
+    // @ts-expect-error oneOfやdiscriminatorがあると認識されていない
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({
       type: 'oneOf',
       value: parseOneOf(schema, onSchema),
     });
-    // @ts-expect-error
+    // @ts-expect-error typeがあると認識されていない
   } else if (schema.type === 'object') {
-    // @ts-expect-error
+    // @ts-expect-error propertiesがあると認識されていない
     return applyIf(parseSchema(schema.properties, onSchema));
-    // @ts-expect-error
+    // @ts-expect-error typeがあると認識されていない
   } else if (schema.type === 'array') {
-    // @ts-expect-error
+    // @ts-expect-error itemsがあると認識されていない
     return applyIf(parseSchema(schema.items, onSchema), (val) => [val]);
   } else {
     const reduced = _.reduce(
