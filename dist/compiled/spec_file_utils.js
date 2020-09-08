@@ -28,7 +28,7 @@ var _flatten = _interopRequireDefault(require("lodash/flatten"));
 
 var _jsYaml = _interopRequireDefault(require("js-yaml"));
 
-var _jsonSchemaRefParser = _interopRequireDefault(require("json-schema-ref-parser"));
+var _jsonSchemaRefParser = _interopRequireDefault(require("@apidevtools/json-schema-ref-parser"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -111,7 +111,7 @@ function getPreparedSpec() {
         removeUnusableOperation(spec);
       } else {
         // 指定されたspecファイル以外のpath情報は不要
-        delete spec.paths;
+        spec.paths = {};
       }
 
       applyAlternativeRef(spec);
