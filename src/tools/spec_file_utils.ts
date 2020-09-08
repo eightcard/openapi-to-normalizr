@@ -8,7 +8,7 @@ import each from 'lodash/each';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import jsYaml from 'js-yaml';
-import $RefParser from 'json-schema-ref-parser';
+import $RefParser from '@apidevtools/json-schema-ref-parser';
 import { OpenAPIV3 } from 'openapi-types';
 
 export const ALTERNATIVE_REF_KEY = '__$ref__';
