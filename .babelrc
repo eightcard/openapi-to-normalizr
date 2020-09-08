@@ -19,7 +19,7 @@
           "@babel/preset-env",
           {
             "targets": {
-              "browsers": ["last 2 versions"]
+              "node": true
             }
           },
           "babel-preset-power-assert"
