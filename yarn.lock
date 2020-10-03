@@ -8925,10 +8925,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.11.0.tgz#8fd4412742d51cd98ce116da959c960bcd7ac6e0"
-  integrity sha512-5cM2S8qDmA0fwpGW71384Bik7MXI5D8XJz6uVHeH3X3gy9hZo8SDc7MeNShnxSLKAGIUHs9gIqjSeCrUftMNPw==
+swagger-client@3.11.1:
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.11.1.tgz#594a5e570e3751d62164e368accd278e783a1346"
+  integrity sha512-/D4I9lnGKaRmiNFTSY6xBBWYgPCHcDw7J9m4mcyeSOmZs7yGHVSFa7ozNyc7TAjNY0x2zQKjivGMUNkJ72W7ZQ==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
