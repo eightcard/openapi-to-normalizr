@@ -48,7 +48,7 @@
     "eslint-plugin-prettier": "3.1.4",
     "husky": "4.3.0",
     "immutable": "4.0.0-rc.12",
-    "jest": "26.5.2",
+    "jest": "26.5.3",
     "json-server": "0.16.2",
     "lint-staged": "10.4.0",
     "nock": "13.0.4",
