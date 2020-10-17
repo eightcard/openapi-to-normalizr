@@ -52,7 +52,7 @@
     "json-server": "0.16.2",
     "lint-staged": "10.4.2",
     "nock": "13.0.4",
-    "normalizr": "3.6.0",
+    "normalizr": "3.6.1",
     "openapi-types": "7.0.1",
     "power-assert": "1.6.1",
     "prettier": "2.1.2",
