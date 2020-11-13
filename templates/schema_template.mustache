@@ -3,18 +3,10 @@
 {{#importList}}
 import { schema as {{name}} } from './{{&path}}';
 {{/importList}}
-{{#useTypeScript}}import { Schema{{#hasOneOf}}, schema as _schema{{/hasOneOf}} } from 'normalizr';{{/useTypeScript}}{{^useTypeScript}}{{#hasOneOf}}import { schema as _schema } from 'normalizr';{{/hasOneOf}}{{/useTypeScript}}
+{{#hasOneOf}}import { schema as _schema } from 'normalizr';{{/hasOneOf}}
 
 {{>oneOf}}
-{{#useTypeScript}}
 
-interface Schemas {
-  [key: string]: {
-    [key: string]: Schema
-  }
-}
-{{/useTypeScript}}
-
-const schemas{{#useTypeScript}}: Schemas{{/useTypeScript}} = {{&data}};
+const schemas = {{&data}}{{#useTypeScript}} as const{{/useTypeScript}};
 
 export default schemas;

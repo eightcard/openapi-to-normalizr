@@ -650,20 +650,14 @@ Object {
  */
 
 import { schema as WrappedPetSchema } from './../wrapped_pet';
-import { Schema } from 'normalizr';
 
 
-interface Schemas {
-  [key: string]: {
-    [key: string]: Schema
-  }
-}
 
-const schemas: Schemas = {
+const schemas = {
   get_pets__id_: {
     200: WrappedPetSchema
   }
-};
+} as const;
 
 export default schemas;
 ",
@@ -1522,20 +1516,14 @@ Object {
  */
 
 import { schema as OwnerSchema } from './../owner';
-import { Schema } from 'normalizr';
 
 
-interface Schemas {
-  [key: string]: {
-    [key: string]: Schema
-  }
-}
 
-const schemas: Schemas = {
+const schemas = {
   get_owner__name_: {
     200: OwnerSchema
   }
-};
+} as const;
 
 export default schemas;
 ",
@@ -2200,24 +2188,18 @@ Object {
 
 import { schema as DogSchema } from './../dog';
 import { schema as CatSchema } from './../cat';
-import { Schema, schema as _schema } from 'normalizr';
+import { schema as _schema } from 'normalizr';
 
 const oneOfSchema1 = new _schema.Union({
   dog: DogSchema,
   cat: CatSchema
 }, 'kind');
 
-interface Schemas {
-  [key: string]: {
-    [key: string]: Schema
-  }
-}
-
-const schemas: Schemas = {
+const schemas = {
   get_pets__id_: {
     200: oneOfSchema1
   }
-};
+} as const;
 
 export default schemas;
 ",
