@@ -1,14 +1,20 @@
-/* eslint-disable no-underscore-dangle */
+{{#useTypeScript}}// @ts-nocheck
+{{/useTypeScript}}/* eslint-disable */
 {{>head}}
 import isFunction from 'lodash/isFunction';
 import { createAction{{#useTypeScript}}, ActionFunctionAny, ActionMeta{{/useTypeScript}} } from 'redux-actions';
-import schemas from '{{&schemasFile}}';
-{{#useTypeScript}}import { Schema } from 'normalizr';{{/useTypeScript}}
+import schemas from '{{&schemasFile}}';{{#useTypeScript}}
+
+import type { Schema } from 'normalizr';{{/useTypeScript}}
+
 {{#operationIdList}}
 export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
 {{#useTypeScript}}
+type ActionId ={{#operationIdList}}
+  | '{{.}}'{{/operationIdList}};
+
 interface Meta {
   openApi: boolean,
   id: string,
@@ -17,11 +23,11 @@ interface Meta {
 
 {{/useTypeScript}}
 export function createOpenApiAction(
-  id{{#useTypeScript}}: string{{/useTypeScript}},
+  id{{#useTypeScript}}: ActionId{{/useTypeScript}},
   payloadCreator{{#useTypeScript}}: ActionFunctionAny<any>{{/useTypeScript}} = (params) => params,
   metaCreator{{#useTypeScript}}: ActionFunctionAny<Meta>{{/useTypeScript}}
 ){{#useTypeScript}}: ActionFunctionAny<ActionMeta<any, Meta>>{{/useTypeScript}} {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args{{#useTypeScript}}: Array<any>{{/useTypeScript}}) => Object.assign(metaCreator(...args), meta)

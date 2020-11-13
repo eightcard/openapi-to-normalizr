@@ -2,7 +2,7 @@
 
 exports[`schema generator spec from json schema ref 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -18,7 +18,7 @@ export function createOpenApiAction(
   payloadCreator = (params) => params,
   metaCreator
 ) {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args) => Object.assign(metaCreator(...args), meta)
@@ -332,7 +332,8 @@ export default class WrappedPet extends _WrappedPet {
 
 exports[`schema generator spec from json schema ref TS 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "// @ts-nocheck
+/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -340,8 +341,13 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction, ActionFunctionAny, ActionMeta } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
-import { Schema } from 'normalizr';
+
+import type { Schema } from 'normalizr';
+
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
+
+type ActionId =
+  | 'GET_PETS__ID_';
 
 interface Meta {
   openApi: boolean,
@@ -350,11 +356,11 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: string,
+  id: ActionId,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args: Array<any>) => Object.assign(metaCreator(...args), meta)
@@ -687,7 +693,7 @@ export default class WrappedPet extends _WrappedPet {
 
 exports[`schema generator spec from one of check 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -703,7 +709,7 @@ export function createOpenApiAction(
   payloadCreator = (params) => params,
   metaCreator
 ) {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args) => Object.assign(metaCreator(...args), meta)
@@ -1096,7 +1102,8 @@ export default schemas;
 
 exports[`schema generator spec from one of check TS 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "// @ts-nocheck
+/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -1104,8 +1111,13 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction, ActionFunctionAny, ActionMeta } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
-import { Schema } from 'normalizr';
+
+import type { Schema } from 'normalizr';
+
 export const GET_OWNER__NAME_ = 'GET_OWNER__NAME_';
+
+type ActionId =
+  | 'GET_OWNER__NAME_';
 
 interface Meta {
   openApi: boolean,
@@ -1114,11 +1126,11 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: string,
+  id: ActionId,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args: Array<any>) => Object.assign(metaCreator(...args), meta)
@@ -1533,7 +1545,7 @@ export default schemas;
 
 exports[`schema generator spec from one of other spec file  check 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -1549,7 +1561,7 @@ export function createOpenApiAction(
   payloadCreator = (params) => params,
   metaCreator
 ) {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args) => Object.assign(metaCreator(...args), meta)
@@ -1860,7 +1872,8 @@ export default schemas;
 
 exports[`schema generator spec from one of other spec file  check TS 1`] = `
 Object {
-  "output": "/* eslint-disable no-underscore-dangle */
+  "output": "// @ts-nocheck
+/* eslint-disable */
 /**
  * generated from API definition file
  */
@@ -1868,8 +1881,13 @@ Object {
 import isFunction from 'lodash/isFunction';
 import { createAction, ActionFunctionAny, ActionMeta } from 'redux-actions';
 import schemas from '../schemas/sample_schema';
-import { Schema } from 'normalizr';
+
+import type { Schema } from 'normalizr';
+
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
+
+type ActionId =
+  | 'GET_PETS__ID_';
 
 interface Meta {
   openApi: boolean,
@@ -1878,11 +1896,11 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: string,
+  id: ActionId,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
-  const meta = {openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()]};
+  const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
     isFunction(metaCreator)
       ? (...args: Array<any>) => Object.assign(metaCreator(...args), meta)
