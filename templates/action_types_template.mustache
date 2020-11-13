@@ -12,10 +12,8 @@ export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
 {{#useTypeScript}}
-type ActionId =
-{{#operationIdList}}
-  | '{{.}}'
-{{/operationIdList}}
+type ActionId ={{#operationIdList}}
+  | '{{.}}'{{/operationIdList}};
 
 interface Meta {
   openApi: boolean,
