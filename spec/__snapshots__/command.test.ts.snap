@@ -347,7 +347,7 @@ import type { Schema } from 'normalizr';
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
 type ActionId =
-  | 'GET_PETS__ID_'
+  | 'GET_PETS__ID_';
 
 interface Meta {
   openApi: boolean,
@@ -1123,7 +1123,7 @@ import type { Schema } from 'normalizr';
 export const GET_OWNER__NAME_ = 'GET_OWNER__NAME_';
 
 type ActionId =
-  | 'GET_OWNER__NAME_'
+  | 'GET_OWNER__NAME_';
 
 interface Meta {
   openApi: boolean,
@@ -1899,7 +1899,7 @@ import type { Schema } from 'normalizr';
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
 type ActionId =
-  | 'GET_PETS__ID_'
+  | 'GET_PETS__ID_';
 
 interface Meta {
   openApi: boolean,
