@@ -18,7 +18,7 @@
     "js-yaml": "3.14.0",
     "lodash": "4.17.20",
     "mkdirp": "1.0.4",
-    "mustache": "4.0.1",
+    "mustache": "4.1.0",
     "swagger-client": "3.12.1"
   },
   "devDependencies": {
