@@ -30,7 +30,7 @@
     "@types/jest": "26.0.20",
     "@types/js-yaml": "3.12.6",
     "@types/json-schema": "7.0.7",
-    "@types/lodash": "4.14.167",
+    "@types/lodash": "4.14.168",
     "@types/mkdirp": "1.0.1",
     "@types/mustache": "4.1.1",
     "@types/prop-types": "15.7.3",
