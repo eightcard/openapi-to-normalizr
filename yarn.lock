@@ -9117,10 +9117,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.12.1:
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.12.1.tgz#bbe4521c0f662e72ad84fa9dbe3eb42c9960d901"
-  integrity sha512-jxhf7yvMq1SIlaMBlL0S+2mk5eovdYNzVAn1Ewrpe1pkby2pm5PnnP8XiSImCuX7d+BxUfVFkOgCTeK38+fBlA==
+swagger-client@3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.12.2.tgz#c6d1148d749507d328a1647bd71f33166147387d"
+  integrity sha512-l4aAty0VNmHaOEEvOI7Tc6xtUZLNxtFEOZzansjxHjbV9o2ZsiFPMdomIGj14n/Zb0S2eN83cEJYHJ3SENUYPw==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
