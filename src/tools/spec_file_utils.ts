@@ -72,7 +72,7 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
   return merge(
     {},
     ...specFiles.concat(allFiles).map((p) => {
-      const spec = jsYaml.safeLoad(fs.readFileSync(p).toString());
+      const spec = jsYaml.load(fs.readFileSync(p).toString());
       if (isDocument(spec)) {
         if (specFiles.includes(p)) {
           removeUnusableOperation(spec);
@@ -109,7 +109,7 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
 
   function getAllRelatedFiles(files: string[]): string[] {
     return files.reduce((acc: string[], filePath) => {
-      const spec = jsYaml.safeLoad(fs.readFileSync(filePath).toString());
+      const spec = jsYaml.load(fs.readFileSync(filePath).toString());
       const refFilesPaths = isDocument(spec) ? uniq(getRefFilesPath(spec)) : [];
       const relatedFilesPaths = flatten(
         refFilesPaths.map((p: string): string | string[] => {
