@@ -1,3 +1,5 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import path from 'path';
 import Swagger from 'swagger-client';
 import _ from 'lodash';
