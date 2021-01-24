@@ -94,7 +94,8 @@ export default class ModelGenerator {
     const required = this.definitions[name] && this.definitions[name].required;
 
     if (this._modelNameList.includes(name)) {
-      return Promise.reject('_modelNameList does not includes modelName');
+      // ignore duplicate execution
+      return Promise.resolve();
     }
     this._modelNameList.push(name);
 
@@ -207,7 +208,9 @@ export default class ModelGenerator {
       });
 
       // import先のモデルを書き出し
-      Promise.all(importList.map(({ value, modelName }) => this.writeModel(value, modelName))).then(
+      Promise.all<void | string>(
+        importList.map(({ value, modelName }) => this.writeModel(value, modelName)),
+      ).then(
         () => resolve({ text, props }), // 自身の書き出しはここで実施
         reject,
       );
