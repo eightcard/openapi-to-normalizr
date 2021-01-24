@@ -13,9 +13,10 @@ program
   .option('-c, --config <configPath>', 'config path')
   .arguments('...<files>')
   .parse(process.argv);
+const options = program.opts();
 const specFiles = program.args;
 
-const userConfig = program.config ? require(path.join(process.cwd(), program.config)) : {};
+const userConfig = options.config ? require(path.join(process.cwd(), options.config)) : {};
 const defaultConfig = require(path.join(__dirname, '../config/parser-config-default.js'));
 const config = _.merge({}, defaultConfig, userConfig);
 console.info(`parse file: ${specFiles}`);
