@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "9.0.7",
-    "commander": "6.2.1",
+    "commander": "7.0.0",
     "js-yaml": "3.14.1",
     "lodash": "4.17.20",
     "mkdirp": "1.0.4",
