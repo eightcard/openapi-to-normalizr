@@ -99,6 +99,7 @@ export function getPreparedSpec(specFiles: string[] = [], tags: string[] = []) {
 
   function removeUnusableOperation(spec: Document) {
     each(spec.paths, (operations) => {
+      if (!operations) return;
       each(operations, (operation, method) => {
         if (isOperation(operation) && isMethodName(method) && !isUsableOperation(operation.tags)) {
           delete operations[method];
