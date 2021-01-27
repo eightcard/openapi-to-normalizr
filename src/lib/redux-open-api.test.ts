@@ -6,7 +6,7 @@ import noop from 'lodash/noop';
 import assert from 'assert';
 nock.disableNetConnect();
 
-const spec = jsYaml.safeLoad(fs.readFileSync('examples/petstore.v3.yml', 'utf8'));
+const spec = jsYaml.load(fs.readFileSync('examples/petstore.v3.yml', 'utf8'));
 
 describe('middleware', () => {
   const nextFunction = jest.fn();
