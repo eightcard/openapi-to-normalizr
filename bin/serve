@@ -10,8 +10,9 @@ const p = program
   .option('-p, --port [port]', 'specify server port')
   .parse(process.argv);
 
+const options = program.opts();
 const dir = p.args[0] ? p.args[0] : __dirname;
-const port = p.port || 3000;
+const port = options.port || 3000;
 
 const server = http.createServer((request, response) => {
   return handler(request, response, {
