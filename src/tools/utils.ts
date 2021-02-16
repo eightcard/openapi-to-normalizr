@@ -141,6 +141,23 @@ export function applyRequired(props: TODO, requiredList: TODO[]) {
   );
 }
 
+export function applyNullable(props: TODO, nullableList: TODO[]) {
+  if (!_.isArray(nullableList)) {
+    return props;
+  }
+  return _.reduce(
+    props,
+    (ret: { [key: string]: TODO }, prop, key) => {
+      ret[key] = prop;
+      if (nullableList.includes(key)) {
+        prop.required = true;
+      }
+      return ret;
+    },
+    {},
+  );
+}
+
 export function resolvePath(str: string) {
   return path.isAbsolute(str) ? str : path.join(cwd, str);
 }
