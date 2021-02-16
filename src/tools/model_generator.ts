@@ -7,6 +7,7 @@ import {
   render,
   objectToTemplateValue,
   applyRequired,
+  applyNullable,
   getIdAttribute,
   readTemplates,
   isFileExistPromise,
@@ -90,8 +91,6 @@ export default class ModelGenerator {
     const fileName = _.snakeCase(name);
     const idAttribute = getIdAttribute(model, name);
     if (!idAttribute) return Promise.reject('idAttribute does not exists');
-    // requiredはモデル定義のものを使う
-    const required = this.definitions[name] && this.definitions[name].required;
 
     if (this._modelNameList.includes(name)) {
       // ignore duplicate execution
@@ -99,7 +98,16 @@ export default class ModelGenerator {
     }
     this._modelNameList.push(name);
 
-    return this._renderBaseModel(name, applyRequired(properties, required), idAttribute).then(
+    // requiredはモデル定義のものを使う
+    const requiredPropertyNames = this.definitions[name] && this.definitions[name].required;
+    const nullablePropertyNames = Object.keys(properties).filter(
+      (propertyName) => properties[propertyName].nullable,
+    );
+
+    let appliedProperties = applyRequired(properties, requiredPropertyNames);
+    appliedProperties = applyNullable(appliedProperties, nullablePropertyNames);
+
+    return this._renderBaseModel(name, appliedProperties, idAttribute).then(
       ({ text, props }: TODO) => {
         writeFile(path.join(this.outputBaseDir, `${fileName}.${this.extension}`), text);
         return this._writeOverrideModel(name, fileName, props).then(() => name);
@@ -228,6 +236,7 @@ export default class ModelGenerator {
         type: this.generateTypeFrom(prop, dependencySchema[name]),
         alias: prop['x-attribute-as'],
         required: prop.required === true,
+        nullable: prop.nullable === true,
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
