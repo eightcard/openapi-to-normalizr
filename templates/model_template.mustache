@@ -25,7 +25,7 @@ export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}};
+  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#required}} | undefined{{/required}}{{#nullable}} | null{{/nullable}};
 {{/props}}
 };
 
