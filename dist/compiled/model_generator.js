@@ -82,14 +82,23 @@ var ModelGenerator = /*#__PURE__*/function () {
       var fileName = _lodash.default.snakeCase(name);
 
       var idAttribute = (0, _utils.getIdAttribute)(model, name);
-      if (!idAttribute) return; // requiredはモデル定義のものを使う
+      if (!idAttribute) return Promise.reject('idAttribute does not exists');
 
-      var required = this.definitions[name] && this.definitions[name].required;
-      if (this._modelNameList.includes(name)) return;
+      if (this._modelNameList.includes(name)) {
+        // ignore duplicate execution
+        return Promise.resolve();
+      }
 
-      this._modelNameList.push(name);
+      this._modelNameList.push(name); // requiredはモデル定義のものを使う
 
-      return this._renderBaseModel(name, (0, _utils.applyRequired)(properties, required), idAttribute).then(function (_ref2) {
+
+      var requiredPropertyNames = this.definitions[name] && this.definitions[name].required;
+      var nullablePropertyNames = Object.keys(properties).filter(function (propertyName) {
+        return properties[propertyName].nullable;
+      });
+      var appliedProperties = (0, _utils.applyRequired)(properties, requiredPropertyNames);
+      appliedProperties = (0, _utils.applyNullable)(appliedProperties, nullablePropertyNames);
+      return this._renderBaseModel(name, appliedProperties, idAttribute).then(function (_ref2) {
         var text = _ref2.text,
             props = _ref2.props;
         (0, _utils.writeFile)(_path.default.join(_this.outputBaseDir, "".concat(fileName, ".").concat(_this.extension)), text);
@@ -172,7 +181,7 @@ var ModelGenerator = /*#__PURE__*/function () {
       return new Promise(function (resolve, reject) {
         var importList = [];
         var oneOfs = [];
-        var oneOfsCounter = 1; // @ts-expect-error
+        var oneOfsCounter = 1; // @ts-expect-error バインド要素 'type', 'value' には暗黙的に 'any' 型が含まれます。
 
         var dependencySchema = (0, _utils.parseSchema)(properties, function (_ref4) {
           var type = _ref4.type,
@@ -258,13 +267,14 @@ var ModelGenerator = /*#__PURE__*/function () {
           type: _this4.generateTypeFrom(prop, dependencySchema[_name]),
           alias: prop['x-attribute-as'],
           required: prop.required === true,
+          nullable: prop.nullable === true,
           isEnum: Boolean(prop.enum),
           isValueString: prop.type === 'string',
           propertyName: _name,
           enumObjects: _this4.getEnumObjects(_this4.attributeConverter(_name), prop.enum, prop['x-enum-key-attributes']),
           enumType: _this4._getEnumTypes(prop.type),
           items: prop.items
-        }; // @ts-expect-error
+        }; // @ts-expect-error プロパティ 'templatePropNames' は型 'Function' に存在しません。
 
         return _this4.constructor.templatePropNames.reduce(function (ret, key) {
           ret[key] = ret[key] || properties[_name][key];
@@ -474,7 +484,7 @@ var ModelGenerator = /*#__PURE__*/function () {
 exports.default = ModelGenerator;
 
 function getPropTypes() {
-  // @ts-expect-error
+  // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
   return _getPropTypes(this.type, this.enum, this.enumObjects);
 }
 
@@ -510,7 +520,7 @@ function _getPropTypes(type, enums, enumObjects) {
 }
 
 function getTypeScriptTypes() {
-  // @ts-expect-error
+  // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
   return _getTypeScriptTypes(this.type, this.enumObjects);
 }
 
@@ -539,21 +549,22 @@ function _getTypeScriptTypes(type, enumObjects) {
 }
 
 function getDefaults() {
-  // @ts-expect-error
+  // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
   if (_lodash.default.isUndefined(this.default)) {
     return 'undefined';
-  } // @ts-expect-error
+  } // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
 
 
-  if (this.enumObjects) {
-    // @ts-expect-error
-    var _iterator = _createForOfIteratorHelper(this.enumObjects),
+  var enumObjects = this.enumObjects;
+
+  if (enumObjects) {
+    var _iterator = _createForOfIteratorHelper(enumObjects),
         _step;
 
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var enumObject = _step.value;
-        // @ts-expect-error
+        // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
         if (enumObject.value === this.default) return enumObject.name;
       }
     } catch (err) {
@@ -561,7 +572,7 @@ function getDefaults() {
     } finally {
       _iterator.f();
     }
-  } // @ts-expect-error
+  } // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
 
 
   return this.type === 'string' ? "'".concat(this.default, "'") : this.default;

@@ -104,7 +104,7 @@ function getPreparedSpec() {
   var readFiles = {};
   var allFiles = (0, _uniq.default)(getAllRelatedFiles(specFiles));
   return _merge.default.apply(void 0, [{}].concat(_toConsumableArray(specFiles.concat(allFiles).map(function (p) {
-    var spec = _jsYaml.default.safeLoad(_fs.default.readFileSync(p).toString());
+    var spec = _jsYaml.default.load(_fs.default.readFileSync(p).toString());
 
     if (isDocument(spec)) {
       if (specFiles.includes(p)) {
@@ -136,6 +136,7 @@ function getPreparedSpec() {
 
   function removeUnusableOperation(spec) {
     (0, _each.default)(spec.paths, function (operations) {
+      if (!operations) return;
       (0, _each.default)(operations, function (operation, method) {
         if (isOperation(operation) && isMethodName(method) && !isUsableOperation(operation.tags)) {
           delete operations[method];
@@ -146,7 +147,7 @@ function getPreparedSpec() {
 
   function getAllRelatedFiles(files) {
     return files.reduce(function (acc, filePath) {
-      var spec = _jsYaml.default.safeLoad(_fs.default.readFileSync(filePath).toString());
+      var spec = _jsYaml.default.load(_fs.default.readFileSync(filePath).toString());
 
       var refFilesPaths = isDocument(spec) ? (0, _uniq.default)(getRefFilesPath(spec)) : [];
       var relatedFilesPaths = (0, _flatten.default)(refFilesPaths.map(function (p) {

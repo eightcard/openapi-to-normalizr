@@ -9,6 +9,7 @@ exports.applyIf = applyIf;
 exports.parseSchema = parseSchema;
 exports.isFileExistPromise = isFileExistPromise;
 exports.applyRequired = applyRequired;
+exports.applyNullable = applyNullable;
 exports.resolvePath = resolvePath;
 exports.mkdirpPromise = mkdirpPromise;
 exports.writeFilePromise = writeFilePromise;
@@ -109,17 +110,17 @@ function parseSchema(schema, onSchema) {
     return onSchema({
       type: 'model',
       value: schema
-    }); // @ts-expect-error
+    }); // @ts-expect-error oneOfやdiscriminatorがあると認識されていない
   } else if (schema.oneOf && schema.discriminator) {
     return onSchema({
       type: 'oneOf',
       value: parseOneOf(schema, onSchema)
-    }); // @ts-expect-error
+    }); // @ts-expect-error typeがあると認識されていない
   } else if (schema.type === 'object') {
-    // @ts-expect-error
-    return applyIf(parseSchema(schema.properties, onSchema)); // @ts-expect-error
+    // @ts-expect-error propertiesがあると認識されていない
+    return applyIf(parseSchema(schema.properties, onSchema)); // @ts-expect-error typeがあると認識されていない
   } else if (schema.type === 'array') {
-    // @ts-expect-error
+    // @ts-expect-error itemsがあると認識されていない
     return applyIf(parseSchema(schema.items, onSchema), function (val) {
       return [val];
     });
@@ -168,6 +169,22 @@ function applyRequired(props, requiredList) {
     ret[key] = prop;
 
     if (requiredList.includes(key)) {
+      prop.required = true;
+    }
+
+    return ret;
+  }, {});
+}
+
+function applyNullable(props, nullableList) {
+  if (!_lodash.default.isArray(nullableList)) {
+    return props;
+  }
+
+  return _lodash.default.reduce(props, function (ret, prop, key) {
+    ret[key] = prop;
+
+    if (nullableList.includes(key)) {
       prop.required = true;
     }
 

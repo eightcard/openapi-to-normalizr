@@ -144,11 +144,10 @@ var SchemaGenerator = /*#__PURE__*/function () {
     value: function write() {
       var _this2 = this;
 
-      // @ts-expect-error
       return Promise.all([this._writeSchemaFile()].concat(_toConsumableArray(this.importModels.map(function (_ref3) {
         var modelName = _ref3.modelName,
             model = _ref3.model;
-        return (// @ts-expect-error
+        return (// @ts-expect-error utilsのgetModelNameで生成されるmodelNameがundefinedの可能性がある
           _this2.modelGenerator.writeModel(model, modelName)
         );
       })))).then(function () {
@@ -170,7 +169,7 @@ var SchemaGenerator = /*#__PURE__*/function () {
           schema = _this$templates.schema,
           head = _this$templates.head,
           oneOf = _this$templates.oneOf;
-      if (!schema || !head || !oneOf) return;
+      if (!schema || !head || !oneOf) return Promise.reject();
       var text = (0, _utils.render)(schema, {
         importList: this._prepareImportList(),
         data: (0, _utils.objectToTemplateValue)(this.formattedSchema),
