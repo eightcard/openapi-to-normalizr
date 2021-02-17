@@ -75,11 +75,21 @@ components:
             - Cat
     Owner:
       type: object
+      required:
+        - nickname
+        - address
       x-id-attribute: name
       properties:
         name:
           description: owner's name
           type: string
+        nickname:
+          description: owner's nickname
+          type: string
+        address:
+          description: owner's address
+          type: string
+          nullable: true
         gender:
           description: owner's gender
           type: string
