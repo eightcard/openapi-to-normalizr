@@ -185,7 +185,7 @@ function applyNullable(props, nullableList) {
     ret[key] = prop;
 
     if (nullableList.includes(key)) {
-      prop.required = true;
+      prop.nullable = true;
     }
 
     return ret;
