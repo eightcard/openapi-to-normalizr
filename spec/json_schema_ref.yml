@@ -86,10 +86,10 @@ components:
         nickname:
           description: owner's nickname
           type: string
+          nullable: true
         address:
           description: owner's address
           type: string
-          nullable: true
         gender:
           description: owner's gender
           type: string
