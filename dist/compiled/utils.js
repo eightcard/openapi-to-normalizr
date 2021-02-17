@@ -9,7 +9,6 @@ exports.applyIf = applyIf;
 exports.parseSchema = parseSchema;
 exports.isFileExistPromise = isFileExistPromise;
 exports.applyRequired = applyRequired;
-exports.applyNullable = applyNullable;
 exports.resolvePath = resolvePath;
 exports.mkdirpPromise = mkdirpPromise;
 exports.writeFilePromise = writeFilePromise;
@@ -170,22 +169,6 @@ function applyRequired(props, requiredList) {
 
     if (requiredList.includes(key)) {
       prop.required = true;
-    }
-
-    return ret;
-  }, {});
-}
-
-function applyNullable(props, nullableList) {
-  if (!_lodash.default.isArray(nullableList)) {
-    return props;
-  }
-
-  return _lodash.default.reduce(props, function (ret, prop, key) {
-    ret[key] = prop;
-
-    if (nullableList.includes(key)) {
-      prop.nullable = true;
     }
 
     return ret;

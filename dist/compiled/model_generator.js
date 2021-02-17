@@ -93,11 +93,7 @@ var ModelGenerator = /*#__PURE__*/function () {
 
 
       var requiredPropertyNames = this.definitions[name] && this.definitions[name].required;
-      var nullablePropertyNames = Object.keys(properties).filter(function (propertyName) {
-        return properties[propertyName].nullable;
-      });
       var appliedProperties = (0, _utils.applyRequired)(properties, requiredPropertyNames);
-      appliedProperties = (0, _utils.applyNullable)(appliedProperties, nullablePropertyNames);
       return this._renderBaseModel(name, appliedProperties, idAttribute).then(function (_ref2) {
         var text = _ref2.text,
             props = _ref2.props;
