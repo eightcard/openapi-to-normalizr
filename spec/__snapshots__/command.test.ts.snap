@@ -276,11 +276,11 @@ export default {
             \\"type\\": \\"string\\"
           },
           \\"nickname\\": {
-            \\"type\\": \\"string\\"
-          },
-          \\"address\\": {
             \\"type\\": \\"string\\",
             \\"nullable\\": true
+          },
+          \\"address\\": {
+            \\"type\\": \\"string\\"
           },
           \\"gender\\": {
             \\"type\\": \\"string\\",
@@ -406,8 +406,8 @@ export type GenderOther = 'other';
 
 export interface OwnerProps {
   name?: string;
-  nickname: string | undefined;
-  address: string | null | undefined;
+  nickname: string | null | undefined;
+  address: string | undefined;
   gender?: GenderMale | GenderFemale | GenderOther;
 };
 
@@ -652,11 +652,11 @@ export default {
             \\"type\\": \\"string\\"
           },
           \\"nickname\\": {
-            \\"type\\": \\"string\\"
-          },
-          \\"address\\": {
             \\"type\\": \\"string\\",
             \\"nullable\\": true
+          },
+          \\"address\\": {
+            \\"type\\": \\"string\\"
           },
           \\"gender\\": {
             \\"type\\": \\"string\\",
