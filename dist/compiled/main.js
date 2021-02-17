@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = main;
 
+require("core-js/stable");
+
+require("regenerator-runtime/runtime");
+
 var _path = _interopRequireDefault(require("path"));
 
 var _swaggerClient = _interopRequireDefault(require("swagger-client"));
@@ -67,15 +71,16 @@ function _main() {
                   if (!_lodash.default.isObject(operation)) {
                     console.warn("not processed. path:".concat(path, ", method:").concat(method));
                     return;
-                  } // @ts-expect-error
+                  } // @ts-expect-error operationIdがあると認識されていない
 
 
-                  if (operation.operationId) {
-                    console.info( // @ts-expect-error
-                    "no use specified operationId. path:".concat(path, ", method:").concat(method, ", operationId:").concat(operation.operationId)); // @ts-expect-error
+                  var operationId = operation.operationId;
+
+                  if (operationId) {
+                    console.info("no use specified operationId. path:".concat(path, ", method:").concat(method, ", operationId:").concat(operationId)); // @ts-expect-error operationIdがあると認識されていない
 
                     delete operation.operationId;
-                  } // @ts-expect-error
+                  } // @ts-expect-error responsesがあると認識されていない
 
 
                   var response = operation.responses;

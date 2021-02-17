@@ -47,6 +47,8 @@ export const GENDER_OTHER = 'other';
 
 const defaultValues = {
   name: undefined,
+  nickname: undefined,
+  address: undefined,
   gender: undefined,
 };
 
@@ -265,8 +267,19 @@ export default {
       },
       \\"Owner\\": {
         \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"nickname\\",
+          \\"address\\"
+        ],
         \\"properties\\": {
           \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"nickname\\": {
+            \\"type\\": \\"string\\",
+            \\"nullable\\": true
+          },
+          \\"address\\": {
             \\"type\\": \\"string\\"
           },
           \\"gender\\": {
@@ -393,11 +406,15 @@ export type GenderOther = 'other';
 
 export interface OwnerProps {
   name?: string;
+  nickname: string | null | undefined;
+  address: string | undefined;
   gender?: GenderMale | GenderFemale | GenderOther;
 };
 
 const defaultValues: OwnerProps = {
   name: undefined,
+  nickname: undefined,
+  address: undefined,
   gender: undefined,
 };
 
@@ -626,8 +643,19 @@ export default {
       },
       \\"Owner\\": {
         \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"nickname\\",
+          \\"address\\"
+        ],
         \\"properties\\": {
           \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"nickname\\": {
+            \\"type\\": \\"string\\",
+            \\"nullable\\": true
+          },
+          \\"address\\": {
             \\"type\\": \\"string\\"
           },
           \\"gender\\": {

@@ -23,6 +23,26 @@ var Config = /*#__PURE__*/function () {
   }
 
   _createClass(Config, [{
+    key: "tags",
+    get: function get() {
+      return this._config.tags;
+    }
+  }, {
+    key: "outputPath",
+    get: function get() {
+      return this._config.outputPath;
+    }
+  }, {
+    key: "useTypeScript",
+    get: function get() {
+      return this._config.useTypeScript;
+    }
+  }, {
+    key: "extension",
+    get: function get() {
+      return this._config.useTypeScript ? 'ts' : 'js';
+    }
+  }, {
     key: "formatForModelGenerator",
     value: function formatForModelGenerator() {
       var _this$_config = this._config,
@@ -82,26 +102,6 @@ var Config = /*#__PURE__*/function () {
         outputPath: outputPath.jsSpec,
         extension: this.extension
       };
-    }
-  }, {
-    key: "tags",
-    get: function get() {
-      return this._config.tags;
-    }
-  }, {
-    key: "outputPath",
-    get: function get() {
-      return this._config.outputPath;
-    }
-  }, {
-    key: "useTypeScript",
-    get: function get() {
-      return this._config.useTypeScript;
-    }
-  }, {
-    key: "extension",
-    get: function get() {
-      return this._config.useTypeScript ? 'ts' : 'js';
     }
   }]);
 

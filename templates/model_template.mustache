@@ -25,7 +25,7 @@ export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#required}} | undefined{{/required}};
+  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{#required}} | undefined{{/required}};
 {{/props}}
 };
 
@@ -39,7 +39,7 @@ const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{#usePropTypes}}
 export const propTypesObject = {
 {{#props}}
-  {{&name}}: {{&getPropTypes}}{{#required}}.isRequired{{/required}},
+  {{&name}}: {{&getPropTypes}}{{#required}}{{^nullable}}.isRequired{{/nullable}}{{/required}},
 {{/props}}
 };
 export const propTypes = PropTypes.shape(propTypesObject);
