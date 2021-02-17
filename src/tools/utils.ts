@@ -150,7 +150,7 @@ export function applyNullable(props: TODO, nullableList: TODO[]) {
     (ret: { [key: string]: TODO }, prop, key) => {
       ret[key] = prop;
       if (nullableList.includes(key)) {
-        prop.required = true;
+        prop.nullable = true;
       }
       return ret;
     },
