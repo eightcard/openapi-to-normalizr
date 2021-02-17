@@ -7,7 +7,6 @@ import {
   render,
   objectToTemplateValue,
   applyRequired,
-  applyNullable,
   getIdAttribute,
   readTemplates,
   isFileExistPromise,
@@ -100,12 +99,7 @@ export default class ModelGenerator {
 
     // requiredはモデル定義のものを使う
     const requiredPropertyNames = this.definitions[name] && this.definitions[name].required;
-    const nullablePropertyNames = Object.keys(properties).filter(
-      (propertyName) => properties[propertyName].nullable,
-    );
-
-    let appliedProperties = applyRequired(properties, requiredPropertyNames);
-    appliedProperties = applyNullable(appliedProperties, nullablePropertyNames);
+    const appliedProperties = applyRequired(properties, requiredPropertyNames);
 
     return this._renderBaseModel(name, appliedProperties, idAttribute).then(
       ({ text, props }: TODO) => {
