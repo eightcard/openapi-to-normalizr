@@ -224,21 +224,22 @@ export default class ModelGenerator {
   }
 
   _convertPropForTemplate(properties: TODO, dependencySchema: { [key: string]: TODO } = {}) {
+    const aliasNames = _.map(properties, (prop) => prop['x-attribute-as']);
     return _.map(properties, (prop, name) => {
+      const baseName = this.attributeConverter(name);
       const base = {
-        name: () => this.attributeConverter(name),
+        name: () => baseName,
         type: this.generateTypeFrom(prop, dependencySchema[name]),
+        // x-attribute-asで参照している先のプロパティ名
         alias: prop['x-attribute-as'],
+        // nameがx-attribute-asで参照されているプロパティかどうか
+        isAliasBase: aliasNames.includes(name),
         required: prop.required === true,
         nullable: prop.nullable === true,
         isEnum: Boolean(prop.enum),
         isValueString: prop.type === 'string',
         propertyName: name,
-        enumObjects: this.getEnumObjects(
-          this.attributeConverter(name),
-          prop.enum,
-          prop['x-enum-key-attributes'],
-        ),
+        enumObjects: this.getEnumObjects(baseName, prop.enum, prop['x-enum-key-attributes']),
         enumType: this._getEnumTypes(prop.type),
         items: prop.items,
       };
