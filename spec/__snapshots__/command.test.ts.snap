@@ -432,6 +432,11 @@ const denormalize = (
 };
 
 export default class Owner extends Record(defaultValues) {
+  name?: string;
+  nickname: string | null | undefined;
+  address: string | undefined;
+  gender?: GenderMale | GenderFemale | GenderOther;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -493,6 +498,11 @@ const denormalize = (
 };
 
 export default class WrappedPet extends Record(defaultValues) {
+  id: number | undefined;
+  name: string | undefined;
+  kind: KindDog | KindCat | undefined;
+  owner: Owner | undefined;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1224,6 +1234,10 @@ const denormalize = (
 };
 
 export default class Cat extends Record(defaultValues) {
+  id: number | undefined;
+  kind: KindCat | undefined;
+  name?: string;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1277,6 +1291,10 @@ const denormalize = (
 };
 
 export default class Dog extends Record(defaultValues) {
+  id: number | undefined;
+  kind: KindDog | undefined;
+  name?: string;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -1339,6 +1357,10 @@ const denormalize = (
 };
 
 export default class Owner extends Record(defaultValues) {
+  name: string | undefined;
+  fallback_title?: string;
+  pet?: Dog | Cat;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -2010,6 +2032,10 @@ const denormalize = (
 };
 
 export default class Cat extends Record(defaultValues) {
+  id: number | undefined;
+  kind: KindCat | undefined;
+  name?: string;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
@@ -2063,6 +2089,10 @@ const denormalize = (
 };
 
 export default class Dog extends Record(defaultValues) {
+  id: number | undefined;
+  kind: KindDog | undefined;
+  name?: string;
+
   static denormalize(
     id: number | string | Array<number> | Array<string> | List<number> | List<string>,
     entities: any
