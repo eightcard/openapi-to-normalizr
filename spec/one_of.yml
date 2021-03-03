@@ -46,6 +46,12 @@ components:
         name:
           description: owner name
           type: string
+        title:
+          description: owner title
+          type: string
+        fallback_title:
+          x-attribute-as: title
+          type: string
         pet:
           $ref: '#/components/schemas/Pet'
     Breeder:
