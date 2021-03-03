@@ -855,6 +855,8 @@ import { schema as CatSchema } from './cat';
 
 const defaultValues = {
   name: undefined,
+  title: undefined,
+  fallback_title: undefined,
   pet: undefined,
 };
 
@@ -884,6 +886,11 @@ export default class Owner extends Record(defaultValues) {
     entities
   ) {
     return denormalize(id, entities);
+  }
+
+  // created by 'x-attribute-as'
+  get title() {
+    return this.get('title', this.fallback_title);
   }
 }
 ",
@@ -1029,6 +1036,12 @@ export default {
         ],
         \\"properties\\": {
           \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"title\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"fallback_title\\": {
             \\"type\\": \\"string\\"
           },
           \\"pet\\": {
@@ -1293,11 +1306,15 @@ import Cat, { schema as CatSchema } from './cat';
 
 export interface OwnerProps {
   name: string | undefined;
+  title?: string;
+  fallback_title?: string;
   pet?: Dog | Cat;
 };
 
 const defaultValues: OwnerProps = {
   name: undefined,
+  title: undefined,
+  fallback_title: undefined,
   pet: undefined,
 };
 
@@ -1327,6 +1344,12 @@ export default class Owner extends Record(defaultValues) {
     entities: any
   ): OwnerProps | List<OwnerProps> {
     return denormalize(id, entities);
+  }
+
+  // created by 'x-attribute-as'
+  get title() {
+    // @ts-expect-error generated from API definition file
+    return this.get('title', this.fallback_title);
   }
 }
 ",
@@ -1472,6 +1495,12 @@ export default {
         ],
         \\"properties\\": {
           \\"name\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"title\\": {
+            \\"type\\": \\"string\\"
+          },
+          \\"fallback_title\\": {
             \\"type\\": \\"string\\"
           },
           \\"pet\\": {
