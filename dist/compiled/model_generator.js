@@ -255,25 +255,35 @@ var ModelGenerator = /*#__PURE__*/function () {
       var _this4 = this;
 
       var dependencySchema = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      return _lodash.default.map(properties, function (prop, _name) {
+
+      var aliasNames = _lodash.default.map(properties, function (prop) {
+        return prop['x-attribute-as'];
+      });
+
+      return _lodash.default.map(properties, function (prop, name) {
+        var baseName = _this4.attributeConverter(name);
+
         var base = {
           name: function name() {
-            return _this4.attributeConverter(_name);
+            return baseName;
           },
-          type: _this4.generateTypeFrom(prop, dependencySchema[_name]),
+          type: _this4.generateTypeFrom(prop, dependencySchema[name]),
+          // x-attribute-asで参照している先のプロパティ名
           alias: prop['x-attribute-as'],
+          // nameがx-attribute-asで参照されているプロパティかどうか
+          isAliasBase: aliasNames.includes(name),
           required: prop.required === true,
           nullable: prop.nullable === true,
           isEnum: Boolean(prop.enum),
           isValueString: prop.type === 'string',
-          propertyName: _name,
-          enumObjects: _this4.getEnumObjects(_this4.attributeConverter(_name), prop.enum, prop['x-enum-key-attributes']),
+          propertyName: name,
+          enumObjects: _this4.getEnumObjects(baseName, prop.enum, prop['x-enum-key-attributes']),
           enumType: _this4._getEnumTypes(prop.type),
           items: prop.items
         }; // @ts-expect-error プロパティ 'templatePropNames' は型 'Function' に存在しません。
 
         return _this4.constructor.templatePropNames.reduce(function (ret, key) {
-          ret[key] = ret[key] || properties[_name][key];
+          ret[key] = ret[key] || properties[name][key];
           return ret;
         }, base);
       });

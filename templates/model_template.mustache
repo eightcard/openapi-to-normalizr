@@ -61,6 +61,14 @@ const denormalize = (
 };
 
 export default class {{name}} extends Record(defaultValues) {
+{{#useTypeScript}}
+{{#props}}
+{{^isAliasBase}}
+  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{#required}} | undefined{{/required}};
+{{/isAliasBase}}
+{{/props}}
+
+{{/useTypeScript}}
   static denormalize(
     id{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
     entities{{#useTypeScript}}: any{{/useTypeScript}}
@@ -72,8 +80,7 @@ export default class {{name}} extends Record(defaultValues) {
 
   // created by 'x-attribute-as'
   get {{&alias}}() {
-{{#useTypeScript}}    // @ts-expect-error generated from API definition file
-{{/useTypeScript}}    return this.get('{{&alias}}', this.{{name}});
+    return this.get('{{&alias}}', this.{{name}});
   }
 {{/alias}}
 {{/props}}
