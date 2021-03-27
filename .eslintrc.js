@@ -5,12 +5,11 @@ module.exports = {
     node: true,
   },
   extends: [
-
     /* ESLintの推奨ルール */
     'eslint:recommended',
 
     /* Prettierのルールと競合するものを無効化 */
-    'prettier',
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     sourceType: 'module',
@@ -93,7 +92,21 @@ module.exports = {
     'keyword-spacing': 'error',
     'line-comment-position': 'off',
     'linebreak-style': ['error', 'unix'],
-    'lines-around-comment': 'error',
+    'lines-around-comment': [
+      'error',
+      {
+        beforeBlockComment: true,
+        afterBlockComment: false,
+        beforeLineComment: true,
+        afterLineComment: false,
+        allowBlockStart: true,
+        allowBlockEnd: true,
+        allowObjectStart: true,
+        allowObjectEnd: true,
+        allowArrayStart: true,
+        allowArrayEnd: true,
+      },
+    ],
     'lines-around-directive': 'error',
     'lines-between-class-members': ['error', 'always'],
     'max-depth': 'error',
@@ -258,15 +271,11 @@ module.exports = {
     {
       files: ['*.ts'],
       extends: [
-
         /* ESLintチームが作ったTS用の推奨ルール */
         'plugin:@typescript-eslint/eslint-recommended',
 
         /* TS用の推奨ルール */
         'plugin:@typescript-eslint/recommended',
-
-        /* PrettierのTS用のルールと競合するものを無効化 */
-        'prettier/@typescript-eslint',
       ],
       plugins: ['@typescript-eslint'],
       parser: '@typescript-eslint/parser',

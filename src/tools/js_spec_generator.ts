@@ -72,6 +72,7 @@ export default class JsSpecGenerator {
     walkSchema(spec.paths, (obj) => {
       if (obj.$ref) useRefs[obj.$ref] = true;
     });
+
     // pathで利用しているrefから芋づる式に利用しているrefを取得
     _.each(useRefs, (_bool, ref) => checkRef(ref));
 
