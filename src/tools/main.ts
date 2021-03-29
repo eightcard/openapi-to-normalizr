@@ -14,6 +14,7 @@ import Config from './config';
 export default async function main(specFiles: TODO, c: TODO) {
   const config = new Config(c);
   const spec = getPreparedSpec(specFiles, config.tags);
+
   // dereferenceが内部状態を変えてしまうためcopy
   const copiedSpec = JSON.parse(JSON.stringify(spec));
 
@@ -90,15 +91,18 @@ export default async function main(specFiles: TODO, c: TODO) {
           console.warn(`not processed. path:${path}, method:${method}`);
           return;
         }
+
         // @ts-expect-error operationIdがあると認識されていない
         const operationId = operation.operationId;
         if (operationId) {
           console.info(
             `no use specified operationId. path:${path}, method:${method}, operationId:${operationId}`,
           );
+
           // @ts-expect-error operationIdがあると認識されていない
           delete operation.operationId;
         }
+
         // @ts-expect-error responsesがあると認識されていない
         const response = operation.responses;
         const id = opId(operation, path, method);

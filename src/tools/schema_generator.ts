@@ -132,6 +132,7 @@ export default class SchemaGenerator {
     return Promise.all<void | string>([
       this._writeSchemaFile(),
       ...this.importModels.map(({ modelName, model }) =>
+        // eslint-disable-next-line lines-around-comment
         // @ts-expect-error utilsのgetModelNameで生成されるmodelNameがundefinedの可能性がある
         this.modelGenerator.writeModel(model, modelName),
       ),

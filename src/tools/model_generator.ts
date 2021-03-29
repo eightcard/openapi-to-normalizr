@@ -161,6 +161,7 @@ export default class ModelGenerator {
       const importList: TODO[] = [];
       const oneOfs: TODO[] = [];
       let oneOfsCounter = 1;
+
       // @ts-expect-error バインド要素 'type', 'value' には暗黙的に 'any' 型が含まれます。
       const dependencySchema = parseSchema(properties, ({ type, value }) => {
         if (type === 'model') {
@@ -230,8 +231,10 @@ export default class ModelGenerator {
       const base = {
         name: () => baseName,
         type: this.generateTypeFrom(prop, dependencySchema[name]),
+
         // x-attribute-asで参照している先のプロパティ名
         alias: prop['x-attribute-as'],
+
         // nameがx-attribute-asで参照されているプロパティかどうか
         isAliasBase: aliasNames.includes(name),
         required: prop.required === true,
@@ -243,6 +246,7 @@ export default class ModelGenerator {
         enumType: this._getEnumTypes(prop.type),
         items: prop.items,
       };
+
       // @ts-expect-error プロパティ 'templatePropNames' は型 'Function' に存在しません。
       return this.constructor.templatePropNames.reduce(
         (ret: { [key: string]: TODO }, key: TODO) => {
@@ -257,6 +261,7 @@ export default class ModelGenerator {
   getEnumConstantName(enumName: string | number, propertyName: string) {
     const convertedName = _.upperCase(propertyName).split(' ').join('_');
     const convertedkey = _.upperCase(`${enumName}`).split(' ').join('_');
+
     // enumNameがマイナスの数値の時
     const resolvedkey =
       typeof enumName === 'number' && enumName < 0 ? `MINUS_${convertedkey}` : convertedkey;
@@ -266,6 +271,7 @@ export default class ModelGenerator {
   getEnumLiteralTypeName(enumName: string | number, propertyName: string) {
     const convertedName = _.startCase(propertyName).split(' ').join('');
     const convertedkey = _.startCase(`${enumName}`).split(' ').join('');
+
     // enumNameがマイナスの数値の時
     const resolvedkey =
       typeof enumName === 'number' && enumName < 0 ? `Minus${convertedkey}` : convertedkey;
@@ -466,6 +472,7 @@ function getDefaults() {
   if (_.isUndefined(this.default)) {
     return 'undefined';
   }
+
   // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
   const enumObjects = this.enumObjects;
   if (enumObjects) {
@@ -474,6 +481,7 @@ function getDefaults() {
       if (enumObject.value === this.default) return enumObject.name;
     }
   }
+
   // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
   return this.type === 'string' ? `'${this.default}'` : this.default;
 }
