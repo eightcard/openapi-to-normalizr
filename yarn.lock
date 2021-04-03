@@ -9263,10 +9263,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.13.1:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.13.1.tgz#d2531ede4a498911aa084384e387e5008e7b6a70"
-  integrity sha512-Hmy4+wVVa3kveWzC7PIeUwiAY5qcYbm4XlC4uZ7e5kAePfB2cprXImiqrZHIzL+ndU0YTN7I+9w/ZayTisn3Jg==
+swagger-client@3.13.2:
+  version "3.13.2"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.13.2.tgz#df1a1fe92e6db87ab5f76cee6381dcb7da1ad117"
+  integrity sha512-kamtyXtmbZiA2C5YTVqJYgoPJgzqtM5RbeP23Rt/YPYjMArTKZ2fjx1UTsI0aSbws0GluU5pVHiGp8YMciSUfw==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
