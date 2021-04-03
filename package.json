@@ -22,11 +22,11 @@
     "swagger-client": "3.13.1"
   },
   "devDependencies": {
-    "@babel/cli": "7.13.10",
-    "@babel/core": "7.13.13",
+    "@babel/cli": "7.13.14",
+    "@babel/core": "7.13.14",
     "@babel/preset-env": "7.13.12",
     "@babel/preset-typescript": "7.13.0",
-    "@babel/register": "7.13.8",
+    "@babel/register": "7.13.14",
     "@types/jest": "26.0.22",
     "@types/js-yaml": "4.0.0",
     "@types/json-schema": "7.0.7",
