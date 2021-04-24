@@ -59,7 +59,7 @@
     "prettier": "2.2.1",
     "prop-types": "15.7.2",
     "react-immutable-proptypes": "2.2.0",
-    "redux": "4.0.5",
+    "redux": "4.1.0",
     "regenerator-runtime": "0.13.7",
     "rimraf": "3.0.2",
     "serve": "11.3.2",
