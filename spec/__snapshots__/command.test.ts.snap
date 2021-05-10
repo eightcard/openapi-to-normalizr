@@ -131,7 +131,8 @@ export default class WrappedPet extends Record(defaultValues) {
 
 exports[`schema generator spec from json schema ref 4`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
@@ -517,7 +518,8 @@ export default class WrappedPet extends Record(defaultValues) {
 
 exports[`schema generator spec from json schema ref TS 4`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
@@ -950,7 +952,8 @@ export default class Dog extends _Dog {
 
 exports[`schema generator spec from one of check 7`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
@@ -1420,7 +1423,8 @@ export default class Dog extends _Dog {
 
 exports[`schema generator spec from one of check TS 7`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
@@ -1783,7 +1787,8 @@ export default class Dog extends _Dog {
 
 exports[`schema generator spec from one of other spec file  check 6`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
@@ -2146,7 +2151,8 @@ export default class Dog extends _Dog {
 
 exports[`schema generator spec from one of other spec file  check TS 6`] = `
 Object {
-  "output": "/**
+  "output": "/* eslint-disable */
+/**
  * generated from API definition file
  */
 
