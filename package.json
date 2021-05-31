@@ -47,7 +47,7 @@
     "eslint": "7.27.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
-    "husky": "4.3.8",
+    "husky": "6.0.0",
     "immutable": "4.0.0-rc.12",
     "jest": "27.0.3",
     "json-server": "0.16.3",
