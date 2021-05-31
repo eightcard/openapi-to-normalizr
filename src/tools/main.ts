@@ -21,19 +21,13 @@ export default async function main(specFiles: TODO, c: TODO) {
   await dereferenceSchema(spec)
     .then((spec) => {
       let actionTypesGenerator, modelGenerator, schemaGenerator;
-      const [actionsDir, schemasDir, specDir] = ([
-        'actions',
-        'schemas',
-        'jsSpec',
-      ] as const).map((key) => path.dirname(config.outputPath[key]));
+      const [actionsDir, schemasDir, specDir] = (['actions', 'schemas', 'jsSpec'] as const).map(
+        (key) => path.dirname(config.outputPath[key]),
+      );
       const baseModelsDir = `${config.modelsDir}/base`;
-      const prepareDirs = [
-        actionsDir,
-        schemasDir,
-        specDir,
-        config.modelsDir,
-        baseModelsDir,
-      ].map((p) => mkdirpPromise(p));
+      const prepareDirs = [actionsDir, schemasDir, specDir, config.modelsDir, baseModelsDir].map(
+        (p) => mkdirpPromise(p),
+      );
 
       return Swagger({
         spec,
