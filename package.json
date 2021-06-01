@@ -10,7 +10,7 @@
     "openapi2schemas": "./bin/generateschemas"
   },
   "engines": {
-    "node": ">=12.18.0"
+    "node": ">=12.14.1"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "9.0.7",
@@ -47,7 +47,7 @@
     "eslint": "7.27.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "3.4.0",
-    "husky": "6.0.0",
+    "husky": "4.3.8",
     "immutable": "4.0.0-rc.12",
     "jest": "27.0.3",
     "json-server": "0.16.3",
