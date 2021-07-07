@@ -54,7 +54,7 @@
     "lint-staged": "11.0.0",
     "nock": "13.1.1",
     "normalizr": "3.6.1",
-    "openapi-types": "8.0.0",
+    "openapi-types": "9.1.0",
     "power-assert": "1.6.1",
     "prettier": "2.3.2",
     "prop-types": "15.7.2",
