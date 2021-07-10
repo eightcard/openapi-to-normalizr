@@ -29,7 +29,7 @@
     "@babel/register": "7.14.5",
     "@types/jest": "26.0.24",
     "@types/js-yaml": "4.0.2",
-    "@types/json-schema": "7.0.7",
+    "@types/json-schema": "7.0.8",
     "@types/lodash": "4.14.170",
     "@types/mkdirp": "1.0.1",
     "@types/mustache": "4.1.1",
