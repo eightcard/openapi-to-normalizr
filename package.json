@@ -60,7 +60,7 @@
     "prop-types": "15.7.2",
     "react-immutable-proptypes": "2.2.0",
     "redux": "4.1.0",
-    "regenerator-runtime": "0.13.7",
+    "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
     "serve": "12.0.0",
     "speccy": "0.11.0",
