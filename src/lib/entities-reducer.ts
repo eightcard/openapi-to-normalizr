@@ -5,9 +5,11 @@ function getNewEntities(action: { payload?: TODO }) {
   return action.payload && action.payload.entities;
 }
 
-export function resetMetaCreator(): { reset: true } {
-  return { reset: true };
+export function resetMetaCreator() {
+  return { reset: true } as const;
 }
+
+type State = Map<string, TODO>;
 
 /**
  * immutable.js based entities reducer
@@ -15,11 +17,15 @@ export function resetMetaCreator(): { reset: true } {
 class EntitiesReducer {
   Models: TODO;
 
-  initialState: Map<TODO, TODO>;
+  initialState: State;
 
-  additionalReducer: (state: TODO, action?: TODO) => TODO;
+  additionalReducer: (state: State, action?: TODO) => TODO;
 
-  constructor(Models = {}, initialState = Map(), additionalReducer = (state: TODO) => state) {
+  constructor(
+    Models = {},
+    initialState: State = Map<string, TODO>(),
+    additionalReducer = (state: State) => state,
+  ) {
     this.Models = Models;
     this.initialState = initialState;
     this.additionalReducer = additionalReducer;
@@ -34,19 +40,17 @@ class EntitiesReducer {
     return this.additionalReducer(state, action);
   }
 
-  _mergeEntities(
-    state: Map<string | number, TODO>,
-    newEntities: TODO,
-    { meta }: { meta?: TODO } = {},
-  ) {
+  _mergeEntities(state: State, newEntities: State, { meta }: { meta?: TODO } = {}) {
     const reset = meta && meta.reset;
     return state.withMutations((state) => {
+      // @ts-expect-error オブジェクト型は 'unknown' です。ts(2571)
       fromJS(newEntities).forEach((entities: TODO[], modelName: string) => {
         entities.forEach((entity, id) => {
           if (reset || !state.hasIn([modelName, id])) {
             state.setIn([modelName, id], this._instantiate(entity, modelName));
           } else {
             state.updateIn([modelName, id], (oldEntity) => {
+              // @ts-expect-error オブジェクト型は 'unknown' です。ts(2571)
               return oldEntity.mergeDeepWith(merger, this._instantiate(entity, modelName));
             });
           }
