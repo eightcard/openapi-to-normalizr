@@ -11,16 +11,16 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v2-{{ .Branch }}
-            - yarn-packages-v2-master
-            - yarn-packages-v2-
+            - yarn-packages-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v3-{{ .Branch }}
+            - yarn-packages-v3-master
+            - yarn-packages-v3-
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-packages-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
   lint:
@@ -31,10 +31,10 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v2-{{ .Branch }}
-            - yarn-packages-v2-master
-            - yarn-packages-v2-
+            - yarn-packages-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v3-{{ .Branch }}
+            - yarn-packages-v3-master
+            - yarn-packages-v3-
       - run:
           name: lint
           command: yarn lint
@@ -46,10 +46,10 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-v2-{{ .Branch }}
-            - yarn-packages-v2-master
-            - yarn-packages-v2-
+            - yarn-packages-v3-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v3-{{ .Branch }}
+            - yarn-packages-v3-master
+            - yarn-packages-v3-
       - run:
           name: Test
           command: yarn test
