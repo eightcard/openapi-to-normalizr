@@ -51,7 +51,7 @@
     "immutable": "4.0.0-rc.14",
     "jest": "27.0.6",
     "json-server": "0.16.3",
-    "lint-staged": "11.1.1",
+    "lint-staged": "11.1.2",
     "nock": "13.1.1",
     "normalizr": "3.6.1",
     "openapi-types": "9.1.0",
