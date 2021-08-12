@@ -4,6 +4,8 @@
 
 - [OpenAPI](https://github.com/OAI/OpenAPI-Specification)で記述された API 定義から [normalizr](https://github.com/paularmstrong/normalizr)で利用できるスキーマ定義を生成します。
 - [swagger-js](https://github.com/swagger-api/swagger-js)を使った通信用 middleware(内部でレスポンスを正規化)と、正規化したデータを格納する reducer を提供します。
+- リポジトリ内にサンプルがあるので手元で挙動が確認できます。  
+  [Example](./example/README.md)
 
 ## インストール
 

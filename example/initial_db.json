@@ -1,0 +1,45 @@
+{
+  "timeline": [
+    {
+      "id": 1,
+      "text": "こんにちは",
+      "publisher": {
+        "publisherKind": 1,
+        "personId": 10,
+        "name": "Sansan太郎"
+      },
+      "postedAt": "2021-07-30T06:38:00.000Z"
+    },
+    {
+      "id": 2,
+      "text": "おはようございます",
+      "publisher": {
+        "publisherKind": 1,
+        "personId": 20,
+        "name": "Yonyon次郎"
+      },
+      "postedAt": "2021-07-28T03:22:00.000Z"
+    },
+    {
+      "id": 100,
+      "text": "Eightでビジネスのつながりを",
+      "publisher": {
+        "publisherKind": 2,
+        "id": 99,
+        "name": "Sansan株式会社",
+        "logo": "/sansan-logo.png"
+      },
+      "postedAt": "2021-07-23T12:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "text": "こんばんは",
+      "publisher": {
+        "publisherKind": 1,
+        "personId": 20,
+        "name": "Yonyon次郎"
+      },
+      "postedAt": "2021-07-23T04:00:00.000Z"
+    }
+  ]
+}

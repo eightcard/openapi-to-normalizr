@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: タイムラインAPI
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+servers:
+  - url: http://localhost:10010
+tags:
+  - name: default
+paths:
+  /timeline:
+    get:
+      tags:
+        - default
+      description: |
+        投稿一覧を取得
+      responses:
+        200:
+          $ref: '#/components/responses/TimelineResponse'
+    post:
+      tags:
+        - default
+      description: ｜
+        投稿を新規作成
+      responses:
+        201:
+          description: 投稿作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+      requestBody:
+        description: |
+          作成する投稿情報
+        $ref: '#/components/requestBodies/PostRequest'
+        required: true
+  /timeline/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: 投稿ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      tags:
+        - default
+      description: |
+        指定されたIDに応じた投稿を取得
+      responses:
+        200:
+          description: 投稿取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - default
+      description: |
+        指定されたIDの投稿を削除
+      responses:
+        200:
+          description: 削除成功
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  responses:
+    TimelineResponse:
+      description: |
+        投稿一覧レスポンス
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Post'
+  requestBodies:
+    PostRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+              publisher:
+                type: object
+                $ref: '#/components/schemas/Person'
+  # schemasで表現されるものがモデルとして正規化対象となる
+  schemas:
+    Post:
+      description: |
+        投稿モデル
+      required:
+        - id
+        - text
+      properties:
+        text:
+          type: string
+        id:
+          type: integer
+          format: int64
+        postedAt:
+          type: string
+          format: date-time
+        publisher:
+          description: |
+            投稿の投稿者
+            - publisherKind=1 個人
+            - publisherKind=2 企業
+          required:
+            - publisherKind
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/Person'
+            - $ref: '#/components/schemas/Company'
+          discriminator:
+            propertyName: publisherKind
+            mapping:
+              1: '#/components/schemas/Person'
+              2: '#/components/schemas/Company'
+    Person:
+      description: |
+        投稿者の人物モデル
+      # 正規化するときの主キーはx-id-attributeで指定できる (デフォルトはid)
+      x-id-attribute: personId
+      properties:
+        publisherKind:
+          type: number
+          default: 1
+        name:
+          type: string
+        personId:
+          type: integer
+          format: int64
+    Company:
+      description: |
+        投稿者の企業モデル
+      properties:
+        publisherKind:
+          type: number
+          default: 2
+        name:
+          type: string
+        id:
+          type: integer
+          format: int64
+        logo:
+          type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
