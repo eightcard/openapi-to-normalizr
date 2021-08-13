@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textarea {
+  padding: 8px;
+  flex-grow: 1;
+}
+
+.submitButton {
+  background-color: #45a8f5;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 8px 20px;
+  border: 0;
+  border-radius: 4px;
+  margin-left: 12px;
+  cursor: pointer;
+}

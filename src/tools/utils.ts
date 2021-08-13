@@ -153,6 +153,7 @@ export function mkdirpPromise(dir: string) {
 }
 
 export function writeFilePromise(path: string, data?: string) {
+  if (!data) return Promise.resolve();
   return new Promise<void>((resolve, reject) =>
     fs.writeFile(path, data, (err) => (err ? reject(err) : resolve())),
   );

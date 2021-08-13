@@ -6,7 +6,7 @@ import noop from 'lodash/noop';
 import assert from 'assert';
 nock.disableNetConnect();
 
-const spec = jsYaml.load(fs.readFileSync('examples/petstore.v3.yml', 'utf8'));
+const spec = jsYaml.load(fs.readFileSync('example/timeline.v3.yml', 'utf8'));
 
 describe('middleware', () => {
   const nextFunction = jest.fn();
@@ -25,10 +25,10 @@ describe('middleware', () => {
   });
 
   const action = {
-    type: 'GET_PETS',
+    type: 'GET_TIMELINE',
     meta: {
       openApi: true,
-      id: 'get_pets',
+      id: 'get_timeline',
       schema: {
         200: {},
       },
@@ -36,7 +36,7 @@ describe('middleware', () => {
   };
   describe('open api action (success)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(200, {
+      nock(/.*/).get('/timeline').reply(200, {
         response: 'test response',
       });
     });
@@ -56,7 +56,7 @@ describe('middleware', () => {
 
   describe('open api action (success & no-schema)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(202, {
+      nock(/.*/).get('/timeline').reply(202, {
         response: 'no schema',
       });
     });
@@ -73,13 +73,13 @@ describe('middleware', () => {
 
   describe('open api action (failed)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/pets').reply(400);
+      nock(/.*/).get('/timeline').reply(400);
     });
     test('call action with error.', () =>
       subject(action).then(noop, () => {
         expect(nextFunction.mock.calls[0][0]).toMatchObject({
           error: true,
-          type: 'ERROR_GET_PETS',
+          type: 'ERROR_GET_TIMELINE',
         });
       }));
   });

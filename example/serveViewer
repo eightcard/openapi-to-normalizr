@@ -1,0 +1,4 @@
+#!/bin/sh
+echo Access http://localhost once Docker is running.\\\n
+docker pull swaggerapi/swagger-ui
+docker run -p 80:8080  -e SWAGGER_JSON=/example/timeline.v3.yml -v $(pwd)/example:/example swaggerapi/swagger-ui
