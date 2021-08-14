@@ -4708,7 +4708,7 @@ js-yaml@4.1.0, js-yaml@^4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-js-yaml@^3.12.1, js-yaml@^3.13.1, js-yaml@^3.14.0, js-yaml@^3.2.3:
+js-yaml@^3.12.1, js-yaml@^3.13.1, js-yaml@^3.2.3:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
@@ -7163,10 +7163,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.14.1:
-  version "3.14.1"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.14.1.tgz#021e5bf7ead620ba58c13b43103edb458f63c067"
-  integrity sha512-zYTzVwkUEQidYfUty+EPVZOKxcdpB5m5kvemac+kyFtKyx7xr8s6f470lrfFjGyOjXPoUYkauXZde7L9LKXsWA==
+swagger-client@3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.15.0.tgz#ba9de5830a8baf40ec5a867e815fa4588d974fa3"
+  integrity sha512-8Ki4bVbT+bl8hGmy3vR89wktZhVLXKNUk8CoUvfwn7Rq45bZ15c9UQXVr4VU6hP3f9diWJGJs0bKZR9pPOq4ZA==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
@@ -7177,7 +7177,7 @@ swagger-client@3.14.1:
     fast-json-patch "^3.0.0-1"
     form-data-encoder "^1.0.1"
     formdata-node "^3.6.2"
-    js-yaml "^3.14.0"
+    js-yaml "^4.1.0"
     lodash "^4.17.19"
     qs "^6.9.4"
     querystring-browser "^1.0.4"
