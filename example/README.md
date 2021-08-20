@@ -9,6 +9,7 @@
 それぞれ**リポジトリのルートディレクトリ**で実行します。
 
 ### API定義確認
+docker環境が必要となります。
 ```bash
 yarn example:api
 # ブラウザでhttp://localhostを開きます
