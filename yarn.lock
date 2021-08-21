@@ -3380,12 +3380,7 @@ foreach@^2.0.4:
   resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
   integrity sha1-C+4AUBiusmDQo6865ljdATbsG5k=
 
-form-data-encoder@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.4.0.tgz#41ce230b45a923543ffbf521d42170e026f6a09a"
-  integrity sha512-H54s9sqy0YkwaTtiPjce9GmmpVCuM9gu09lx4hkEBna2zmEBwVUz8XCpoIC2lhTuM9grpNgUc4AiBXScDffMOQ==
-
-form-data-encoder@^1.0.1:
+form-data-encoder@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.4.3.tgz#b0975dbe5795676f211c0ff98e473eaf52b0db4a"
   integrity sha512-ARLR/jJaj3+tlKkO7h1uvvjQcD6xCiKyg42hcG5Q4jv8uDa1IMPs81bM3BwI8BrqVEQxF9pX6tx0iLIzAvr31Q==
@@ -3404,13 +3399,12 @@ format-util@^1.0.3:
   resolved "https://registry.yarnpkg.com/format-util/-/format-util-1.0.5.tgz#1ffb450c8a03e7bccffe40643180918cc297d271"
   integrity sha512-varLbTj0e0yVyRpqQhuWV+8hlePAgaoFRhNFj50BNjEIrw1/DphHSObtqwskVCPWNgzwPoQrZAbfa/SBiicNeg==
 
-formdata-node@^3.6.2:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-3.6.3.tgz#d074cc048a347dd5bceb2448ec8aaf65f3636bb4"
-  integrity sha512-1kuwXsWIgTV9k5hL6i2cW5KOuQqmbkOMqYMw2XB+WRKBVq/RFMJvu/8qc3fjPFcBImBIGkSwIJim1JbAZVOFuQ==
+formdata-node@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-4.0.0.tgz#17a0b3a2d95e5ba3d2b89402151d2870b5e26cd6"
+  integrity sha512-FGT02keIfJ5yy/PLZPwRw/LMXLvNmg6l1fbqQOW/K4bczXP9oAbKrTh6qugNwJYnqy5IrIS+teD+xWbseYmUZw==
   dependencies:
     fetch-blob "2.1.2"
-    form-data-encoder "1.4.0"
     node-domexception "1.0.0"
 
 forwarded@0.2.0:
@@ -7120,10 +7114,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-client@3.15.0:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.15.0.tgz#ba9de5830a8baf40ec5a867e815fa4588d974fa3"
-  integrity sha512-8Ki4bVbT+bl8hGmy3vR89wktZhVLXKNUk8CoUvfwn7Rq45bZ15c9UQXVr4VU6hP3f9diWJGJs0bKZR9pPOq4ZA==
+swagger-client@3.16.0:
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.16.0.tgz#548f8b3dbd92a3a7d214c3e1cfbdfed9c0fe4923"
+  integrity sha512-fE+HPDla35+k9uXd9BmgZNvhUaM1oA8iCILOINYrziFK3+dkiSLG57h9Z4QOlcVMr/MjVHYy/1JbftlMt+sQ2A==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
@@ -7132,8 +7126,8 @@ swagger-client@3.15.0:
     cross-fetch "^3.1.4"
     deep-extend "~0.6.0"
     fast-json-patch "^3.0.0-1"
-    form-data-encoder "^1.0.1"
-    formdata-node "^3.6.2"
+    form-data-encoder "^1.4.3"
+    formdata-node "^4.0.0"
     js-yaml "^4.1.0"
     lodash "^4.17.19"
     qs "^6.9.4"
