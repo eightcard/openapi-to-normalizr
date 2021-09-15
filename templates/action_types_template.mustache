@@ -12,7 +12,7 @@ export const {{.}} = '{{.}}';
 {{/operationIdList}}
 
 {{#useTypeScript}}
-type ActionId ={{#operationIdList}}
+export type ActionType ={{#operationIdList}}
   | '{{.}}'{{/operationIdList}};
 
 interface Meta {
@@ -23,7 +23,7 @@ interface Meta {
 
 {{/useTypeScript}}
 export function createOpenApiAction(
-  id{{#useTypeScript}}: ActionId{{/useTypeScript}},
+  id{{#useTypeScript}}: ActionType{{/useTypeScript}},
   payloadCreator{{#useTypeScript}}: ActionFunctionAny<any>{{/useTypeScript}} = (params) => params,
   metaCreator{{#useTypeScript}}: ActionFunctionAny<Meta>{{/useTypeScript}}
 ){{#useTypeScript}}: ActionFunctionAny<ActionMeta<any, Meta>>{{/useTypeScript}} {
