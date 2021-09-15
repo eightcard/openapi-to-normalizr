@@ -360,7 +360,7 @@ import type { Schema } from 'normalizr';
 
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
-type ActionId =
+export type ActionType =
   | 'GET_PETS__ID_';
 
 interface Meta {
@@ -370,7 +370,7 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: ActionId,
+  id: ActionType,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
@@ -1170,7 +1170,7 @@ import type { Schema } from 'normalizr';
 
 export const GET_OWNER__NAME_ = 'GET_OWNER__NAME_';
 
-type ActionId =
+export type ActionType =
   | 'GET_OWNER__NAME_';
 
 interface Meta {
@@ -1180,7 +1180,7 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: ActionId,
+  id: ActionType,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
@@ -1969,7 +1969,7 @@ import type { Schema } from 'normalizr';
 
 export const GET_PETS__ID_ = 'GET_PETS__ID_';
 
-type ActionId =
+export type ActionType =
   | 'GET_PETS__ID_';
 
 interface Meta {
@@ -1979,7 +1979,7 @@ interface Meta {
 }
 
 export function createOpenApiAction(
-  id: ActionId,
+  id: ActionType,
   payloadCreator: ActionFunctionAny<any> = (params) => params,
   metaCreator: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
