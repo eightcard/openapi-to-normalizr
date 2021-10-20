@@ -25,7 +25,7 @@ export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{#required}} | undefined{{/required}};
+  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}} | undefined;
 {{/props}}
 };
 
@@ -64,7 +64,7 @@ export default class {{name}} extends Record(defaultValues) {
 {{#useTypeScript}}
 {{#props}}
 {{^isAliasBase}}
-  {{&name}}{{^required}}?{{/required}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{#required}} | undefined{{/required}};
+  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}} | undefined;
 {{/isAliasBase}}
 {{/props}}
 
