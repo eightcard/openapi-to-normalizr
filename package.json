@@ -10,7 +10,7 @@
     "openapi2schemas": "./bin/generateschemas"
   },
   "engines": {
-    "node": ">=12.14.0"
+    "node": ">=16"
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "9.0.9",
