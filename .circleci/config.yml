@@ -1,6 +1,6 @@
 version: 2
 base_image: &base_image
-  image: circleci/node:16.11.1
+  image: circleci/node:16.12.0
 
 jobs:
   npm_install:
