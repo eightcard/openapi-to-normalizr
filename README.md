@@ -43,6 +43,10 @@ $ npm install git+ssh://git@github.com/eightcard/openapi-to-normalizr.git
     modelsDir: 'models output directory', // default: tmp
     usePropType: 'use prop-type?(true/false)',  // default: true
     useTypeScript: 'use TypeScript?(true/false)', // default: false (experiment)
+    useTypeScriptAction: 'use TypeScript actionTypes?(true/false)', // default: false (experiment)
+    useTypeScriptModel: 'use TypeScript model?(true/false)', // default: false (experiment)
+    useTypeScriptSchema: 'use TypeScript schema?(true/false)', // default: false (experiment)
+    useTypeScriptSpec: 'use TypeScript spec?(true/false)', // default: false (experiment)
     attributeConverter: 'attribute converter function',
     tags: ['xxx', 'yyy'], // all path include target without tags
   }
