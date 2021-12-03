@@ -37,8 +37,12 @@ declare interface ConfigObject {
   modelsDir?: string;
   tags?: string[];
   attributeConverter?: AttributeConverter;
-  usePropType: boolean;
-  useTypeScript: UseTypeScript;
+  usePropType?: boolean;
+  useTypeScript?: UseTypeScript;
+  useTypeScriptAction?: UseTypeScript;
+  useTypeScriptModel?: UseTypeScript;
+  useTypeScriptSchema?: UseTypeScript;
+  useTypeScriptSpec?: UseTypeScript;
 }
 
 declare type Extension = 'ts' | 'js';
