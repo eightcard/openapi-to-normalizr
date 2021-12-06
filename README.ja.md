@@ -44,6 +44,10 @@
        modelsDir: 'モデル出力先',
        usePropType: 'prop-type利用(true/false)',
        useTypeScript: 'TypeScript利用(true/false)',
+       useTypeScriptAction: 'actionTypesのTypeScript利用(true/false)',
+       useTypeScriptModel: 'modelのTypeScript利用(true/false)',
+       useTypeScriptSchema: 'schemaのTypeScript利用(true/false)',
+       useTypeScriptSpec: 'specのTypeScript利用(true/false)',
        attributeConverter: '属性コンバート用関数',
        tags: ['xxx', 'yyy'], // 指定したタグで生成対象を制限(未指定時はすべてのパスが対象)
      }

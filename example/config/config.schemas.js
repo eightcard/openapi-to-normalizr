@@ -10,4 +10,9 @@ module.exports = {
   },
   modelsDir: `${__dirname}/../src/autoGen/models`,
   attributeConverter: snakeToCamel,
+  // useTypeScript: true,
+  // useTypeScriptAction: true,
+  // useTypeScriptModel: true,
+  // useTypeScriptSchema: true,
+  // useTypeScriptSpec: true,
 };
