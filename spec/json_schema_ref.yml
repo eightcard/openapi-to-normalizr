@@ -3,6 +3,7 @@ openapi: '3.0.0'
 info:
   title: JSON schema ref spec
   version: 1.0.0
+  description: Test spec for json schema ref
   contact:
     name: API Support
     url: http://www.example.com/support
