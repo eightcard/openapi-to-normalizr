@@ -27,6 +27,7 @@
     "@babel/preset-env": "7.16.4",
     "@babel/preset-typescript": "7.16.0",
     "@babel/register": "7.16.0",
+    "@stoplight/spectral-cli": "6.1.0",
     "@types/jest": "27.0.3",
     "@types/js-yaml": "4.0.5",
     "@types/json-schema": "7.0.9",
@@ -63,7 +64,6 @@
     "redux": "4.1.2",
     "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
-    "speccy": "0.11.0",
     "typescript": "4.5.2"
   },
   "peerDependencies": {
@@ -71,6 +71,10 @@
     "normalizr": "^3.2.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.0"
+  },
+  "resolutions": {
+    "json-schema": ">=0.4.0",
+    "jsonpointer": ">=5.0.0"
   },
   "husky": {
     "hooks": {
@@ -115,8 +119,7 @@
     "test": "npm-run-all lint jest",
     "jest": "jest src/lib spec",
     "lint": "run-p check:* eslint speclint",
-    "speclint": "find example/petstore.v3.yml spec -name '*.yml' | xargs -I{} yarn speccy {}",
-    "speccy": "speccy lint -s 'operation-operationId' ",
+    "speclint": "spectral lint example/petstore.v3.yml spec/**/*.yml",
     "example:api": "./example/serveViewer",
     "example:build": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
