@@ -1,0 +1,9 @@
+{
+  "extends": ["spectral:oas"],
+  "rules": {
+    "oas3-api-servers": false,
+    "oas3-unused-component": false,
+    "operation-tag-defined": false,
+    "operation-operationId": false
+  }
+}

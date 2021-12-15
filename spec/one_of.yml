@@ -3,6 +3,7 @@ openapi: '3.0.0'
 info:
   title: oneOf check
   version: 1.0.0
+  description: Test spec for one of
   contact:
     name: API Support
     url: http://www.example.com/support
