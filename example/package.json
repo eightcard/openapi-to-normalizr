@@ -38,6 +38,6 @@
     ]
   },
   "devDependencies": {
-    "react-app-rewired": "2.1.9"
+    "react-app-rewired": "2.1.11"
   }
 }
