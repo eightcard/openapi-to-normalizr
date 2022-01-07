@@ -59,7 +59,7 @@
     "openapi-types": "10.0.0",
     "power-assert": "1.6.1",
     "prettier": "2.5.1",
-    "prop-types": "15.8.0",
+    "prop-types": "15.8.1",
     "react-immutable-proptypes": "2.2.0",
     "redux": "4.1.2",
     "regenerator-runtime": "0.13.9",
