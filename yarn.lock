@@ -2705,12 +2705,12 @@ cors@^2.8.5:
     object-assign "^4"
     vary "^1"
 
-cross-fetch@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.4.tgz#9723f3a3a247bf8b89039f3a380a9244e8fa2f39"
-  integrity sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==
+cross-fetch@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
   dependencies:
-    node-fetch "2.6.1"
+    node-fetch "2.6.7"
 
 cross-spawn@^6.0.5:
   version "6.0.5"
@@ -5174,7 +5174,7 @@ node-domexception@1.0.0:
   resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
-node-fetch@2.6.1, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.7:
+node-fetch@2.6.7, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -6493,15 +6493,15 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swagger-client@3.18.2:
-  version "3.18.2"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.18.2.tgz#57a1623e531330b2932058a961a2f1bf529d7496"
-  integrity sha512-AQNmK9QmWsRBFvSmuyI4v0ee3hpBzpaGVF+wb5t/iAQPigsQktcJzR36DXp1sNGxgkXdbW1+G74h+UZuVxD6Mg==
+swagger-client@3.18.3:
+  version "3.18.3"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.18.3.tgz#2e0dd6f79a72c7f4b027ba836a41182bd6addc70"
+  integrity sha512-IA2kiEe0ek2r1lwIyj73zcsaZ6aIOyGm00OB+VEgCAaTBz1AOTIbTQL2HCfqvEtMThGcvxVv+e1UJhHODOx3Ew==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
     cookie "~0.4.1"
-    cross-fetch "^3.1.4"
+    cross-fetch "^3.1.5"
     deepmerge "~4.2.2"
     fast-json-patch "^3.0.0-1"
     form-data-encoder "^1.4.3"
