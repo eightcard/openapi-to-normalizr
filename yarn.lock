@@ -6493,10 +6493,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swagger-client@3.18.3:
-  version "3.18.3"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.18.3.tgz#2e0dd6f79a72c7f4b027ba836a41182bd6addc70"
-  integrity sha512-IA2kiEe0ek2r1lwIyj73zcsaZ6aIOyGm00OB+VEgCAaTBz1AOTIbTQL2HCfqvEtMThGcvxVv+e1UJhHODOx3Ew==
+swagger-client@3.18.4:
+  version "3.18.4"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.18.4.tgz#71be9df585157a3335a542c407733d2134fa75e9"
+  integrity sha512-Wj26oEctONq/u0uM+eSj18675YM5e2vFnx7Kr4neLeXEHKUsfceVQ/OdtrBXdrT3VbtdBbZfMTfl1JOBpix2MA==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
