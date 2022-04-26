@@ -3,7 +3,7 @@ import './Form.css';
 
 const Form = ({ onRequestSubmit }: { onRequestSubmit: (data: any) => void }) => {
   const handleSubmit = useCallback(
-    (e) => {
+    (e: any) => {
       const form = e.target;
       e.preventDefault();
       onRequestSubmit({
