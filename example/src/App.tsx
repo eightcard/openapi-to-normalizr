@@ -16,7 +16,7 @@ import Form from './components/Form';
 
 const FormContainer = () => {
   const dispatch = useDispatch();
-  const handleSubmit = useCallback((data) => dispatch(postPost(data)), [dispatch]);
+  const handleSubmit = useCallback((data: any) => dispatch(postPost(data)), [dispatch]);
 
   return <Form onRequestSubmit={handleSubmit} />;
 };
