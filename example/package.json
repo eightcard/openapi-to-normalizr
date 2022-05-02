@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/node": "16.11.27",
+    "@types/node": "16.11.31",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-redux": "7.2.8",
+    "react-redux": "8.0.1",
     "react-scripts": "5.0.1",
     "redux": "4.2.0",
     "redux-actions": "2.6.5",
