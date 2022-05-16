@@ -11,10 +11,8 @@ function isOpenApiAction(action: TODO) {
   return action && action.meta && action.meta.openApi;
 }
 
-function getShouldIgnorePreviousRequest(action?: {
-  meta?: { shouldIgnorePreviousRequest?: boolean };
-}) {
-  return Boolean(action && action.meta && action.meta.shouldIgnorePreviousRequest);
+function getShouldSkipPreviousRequest(action?: { meta?: { shouldSkipPreviousRequest?: boolean } }) {
+  return Boolean(action && action.meta && action.meta.shouldSkipPreviousRequest);
 }
 
 export const HttpClient = Swagger.http;
@@ -57,18 +55,18 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
       action.meta.requestPayload = action.payload;
 
       const timestamp = new Date().valueOf();
-      const shouldIgnorePreviousRequest = getShouldIgnorePreviousRequest(action);
+      const shouldSkipPreviousRequest = getShouldSkipPreviousRequest(action);
 
-      if (shouldIgnorePreviousRequest) {
+      if (shouldSkipPreviousRequest) {
         latestTimestampMap[action.type] = timestamp;
       }
 
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         (response: { [key: string]: TODO } = {}) => {
           // 並行してリクエストしているactionのうち、同じtypeのものの中で最後に呼び出されたactionかどうか
-          // shouldIgnorePreviousRequest: trueの場合のみチェックする
+          // shouldSkipPreviousRequest: trueの場合のみチェックする
           /* eslint-disable no-undefined */
-          const isLatestRequest = shouldIgnorePreviousRequest
+          const isLatestRequest = shouldSkipPreviousRequest
             ? latestTimestampMap[action.type] === timestamp
             : undefined;
           /* eslint-enable no-undefined */
@@ -76,8 +74,8 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-          // shouldIgnorePreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
-          if (!shouldIgnorePreviousRequest || isLatestRequest) {
+          // shouldSkipPreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
+          if (!shouldSkipPreviousRequest || isLatestRequest) {
             // eslint-disable-next-line callback-return
             next({
               type: action.type,
