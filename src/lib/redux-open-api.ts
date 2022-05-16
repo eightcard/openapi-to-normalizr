@@ -61,45 +61,40 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
         latestTimestampMap[action.type] = timestamp;
       }
 
-      return api(action.payload, Object.assign({}, options, httpOptions))
-        .then(async (response: TODO) => {
-          await new Promise((resolve) => setTimeout(resolve, Math.random() * 3000));
-          return response;
-        })
-        .then(
-          (response: { [key: string]: TODO } = {}) => {
-            // 並行してリクエストしているactionのうち、同じtypeのものの中で最後に呼び出されたactionかどうか
-            // shouldIgnorePreviousRequest: trueの場合のみチェックする
-            /* eslint-disable no-undefined */
-            const isLatestRequest = shouldIgnorePreviousRequest
-              ? latestTimestampMap[action.type] === timestamp
-              : undefined;
-            /* eslint-enable no-undefined */
+      return api(action.payload, Object.assign({}, options, httpOptions)).then(
+        (response: { [key: string]: TODO } = {}) => {
+          // 並行してリクエストしているactionのうち、同じtypeのものの中で最後に呼び出されたactionかどうか
+          // shouldIgnorePreviousRequest: trueの場合のみチェックする
+          /* eslint-disable no-undefined */
+          const isLatestRequest = shouldIgnorePreviousRequest
+            ? latestTimestampMap[action.type] === timestamp
+            : undefined;
+          /* eslint-enable no-undefined */
 
-            const useSchema = schema && (schema[response.status] || schema['default']);
-            const payload = useSchema ? normalize(response.body, useSchema) : response.body;
+          const useSchema = schema && (schema[response.status] || schema['default']);
+          const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-            // shouldIgnorePreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
-            if (!shouldIgnorePreviousRequest || isLatestRequest) {
-              // eslint-disable-next-line callback-return
-              next({
-                type: action.type,
-                meta: action.meta,
-                payload,
-              });
-            }
-            return response;
-          },
-          (error: Error) => {
+          // shouldIgnorePreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
+          if (!shouldIgnorePreviousRequest || isLatestRequest) {
+            // eslint-disable-next-line callback-return
             next({
-              type: `ERROR_${action.type}`,
+              type: action.type,
               meta: action.meta,
-              payload: error,
-              error: true,
+              payload,
             });
-            return Promise.reject(error);
-          },
-        );
+          }
+          return response;
+        },
+        (error: Error) => {
+          next({
+            type: `ERROR_${action.type}`,
+            meta: action.meta,
+            payload: error,
+            error: true,
+          });
+          return Promise.reject(error);
+        },
+      );
     };
   });
 };
