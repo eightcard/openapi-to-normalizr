@@ -11,7 +11,9 @@ function isOpenApiAction(action: TODO) {
   return action && action.meta && action.meta.openApi;
 }
 
-function getShouldIgnorePreviousRequest(action: TODO) {
+function getShouldIgnorePreviousRequest(action?: {
+  meta?: { shouldIgnorePreviousRequest?: boolean };
+}) {
   return Boolean(action && action.meta && action.meta.shouldIgnorePreviousRequest);
 }
 
