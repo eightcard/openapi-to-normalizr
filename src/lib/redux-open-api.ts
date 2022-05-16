@@ -11,7 +11,16 @@ function isOpenApiAction(action: TODO) {
   return action && action.meta && action.meta.openApi;
 }
 
+function getShouldIgnorePreviousRequest(action: TODO) {
+  return Boolean(action && action.meta && action.meta.shouldIgnorePreviousRequest);
+}
+
 export const HttpClient = Swagger.http;
+
+/**
+ * action.typeとDateをvalueOf()したもの
+ */
+const latestTimestampMap: Record<string, number> = {};
 
 export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
   return Swagger({
@@ -44,27 +53,53 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
         options.requestBody = requestBody; // for OAS v3
       }
       action.meta.requestPayload = action.payload;
-      return api(action.payload, Object.assign({}, options, httpOptions)).then(
-        (response: { [key: string]: TODO } = {}) => {
-          const useSchema = schema && (schema[response.status] || schema['default']);
-          const payload = useSchema ? normalize(response.body, useSchema) : response.body;
-          next({
-            type: action.type,
-            meta: action.meta,
-            payload,
-          });
+
+      const timestamp = new Date().valueOf();
+      const shouldIgnorePreviousRequest = getShouldIgnorePreviousRequest(action);
+
+      if (shouldIgnorePreviousRequest) {
+        latestTimestampMap[action.type] = timestamp;
+      }
+
+      return api(action.payload, Object.assign({}, options, httpOptions))
+        .then(async (response: TODO) => {
+          await new Promise((resolve) => setTimeout(resolve, Math.random() * 3000));
           return response;
-        },
-        (error: Error) => {
-          next({
-            type: `ERROR_${action.type}`,
-            meta: action.meta,
-            payload: error,
-            error: true,
-          });
-          return Promise.reject(error);
-        },
-      );
+        })
+        .then(
+          (response: { [key: string]: TODO } = {}) => {
+            // 並行してリクエストしているactionのうち、同じtypeのものの中で最後に呼び出されたactionかどうか
+            // shouldIgnorePreviousRequest: trueの場合のみチェックする
+            /* eslint-disable no-undefined */
+            const isLatestRequest = shouldIgnorePreviousRequest
+              ? latestTimestampMap[action.type] === timestamp
+              : undefined;
+            /* eslint-enable no-undefined */
+
+            const useSchema = schema && (schema[response.status] || schema['default']);
+            const payload = useSchema ? normalize(response.body, useSchema) : response.body;
+
+            // shouldIgnorePreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
+            if (!shouldIgnorePreviousRequest || isLatestRequest) {
+              // eslint-disable-next-line callback-return
+              next({
+                type: action.type,
+                meta: action.meta,
+                payload,
+              });
+            }
+            return response;
+          },
+          (error: Error) => {
+            next({
+              type: `ERROR_${action.type}`,
+              meta: action.meta,
+              payload: error,
+              error: true,
+            });
+            return Promise.reject(error);
+          },
+        );
     };
   });
 };
