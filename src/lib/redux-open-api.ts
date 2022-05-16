@@ -20,7 +20,7 @@ function getShouldIgnorePreviousRequest(action?: {
 export const HttpClient = Swagger.http;
 
 /**
- * action.typeとDateをvalueOf()したもの
+ * action.typeがkey、DateをvalueOf()した値がvalueのマップ
  */
 const latestTimestampMap: Record<string, number> = {};
 
