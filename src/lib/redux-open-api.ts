@@ -73,7 +73,6 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-
           if (shouldSkipPreviousRequest && !isLatestRequest) {
             // eslint-disable-next-line callback-return
             next({
