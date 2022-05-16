@@ -18,7 +18,7 @@ function getShouldSkipPreviousRequest(action?: { meta?: { shouldSkipPreviousRequ
 export const HttpClient = Swagger.http;
 
 /**
- * action.typeがkey、DateをvalueOf()した値がvalueのマップ
+ * { [key: action.type]: Date.valueOf() }
  */
 const latestTimestampMap: Record<string, number> = {};
 
@@ -63,8 +63,7 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
 
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         (response: { [key: string]: TODO } = {}) => {
-          // 並行してリクエストしているactionのうち、同じtypeのものの中で最後に呼び出されたactionかどうか
-          // shouldSkipPreviousRequest: trueの場合のみチェックする
+          // Whether it is the latest action of the same type to be called in parallel
           /* eslint-disable no-undefined */
           const isLatestRequest = shouldSkipPreviousRequest
             ? latestTimestampMap[action.type] === timestamp
@@ -74,7 +73,6 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-          // shouldSkipPreviousRequest: trueの場合は、最新のリクエストの場合のみnextを呼ぶ
           if (!shouldSkipPreviousRequest || isLatestRequest) {
             // eslint-disable-next-line callback-return
             next({
