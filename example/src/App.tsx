@@ -32,7 +32,7 @@ const TimelineContainer = () => {
     dispatch(getTimeline());
   }, [dispatch]);
 
-  return <Timeline timeline={timeline} onRequestDelete={handleRequestDelete} />;
+  return <Timeline timeline={timeline.reverse()} onRequestDelete={handleRequestDelete} />;
 };
 
 const App = () => {
