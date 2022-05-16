@@ -73,20 +73,21 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-          if (!shouldSkipPreviousRequest || isLatestRequest) {
-            // eslint-disable-next-line callback-return
-            next({
-              type: action.type,
-              meta: action.meta,
-              payload,
-            });
-          } else {
+
+          if (shouldSkipPreviousRequest && !isLatestRequest) {
             // eslint-disable-next-line callback-return
             next({
               type: `SKIPPED_${action.type}`,
               meta: action.meta,
               payload,
               skipped: true,
+            });
+          } else {
+            // eslint-disable-next-line callback-return
+            next({
+              type: action.type,
+              meta: action.meta,
+              payload,
             });
           }
           return response;
