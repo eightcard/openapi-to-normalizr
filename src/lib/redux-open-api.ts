@@ -63,17 +63,13 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
 
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         (response: { [key: string]: TODO } = {}) => {
-          // Whether it is the latest action of the same type to be called in parallel
-          /* eslint-disable no-undefined */
-          const isLatestRequest = shouldSkipPreviousRequest
-            ? latestTimestampMap[action.type] === timestamp
-            : undefined;
-          /* eslint-enable no-undefined */
+          const shouldSkip =
+            shouldSkipPreviousRequest && latestTimestampMap[action.type] !== timestamp;
 
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
 
-          if (shouldSkipPreviousRequest && !isLatestRequest) {
+          if (shouldSkip) {
             // eslint-disable-next-line callback-return
             next({
               type: `SKIPPED_${action.type}`,
