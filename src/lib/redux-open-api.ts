@@ -75,7 +75,6 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
               type: `SKIPPED_${action.type}`,
               meta: action.meta,
               payload,
-              skipped: true,
             });
           } else {
             // eslint-disable-next-line callback-return
