@@ -11,7 +11,16 @@ function isOpenApiAction(action: TODO) {
   return action && action.meta && action.meta.openApi;
 }
 
+function getShouldSkipPreviousRequest(action?: { meta?: { shouldSkipPreviousRequest?: boolean } }) {
+  return Boolean(action && action.meta && action.meta.shouldSkipPreviousRequest);
+}
+
 export const HttpClient = Swagger.http;
+
+/**
+ * { [key: action.type]: Date.valueOf() }
+ */
+const latestTimestampMap: Record<string, number> = {};
 
 export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
   return Swagger({
@@ -44,15 +53,37 @@ export default (spec: TODO, httpOptions?: Record<string, TODO>): TODO => {
         options.requestBody = requestBody; // for OAS v3
       }
       action.meta.requestPayload = action.payload;
+
+      const timestamp = new Date().valueOf();
+      const shouldSkipPreviousRequest = getShouldSkipPreviousRequest(action);
+
+      if (shouldSkipPreviousRequest) {
+        latestTimestampMap[action.type] = timestamp;
+      }
+
       return api(action.payload, Object.assign({}, options, httpOptions)).then(
         (response: { [key: string]: TODO } = {}) => {
+          const shouldSkip =
+            shouldSkipPreviousRequest && latestTimestampMap[action.type] !== timestamp;
+
           const useSchema = schema && (schema[response.status] || schema['default']);
           const payload = useSchema ? normalize(response.body, useSchema) : response.body;
-          next({
-            type: action.type,
-            meta: action.meta,
-            payload,
-          });
+
+          if (shouldSkip) {
+            // eslint-disable-next-line callback-return
+            next({
+              type: `SKIPPED_${action.type}`,
+              meta: action.meta,
+              payload,
+            });
+          } else {
+            // eslint-disable-next-line callback-return
+            next({
+              type: action.type,
+              meta: action.meta,
+              payload,
+            });
+          }
           return response;
         },
         (error: Error) => {

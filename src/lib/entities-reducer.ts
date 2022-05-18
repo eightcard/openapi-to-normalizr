@@ -9,6 +9,10 @@ export function resetMetaCreator() {
   return { reset: true } as const;
 }
 
+export function shouldSkipPreviousRequestMetaCreator() {
+  return { shouldSkipPreviousRequest: true } as const;
+}
+
 type State = Map<string, TODO>;
 
 /**
