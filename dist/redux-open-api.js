@@ -21,8 +21,17 @@ function isOpenApiAction(action) {
   return action && action.meta && action.meta.openApi;
 }
 
+function getShouldSkipPreviousRequest(action) {
+  return Boolean(action && action.meta && action.meta.shouldSkipPreviousRequest);
+}
+
 var HttpClient = _swaggerClient.default.http;
+/**
+ * { [key: action.type]: Date.valueOf() }
+ */
+
 exports.HttpClient = HttpClient;
+var latestTimestampMap = {};
 
 var _default = function _default(spec, httpOptions) {
   return (0, _swaggerClient.default)({
@@ -69,15 +78,35 @@ var _default = function _default(spec, httpOptions) {
           }
 
           action.meta.requestPayload = action.payload;
+          var timestamp = new Date().valueOf();
+          var shouldSkipPreviousRequest = getShouldSkipPreviousRequest(action);
+
+          if (shouldSkipPreviousRequest) {
+            latestTimestampMap[action.type] = timestamp;
+          }
+
           return api(action.payload, Object.assign({}, options, httpOptions)).then(function () {
             var response = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+            var shouldSkip = shouldSkipPreviousRequest && latestTimestampMap[action.type] !== timestamp;
             var useSchema = schema && (schema[response.status] || schema['default']);
             var payload = useSchema ? (0, _normalizr.normalize)(response.body, useSchema) : response.body;
-            next({
-              type: action.type,
-              meta: action.meta,
-              payload: payload
-            });
+
+            if (shouldSkip) {
+              // eslint-disable-next-line callback-return
+              next({
+                type: "SKIPPED_".concat(action.type),
+                meta: action.meta,
+                payload: payload
+              });
+            } else {
+              // eslint-disable-next-line callback-return
+              next({
+                type: action.type,
+                meta: action.meta,
+                payload: payload
+              });
+            }
+
             return response;
           }, function (error) {
             next({

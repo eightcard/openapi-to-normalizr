@@ -9,7 +9,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 var Config = /*#__PURE__*/function () {
   function Config(config) {
@@ -35,27 +35,50 @@ var Config = /*#__PURE__*/function () {
   }, {
     key: "useTypeScript",
     get: function get() {
-      return this._config.useTypeScript;
+      return Boolean(this._config.useTypeScript);
     }
   }, {
-    key: "extension",
+    key: "useTypeScriptAction",
     get: function get() {
-      return this._config.useTypeScript ? 'ts' : 'js';
+      var useTypeScriptAction = this._config.useTypeScriptAction;
+      return typeof useTypeScriptAction === 'undefined' ? this.useTypeScript : Boolean(useTypeScriptAction);
+    }
+  }, {
+    key: "useTypeScriptModel",
+    get: function get() {
+      var useTypeScriptModel = this._config.useTypeScriptModel;
+      return typeof useTypeScriptModel === 'undefined' ? this.useTypeScript : Boolean(useTypeScriptModel);
+    }
+  }, {
+    key: "useTypeScriptSchema",
+    get: function get() {
+      var useTypeScriptSchema = this._config.useTypeScriptSchema;
+      return typeof useTypeScriptSchema === 'undefined' ? this.useTypeScript : Boolean(useTypeScriptSchema);
+    }
+  }, {
+    key: "useTypeScriptSpec",
+    get: function get() {
+      var useTypeScriptSpec = this._config.useTypeScriptSpec;
+      return typeof useTypeScriptSpec === 'undefined' ? this.useTypeScript : Boolean(useTypeScriptSpec);
+    }
+  }, {
+    key: "getExtension",
+    value: function getExtension(useTypeScript) {
+      return useTypeScript ? 'ts' : 'js';
     }
   }, {
     key: "formatForModelGenerator",
     value: function formatForModelGenerator() {
       var _this$_config = this._config,
           templatePath = _this$_config.templates,
-          usePropType = _this$_config.usePropType,
-          useTypeScript = _this$_config.useTypeScript;
+          usePropType = _this$_config.usePropType;
       return {
         outputDir: this.modelsDir,
         templatePath: templatePath,
         usePropType: usePropType,
-        useTypeScript: useTypeScript,
+        useTypeScript: this.useTypeScriptModel,
         attributeConverter: this.attributeConverter,
-        extension: this.extension
+        extension: this.getExtension(this.useTypeScriptModel)
       };
     }
   }, {
@@ -63,16 +86,15 @@ var Config = /*#__PURE__*/function () {
     value: function formatForActionTypesGenerator() {
       var _this$_config2 = this._config,
           outputPath = _this$_config2.outputPath,
-          templatePath = _this$_config2.templates,
-          useTypeScript = _this$_config2.useTypeScript;
+          templatePath = _this$_config2.templates;
       var operationIdList = [];
       return {
         outputPath: outputPath.actions,
         schemasFilePath: outputPath.schemas,
         templatePath: templatePath,
         operationIdList: operationIdList,
-        useTypeScript: useTypeScript,
-        extension: this.extension
+        useTypeScript: this.useTypeScriptAction,
+        extension: this.getExtension(this.useTypeScriptAction)
       };
     }
   }, {
@@ -80,15 +102,14 @@ var Config = /*#__PURE__*/function () {
     value: function formatForSchemaGenerator() {
       var _this$_config3 = this._config,
           outputPath = _this$_config3.outputPath,
-          templatePath = _this$_config3.templates,
-          useTypeScript = _this$_config3.useTypeScript;
+          templatePath = _this$_config3.templates;
       return {
         templatePath: templatePath,
         outputPath: outputPath.schemas,
         modelsDir: this.modelsDir,
         attributeConverter: this.attributeConverter,
-        useTypeScript: useTypeScript,
-        extension: this.extension
+        useTypeScript: this.useTypeScriptSchema,
+        extension: this.getExtension(this.useTypeScriptSchema)
       };
     }
   }, {
@@ -100,7 +121,7 @@ var Config = /*#__PURE__*/function () {
       return {
         templatePath: templatePath,
         outputPath: outputPath.jsSpec,
-        extension: this.extension
+        extension: this.getExtension(this.useTypeScriptSpec)
       };
     }
   }]);

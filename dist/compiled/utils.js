@@ -3,22 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.schemaName = schemaName;
-exports.getModelName = getModelName;
 exports.applyIf = applyIf;
-exports.parseSchema = parseSchema;
-exports.isFileExistPromise = isFileExistPromise;
 exports.applyRequired = applyRequired;
-exports.resolvePath = resolvePath;
-exports.mkdirpPromise = mkdirpPromise;
-exports.writeFilePromise = writeFilePromise;
-exports.writeFile = writeFile;
-exports.readTemplates = readTemplates;
-exports.render = render;
-exports.objectToTemplateValue = objectToTemplateValue;
 exports.changeFormat = changeFormat;
 exports.getIdAttribute = getIdAttribute;
 exports.getModelDefinitions = getModelDefinitions;
+exports.getModelName = getModelName;
+exports.isFileExistPromise = isFileExistPromise;
+exports.mkdirpPromise = mkdirpPromise;
+exports.objectToTemplateValue = objectToTemplateValue;
+exports.parseSchema = parseSchema;
+exports.readTemplates = readTemplates;
+exports.render = render;
+exports.resolvePath = resolvePath;
+exports.schemaName = schemaName;
+exports.writeFile = writeFile;
+exports.writeFilePromise = writeFilePromise;
 
 var _fs = _interopRequireDefault(require("fs"));
 
@@ -34,7 +34,7 @@ var _spec_file_utils = require("./spec_file_utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var cwd = process.cwd();
 var now = new Date();
@@ -184,6 +184,7 @@ function mkdirpPromise(dir) {
 }
 
 function writeFilePromise(path, data) {
+  if (!data) return Promise.resolve();
   return new Promise(function (resolve, reject) {
     return _fs.default.writeFile(path, data, function (err) {
       return err ? reject(err) : resolve();
