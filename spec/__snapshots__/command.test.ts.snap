@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`schema generator spec from json schema ref 1`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -31,7 +31,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from json schema ref 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -79,7 +79,7 @@ export default class Owner extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from json schema ref 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -130,7 +130,7 @@ export default class WrappedPet extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from json schema ref 4`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -149,7 +149,7 @@ export {
 `;
 
 exports[`schema generator spec from json schema ref 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -169,126 +169,126 @@ export default class Owner extends _Owner {
 `;
 
 exports[`schema generator spec from json schema ref 6`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     },
     {
-      \\"name\\": \\"pet\\"
+      "name": "pet"
     }
   ],
-  \\"paths\\": {
-    \\"/pets/{id}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"pet\\"
+  "paths": {
+    "/pets/{id}": {
+      "get": {
+        "tags": [
+          "pet"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"id\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"integer\\",
-              \\"format\\": \\"int64\\"
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PetResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"PetResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/WrappedPet\\"
+  "components": {
+    "responses": {
+      "PetResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/WrappedPet"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"WrappedPet\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"name\\",
-          \\"kind\\",
-          \\"owner\\"
+    "schemas": {
+      "WrappedPet": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "owner"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet/properties/id\\"
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Pet/properties/id"
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           },
-          \\"kind\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet/properties/kind\\"
+          "kind": {
+            "$ref": "#/components/schemas/Pet/properties/kind"
           },
-          \\"owner\\": {
-            \\"$ref\\": \\"#/components/schemas/Owner\\"
+          "owner": {
+            "$ref": "#/components/schemas/Owner"
           }
         }
       },
-      \\"Pet\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"name\\"
+      "Pet": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"Dog\\",
-              \\"Cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "Dog",
+              "Cat"
             ]
           }
         }
       },
-      \\"Owner\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"nickname\\",
-          \\"address\\"
+      "Owner": {
+        "type": "object",
+        "required": [
+          "nickname",
+          "address"
         ],
-        \\"properties\\": {
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          \\"nickname\\": {
-            \\"type\\": \\"string\\",
-            \\"nullable\\": true
+          "nickname": {
+            "type": "string",
+            "nullable": true
           },
-          \\"address\\": {
-            \\"type\\": \\"string\\"
+          "address": {
+            "type": "string"
           },
-          \\"gender\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"male\\",
-              \\"female\\",
-              \\"other\\"
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
             ]
           }
         }
@@ -302,7 +302,7 @@ export default {
 `;
 
 exports[`schema generator spec from json schema ref 7`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -325,7 +325,7 @@ export default schemas;
 `;
 
 exports[`schema generator spec from json schema ref 8`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -345,7 +345,7 @@ export default class WrappedPet extends _WrappedPet {
 `;
 
 exports[`schema generator spec from json schema ref TS 1`] = `
-Object {
+{
   "output": "// @ts-nocheck
 /* eslint-disable */
 /**
@@ -387,7 +387,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from json schema ref TS 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -451,7 +451,7 @@ export default class Owner extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from json schema ref TS 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -517,7 +517,7 @@ export default class WrappedPet extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from json schema ref TS 4`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -536,7 +536,7 @@ export {
 `;
 
 exports[`schema generator spec from json schema ref TS 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -556,126 +556,126 @@ export default class Owner extends _Owner {
 `;
 
 exports[`schema generator spec from json schema ref TS 6`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     },
     {
-      \\"name\\": \\"pet\\"
+      "name": "pet"
     }
   ],
-  \\"paths\\": {
-    \\"/pets/{id}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"pet\\"
+  "paths": {
+    "/pets/{id}": {
+      "get": {
+        "tags": [
+          "pet"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"id\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"integer\\",
-              \\"format\\": \\"int64\\"
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PetResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"PetResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/WrappedPet\\"
+  "components": {
+    "responses": {
+      "PetResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/WrappedPet"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"WrappedPet\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"name\\",
-          \\"kind\\",
-          \\"owner\\"
+    "schemas": {
+      "WrappedPet": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "owner"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet/properties/id\\"
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Pet/properties/id"
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           },
-          \\"kind\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet/properties/kind\\"
+          "kind": {
+            "$ref": "#/components/schemas/Pet/properties/kind"
           },
-          \\"owner\\": {
-            \\"$ref\\": \\"#/components/schemas/Owner\\"
+          "owner": {
+            "$ref": "#/components/schemas/Owner"
           }
         }
       },
-      \\"Pet\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"name\\"
+      "Pet": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"Dog\\",
-              \\"Cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "Dog",
+              "Cat"
             ]
           }
         }
       },
-      \\"Owner\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"nickname\\",
-          \\"address\\"
+      "Owner": {
+        "type": "object",
+        "required": [
+          "nickname",
+          "address"
         ],
-        \\"properties\\": {
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          \\"nickname\\": {
-            \\"type\\": \\"string\\",
-            \\"nullable\\": true
+          "nickname": {
+            "type": "string",
+            "nullable": true
           },
-          \\"address\\": {
-            \\"type\\": \\"string\\"
+          "address": {
+            "type": "string"
           },
-          \\"gender\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"male\\",
-              \\"female\\",
-              \\"other\\"
+          "gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
             ]
           }
         }
@@ -689,7 +689,7 @@ export default {
 `;
 
 exports[`schema generator spec from json schema ref TS 7`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -712,7 +712,7 @@ export default schemas;
 `;
 
 exports[`schema generator spec from json schema ref TS 8`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -732,7 +732,7 @@ export default class WrappedPet extends _WrappedPet {
 `;
 
 exports[`schema generator spec from one of check 1`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -762,7 +762,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from one of check 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -807,7 +807,7 @@ export default class Cat extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -852,7 +852,7 @@ export default class Dog extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check 4`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -911,7 +911,7 @@ export default class Owner extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -931,7 +931,7 @@ export default class Cat extends _Cat {
 `;
 
 exports[`schema generator spec from one of check 6`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -951,7 +951,7 @@ export default class Dog extends _Dog {
 `;
 
 exports[`schema generator spec from one of check 7`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -972,7 +972,7 @@ export {
 `;
 
 exports[`schema generator spec from one of check 8`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -992,134 +992,134 @@ export default class Owner extends _Owner {
 `;
 
 exports[`schema generator spec from one of check 9`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     }
   ],
-  \\"paths\\": {
-    \\"/owner/{name}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"owner\\"
+  "paths": {
+    "/owner/{name}": {
+      "get": {
+        "tags": [
+          "owner"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"name\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"string\\"
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/OwnerResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OwnerResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"OwnerResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/Owner\\"
+  "components": {
+    "responses": {
+      "OwnerResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Owner"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"Owner\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"name\\"
+    "schemas": {
+      "Owner": {
+        "type": "object",
+        "required": [
+          "name"
         ],
-        \\"properties\\": {
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          \\"title\\": {
-            \\"type\\": \\"string\\"
+          "title": {
+            "type": "string"
           },
-          \\"fallback_title\\": {
-            \\"type\\": \\"string\\"
+          "fallback_title": {
+            "type": "string"
           },
-          \\"pet\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet\\"
+          "pet": {
+            "$ref": "#/components/schemas/Pet"
           }
         }
       },
-      \\"Pet\\": {
-        \\"oneOf\\": [
+      "Pet": {
+        "oneOf": [
           {
-            \\"$ref\\": \\"#/components/schemas/Dog\\"
+            "$ref": "#/components/schemas/Dog"
           },
           {
-            \\"$ref\\": \\"#/components/schemas/Cat\\"
+            "$ref": "#/components/schemas/Cat"
           }
         ],
-        \\"discriminator\\": {
-          \\"propertyName\\": \\"kind\\",
-          \\"mapping\\": {
-            \\"dog\\": \\"#/components/schemas/Dog\\",
-            \\"cat\\": \\"#/components/schemas/Cat\\"
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "dog": "#/components/schemas/Dog",
+            "cat": "#/components/schemas/Cat"
           }
         }
       },
-      \\"Dog\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Dog": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"dog\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "dog"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       },
-      \\"Cat\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Cat": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cat"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       }
@@ -1132,7 +1132,7 @@ export default {
 `;
 
 exports[`schema generator spec from one of check 10`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1155,7 +1155,7 @@ export default schemas;
 `;
 
 exports[`schema generator spec from one of check TS 1`] = `
-Object {
+{
   "output": "// @ts-nocheck
 /* eslint-disable */
 /**
@@ -1197,7 +1197,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from one of check TS 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1254,7 +1254,7 @@ export default class Cat extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check TS 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1311,7 +1311,7 @@ export default class Dog extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check TS 4`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1382,7 +1382,7 @@ export default class Owner extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of check TS 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -1402,7 +1402,7 @@ export default class Cat extends _Cat {
 `;
 
 exports[`schema generator spec from one of check TS 6`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -1422,7 +1422,7 @@ export default class Dog extends _Dog {
 `;
 
 exports[`schema generator spec from one of check TS 7`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1443,7 +1443,7 @@ export {
 `;
 
 exports[`schema generator spec from one of check TS 8`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -1463,134 +1463,134 @@ export default class Owner extends _Owner {
 `;
 
 exports[`schema generator spec from one of check TS 9`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     }
   ],
-  \\"paths\\": {
-    \\"/owner/{name}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"owner\\"
+  "paths": {
+    "/owner/{name}": {
+      "get": {
+        "tags": [
+          "owner"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"name\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"string\\"
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/OwnerResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/OwnerResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"OwnerResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/Owner\\"
+  "components": {
+    "responses": {
+      "OwnerResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Owner"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"Owner\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"name\\"
+    "schemas": {
+      "Owner": {
+        "type": "object",
+        "required": [
+          "name"
         ],
-        \\"properties\\": {
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+        "properties": {
+          "name": {
+            "type": "string"
           },
-          \\"title\\": {
-            \\"type\\": \\"string\\"
+          "title": {
+            "type": "string"
           },
-          \\"fallback_title\\": {
-            \\"type\\": \\"string\\"
+          "fallback_title": {
+            "type": "string"
           },
-          \\"pet\\": {
-            \\"$ref\\": \\"#/components/schemas/Pet\\"
+          "pet": {
+            "$ref": "#/components/schemas/Pet"
           }
         }
       },
-      \\"Pet\\": {
-        \\"oneOf\\": [
+      "Pet": {
+        "oneOf": [
           {
-            \\"$ref\\": \\"#/components/schemas/Dog\\"
+            "$ref": "#/components/schemas/Dog"
           },
           {
-            \\"$ref\\": \\"#/components/schemas/Cat\\"
+            "$ref": "#/components/schemas/Cat"
           }
         ],
-        \\"discriminator\\": {
-          \\"propertyName\\": \\"kind\\",
-          \\"mapping\\": {
-            \\"dog\\": \\"#/components/schemas/Dog\\",
-            \\"cat\\": \\"#/components/schemas/Cat\\"
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "dog": "#/components/schemas/Dog",
+            "cat": "#/components/schemas/Cat"
           }
         }
       },
-      \\"Dog\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Dog": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"dog\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "dog"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       },
-      \\"Cat\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Cat": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cat"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       }
@@ -1603,7 +1603,7 @@ export default {
 `;
 
 exports[`schema generator spec from one of check TS 10`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1626,7 +1626,7 @@ export default schemas;
 `;
 
 exports[`schema generator spec from one of other spec file  check 1`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1656,7 +1656,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from one of other spec file  check 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1701,7 +1701,7 @@ export default class Cat extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of other spec file  check 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1746,7 +1746,7 @@ export default class Dog extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of other spec file  check 4`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -1766,7 +1766,7 @@ export default class Cat extends _Cat {
 `;
 
 exports[`schema generator spec from one of other spec file  check 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -1786,7 +1786,7 @@ export default class Dog extends _Dog {
 `;
 
 exports[`schema generator spec from one of other spec file  check 6`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1805,115 +1805,115 @@ export {
 `;
 
 exports[`schema generator spec from one of other spec file  check 7`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     }
   ],
-  \\"paths\\": {
-    \\"/pets/{id}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"pet\\"
+  "paths": {
+    "/pets/{id}": {
+      "get": {
+        "tags": [
+          "pet"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"id\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"integer\\",
-              \\"format\\": \\"int64\\"
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PetResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"PetResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/Pet\\"
+  "components": {
+    "responses": {
+      "PetResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"Pet\\": {
-        \\"oneOf\\": [
+    "schemas": {
+      "Pet": {
+        "oneOf": [
           {
-            \\"$ref\\": \\"#/components/schemas/Dog\\"
+            "$ref": "#/components/schemas/Dog"
           },
           {
-            \\"$ref\\": \\"#/components/schemas/Cat\\"
+            "$ref": "#/components/schemas/Cat"
           }
         ],
-        \\"discriminator\\": {
-          \\"propertyName\\": \\"kind\\",
-          \\"mapping\\": {
-            \\"dog\\": \\"#/components/schemas/Dog\\",
-            \\"cat\\": \\"#/components/schemas/Cat\\"
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "dog": "#/components/schemas/Dog",
+            "cat": "#/components/schemas/Cat"
           }
         }
       },
-      \\"Dog\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Dog": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"dog\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "dog"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       },
-      \\"Cat\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Cat": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cat"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       }
@@ -1926,7 +1926,7 @@ export default {
 `;
 
 exports[`schema generator spec from one of other spec file  check 8`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -1954,7 +1954,7 @@ export default schemas;
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 1`] = `
-Object {
+{
   "output": "// @ts-nocheck
 /* eslint-disable */
 /**
@@ -1996,7 +1996,7 @@ export function createOpenApiAction(
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 2`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -2053,7 +2053,7 @@ export default class Cat extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 3`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -2110,7 +2110,7 @@ export default class Dog extends Record(defaultValues) {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 4`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -2130,7 +2130,7 @@ export default class Cat extends _Cat {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 5`] = `
-Object {
+{
   "output": "/* eslint-disable comma-dangle */
 /**
  * generated from API definition file
@@ -2150,7 +2150,7 @@ export default class Dog extends _Dog {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 6`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
@@ -2169,115 +2169,115 @@ export {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 7`] = `
-Object {
+{
   "output": "/* eslint-disable quotes,comma-dangle */
 /**
  * generated from API definition file
  */
 
 export default {
-  \\"openapi\\": \\"3.0.0\\",
-  \\"tags\\": [
+  "openapi": "3.0.0",
+  "tags": [
     {
-      \\"name\\": \\"default\\"
+      "name": "default"
     }
   ],
-  \\"paths\\": {
-    \\"/pets/{id}\\": {
-      \\"get\\": {
-        \\"tags\\": [
-          \\"pet\\"
+  "paths": {
+    "/pets/{id}": {
+      "get": {
+        "tags": [
+          "pet"
         ],
-        \\"parameters\\": [
+        "parameters": [
           {
-            \\"name\\": \\"id\\",
-            \\"in\\": \\"path\\",
-            \\"required\\": true,
-            \\"schema\\": {
-              \\"type\\": \\"integer\\",
-              \\"format\\": \\"int64\\"
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
-        \\"responses\\": {
-          \\"200\\": {
-            \\"$ref\\": \\"#/components/responses/PetResponse\\"
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PetResponse"
           }
         }
       }
     }
   },
-  \\"components\\": {
-    \\"responses\\": {
-      \\"PetResponse\\": {
-        \\"content\\": {
-          \\"application/json\\": {
-            \\"schema\\": {
-              \\"$ref\\": \\"#/components/schemas/Pet\\"
+  "components": {
+    "responses": {
+      "PetResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
             }
           }
         }
       }
     },
-    \\"schemas\\": {
-      \\"Pet\\": {
-        \\"oneOf\\": [
+    "schemas": {
+      "Pet": {
+        "oneOf": [
           {
-            \\"$ref\\": \\"#/components/schemas/Dog\\"
+            "$ref": "#/components/schemas/Dog"
           },
           {
-            \\"$ref\\": \\"#/components/schemas/Cat\\"
+            "$ref": "#/components/schemas/Cat"
           }
         ],
-        \\"discriminator\\": {
-          \\"propertyName\\": \\"kind\\",
-          \\"mapping\\": {
-            \\"dog\\": \\"#/components/schemas/Dog\\",
-            \\"cat\\": \\"#/components/schemas/Cat\\"
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "dog": "#/components/schemas/Dog",
+            "cat": "#/components/schemas/Cat"
           }
         }
       },
-      \\"Dog\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Dog": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"dog\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "dog"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       },
-      \\"Cat\\": {
-        \\"type\\": \\"object\\",
-        \\"required\\": [
-          \\"id\\",
-          \\"kind\\"
+      "Cat": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
         ],
-        \\"properties\\": {
-          \\"id\\": {
-            \\"type\\": \\"integer\\",
-            \\"format\\": \\"int64\\"
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          \\"kind\\": {
-            \\"type\\": \\"string\\",
-            \\"enum\\": [
-              \\"cat\\"
+          "kind": {
+            "type": "string",
+            "enum": [
+              "cat"
             ]
           },
-          \\"name\\": {
-            \\"type\\": \\"string\\"
+          "name": {
+            "type": "string"
           }
         }
       }
@@ -2290,7 +2290,7 @@ export default {
 `;
 
 exports[`schema generator spec from one of other spec file  check TS 8`] = `
-Object {
+{
   "output": "/* eslint-disable */
 /**
  * generated from API definition file
