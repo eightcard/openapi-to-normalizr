@@ -8,7 +8,7 @@ import { Record, List{{#useTypeScript}}{{#importImmutableMap}}, Map{{/importImmu
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 {{#importList}}
-import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from './{{&filePath}}';
+import {{#useTypeScript}}{{name}}, {{/useTypeScript}}{ schema as {{schemaName}}{{#usePropTypes}}, propTypes as {{name}}PropType{{/usePropTypes}} } from '../{{&filePath}}';
 {{/importList}}
 
 {{#props}}
