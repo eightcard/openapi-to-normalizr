@@ -88,7 +88,7 @@ exports[`schema generator spec from json schema ref 3`] = `
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import { schema as OwnerSchema } from './owner';
+import { schema as OwnerSchema } from '../owner';
 
 export const KIND_DOG = 'Dog';
 export const KIND_CAT = 'Cat';
@@ -460,7 +460,7 @@ exports[`schema generator spec from json schema ref TS 3`] = `
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import Owner, { schema as OwnerSchema } from './owner';
+import Owner, { schema as OwnerSchema } from '../owner';
 
 export const KIND_DOG = 'Dog';
 export const KIND_CAT = 'Cat';
@@ -861,8 +861,8 @@ exports[`schema generator spec from one of check 4`] = `
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import { schema as DogSchema } from './dog';
-import { schema as CatSchema } from './cat';
+import { schema as DogSchema } from '../dog';
+import { schema as CatSchema } from '../cat';
 
 
 const defaultValues = {
@@ -1320,8 +1320,8 @@ exports[`schema generator spec from one of check TS 4`] = `
 import { Record, List } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
-import Dog, { schema as DogSchema } from './dog';
-import Cat, { schema as CatSchema } from './cat';
+import Dog, { schema as DogSchema } from '../dog';
+import Cat, { schema as CatSchema } from '../cat';
 
 
 
