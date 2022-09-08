@@ -48,15 +48,25 @@ export const propTypes = PropTypes.shape(propTypesObject);
 export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, { idAttribute: {{&idAttribute}} }{{/idAttribute}});
 {{>oneOf}}
 {{>dependency}}
+{{#useTypeScript}}
 
+type IdsBase = number | number[] | List<number> | string | string[] | List<string>;
+
+type DenormalizedResult<Model, Ids extends IdsBase>
+  = Ids extends List<unknown>
+    ? List<Model | undefined>
+    : Ids extends unknown[]
+      ? (Model | undefined)[]
+      : Model | undefined;
+{{/useTypeScript}}
 /**
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+const denormalize = {{#useTypeScript}}<Ids extends IdsBase>{{/useTypeScript}}(
+  ids{{#useTypeScript}}: Ids{{/useTypeScript}},
   entities{{#useTypeScript}}: any{{/useTypeScript}}
-){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
+){{#useTypeScript}}: DenormalizedResult<{{name}}, Ids>{{/useTypeScript}} => {
   return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
 };
 
@@ -69,10 +79,10 @@ export default class {{name}} extends Record(defaultValues) {
 {{/props}}
 
 {{/useTypeScript}}
-  static denormalize(
-    id{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+  static denormalize{{#useTypeScript}}<Ids extends IdsBase>{{/useTypeScript}}(
+    id{{#useTypeScript}}: Ids{{/useTypeScript}},
     entities{{#useTypeScript}}: any{{/useTypeScript}}
-  ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
+  ) {
     return denormalize(id, entities);
   }
 {{#props}}
