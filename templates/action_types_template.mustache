@@ -24,8 +24,8 @@ interface Meta {
 {{/useTypeScript}}
 export function createOpenApiAction(
   id{{#useTypeScript}}: ActionType{{/useTypeScript}},
-  payloadCreator{{#useTypeScript}}: ActionFunctionAny<any>{{/useTypeScript}} = (params) => params,
-  metaCreator{{#useTypeScript}}: ActionFunctionAny<Meta>{{/useTypeScript}}
+  payloadCreator{{#useTypeScript}}?: ActionFunctionAny<any>{{/useTypeScript}} = (params) => params,
+  metaCreator{{#useTypeScript}}?: ActionFunctionAny<Meta>{{/useTypeScript}}
 ){{#useTypeScript}}: ActionFunctionAny<ActionMeta<any, Meta>>{{/useTypeScript}} {
   const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
