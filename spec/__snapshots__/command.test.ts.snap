@@ -371,8 +371,8 @@ interface Meta {
 
 export function createOpenApiAction(
   id: ActionType,
-  payloadCreator: ActionFunctionAny<any> = (params) => params,
-  metaCreator: ActionFunctionAny<Meta>
+  payloadCreator?: ActionFunctionAny<any> = (params) => params,
+  metaCreator?: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
   const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
@@ -1181,8 +1181,8 @@ interface Meta {
 
 export function createOpenApiAction(
   id: ActionType,
-  payloadCreator: ActionFunctionAny<any> = (params) => params,
-  metaCreator: ActionFunctionAny<Meta>
+  payloadCreator?: ActionFunctionAny<any> = (params) => params,
+  metaCreator?: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
   const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
@@ -1980,8 +1980,8 @@ interface Meta {
 
 export function createOpenApiAction(
   id: ActionType,
-  payloadCreator: ActionFunctionAny<any> = (params) => params,
-  metaCreator: ActionFunctionAny<Meta>
+  payloadCreator?: ActionFunctionAny<any> = (params) => params,
+  metaCreator?: ActionFunctionAny<Meta>
 ): ActionFunctionAny<ActionMeta<any, Meta>> {
   const meta = { openApi: true, id: id.toLowerCase(), schema: schemas[id.toLowerCase()] };
   const _metaCreator =
