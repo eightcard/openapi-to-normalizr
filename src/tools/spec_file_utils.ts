@@ -38,6 +38,7 @@ const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch',
 // メソッド名の Union String Literal Types = 'get' | 'put' | ... | 'trace';
 type MethodName = typeof methodNames[number];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMethodName = (str: string): str is MethodName => methodNames.includes(str as any);
 
 export function dereferenceSchema(spec: Document) {
