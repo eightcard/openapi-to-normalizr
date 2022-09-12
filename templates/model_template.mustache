@@ -57,7 +57,13 @@ const denormalize = (
   ids{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
   entities{{#useTypeScript}}: any{{/useTypeScript}}
 ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class {{name}} extends Record(defaultValues) {
