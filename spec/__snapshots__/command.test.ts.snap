@@ -62,7 +62,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Owner extends Record(defaultValues) {
@@ -113,7 +119,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class WrappedPet extends Record(defaultValues) {
@@ -429,7 +441,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): OwnerProps | List<OwnerProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Owner extends Record(defaultValues) {
@@ -495,7 +513,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): WrappedPetProps | List<WrappedPetProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class WrappedPet extends Record(defaultValues) {
@@ -790,7 +814,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Cat extends Record(defaultValues) {
@@ -835,7 +865,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Dog extends Record(defaultValues) {
@@ -889,7 +925,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Owner extends Record(defaultValues) {
@@ -1233,7 +1275,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): CatProps | List<CatProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Cat extends Record(defaultValues) {
@@ -1290,7 +1338,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): DogProps | List<DogProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Dog extends Record(defaultValues) {
@@ -1356,7 +1410,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): OwnerProps | List<OwnerProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Owner extends Record(defaultValues) {
@@ -1684,7 +1744,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Cat extends Record(defaultValues) {
@@ -1729,7 +1795,13 @@ const denormalize = (
   ids,
   entities
 ) => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Dog extends Record(defaultValues) {
@@ -2032,7 +2104,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): CatProps | List<CatProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Cat extends Record(defaultValues) {
@@ -2089,7 +2167,13 @@ const denormalize = (
   ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
   entities: any
 ): DogProps | List<DogProps> => {
-  return _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
+  const filteredResult = isArray(result)
+    ? result.filter((m) => m !== undefined)
+    : List.isList(result)
+      ? result.filter((m) => m !== undefined)
+      : result;
+  return filteredResult;
 };
 
 export default class Dog extends Record(defaultValues) {
