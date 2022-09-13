@@ -445,7 +445,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -517,7 +517,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -1279,7 +1279,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -1342,7 +1342,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -1414,7 +1414,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -2108,7 +2108,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };
@@ -2171,7 +2171,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m: unknown) => m !== undefined)
       : result;
   return filteredResult;
 };

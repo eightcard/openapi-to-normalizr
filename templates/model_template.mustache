@@ -61,7 +61,7 @@ const denormalize = (
   const filteredResult = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
-      ? result.filter((m) => m !== undefined)
+      ? result.filter((m{{#useTypeScript}}: unknown{{/useTypeScript}}) => m !== undefined)
       : result;
   return filteredResult;
 };
