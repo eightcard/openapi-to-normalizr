@@ -86,27 +86,30 @@
 
 - babel 処理 (lint -> test -> build)
   ```sh
-  % yarn build:dist
+  yarn build:dist
   ```
 - lint (bin, src が対象)
   ```sh
-  % yarn eslint
+  yarn eslint
   ```
 - test (src/lib 下と spec 下の yml パースのテスト)
   ```sh
-  % yarn test
+  yarn test
   ```
 
 ## リリース
 
 v1.2.3の場合
 
+- package.jsonのversion更新
+- commit
+
 ```sh
 git tag v1.2.3
 git push origin v1.2.3
 ```
 
-してタグを作成した後に、Releasesからtagを選んでリリースノートを作成
+してタグを作成した後に、Releasesからtagを選んでリリースノートを作成（差分のテキストは自動生成されます）
 
 
 ## その他
