@@ -63,6 +63,7 @@ var isOperation = function isOperation(obj) {
 
 var methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']; // メソッド名の Union String Literal Types = 'get' | 'put' | ... | 'trace';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 var isMethodName = function isMethodName(str) {
   return methodNames.includes(str);
 };

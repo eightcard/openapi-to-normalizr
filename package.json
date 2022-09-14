@@ -1,7 +1,7 @@
 {
   "name": "openapi-to-normalizr",
   "description": "generator for normalizr",
-  "version": "0.1.5",
+  "version": "0.4.0",
   "author": {
     "name": "Eight",
     "url": "https://github.com/eightcard/openapi-to-normalizr"
