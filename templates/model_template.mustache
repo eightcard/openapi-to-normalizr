@@ -49,16 +49,26 @@ export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, { idAtt
 {{>oneOf}}
 {{>dependency}}
 
+{{#useTypeScript}}
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
+{{/useTypeScript}}
 /**
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+const denormalize = {{#useTypeScript}}<Model, Ids extends IdsBase>{{/useTypeScript}}(
+  ids{{#useTypeScript}}: Ids{{/useTypeScript}},
   entities{{#useTypeScript}}: any{{/useTypeScript}}
-){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult{{#useTypeScript}}: DenormalizeFilterResult<Model, Ids>{{/useTypeScript}} = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m{{#useTypeScript}}: unknown{{/useTypeScript}}) => m !== undefined)
@@ -75,11 +85,11 @@ export default class {{name}} extends Record(defaultValues) {
 {{/props}}
 
 {{/useTypeScript}}
-  static denormalize(
-    id{{#useTypeScript}}: number | string | Array<number> | Array<string> | List<number> | List<string>{{/useTypeScript}},
+  static denormalize{{#useTypeScript}}<Ids extends IdsBase>{{/useTypeScript}}(
+    id{{#useTypeScript}}: Ids{{/useTypeScript}},
     entities{{#useTypeScript}}: any{{/useTypeScript}}
-  ){{#useTypeScript}}: {{name}}Props | List<{{name}}Props>{{/useTypeScript}} {
-    return denormalize(id, entities);
+  ) {
+    return denormalize{{#useTypeScript}}<{{name}}, Ids>{{/useTypeScript}}(id, entities);
   }
 {{#props}}
 {{#alias}}

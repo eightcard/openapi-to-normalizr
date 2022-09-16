@@ -23,8 +23,9 @@ const FormContainer = () => {
 
 const TimelineContainer = () => {
   const dispatch = useDispatch();
-  const timeline = useSelector(({ timeline, autoEntities }: any) =>
-    Models.Post.denormalize(timeline, autoEntities),
+  const timeline = useSelector(
+    ({ timeline, autoEntities }: { timeline: number[]; autoEntities: unknown }) =>
+      Models.Post.denormalize(timeline, autoEntities),
   );
   const handleRequestDelete = useCallback((id: number) => dispatch(deletePost({ id })), [dispatch]);
 

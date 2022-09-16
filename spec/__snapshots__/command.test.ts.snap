@@ -433,16 +433,24 @@ const defaultValues: OwnerProps = {
 
 export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): OwnerProps | List<OwnerProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -456,11 +464,11 @@ export default class Owner extends Record(defaultValues) {
   address: string | undefined;
   gender: GenderMale | GenderFemale | GenderOther | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): OwnerProps | List<OwnerProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Owner, Ids>(id, entities);
   }
 }
 ",
@@ -505,16 +513,24 @@ schema.define({
   owner: OwnerSchema
 });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : WrappedPet's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): WrappedPetProps | List<WrappedPetProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -528,11 +544,11 @@ export default class WrappedPet extends Record(defaultValues) {
   kind: KindDog | KindCat | undefined;
   owner: Owner | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): WrappedPetProps | List<WrappedPetProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<WrappedPet, Ids>(id, entities);
   }
 }
 ",
@@ -1267,16 +1283,24 @@ const defaultValues: CatProps = {
 
 export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): CatProps | List<CatProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -1289,11 +1313,11 @@ export default class Cat extends Record(defaultValues) {
   kind: KindCat | undefined;
   name: string | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): CatProps | List<CatProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Cat, Ids>(id, entities);
   }
 }
 ",
@@ -1330,16 +1354,24 @@ const defaultValues: DogProps = {
 
 export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): DogProps | List<DogProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -1352,11 +1384,11 @@ export default class Dog extends Record(defaultValues) {
   kind: KindDog | undefined;
   name: string | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): DogProps | List<DogProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Dog, Ids>(id, entities);
   }
 }
 ",
@@ -1402,16 +1434,24 @@ schema.define({
   pet: oneOfSchema1
 });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): OwnerProps | List<OwnerProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -1424,11 +1464,11 @@ export default class Owner extends Record(defaultValues) {
   fallback_title: string | undefined;
   pet: Dog | Cat | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): OwnerProps | List<OwnerProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Owner, Ids>(id, entities);
   }
 
   // created by 'x-attribute-as'
@@ -2096,16 +2136,24 @@ const defaultValues: CatProps = {
 
 export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): CatProps | List<CatProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -2118,11 +2166,11 @@ export default class Cat extends Record(defaultValues) {
   kind: KindCat | undefined;
   name: string | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): CatProps | List<CatProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Cat, Ids>(id, entities);
   }
 }
 ",
@@ -2159,16 +2207,24 @@ const defaultValues: DogProps = {
 
 export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
+type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+
+type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
+  ? Model[]
+  : Ids extends List<unknown>
+    ? List<Model>
+    : Model | undefined;
+
 /**
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
-  ids: number | string | Array<number> | Array<string> | List<number> | List<string>,
+const denormalize = <Model, Ids extends IdsBase>(
+  ids: Ids,
   entities: any
-): DogProps | List<DogProps> => {
+) => {
   const result = _denormalize(ids, isArray(ids) || List.isList(ids) ? [schema] : schema, entities);
-  const filteredResult = isArray(result)
+  const filteredResult: DenormalizeFilterResult<Model, Ids> = isArray(result)
     ? result.filter((m) => m !== undefined)
     : List.isList(result)
       ? result.filter((m: unknown) => m !== undefined)
@@ -2181,11 +2237,11 @@ export default class Dog extends Record(defaultValues) {
   kind: KindDog | undefined;
   name: string | undefined;
 
-  static denormalize(
-    id: number | string | Array<number> | Array<string> | List<number> | List<string>,
+  static denormalize<Ids extends IdsBase>(
+    id: Ids,
     entities: any
-  ): DogProps | List<DogProps> {
-    return denormalize(id, entities);
+  ) {
+    return denormalize<Dog, Ids>(id, entities);
   }
 }
 ",
