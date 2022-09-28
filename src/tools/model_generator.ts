@@ -409,6 +409,7 @@ export default class ModelGenerator {
         fileName,
         enums,
         usePropTypes: this.usePropType,
+        useTypeScript: this.useTypeScript,
       },
       {
         head,
