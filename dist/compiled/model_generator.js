@@ -472,7 +472,8 @@ var ModelGenerator = /*#__PURE__*/function () {
         name: name,
         fileName: fileName,
         enums: enums,
-        usePropTypes: this.usePropType
+        usePropTypes: this.usePropType,
+        useTypeScript: this.useTypeScript
       }, {
         head: head
       });
