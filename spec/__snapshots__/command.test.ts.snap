@@ -58,7 +58,7 @@ export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -115,7 +115,7 @@ schema.define({
  * @params ids : WrappedPet's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -167,10 +167,14 @@ exports[`schema generator spec from json schema ref 5`] = `
  * generated from API definition file
  */
 
-import _Owner from './base/owner';
+import _Owner, { denormalize } from './base/owner';
+
 export * from './base/owner';
 
 export default class Owner extends _Owner {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -343,10 +347,14 @@ exports[`schema generator spec from json schema ref 8`] = `
  * generated from API definition file
  */
 
-import _WrappedPet from './base/wrapped_pet';
+import _WrappedPet, { denormalize } from './base/wrapped_pet';
+
 export * from './base/wrapped_pet';
 
 export default class WrappedPet extends _WrappedPet {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -433,7 +441,7 @@ const defaultValues: OwnerProps = {
 
 export const schema = new _schema.Entity('Owner', {}, { idAttribute: 'name' });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -445,7 +453,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -513,7 +521,7 @@ schema.define({
   owner: OwnerSchema
 });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -525,7 +533,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : WrappedPet's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -582,10 +590,14 @@ exports[`schema generator spec from json schema ref TS 5`] = `
  * generated from API definition file
  */
 
-import _Owner from './base/owner';
+import _Owner, { denormalize, IdsBase } from './base/owner';
+
 export * from './base/owner';
 
 export default class Owner extends _Owner {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Owner, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -758,10 +770,14 @@ exports[`schema generator spec from json schema ref TS 8`] = `
  * generated from API definition file
  */
 
-import _WrappedPet from './base/wrapped_pet';
+import _WrappedPet, { denormalize, IdsBase } from './base/wrapped_pet';
+
 export * from './base/wrapped_pet';
 
 export default class WrappedPet extends _WrappedPet {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<WrappedPet, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -826,7 +842,7 @@ export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -877,7 +893,7 @@ export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -937,7 +953,7 @@ schema.define({
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -975,10 +991,14 @@ exports[`schema generator spec from one of check 5`] = `
  * generated from API definition file
  */
 
-import _Cat from './base/cat';
+import _Cat, { denormalize } from './base/cat';
+
 export * from './base/cat';
 
 export default class Cat extends _Cat {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -995,10 +1015,14 @@ exports[`schema generator spec from one of check 6`] = `
  * generated from API definition file
  */
 
-import _Dog from './base/dog';
+import _Dog, { denormalize } from './base/dog';
+
 export * from './base/dog';
 
 export default class Dog extends _Dog {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1036,10 +1060,14 @@ exports[`schema generator spec from one of check 8`] = `
  * generated from API definition file
  */
 
-import _Owner from './base/owner';
+import _Owner, { denormalize } from './base/owner';
+
 export * from './base/owner';
 
 export default class Owner extends _Owner {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1283,7 +1311,7 @@ const defaultValues: CatProps = {
 
 export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -1295,7 +1323,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -1354,7 +1382,7 @@ const defaultValues: DogProps = {
 
 export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -1366,7 +1394,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -1434,7 +1462,7 @@ schema.define({
   pet: oneOfSchema1
 });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -1446,7 +1474,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Owner's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -1488,10 +1516,14 @@ exports[`schema generator spec from one of check TS 5`] = `
  * generated from API definition file
  */
 
-import _Cat from './base/cat';
+import _Cat, { denormalize, IdsBase } from './base/cat';
+
 export * from './base/cat';
 
 export default class Cat extends _Cat {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Cat, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1508,10 +1540,14 @@ exports[`schema generator spec from one of check TS 6`] = `
  * generated from API definition file
  */
 
-import _Dog from './base/dog';
+import _Dog, { denormalize, IdsBase } from './base/dog';
+
 export * from './base/dog';
 
 export default class Dog extends _Dog {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Dog, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1549,10 +1585,14 @@ exports[`schema generator spec from one of check TS 8`] = `
  * generated from API definition file
  */
 
-import _Owner from './base/owner';
+import _Owner, { denormalize, IdsBase } from './base/owner';
+
 export * from './base/owner';
 
 export default class Owner extends _Owner {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Owner, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1780,7 +1820,7 @@ export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -1831,7 +1871,7 @@ export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = (
+export const denormalize = (
   ids,
   entities
 ) => {
@@ -1864,10 +1904,14 @@ exports[`schema generator spec from one of other spec file  check 4`] = `
  * generated from API definition file
  */
 
-import _Cat from './base/cat';
+import _Cat, { denormalize } from './base/cat';
+
 export * from './base/cat';
 
 export default class Cat extends _Cat {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -1884,10 +1928,14 @@ exports[`schema generator spec from one of other spec file  check 5`] = `
  * generated from API definition file
  */
 
-import _Dog from './base/dog';
+import _Dog, { denormalize } from './base/dog';
+
 export * from './base/dog';
 
 export default class Dog extends _Dog {
+  static denormalize(id, entities) {
+    return denormalize(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -2136,7 +2184,7 @@ const defaultValues: CatProps = {
 
 export const schema = new _schema.Entity('Cat', {}, { idAttribute: 'id' });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -2148,7 +2196,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Cat's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -2207,7 +2255,7 @@ const defaultValues: DogProps = {
 
 export const schema = new _schema.Entity('Dog', {}, { idAttribute: 'id' });
 
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -2219,7 +2267,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : Dog's id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = <Model, Ids extends IdsBase>(
+export const denormalize = <Model, Ids extends IdsBase>(
   ids: Ids,
   entities: any
 ) => {
@@ -2256,10 +2304,14 @@ exports[`schema generator spec from one of other spec file  check TS 4`] = `
  * generated from API definition file
  */
 
-import _Cat from './base/cat';
+import _Cat, { denormalize, IdsBase } from './base/cat';
+
 export * from './base/cat';
 
 export default class Cat extends _Cat {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Cat, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */
@@ -2276,10 +2328,14 @@ exports[`schema generator spec from one of other spec file  check TS 5`] = `
  * generated from API definition file
  */
 
-import _Dog from './base/dog';
+import _Dog, { denormalize, IdsBase } from './base/dog';
+
 export * from './base/dog';
 
 export default class Dog extends _Dog {
+  static denormalize<Ids extends IdsBase>(id: Ids, entities: unknown) {
+    return denormalize<Dog, Ids>(id, entities);
+  }
   /**
    * write custom methods here
    */

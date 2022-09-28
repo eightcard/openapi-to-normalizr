@@ -50,7 +50,7 @@ export const schema = new _schema.Entity('{{name}}'{{#idAttribute}}, {}, { idAtt
 {{>dependency}}
 
 {{#useTypeScript}}
-type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
+export type IdsBase = number | string | number[] | string[] | List<number> | List<string>;
 
 type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
   ? Model[]
@@ -63,7 +63,7 @@ type DenormalizeFilterResult<Model, Ids extends IdsBase> = Ids extends unknown[]
  * @params ids : {{name}}'s id[s]
  * @params entities : all entities that need to denormalize ids
  */
-const denormalize = {{#useTypeScript}}<Model, Ids extends IdsBase>{{/useTypeScript}}(
+export const denormalize = {{#useTypeScript}}<Model, Ids extends IdsBase>{{/useTypeScript}}(
   ids{{#useTypeScript}}: Ids{{/useTypeScript}},
   entities{{#useTypeScript}}: any{{/useTypeScript}}
 ) => {

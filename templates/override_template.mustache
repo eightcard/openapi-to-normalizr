@@ -1,9 +1,13 @@
 /* eslint-disable comma-dangle */
 {{>head}}
-import _{{name}} from './base/{{fileName}}';
+import _{{name}}, { denormalize{{#useTypeScript}}, IdsBase{{/useTypeScript}} } from './base/{{fileName}}';
+
 export * from './base/{{fileName}}';
 
 export default class {{name}} extends _{{name}} {
+  static denormalize{{#useTypeScript}}<Ids extends IdsBase>{{/useTypeScript}}(id{{#useTypeScript}}: Ids{{/useTypeScript}}, entities{{#useTypeScript}}: unknown{{/useTypeScript}}) {
+    return denormalize{{#useTypeScript}}<{{name}}, Ids>{{/useTypeScript}}(id, entities);
+  }
   /**
    * write custom methods here
    */
