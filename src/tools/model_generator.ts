@@ -41,8 +41,6 @@ export default class ModelGenerator {
 
   _modelNameList: TODO[];
 
-  importImmutableMap: boolean;
-
   constructor({
     outputDir = '',
     outputBaseDir = '',
@@ -77,7 +75,6 @@ export default class ModelGenerator {
     this.writeModel = this.writeModel.bind(this);
     this.writeIndex = this.writeIndex.bind(this);
     this._modelNameList = [];
-    this.importImmutableMap = false;
   }
 
   /**
@@ -179,9 +176,6 @@ export default class ModelGenerator {
         }
       });
 
-      // reset
-      this.importImmutableMap = false;
-
       const props = {
         name,
         idAttribute: this._prepareIdAttribute(idAttribute),
@@ -199,7 +193,6 @@ export default class ModelGenerator {
         getPropTypes,
         getTypeScriptTypes,
         getDefaults,
-        importImmutableMap: this.importImmutableMap,
       };
 
       const { model, head, dependency, oneOf } = this.templates;
@@ -339,7 +332,6 @@ export default class ModelGenerator {
     }
 
     if (prop.type === 'object' && prop.properties) {
-      if (!this.importImmutableMap) this.importImmutableMap = true;
       const props = _.reduce(
         prop.properties,
         (acc: { [key: string]: TODO }, value, key) => {
