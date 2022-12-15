@@ -162,6 +162,12 @@ components:
           format: int64
         logo:
           type: string
+        info:
+          type: object
+          properties:
+            admin:
+              type: object
+              $ref: '#/components/schemas/Person'
     Error:
       required:
         - code
