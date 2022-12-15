@@ -413,7 +413,7 @@ exports[`schema generator spec from json schema ref TS 2`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
@@ -491,7 +491,7 @@ exports[`schema generator spec from json schema ref TS 3`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 import Owner, { schema as OwnerSchema } from '../owner';
@@ -1289,7 +1289,7 @@ exports[`schema generator spec from one of check TS 2`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
@@ -1360,7 +1360,7 @@ exports[`schema generator spec from one of check TS 3`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
@@ -1431,7 +1431,7 @@ exports[`schema generator spec from one of check TS 4`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 import Dog, { schema as DogSchema } from '../dog';
@@ -2162,7 +2162,7 @@ exports[`schema generator spec from one of other spec file  check TS 2`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
@@ -2233,7 +2233,7 @@ exports[`schema generator spec from one of other spec file  check TS 3`] = `
  * generated from API definition file
  */
 
-import { Record, List } from 'immutable';
+import { Record, List, Map } from 'immutable';
 import { schema as _schema, denormalize as _denormalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 
