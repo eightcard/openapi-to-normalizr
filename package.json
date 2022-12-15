@@ -56,7 +56,7 @@
     "nock": "13.2.9",
     "normalizr": "3.6.2",
     "npm-run-all": "4.1.5",
-    "openapi-types": "12.0.2",
+    "openapi-types": "12.1.0",
     "power-assert": "1.6.1",
     "prettier": "2.8.1",
     "prop-types": "15.8.1",
