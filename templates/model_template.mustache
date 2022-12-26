@@ -85,12 +85,6 @@ export default class {{name}} extends Record(defaultValues) {
 {{/props}}
 
 {{/useTypeScript}}
-  static denormalize{{#useTypeScript}}<Ids extends IdsBase>{{/useTypeScript}}(
-    id{{#useTypeScript}}: Ids{{/useTypeScript}},
-    entities{{#useTypeScript}}: any{{/useTypeScript}}
-  ) {
-    return denormalize{{#useTypeScript}}<{{name}}, Ids>{{/useTypeScript}}(id, entities);
-  }
 {{#props}}
 {{#alias}}
 
