@@ -72,12 +72,6 @@ export const denormalize = (
 };
 
 export default class Owner extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/owner.js",
@@ -129,12 +123,6 @@ export const denormalize = (
 };
 
 export default class WrappedPet extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/wrapped_pet.js",
@@ -472,12 +460,6 @@ export default class Owner extends Record(defaultValues) {
   address: string | undefined;
   gender: GenderMale | GenderFemale | GenderOther | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Owner, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/owner.ts",
@@ -552,12 +534,6 @@ export default class WrappedPet extends Record(defaultValues) {
   kind: KindDog | KindCat | undefined;
   owner: Owner | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<WrappedPet, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/wrapped_pet.ts",
@@ -856,12 +832,6 @@ export const denormalize = (
 };
 
 export default class Cat extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/cat.js",
@@ -907,12 +877,6 @@ export const denormalize = (
 };
 
 export default class Dog extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/dog.js",
@@ -967,12 +931,6 @@ export const denormalize = (
 };
 
 export default class Owner extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 
   // created by 'x-attribute-as'
   get title() {
@@ -1341,12 +1299,6 @@ export default class Cat extends Record(defaultValues) {
   kind: KindCat | undefined;
   name: string | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Cat, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/cat.ts",
@@ -1412,12 +1364,6 @@ export default class Dog extends Record(defaultValues) {
   kind: KindDog | undefined;
   name: string | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Dog, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/dog.ts",
@@ -1492,12 +1438,6 @@ export default class Owner extends Record(defaultValues) {
   fallback_title: string | undefined;
   pet: Dog | Cat | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Owner, Ids>(id, entities);
-  }
 
   // created by 'x-attribute-as'
   get title() {
@@ -1834,12 +1774,6 @@ export const denormalize = (
 };
 
 export default class Cat extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/cat.js",
@@ -1885,12 +1819,6 @@ export const denormalize = (
 };
 
 export default class Dog extends Record(defaultValues) {
-  static denormalize(
-    id,
-    entities
-  ) {
-    return denormalize(id, entities);
-  }
 }
 ",
   "path": "tmp/base/dog.js",
@@ -2214,12 +2142,6 @@ export default class Cat extends Record(defaultValues) {
   kind: KindCat | undefined;
   name: string | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Cat, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/cat.ts",
@@ -2285,12 +2207,6 @@ export default class Dog extends Record(defaultValues) {
   kind: KindDog | undefined;
   name: string | undefined;
 
-  static denormalize<Ids extends IdsBase>(
-    id: Ids,
-    entities: any
-  ) {
-    return denormalize<Dog, Ids>(id, entities);
-  }
 }
 ",
   "path": "tmp/base/dog.ts",
