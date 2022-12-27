@@ -151,6 +151,8 @@ components:
     Company:
       description: |
         投稿者の企業モデル
+      required:
+        - id
       properties:
         publisherKind:
           type: number
@@ -162,6 +164,7 @@ components:
           format: int64
         logo:
           type: string
+          default: 'https://example.com/logo/default.png'
         info:
           type: object
           properties:
