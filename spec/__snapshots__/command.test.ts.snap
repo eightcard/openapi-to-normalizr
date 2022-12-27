@@ -47,9 +47,7 @@ export const GENDER_OTHER = 'other';
 
 const defaultValues = {
   name: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   nickname: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   address: undefined,
   gender: undefined,
 };
@@ -96,13 +94,9 @@ export const KIND_DOG = 'Dog';
 export const KIND_CAT = 'Cat';
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   id: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   name: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   kind: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   owner: undefined,
 };
 
@@ -825,9 +819,7 @@ import isArray from 'lodash/isArray';
 export const KIND_CAT = 'cat';
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   id: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   kind: undefined,
   name: undefined,
 };
@@ -872,9 +864,7 @@ import isArray from 'lodash/isArray';
 export const KIND_DOG = 'dog';
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   id: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   kind: undefined,
   name: undefined,
 };
@@ -920,7 +910,6 @@ import { schema as CatSchema } from '../cat';
 
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   name: undefined,
   title: undefined,
   fallback_title: undefined,
@@ -1782,9 +1771,7 @@ import isArray from 'lodash/isArray';
 export const KIND_CAT = 'cat';
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   id: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   kind: undefined,
   name: undefined,
 };
@@ -1829,9 +1816,7 @@ import isArray from 'lodash/isArray';
 export const KIND_DOG = 'dog';
 
 const defaultValues = {
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   id: undefined,
-  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   kind: undefined,
   name: undefined,
 };

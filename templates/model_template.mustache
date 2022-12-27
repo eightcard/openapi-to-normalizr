@@ -32,8 +32,8 @@ export interface {{name}}Props {
 {{/useTypeScript}}
 const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{#props}}
-{{#required}}{{#defaultIsUndefined}}  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
-{{/defaultIsUndefined}}{{/required}}  {{&name}}: {{&getDefaults}},
+{{#useTypeScript}}{{#required}}{{#defaultIsUndefined}}  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
+{{/defaultIsUndefined}}{{/required}}{{/useTypeScript}}  {{&name}}: {{&getDefaults}},
 {{/props}}
 };
 
