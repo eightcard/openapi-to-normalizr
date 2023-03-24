@@ -70,7 +70,7 @@
     "immutable": "^4.0.0-rc",
     "normalizr": "^3.2.0",
     "redux": "^4.0.0",
-    "redux-actions": "^2.6.0"
+    "redux-actions": "^2.6.0 || ^3.0.0"
   },
   "resolutions": {
     "json-schema": ">=0.4.0",
