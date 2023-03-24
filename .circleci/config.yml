@@ -1,6 +1,6 @@
 version: 2
 base_image: &base_image
-  image: cimg/node:16.19.1
+  image: cimg/node:19.8.1
 
 jobs:
   npm_install:
