@@ -1,5 +1,5 @@
 {
-  "extends": ["config:base", ":automergeMinor", ":maintainLockFilesWeekly"],
+  "extends": ["config:base", ":maintainLockFilesWeekly"],
   "schedule": ["after 3pm and before 10pm on thursday"],
   "labels": ["renovate"],
   "prHourlyLimit": 0,
