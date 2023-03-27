@@ -36,7 +36,7 @@ const isOperation = (obj: any): obj is Operation => 'tags' in obj;
 const methodNames = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'] as const;
 
 // メソッド名の Union String Literal Types = 'get' | 'put' | ... | 'trace';
-type MethodName = typeof methodNames[number];
+type MethodName = (typeof methodNames)[number];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isMethodName = (str: string): str is MethodName => methodNames.includes(str as any);
