@@ -37,7 +37,6 @@
     "@types/prop-types": "15.7.5",
     "@types/react-immutable-proptypes": "2.1.0",
     "@types/redux-actions": "2.6.2",
-    "@types/rimraf": "3.0.2",
     "@typescript-eslint/eslint-plugin": "5.56.0",
     "@typescript-eslint/parser": "5.56.0",
     "babel-jest": "29.5.0",
@@ -63,7 +62,7 @@
     "react-immutable-proptypes": "2.2.0",
     "redux": "4.2.1",
     "regenerator-runtime": "0.13.11",
-    "rimraf": "3.0.2",
+    "rimraf": "4.4.1",
     "typescript": "5.0.2"
   },
   "peerDependencies": {
