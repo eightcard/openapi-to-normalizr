@@ -36,7 +36,7 @@ const snapshot = async (files: string[], customConfigFilePath?: string) => {
 };
 
 describe('schema generator spec', () => {
-  beforeEach(() => new Promise((resolve) => rimraf(outputDir, resolve)));
+  beforeEach(() => rimraf(outputDir));
 
   test('from json schema ref', () => snapshot(['json_schema_ref.yml']));
 
