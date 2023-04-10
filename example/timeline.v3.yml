@@ -18,7 +18,7 @@ paths:
       description: |
         投稿一覧を取得
       responses:
-        200:
+        '200':
           $ref: '#/components/responses/TimelineResponse'
     post:
       tags:
@@ -26,7 +26,7 @@ paths:
       description: ｜
         投稿を新規作成
       responses:
-        201:
+        '201':
           description: 投稿作成成功
           content:
             application/json:
@@ -52,7 +52,7 @@ paths:
       description: |
         指定されたIDに応じた投稿を取得
       responses:
-        200:
+        '200':
           description: 投稿取得成功
           content:
             application/json:
@@ -70,7 +70,7 @@ paths:
       description: |
         指定されたIDの投稿を削除
       responses:
-        200:
+        '200':
           description: 削除成功
         default:
           description: unexpected error
@@ -132,8 +132,8 @@ components:
           discriminator:
             propertyName: publisherKind
             mapping:
-              1: '#/components/schemas/Person'
-              2: '#/components/schemas/Company'
+              '1': '#/components/schemas/Person'
+              '2': '#/components/schemas/Company'
     Person:
       description: |
         投稿者の人物モデル
