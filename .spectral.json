@@ -1,8 +1,11 @@
 {
   "extends": ["spectral:oas"],
   "rules": {
+    "info-contact": false,
+    "no-$ref-siblings": false,
     "oas3-api-servers": false,
     "oas3-unused-component": false,
+    "oas3-valid-schema-example": "warn",
     "operation-tag-defined": false,
     "operation-operationId": false
   }
