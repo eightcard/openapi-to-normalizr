@@ -121,7 +121,7 @@
     "test": "npm-run-all lint jest",
     "jest": "jest src/lib spec",
     "lint": "run-p check:* eslint speclint",
-    "speclint": "spectral lint example/petstore.v3.yml spec/**/*.yml",
+    "speclint": "spectral lint example/timeline.v3.yml spec/**/*.yml",
     "example:api": "./example/serveViewer",
     "example:build": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
