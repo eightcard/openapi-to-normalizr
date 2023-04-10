@@ -6,6 +6,8 @@ info:
     name: API Support
     url: http://www.example.com/support
     email: support@example.com
+  description: |
+    タイムラインAPIの定義
 servers:
   - url: http://localhost:10010
 tags:
