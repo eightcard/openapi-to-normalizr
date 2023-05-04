@@ -22,10 +22,10 @@
     "swagger-client": "3.18.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.21.0",
-    "@babel/core": "7.21.4",
-    "@babel/preset-env": "7.21.4",
-    "@babel/preset-typescript": "7.21.4",
+    "@babel/cli": "7.21.5",
+    "@babel/core": "7.21.8",
+    "@babel/preset-env": "7.21.5",
+    "@babel/preset-typescript": "7.21.5",
     "@babel/register": "7.21.0",
     "@stoplight/spectral-cli": "6.6.0",
     "@types/jest": "29.5.1",
