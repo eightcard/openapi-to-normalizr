@@ -28,7 +28,7 @@
     "@babel/preset-typescript": "7.22.5",
     "@babel/register": "7.22.5",
     "@stoplight/spectral-cli": "6.8.0",
-    "@types/jest": "29.5.2",
+    "@types/jest": "29.5.3",
     "@types/js-yaml": "4.0.5",
     "@types/json-schema": "7.0.12",
     "@types/lodash": "4.14.195",
