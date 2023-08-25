@@ -43,7 +43,7 @@
     "babel-loader": "9.1.3",
     "babel-polyfill": "6.26.0",
     "babel-preset-power-assert": "3.0.0",
-    "core-js": "3.32.0",
+    "core-js": "3.32.1",
     "eslint": "8.47.0",
     "eslint-config-prettier": "8.10.0",
     "eslint-plugin-prettier": "5.0.0",
