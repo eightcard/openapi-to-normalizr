@@ -118,7 +118,7 @@
     "check:prettier": "prettier --check src example/src",
     "eslint": "eslint src bin/*",
     "mock": "cp example/initial_db.json example/db.json;json-server --watch example/db.json --port 10010",
-    "test": "npm-run-all lint jest",
+    "test": "NODE_OPTIONS='--no-experimental-fetch' npm-run-all lint jest",
     "jest": "jest src/lib spec",
     "lint": "run-p check:* eslint speclint",
     "speclint": "spectral lint example/timeline.v3.yml spec/**/*.yml",
