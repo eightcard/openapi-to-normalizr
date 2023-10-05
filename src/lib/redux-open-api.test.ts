@@ -4,9 +4,31 @@ import createMiddleware, { HttpClient } from './redux-open-api';
 import jsYaml from 'js-yaml';
 import noop from 'lodash/noop';
 import assert from 'assert';
-nock.disableNetConnect();
+
+import { setupServer } from 'msw/node';
+
+import { rest } from 'msw';
+
+type SpecIncludingBaseUrl = { servers?: [{ url?: string }] };
+
+const hasBaseUrl = (value: unknown): value is SpecIncludingBaseUrl =>
+  Boolean(
+    value &&
+      typeof value === 'object' &&
+      'servers' in value &&
+      Array.isArray(value.servers) &&
+      value.servers.length > 0,
+  );
 
 const spec = jsYaml.load(fs.readFileSync('example/timeline.v3.yml', 'utf8'));
+
+const baseUrl = hasBaseUrl(spec) ? spec?.servers?.[0]?.url || '' : '';
+
+const server = setupServer();
+
+beforeAll(() => server.listen());
+
+afterAll(() => server.close());
 
 describe('middleware', () => {
   const nextFunction = jest.fn();
@@ -36,10 +58,13 @@ describe('middleware', () => {
   };
   describe('open api action (success)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/timeline').reply(200, {
-        response: 'test response',
-      });
+      server.resetHandlers(
+        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json({ response: 'test response' }));
+        }),
+      );
     });
+
     test('call action with response.', () =>
       subject(action).then(() => {
         const expected = Object.assign(action, {
@@ -56,10 +81,13 @@ describe('middleware', () => {
 
   describe('open api action (success & no-schema)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/timeline').reply(202, {
-        response: 'no schema',
-      });
+      server.resetHandlers(
+        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
+          return res(ctx.status(202), ctx.json({ response: 'no schema' }));
+        }),
+      );
     });
+
     test('call action with response.', () =>
       subject(action).then(() => {
         const expected = Object.assign(action, {
@@ -73,8 +101,13 @@ describe('middleware', () => {
 
   describe('open api action (failed)', () => {
     beforeEach(() => {
-      nock(/.*/).get('/timeline').reply(400);
+      server.resetHandlers(
+        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
+          return res(ctx.status(400));
+        }),
+      );
     });
+
     test('call action with error.', () =>
       subject(action).then(noop, () => {
         expect(nextFunction.mock.calls[0][0]).toMatchObject({
@@ -86,17 +119,19 @@ describe('middleware', () => {
 });
 
 describe('http client', () => {
-  const res = {
-    response: 'test response',
-  };
+  const requestUrl = 'http://localhost/pets';
+  const mockedResponse = { response: 'test response' };
+
   beforeEach(() => {
-    nock(/.*/).get('/pets').reply(200, res);
+    server.resetHandlers(
+      rest.get(requestUrl, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(mockedResponse));
+      }),
+    );
   });
 
   test('can request', () => {
-    return HttpClient({
-      url: 'http://localhost/pets',
-    }).then((res: TODO) => {
+    return HttpClient({ url: requestUrl }).then((res: TODO) => {
       assert.strictEqual(res.status, 200);
       assert(res.body, res);
     });
