@@ -1,5 +1,5 @@
 import fs from 'fs';
-import nock from 'nock';
+
 import createMiddleware, { HttpClient } from './redux-open-api';
 import jsYaml from 'js-yaml';
 import noop from 'lodash/noop';
@@ -12,13 +12,7 @@ import { rest } from 'msw';
 type SpecIncludingBaseUrl = { servers?: [{ url?: string }] };
 
 const hasBaseUrl = (value: unknown): value is SpecIncludingBaseUrl =>
-  Boolean(
-    value &&
-      typeof value === 'object' &&
-      'servers' in value &&
-      Array.isArray(value.servers) &&
-      value.servers.length > 0,
-  );
+  Boolean(value && typeof value === 'object' && 'servers' in value && Array.isArray(value.servers));
 
 const spec = jsYaml.load(fs.readFileSync('example/timeline.v3.yml', 'utf8'));
 
