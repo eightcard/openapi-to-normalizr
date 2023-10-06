@@ -36,7 +36,7 @@
     "@types/mustache": "4.2.3",
     "@types/prop-types": "15.7.8",
     "@types/react-immutable-proptypes": "2.1.1",
-    "@types/redux-actions": "2.6.2",
+    "@types/redux-actions": "2.6.3",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "babel-jest": "29.6.4",
