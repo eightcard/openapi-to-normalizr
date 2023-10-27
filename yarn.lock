@@ -1909,10 +1909,10 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.9.tgz#b6f785caa7ea1fe4414d9df42ee0ab67f23d8a6d"
   integrity sha512-n1yyPsugYNSmHgxDFjicaI2+gCNjsBck8UX9kuofAKlc0h1bL+20oSF72KeNaW2DUlesbEVCFgyV2dPGTiY42g==
 
-"@types/react-immutable-proptypes@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@types/react-immutable-proptypes/-/react-immutable-proptypes-2.1.1.tgz#9327e09b07ea61c95a8c99869a5e9f0fc1690cc4"
-  integrity sha512-PiVos0qCotGqI+J0kOeFhbeg7zK8StPMTSDGaTtgYkX6UPjuVVS7lJMedyt4kAMFbM/2QE0bbP5jh22WqtspQg==
+"@types/react-immutable-proptypes@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-immutable-proptypes/-/react-immutable-proptypes-2.1.2.tgz#2f7759f17c771ee98ef79d934e787fc4228de2a2"
+  integrity sha512-wHLN1QGDzyphuM0GLfW7LrtngWy2QMQxfUpDkOqhksD1d4nSWwLRXvRssegDOTBycdsOUW9B8qMy8q4JZW0oow==
   dependencies:
     "@types/prop-types" "*"
     immutable "^3.8.2"
