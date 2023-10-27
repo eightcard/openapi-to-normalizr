@@ -1917,10 +1917,10 @@
     "@types/prop-types" "*"
     immutable "^3.8.2"
 
-"@types/redux-actions@2.6.3":
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/@types/redux-actions/-/redux-actions-2.6.3.tgz#b001d2c978a586af94059e74bbff2f4d3dc11ac9"
-  integrity sha512-dmBoPJcJjiRXgc3Bw1dfUy2IiJI95DuN7dJ4V/G/FsbZ+LY5aKyS8qBAldMLq23JOLc/DxxwvLOF82Hr7HtY/g==
+"@types/redux-actions@2.6.4":
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/@types/redux-actions/-/redux-actions-2.6.4.tgz#a7e1f4c1c0ba372e978562aab8f3c9c634feca2d"
+  integrity sha512-oXaibuxd4DOuWAz1W8Mbc18v9KDAi2Ex/pEv7Sml1CO2Xj1+cPYBR2esG/ioawXATBNhR0DXfFNHLPQsKB1wuQ==
 
 "@types/sarif@^2.1.4":
   version "2.1.6"
