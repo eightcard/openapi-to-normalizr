@@ -33,7 +33,7 @@
     "@types/json-schema": "7.0.15",
     "@types/lodash": "4.14.201",
     "@types/mkdirp": "1.0.2",
-    "@types/mustache": "4.2.4",
+    "@types/mustache": "4.2.5",
     "@types/prop-types": "15.7.9",
     "@types/react-immutable-proptypes": "2.1.2",
     "@types/redux-actions": "2.6.4",
