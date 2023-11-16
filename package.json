@@ -34,7 +34,7 @@
     "@types/lodash": "4.14.201",
     "@types/mkdirp": "1.0.2",
     "@types/mustache": "4.2.5",
-    "@types/prop-types": "15.7.9",
+    "@types/prop-types": "15.7.10",
     "@types/react-immutable-proptypes": "2.1.2",
     "@types/redux-actions": "2.6.4",
     "@typescript-eslint/eslint-plugin": "5.62.0",
