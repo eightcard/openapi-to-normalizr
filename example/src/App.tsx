@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { applyMiddleware, createStore, Store, combineReducers } from 'redux';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createOpenApiMiddleware, createEntitiesReducer } from '../../dist';
+import { createOpenApiMiddleware, createEntitiesReducer } from 'openapi-to-normalizr';
 import './App.css';
 
 // 自動生成ファイル
