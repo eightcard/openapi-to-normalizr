@@ -17,7 +17,7 @@
     "commander": "11.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
-    "mkdirp": "1.0.4",
+    "mkdirp": "3.0.1",
     "mustache": "4.2.0",
     "swagger-client": "3.18.0"
   },
