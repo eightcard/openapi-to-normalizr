@@ -1,4 +1,6 @@
 dist/**/*
 node_modules/**/*
+example/config/config.schemas.js
 example/src/autoGen/**/*
+example/src/vite-env.d.ts
 jest.config.js

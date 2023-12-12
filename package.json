@@ -116,7 +116,7 @@
     "dev:tools": "yarn build:dist:tools -w",
     "check:typescript": "tsc --noEmit",
     "check:prettier": "prettier --check src example/src",
-    "eslint": "eslint src bin/*",
+    "eslint": "eslint src bin/* example",
     "mock": "cp example/initial_db.json example/db.json;json-server --watch example/db.json --port 10010",
     "test": "npm-run-all lint jest",
     "jest": "jest src/lib spec",
