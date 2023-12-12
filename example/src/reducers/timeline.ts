@@ -2,12 +2,12 @@ import { GET_TIMELINE, POST_TIMELINE, DELETE_TIMELINE__ID_ } from '../autoGen/ac
 import { handleActions } from 'redux-actions';
 
 type NormalizedPayload = {
-  entities: any;
-  result: any;
+  entities: unknown;
+  result: TODO;
 };
-const reducer = handleActions<number[], NormalizedPayload, { requestPayload: any }>(
+const reducer = handleActions<number[], NormalizedPayload, { requestPayload: TODO }>(
   {
-    [GET_TIMELINE]: (state, { payload }) => payload.result,
+    [GET_TIMELINE]: (_state, { payload }) => payload.result,
     [POST_TIMELINE]: (state, { payload }) => [...state, payload.result],
     [DELETE_TIMELINE__ID_]: (state, { meta }) =>
       state.filter((id) => id !== meta.requestPayload.id),

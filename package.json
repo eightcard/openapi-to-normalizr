@@ -114,17 +114,19 @@
     "dev": "run-p dev:*",
     "dev:lib": "yarn build:dist:lib -w",
     "dev:tools": "yarn build:dist:tools -w",
+    "check:typescript-example": "cd example;yarn && tsc --noEmit",
     "check:typescript": "tsc --noEmit",
     "check:prettier": "prettier --check src example/src",
-    "eslint": "eslint src bin/*",
+    "eslint": "eslint src bin/* example",
     "mock": "cp example/initial_db.json example/db.json;json-server --watch example/db.json --port 10010",
     "test": "npm-run-all lint jest",
     "jest": "jest src/lib spec",
     "lint": "run-p check:* eslint speclint",
     "speclint": "spectral lint example/timeline.v3.yml spec/**/*.yml",
     "example:api": "./example/serveViewer",
-    "example:build": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
+    "example:generate": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
-    "example": "npm-run-all example:build --parallel mock example:run"
+    "example:build": "cd example;yarn && yarn build",
+    "example": "npm-run-all example:generate --parallel mock example:run"
   }
 }
