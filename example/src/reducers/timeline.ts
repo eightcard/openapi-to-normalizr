@@ -7,7 +7,7 @@ type NormalizedPayload = {
 };
 const reducer = handleActions<number[], NormalizedPayload, { requestPayload: TODO }>(
   {
-    [GET_TIMELINE]: (state, { payload }) => payload.result,
+    [GET_TIMELINE]: (_state, { payload }) => payload.result,
     [POST_TIMELINE]: (state, { payload }) => [...state, payload.result],
     [DELETE_TIMELINE__ID_]: (state, { meta }) =>
       state.filter((id) => id !== meta.requestPayload.id),

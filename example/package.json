@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build"
+    "build": "vite build"
   },
   "dependencies": {
     "@types/node": "20.10.4",

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import './Form.css';
 
 const Form = ({ onRequestSubmit }: { onRequestSubmit: (data: any) => void }) => {

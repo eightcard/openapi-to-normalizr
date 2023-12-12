@@ -114,6 +114,7 @@
     "dev": "run-p dev:*",
     "dev:lib": "yarn build:dist:lib -w",
     "dev:tools": "yarn build:dist:tools -w",
+    "check:typescript-example": "cd example;yarn && tsc --noEmit",
     "check:typescript": "tsc --noEmit",
     "check:prettier": "prettier --check src example/src",
     "eslint": "eslint src bin/* example",
