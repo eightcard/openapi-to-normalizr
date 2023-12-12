@@ -123,8 +123,8 @@
     "lint": "run-p check:* eslint speclint",
     "speclint": "spectral lint example/timeline.v3.yml spec/**/*.yml",
     "example:api": "./example/serveViewer",
-    "example:build": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
+    "example:generate": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
-    "example": "npm-run-all example:build --parallel mock example:run"
+    "example": "npm-run-all example:generate --parallel mock example:run"
   }
 }
