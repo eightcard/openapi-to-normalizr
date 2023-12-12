@@ -126,7 +126,7 @@
     "example:api": "./example/serveViewer",
     "example:generate": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
-    "example:build": "yarn example:generate && cd example;yarn && yarn build",
+    "example:build": "cd example;yarn && yarn build",
     "example": "npm-run-all example:generate --parallel mock example:run"
   }
 }
