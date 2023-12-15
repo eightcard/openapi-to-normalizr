@@ -63,7 +63,7 @@
     "redux": "4.2.1",
     "regenerator-runtime": "0.14.0",
     "rimraf": "4.4.1",
-    "typescript": "5.2.2"
+    "typescript": "5.3.3"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc",
