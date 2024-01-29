@@ -192,6 +192,7 @@ export default class ModelGenerator {
         importList: this._prepareImportList(importList),
         getPropTypes,
         getTypeScriptTypes,
+        defaultIsUndefined,
         getDefaults,
       };
 
@@ -458,6 +459,11 @@ function _getTypeScriptTypes(type: TODO, enumObjects: TODO[]) {
     default:
       return type && type.typeScript ? type.typeScript : 'any';
   }
+}
+
+function defaultIsUndefined() {
+  // @ts-expect-error 'this' は型として注釈を持たないため、暗黙的に型 'any' になります。
+  return _.isUndefined(this.default);
 }
 
 function getDefaults() {
