@@ -13,7 +13,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "10.1.0",
+    "@apidevtools/json-schema-ref-parser": "11.5.4",
     "commander": "11.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
