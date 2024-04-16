@@ -25,12 +25,11 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-var ALTERNATIVE_REF_KEY = '__$ref__';
-exports.ALTERNATIVE_REF_KEY = ALTERNATIVE_REF_KEY;
-var MODEL_DEF_KEY = 'x-model-name';
+var ALTERNATIVE_REF_KEY = exports.ALTERNATIVE_REF_KEY = '__$ref__';
+var MODEL_DEF_KEY = exports.MODEL_DEF_KEY = 'x-model-name';
 
 /* library alias */
-exports.MODEL_DEF_KEY = MODEL_DEF_KEY;
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 var isDocument = function isDocument(obj) {
   return 'openapi' in obj && 'info' in obj && 'paths' in obj;

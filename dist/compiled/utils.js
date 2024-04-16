@@ -26,7 +26,7 @@ var _lodash = _interopRequireDefault(require("lodash"));
 var _mustache = _interopRequireDefault(require("mustache"));
 var _spec_file_utils = require("./spec_file_utils");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var cwd = process.cwd();
 var now = new Date();
 function schemaName(modelName) {
@@ -44,7 +44,6 @@ function applyIf(data) {
 function getRef(schema) {
   return schema.$ref || schema.$$ref || schema[_spec_file_utils.ALTERNATIVE_REF_KEY]; // $$ref by swagger-client
 }
-
 function parseOneOf(schema, onSchema) {
   var _schema$discriminator = schema.discriminator,
     propertyName = _schema$discriminator.propertyName,
@@ -218,7 +217,6 @@ function getIdAttribute(model, name) {
     if (name) {
       console.warn("".concat(name, " is not model definition.")); // eslint-disable-line no-console
     }
-
     return false;
   }
   var idAttribute = model['x-id-attribute'] || 'id';
@@ -226,7 +224,6 @@ function getIdAttribute(model, name) {
     if (name) {
       console.warn("".concat(name, " is not generated without id attribute.")); // eslint-disable-line no-console
     }
-
     return false;
   }
   return idAttribute;

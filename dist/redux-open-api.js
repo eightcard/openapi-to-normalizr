@@ -17,14 +17,13 @@ function isOpenApiAction(action) {
 function getShouldSkipPreviousRequest(action) {
   return Boolean(action && action.meta && action.meta.shouldSkipPreviousRequest);
 }
-var HttpClient = _swaggerClient.default.http;
+var HttpClient = exports.HttpClient = _swaggerClient.default.http;
 
 /**
  * { [key: action.type]: Date.valueOf() }
  */
-exports.HttpClient = HttpClient;
 var latestTimestampMap = {};
-var _default = function _default(spec, httpOptions) {
+var _default = exports.default = function _default(spec, httpOptions) {
   return (0, _swaggerClient.default)({
     spec: spec
   }).then(function (_ref) {
@@ -60,7 +59,6 @@ var _default = function _default(spec, httpOptions) {
           if (requestBody) {
             options.requestBody = requestBody; // for OAS v3
           }
-
           action.meta.requestPayload = action.payload;
           var timestamp = new Date().valueOf();
           var shouldSkipPreviousRequest = getShouldSkipPreviousRequest(action);
@@ -102,4 +100,3 @@ var _default = function _default(spec, httpOptions) {
     };
   });
 };
-exports.default = _default;
