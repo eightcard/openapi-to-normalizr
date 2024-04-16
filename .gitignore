@@ -3,3 +3,12 @@ node_modules
 tmp
 example/dist
 .vscode
+
+# yarn(zero-install)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

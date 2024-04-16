@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "yarn@1.22.19+sha256.732620bac8b1690d507274f025f3c6cfdc3627a84d9642e38a07452cc00e0f2e",
   "scripts": {
     "start": "vite",
     "build": "vite build"
