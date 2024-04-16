@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'yarn'
+      - run: corepack enable
       - run: yarn install --frozen-lockfile
       - run: yarn example:generate
       - run: yarn lint

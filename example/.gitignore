@@ -25,3 +25,12 @@ yarn-error.log*
 src/autoGen
 
 db.json
+
+# yarn(zero-install)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
