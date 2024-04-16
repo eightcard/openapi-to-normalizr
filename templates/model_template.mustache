@@ -25,14 +25,15 @@ export type {{literalTypeName}} = {{#isValueString}}'{{value}}'{{/isValueString}
 
 export interface {{name}}Props {
 {{#props}}
-  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}} | undefined;
+  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{^required}} | undefined{{/required}};
 {{/props}}
 };
 
 {{/useTypeScript}}
 const defaultValues{{#useTypeScript}}: {{name}}Props{{/useTypeScript}} = {
 {{#props}}
-  {{&name}}: {{&getDefaults}},
+{{#useTypeScript}}{{#required}}{{#defaultIsUndefined}}  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
+{{/defaultIsUndefined}}{{/required}}{{/useTypeScript}}  {{&name}}: {{&getDefaults}},
 {{/props}}
 };
 
@@ -80,7 +81,8 @@ export default class {{name}} extends Record(defaultValues) {
 {{#useTypeScript}}
 {{#props}}
 {{^isAliasBase}}
-  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}} | undefined;
+{{#required}}  // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
+{{/required}}  {{&name}}: {{&getTypeScriptTypes}}{{#nullable}} | null{{/nullable}}{{^required}} | undefined{{/required}};
 {{/isAliasBase}}
 {{/props}}
 
