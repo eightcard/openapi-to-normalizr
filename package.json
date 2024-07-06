@@ -63,7 +63,7 @@
     "react-immutable-proptypes": "2.2.0",
     "redux": "4.2.1",
     "regenerator-runtime": "0.14.1",
-    "rimraf": "4.4.1",
+    "rimraf": "5.0.8",
     "typescript": "5.3.3"
   },
   "peerDependencies": {
