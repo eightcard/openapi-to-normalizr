@@ -12,7 +12,7 @@
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "yarn@1.22.19+sha256.732620bac8b1690d507274f025f3c6cfdc3627a84d9642e38a07452cc00e0f2e",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "11.6.4",
     "commander": "11.1.0",
