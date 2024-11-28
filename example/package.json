@@ -12,7 +12,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@types/node": "20.17.6",
+    "@types/node": "20.17.9",
     "openapi-to-normalizr": "file:..",
     "react": "18.3.1",
     "react-dom": "18.3.1",
