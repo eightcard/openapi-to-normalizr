@@ -21,11 +21,10 @@ exports.writeFile = writeFile;
 exports.writeFilePromise = writeFilePromise;
 var _fs = _interopRequireDefault(require("fs"));
 var _path = _interopRequireDefault(require("path"));
-var _mkdirp = _interopRequireDefault(require("mkdirp"));
 var _lodash = _interopRequireDefault(require("lodash"));
 var _mustache = _interopRequireDefault(require("mustache"));
 var _spec_file_utils = require("./spec_file_utils");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var cwd = process.cwd();
 var now = new Date();
@@ -156,7 +155,9 @@ function resolvePath(str) {
   return _path.default.isAbsolute(str) ? str : _path.default.join(cwd, str);
 }
 function mkdirpPromise(dir) {
-  return (0, _mkdirp.default)(dir);
+  return _fs.default.promises.mkdir(dir, {
+    recursive: true
+  });
 }
 function writeFilePromise(path, data) {
   if (!data) return Promise.resolve();
