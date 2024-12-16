@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import _ from 'lodash';
 import mustache from 'mustache';
 import { MODEL_DEF_KEY, ALTERNATIVE_REF_KEY } from './spec_file_utils';
@@ -149,7 +148,7 @@ export function resolvePath(str: string) {
 }
 
 export function mkdirpPromise(dir: string) {
-  return mkdirp(dir);
+  return fs.promises.mkdir(dir, { recursive: true });
 }
 
 export function writeFilePromise(path: string, data?: string) {
