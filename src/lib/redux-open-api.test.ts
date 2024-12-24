@@ -7,7 +7,7 @@ import assert from 'assert';
 
 import { setupServer } from 'msw/node';
 
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 type SpecIncludingBaseUrl = { servers?: [{ url?: string }] };
 
@@ -53,8 +53,8 @@ describe('middleware', () => {
   describe('open api action (success)', () => {
     beforeEach(() => {
       server.resetHandlers(
-        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ response: 'test response' }));
+        http.get(`${baseUrl}/timeline`, () => {
+          return HttpResponse.json({ response: 'test response' }, { status: 200 });
         }),
       );
     });
@@ -76,8 +76,8 @@ describe('middleware', () => {
   describe('open api action (success & no-schema)', () => {
     beforeEach(() => {
       server.resetHandlers(
-        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
-          return res(ctx.status(202), ctx.json({ response: 'no schema' }));
+        http.get(`${baseUrl}/timeline`, () => {
+          return HttpResponse.json({ response: 'no schema' }, { status: 202 });
         }),
       );
     });
@@ -96,8 +96,8 @@ describe('middleware', () => {
   describe('open api action (failed)', () => {
     beforeEach(() => {
       server.resetHandlers(
-        rest.get(`${baseUrl}/timeline`, (req, res, ctx) => {
-          return res(ctx.status(400));
+        http.get(`${baseUrl}/timeline`, () => {
+          return HttpResponse.json(null, { status: 400 });
         }),
       );
     });
@@ -114,12 +114,11 @@ describe('middleware', () => {
 
 describe('http client', () => {
   const requestUrl = 'http://localhost/pets';
-  const mockedResponse = { response: 'test response' };
 
   beforeEach(() => {
     server.resetHandlers(
-      rest.get(requestUrl, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(mockedResponse));
+      http.get(requestUrl, () => {
+        return HttpResponse.json({ response: 'test response' }, { status: 200 });
       }),
     );
   });
