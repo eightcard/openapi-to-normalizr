@@ -4,11 +4,5 @@
   "schedule": ["after 3pm and before 10pm on thursday"],
   "labels": ["renovate"],
   "prHourlyLimit": 0,
-  "packageRules": [
-    {
-      "packageNames": ["swagger-client"],
-      "allowedVersions": "<= 3.18.0"
-    }
-  ],
   "dependencyDashboard": true
 }
