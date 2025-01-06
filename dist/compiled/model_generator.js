@@ -284,7 +284,8 @@ var ModelGenerator = exports.default = /*#__PURE__*/function () {
       var _this5 = this;
       var enumKeyAttributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
       if (!enums) return false;
-      return enums.map(function (current, index) {
+      var uniqueEnums = Array.from(new Set(enums));
+      return uniqueEnums.map(function (current, index) {
         var enumName = enumKeyAttributes[index] || current;
         return {
           name: _this5.getEnumConstantName(enumName, name),
