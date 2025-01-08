@@ -274,8 +274,7 @@ export default class ModelGenerator {
 
   getEnumObjects(name: string, enums?: TODO[], enumKeyAttributes: TODO[] = []) {
     if (!enums) return false;
-    const uniqueEnums = Array.from(new Set(enums));
-    return uniqueEnums.map((current, index) => {
+    const enumObjects = enums.map((current, index) => {
       const enumName = enumKeyAttributes[index] || current;
       return {
         name: this.getEnumConstantName(enumName, name),
@@ -283,6 +282,11 @@ export default class ModelGenerator {
         value: current,
       };
     });
+    const uniqueEnumObjects = enumObjects.filter(
+      ({ value, name }, index, array) =>
+        index === array.findIndex((elem) => elem.value === value && elem.name === name),
+    );
+    return uniqueEnumObjects;
   }
 
   _getEnumTypes(type: TODO) {
