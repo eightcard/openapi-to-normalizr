@@ -43,6 +43,7 @@ import isArray from 'lodash/isArray';
 
 export const GENDER_MALE = 'male';
 export const GENDER_FEMALE = 'female';
+export const GENDER_UNKNOWN = 'other';
 export const GENDER_OTHER = 'other';
 
 const defaultValues = {
@@ -246,7 +247,24 @@ export default {
             "$ref": "#/components/schemas/Pet/properties/kind"
           },
           "owner": {
-            "$ref": "#/components/schemas/Owner"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Owner"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female",
+                      "other"
+                    ]
+                  }
+                }
+              }
+            ]
           }
         }
       },
@@ -407,17 +425,19 @@ import isArray from 'lodash/isArray';
 
 export const GENDER_MALE = 'male';
 export const GENDER_FEMALE = 'female';
+export const GENDER_UNKNOWN = 'other';
 export const GENDER_OTHER = 'other';
 
 export type GenderMale = 'male';
 export type GenderFemale = 'female';
+export type GenderUnknown = 'other';
 export type GenderOther = 'other';
 
 export interface OwnerProps {
   name: string | undefined;
   nickname: string | null;
   address: string;
-  gender: GenderMale | GenderFemale | GenderOther | undefined;
+  gender: GenderMale | GenderFemale | GenderUnknown | GenderOther | undefined;
 };
 
 const defaultValues: OwnerProps = {
@@ -462,7 +482,7 @@ export default class Owner extends Record(defaultValues) {
   nickname: string | null;
   // @ts-expect-error Property has no initializer and is not definitely assigned in the constructor.ts(2564)
   address: string;
-  gender: GenderMale | GenderFemale | GenderOther | undefined;
+  gender: GenderMale | GenderFemale | GenderUnknown | GenderOther | undefined;
 
 }
 ",
@@ -669,7 +689,24 @@ export default {
             "$ref": "#/components/schemas/Pet/properties/kind"
           },
           "owner": {
-            "$ref": "#/components/schemas/Owner"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Owner"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "gender": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female",
+                      "other"
+                    ]
+                  }
+                }
+              }
+            ]
           }
         }
       },
