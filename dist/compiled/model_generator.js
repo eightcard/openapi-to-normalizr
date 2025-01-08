@@ -284,8 +284,7 @@ var ModelGenerator = exports.default = /*#__PURE__*/function () {
       var _this5 = this;
       var enumKeyAttributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
       if (!enums) return false;
-      var uniqueEnums = Array.from(new Set(enums));
-      return uniqueEnums.map(function (current, index) {
+      var enumObjects = enums.map(function (current, index) {
         var enumName = enumKeyAttributes[index] || current;
         return {
           name: _this5.getEnumConstantName(enumName, name),
@@ -293,6 +292,14 @@ var ModelGenerator = exports.default = /*#__PURE__*/function () {
           value: current
         };
       });
+      var uniqueEnumObjects = enumObjects.filter(function (_ref6, index, array) {
+        var value = _ref6.value,
+          name = _ref6.name;
+        return index === array.findIndex(function (elem) {
+          return elem.value === value && elem.name === name;
+        });
+      });
+      return uniqueEnumObjects;
     }
   }, {
     key: "_getEnumTypes",
@@ -402,8 +409,8 @@ var ModelGenerator = exports.default = /*#__PURE__*/function () {
     }
   }, {
     key: "_renderOverrideModel",
-    value: function _renderOverrideModel(name, fileName, _ref6) {
-      var props = _ref6.props;
+    value: function _renderOverrideModel(name, fileName, _ref7) {
+      var props = _ref7.props;
       var enums = props.filter(function (prop) {
         return prop.enumObjects;
       }).reduce(function (acc, prop) {
