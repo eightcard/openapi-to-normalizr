@@ -31,7 +31,7 @@
     "@types/jest": "29.5.14",
     "@types/js-yaml": "4.0.9",
     "@types/json-schema": "7.0.15",
-    "@types/lodash": "4.17.13",
+    "@types/lodash": "4.17.14",
     "@types/mustache": "4.2.5",
     "@types/prop-types": "15.7.14",
     "@types/react-immutable-proptypes": "2.1.3",
