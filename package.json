@@ -43,7 +43,7 @@
     "babel-polyfill": "6.26.0",
     "babel-preset-power-assert": "3.0.0",
     "core-js": "3.39.0",
-    "eslint": "8.57.1",
+    "eslint": "9.19.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.3",
     "husky": "8.0.3",
