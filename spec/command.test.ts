@@ -1,6 +1,6 @@
 // @ts-expect-error configファイルの想定する型がまだわかりきってない。書くならindex.d.tsに
 import defaultConfig from '../config/parser-config-default';
-import rimraf from 'rimraf';
+import { rimrafSync } from 'rimraf';
 import fs from 'fs';
 import path from 'path';
 import main from '../src/tools/main';
@@ -36,7 +36,7 @@ const snapshot = async (files: string[], customConfigFilePath?: string) => {
 };
 
 describe('schema generator spec', () => {
-  beforeEach(() => rimraf(outputDir));
+  beforeEach(() => rimrafSync(outputDir));
 
   test('from json schema ref', () => snapshot(['json_schema_ref.yml']));
 
