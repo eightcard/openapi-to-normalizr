@@ -1,5 +1,4 @@
 import globals from 'globals';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -280,22 +279,18 @@ export default [
     .map((config) => ({
       ...config,
       files: ['**/*.ts'],
+      languageOptions: {
+        parser: tsParser,
+        ecmaVersion: 2019,
+        sourceType: 'module',
+      },
+      rules: {
+        'no-undef': 'off', // TSでカバーできるため不要
+        'no-unused-vars': 'off', // TSでカバーできるため不要
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
+      },
     })),
-  {
-    files: ['**/*.ts'],
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-    },
-    languageOptions: {
-      parser: tsParser,
-      ecmaVersion: 2019,
-      sourceType: 'module',
-    },
-    rules: {
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-use-before-define': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/ban-ts-comment': 'warn',
-    },
-  },
 ];
