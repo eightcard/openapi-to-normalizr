@@ -1815,7 +1815,7 @@
     ramda-adjunct "^5.0.0"
     unraw "^3.0.0"
 
-"@swagger-api/apidom-core@>=1.0.0-beta.6 <1.0.0-rc.0", "@swagger-api/apidom-core@^1.0.0-beta.11":
+"@swagger-api/apidom-core@>=1.0.0-beta.11 <1.0.0-rc.0", "@swagger-api/apidom-core@^1.0.0-beta.11":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@swagger-api/apidom-core/-/apidom-core-1.0.0-beta.11.tgz#c226573b8ed33e09599c7823b45aed26e9c0c742"
   integrity sha512-WnowOdBwezElnbyhw5DXiQc6fFw9ld3g3aMqCmal4tleN3QB4bnlWWXVXKDDDhvhfTx3HaQB/UlPWUMQwInb7g==
@@ -1830,14 +1830,14 @@
     short-unique-id "^5.0.2"
     ts-mixer "^6.0.3"
 
-"@swagger-api/apidom-error@>=1.0.0-beta.6 <1.0.0-rc.0", "@swagger-api/apidom-error@^1.0.0-beta.11", "@swagger-api/apidom-error@^1.0.0-beta.3 <1.0.0-rc.0":
+"@swagger-api/apidom-error@>=1.0.0-beta.11 <1.0.0-rc.0", "@swagger-api/apidom-error@^1.0.0-beta.11", "@swagger-api/apidom-error@^1.0.0-beta.3 <1.0.0-rc.0":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@swagger-api/apidom-error/-/apidom-error-1.0.0-beta.11.tgz#7ecdd507136232fc87ae8f000285e070d50e146c"
   integrity sha512-J/GrqtjrNZUWhgdKS90A3+ctBhkR5DBRGZUHxoBjNPR61iGWd/GLJjAcChwmNM7gWKi7PGwOi2q1AqMecqubkQ==
   dependencies:
     "@babel/runtime-corejs3" "^7.20.7"
 
-"@swagger-api/apidom-json-pointer@>=1.0.0-beta.6 <1.0.0-rc.0", "@swagger-api/apidom-json-pointer@^1.0.0-beta.11", "@swagger-api/apidom-json-pointer@^1.0.0-beta.3 <1.0.0-rc.0":
+"@swagger-api/apidom-json-pointer@>=1.0.0-beta.11 <1.0.0-rc.0", "@swagger-api/apidom-json-pointer@^1.0.0-beta.11", "@swagger-api/apidom-json-pointer@^1.0.0-beta.3 <1.0.0-rc.0":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@swagger-api/apidom-json-pointer/-/apidom-json-pointer-1.0.0-beta.11.tgz#dbf45a0da4be4a60a35586d5d4612023a505fd08"
   integrity sha512-dR9Kj4W26YpxiacSYiGye63vPQlumo7Gdqlb7wtfIEKBI3H6QIXmN6ehGbgQ65AfM/eYo/LlUMfFygQNzWLP3A==
@@ -1973,7 +1973,7 @@
     ramda-adjunct "^5.0.0"
     ts-mixer "^6.0.3"
 
-"@swagger-api/apidom-ns-openapi-3-1@>=1.0.0-beta.6 <1.0.0-rc.0", "@swagger-api/apidom-ns-openapi-3-1@^1.0.0-beta.11", "@swagger-api/apidom-ns-openapi-3-1@^1.0.0-beta.3 <1.0.0-rc.0":
+"@swagger-api/apidom-ns-openapi-3-1@>=1.0.0-beta.11 <1.0.0-rc.0", "@swagger-api/apidom-ns-openapi-3-1@^1.0.0-beta.11", "@swagger-api/apidom-ns-openapi-3-1@^1.0.0-beta.3 <1.0.0-rc.0":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@swagger-api/apidom-ns-openapi-3-1/-/apidom-ns-openapi-3-1-1.0.0-beta.11.tgz#0450eef065e6e3db719eb71c7af871fea3aba0ab"
   integrity sha512-Y9rChJPfBZYJzo33XZivRSEgnZf07GLRLV5eX4kLGeNNI6UtzxJ1mQR4WpLn9CkrN+JrGguNpH1xMdDs/b/J7g==
@@ -2190,7 +2190,7 @@
     tree-sitter "=0.22.1"
     web-tree-sitter "=0.24.5"
 
-"@swagger-api/apidom-reference@>=1.0.0-beta.6 <1.0.0-rc.0":
+"@swagger-api/apidom-reference@>=1.0.0-beta.11 <1.0.0-rc.0":
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/@swagger-api/apidom-reference/-/apidom-reference-1.0.0-beta.11.tgz#0d376f49910245567c5ed2c6da9bc9943fe9fef5"
   integrity sha512-T3wlUar5spN54ne9UQKVUs6RtDcul1SzkOY51ZL7tlbvb4/Tq+Pjo9/t3LUAOG3eiQ9wlV8spSDKoLF5ATYNOw==
@@ -2225,6 +2225,13 @@
     "@swagger-api/apidom-parser-adapter-workflows-json-1" "^1.0.0-beta.3 <1.0.0-rc.0"
     "@swagger-api/apidom-parser-adapter-workflows-yaml-1" "^1.0.0-beta.3 <1.0.0-rc.0"
     "@swagger-api/apidom-parser-adapter-yaml-1-2" "^1.0.0-beta.3 <1.0.0-rc.0"
+
+"@swaggerexpert/cookie@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@swaggerexpert/cookie/-/cookie-1.4.1.tgz#339d5e80581143a101700858d47f57d1fbd8606c"
+  integrity sha512-ZRbRC2017wMs+uZeIOC55ghwgbTxeolo+s6I0njzqina7MTrOhz8WMfTj0KGk3hfBUO/yhTQD/aQZ0lQHEIKxQ==
+  dependencies:
+    apg-lite "^1.0.3"
 
 "@tree-sitter-grammars/tree-sitter-yaml@=0.7.0":
   version "0.7.0"
@@ -2636,7 +2643,7 @@ anymatch@^3.0.3, anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apg-lite@^1.0.4:
+apg-lite@^1.0.3, apg-lite@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/apg-lite/-/apg-lite-1.0.4.tgz#d517a8d775659603cb0c70843355954b73e88cc7"
   integrity sha512-B32zCN3IdHIc99Vy7V9BaYTUzLeRA8YXYY1aQD1/5I2aqIrO0coi4t6hJPqMisidlBxhyME8UexkHt31SlR6Og==
@@ -3229,7 +3236,7 @@ cookie@0.7.1:
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.1.tgz#2f73c42142d5d5cf71310a74fc4ae61670e5dbc9"
   integrity sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==
 
-cookie@^0.7.2, cookie@~0.7.2:
+cookie@^0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.2.tgz#556369c472a2ba910f2979891b526b3436237ed7"
   integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
@@ -7100,19 +7107,19 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swagger-client@3.33.1:
-  version "3.33.1"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.33.1.tgz#2650a844e11fac2db5dfc65fd90626ff6601a16c"
-  integrity sha512-E27FptQgG7mTtyC1yCLStyz03QtcVhmgrg0ESGLoncnYZppZcxRfsJkaZLYwk59XE0KcsBjWDydWSHE411vIyQ==
+swagger-client@3.34.0:
+  version "3.34.0"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.34.0.tgz#4a3b37d2f266819b3f8953832de46776f9d8e11e"
+  integrity sha512-DQyg74J1XjpzmoOrSX0/x8OP7feeEzLTQ4ILe15TJ7oTXeC6XKQvnc5z59H5rW7vFxe+rkMlbzLCg/ri0w7Rag==
   dependencies:
     "@babel/runtime-corejs3" "^7.22.15"
     "@scarf/scarf" "=1.4.0"
-    "@swagger-api/apidom-core" ">=1.0.0-beta.6 <1.0.0-rc.0"
-    "@swagger-api/apidom-error" ">=1.0.0-beta.6 <1.0.0-rc.0"
-    "@swagger-api/apidom-json-pointer" ">=1.0.0-beta.6 <1.0.0-rc.0"
-    "@swagger-api/apidom-ns-openapi-3-1" ">=1.0.0-beta.6 <1.0.0-rc.0"
-    "@swagger-api/apidom-reference" ">=1.0.0-beta.6 <1.0.0-rc.0"
-    cookie "~0.7.2"
+    "@swagger-api/apidom-core" ">=1.0.0-beta.11 <1.0.0-rc.0"
+    "@swagger-api/apidom-error" ">=1.0.0-beta.11 <1.0.0-rc.0"
+    "@swagger-api/apidom-json-pointer" ">=1.0.0-beta.11 <1.0.0-rc.0"
+    "@swagger-api/apidom-ns-openapi-3-1" ">=1.0.0-beta.11 <1.0.0-rc.0"
+    "@swagger-api/apidom-reference" ">=1.0.0-beta.11 <1.0.0-rc.0"
+    "@swaggerexpert/cookie" "^1.4.1"
     deepmerge "~4.3.0"
     fast-json-patch "^3.0.0-1"
     js-yaml "^4.1.0"
