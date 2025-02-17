@@ -15,7 +15,7 @@
   "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "11.9.1",
-    "commander": "11.1.0",
+    "commander": "13.1.0",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
     "mustache": "4.2.0",
