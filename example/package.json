@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@types/node": "22.13.4",
+    "immutable": "4.0.0-rc.14",
+    "normalizr": "3.6.2",
     "openapi-to-normalizr": "file:..",
     "react": "18.3.1",
     "react-dom": "18.3.1",
