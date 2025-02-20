@@ -5,7 +5,7 @@
  * - need models directory before execution
  */
 const path = require('path');
-const program = require('commander');
+const { program } = require('commander');
 const _ = require('lodash');
 const main = require('../dist/compiled/main').default;
 
