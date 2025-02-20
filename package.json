@@ -55,7 +55,7 @@
     "jest": "29.7.0",
     "json-server": "0.17.4",
     "lint-staged": "15.4.3",
-    "msw": "2.7.0",
+    "msw": "2.7.1",
     "normalizr": "3.6.2",
     "npm-run-all2": "7.0.2",
     "openapi-types": "12.1.3",
