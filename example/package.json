@@ -12,7 +12,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@types/node": "22.13.9",
+    "@types/node": "22.13.10",
     "immutable": "4.0.0-rc.14",
     "normalizr": "3.6.2",
     "openapi-to-normalizr": "file:..",
