@@ -47,7 +47,7 @@
     "babel-preset-power-assert": "3.0.0",
     "core-js": "3.42.0",
     "eslint": "9.22.0",
-    "eslint-config-prettier": "10.1.2",
+    "eslint-config-prettier": "10.1.5",
     "eslint-plugin-prettier": "5.2.6",
     "globals": "16.0.0",
     "husky": "9.1.7",
