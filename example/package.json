@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@types/node": "22.15.21",
-    "immutable": "4.0.0-rc.14",
+    "immutable": "5.1.2",
     "normalizr": "3.6.2",
     "openapi-to-normalizr": "file:..",
     "react": "18.3.1",
