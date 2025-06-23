@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.9.2",
   "scripts": {
     "start": "vite",
     "build": "vite build"
@@ -15,7 +15,7 @@
     "@types/node": "22.15.32",
     "immutable": "4.0.0-rc.14",
     "normalizr": "3.6.2",
-    "openapi-to-normalizr": "file:..",
+    "openapi-to-normalizr": "link:..",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-redux": "9.2.0",

@@ -12,7 +12,7 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.9.2",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "11.9.3",
     "commander": "13.1.0",
@@ -106,10 +106,10 @@
   "main": "dist/index.js",
   "repository": "eightcard/openapi-to-normalizr",
   "scripts": {
-    "build:dist": "run-p build:dist:*",
+    "build:dist": "run-p 'build:dist:*'",
     "build:dist:lib": "babel -d dist --env-name=development --extensions '.ts' src/lib/**/*[^test].ts",
     "build:dist:tools": "babel -d dist/compiled --env-name=development --extensions '.ts' src/tools/**/*.ts",
-    "dev": "run-p dev:*",
+    "dev": "run-p 'dev:*'",
     "dev:lib": "yarn build:dist:lib -w",
     "dev:tools": "yarn build:dist:tools -w",
     "check:typescript-example": "cd example;yarn && tsc --noEmit",
@@ -117,15 +117,15 @@
     "check:prettier": "prettier --check src example/src",
     "eslint": "eslint src bin/* example",
     "mock": "cp example/initial_db.json example/db.json;json-server --watch example/db.json --port 10010",
-    "test": "npm-run-all lint jest",
+    "test": "run-p lint jest",
     "jest": "jest src/lib spec",
-    "lint": "run-p check:* eslint speclint",
+    "lint": "run-p 'check:*' eslint speclint",
     "speclint": "spectral lint example/timeline.v3.yml spec/**/*.yml",
     "example:api": "./example/serveViewer",
     "example:generate": "./bin/generateschemas --config example/config/config.schemas.js example/timeline.v3.yml",
     "example:run": "cd example;yarn && yarn start",
     "example:build": "cd example;yarn && yarn build",
-    "example": "npm-run-all example:generate --parallel mock example:run",
+    "example": "run-p example:generate mock example:run",
     "prepare": "husky"
   }
 }

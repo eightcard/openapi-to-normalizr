@@ -10,6 +10,7 @@ info:
     タイムラインAPIの定義
 servers:
   - url: http://localhost:10010
+  - url: http://localhost:5173 # for example
 tags:
   - name: default
 paths:
