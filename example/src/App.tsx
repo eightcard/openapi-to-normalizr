@@ -13,6 +13,7 @@ import { getTimeline, postPost, deletePost } from './actions/timeline';
 import timelineReducer from './reducers/timeline';
 import Timeline from './components/Timeline';
 import Form from './components/Form';
+import isEqual from 'lodash/isEqual';
 
 const FormContainer = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const TimelineContainer = () => {
   const timeline = useSelector(
     ({ timeline, autoEntities }: { timeline: number[]; autoEntities: unknown }) =>
       Models.Post.denormalize(timeline, autoEntities),
+    isEqual,
   );
   const handleRequestDelete = useCallback((id: number) => dispatch(deletePost({ id })), [dispatch]);
 
