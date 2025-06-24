@@ -1061,7 +1061,7 @@ __metadata:
     react-dom: "npm:18.3.1"
     react-redux: "npm:9.2.0"
     redux: "npm:4.2.1"
-    redux-actions: "npm:2.6.5"
+    redux-actions: "npm:3.0.3"
     redux-thunk: "npm:2.4.2"
     typescript: "npm:5.8.3"
     vite: "npm:6.3.5"
@@ -1212,15 +1212,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "invariant@npm:2.2.4"
-  dependencies:
-    loose-envify: "npm:^1.0.0"
-  checksum: 10c0/5af133a917c0bcf65e84e7f23e779e7abc1cd49cb7fdc62d00d1de74b0d8c1b5ee74ac7766099fb3be1b05b26dfc67bab76a17030d2fe7ea2eef867434362dfc
-  languageName: node
-  linkType: hard
-
 "ip-address@npm:^9.0.5":
   version: 9.0.5
   resolution: "ip-address@npm:9.0.5"
@@ -1297,14 +1288,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"just-curry-it@npm:^3.1.0":
-  version: 3.2.1
-  resolution: "just-curry-it@npm:3.2.1"
-  checksum: 10c0/8d3e4a0129632fe652b978f7e477e25270ae137c808077881ff5affb91013550ced01fd7508fd786d5e2a00a16ff3f88339d637893a0e77fb82c5ac492b6f410
+"just-curry-it@npm:5.3.0":
+  version: 5.3.0
+  resolution: "just-curry-it@npm:5.3.0"
+  checksum: 10c0/4068add661ce2eb0242f6c89bda792029dd767967751703db874eb21c48dcfd6b592516765941897112979c9e79536f2070a00fbe05c3666a0c4f956cdf7e2e8
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.1.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -1638,23 +1629,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reduce-reducers@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "reduce-reducers@npm:0.4.3"
-  checksum: 10c0/6e0f8b5d92d9ca66b36b5462c9f31c15b24aca2b761effb7e9740264edde86e069949d4ee8e408b2c0b3c54c939f8e0b36c9791b102fc50ed62e9276d8061e17
+"reduce-reducers@npm:1.0.4":
+  version: 1.0.4
+  resolution: "reduce-reducers@npm:1.0.4"
+  checksum: 10c0/94f7945bd86ce5e8d0f760a1552376daf4801207ce7e9e2b4a8b43e00ec33ce872aac19c506b835c75824d718f35d6b20b05c72315577dd8a8d177781dff927c
   languageName: node
   linkType: hard
 
-"redux-actions@npm:2.6.5":
-  version: 2.6.5
-  resolution: "redux-actions@npm:2.6.5"
+"redux-actions@npm:3.0.3":
+  version: 3.0.3
+  resolution: "redux-actions@npm:3.0.3"
   dependencies:
-    invariant: "npm:^2.2.4"
-    just-curry-it: "npm:^3.1.0"
-    loose-envify: "npm:^1.4.0"
-    reduce-reducers: "npm:^0.4.3"
-    to-camel-case: "npm:^1.0.0"
-  checksum: 10c0/10a05b22847e2fe8c3bda9257322a10a0adcc803970e8b15db1b2f823143f9d3ca1aa2e55ae27fc945ac90c775f25302a2f84c44f6f44fb63984066f3f7ca478
+    just-curry-it: "npm:5.3.0"
+    reduce-reducers: "npm:1.0.4"
+  checksum: 10c0/2c247d6c912082bbb9118b0efedef077453dc5fed45e079d933c8fd5274f1755ca6d00eee24e72e7b83ad8801e80323e6c58cc5c59ae28a9f28d299c3dc93df5
   languageName: node
   linkType: hard
 
@@ -1927,31 +1915,6 @@ __metadata:
     fdir: "npm:^6.4.4"
     picomatch: "npm:^4.0.2"
   checksum: 10c0/f789ed6c924287a9b7d3612056ed0cda67306cd2c80c249fd280cf1504742b12583a2089b61f4abbd24605f390809017240e250241f09938054c9b363e51c0a6
-  languageName: node
-  linkType: hard
-
-"to-camel-case@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "to-camel-case@npm:1.0.0"
-  dependencies:
-    to-space-case: "npm:^1.0.0"
-  checksum: 10c0/357921548908053d774d4b836f42437139c6fc9d73aaf40a1aa59d7317d760541a19667eb2884d9db83902065a90d80b0fe74c59bc13943e8489df9ef4335069
-  languageName: node
-  linkType: hard
-
-"to-no-case@npm:^1.0.0":
-  version: 1.0.2
-  resolution: "to-no-case@npm:1.0.2"
-  checksum: 10c0/c035b04e1042ed67ceb23dc5c7c20ccde11a83ab1d2b3947c17918472b5d26dd4ffdb4cf9464752e7707ab9f3af4a106f9b61244c724bc6810422acd5984da3d
-  languageName: node
-  linkType: hard
-
-"to-space-case@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "to-space-case@npm:1.0.0"
-  dependencies:
-    to-no-case: "npm:^1.0.0"
-  checksum: 10c0/b99e1b5d0f3c90a8d47fa3b155d515027bd83a370740e82ee7cb064f86e3655f030f068bddcb8d18239e7408761b4376d89ab91e5ccdb17dc859d8fd4f570ac5
   languageName: node
   linkType: hard
 
