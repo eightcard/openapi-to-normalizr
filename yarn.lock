@@ -3275,17 +3275,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
+"@types/prop-types@npm:*, @types/prop-types@npm:15.7.15":
   version: 15.7.15
   resolution: "@types/prop-types@npm:15.7.15"
   checksum: 10c0/b59aad1ad19bf1733cf524fd4e618196c6c7690f48ee70a327eb450a42aab8e8a063fbe59ca0a5701aebe2d92d582292c0fb845ea57474f6a15f6994b0e260b2
-  languageName: node
-  linkType: hard
-
-"@types/prop-types@npm:15.7.14":
-  version: 15.7.14
-  resolution: "@types/prop-types@npm:15.7.14"
-  checksum: 10c0/1ec775160bfab90b67a782d735952158c7e702ca4502968aa82565bd8e452c2de8601c8dfe349733073c31179116cf7340710160d3836aa8a1ef76d1532893b1
   languageName: node
   linkType: hard
 
@@ -8257,7 +8250,7 @@ __metadata:
     "@types/json-schema": "npm:7.0.15"
     "@types/lodash": "npm:4.17.19"
     "@types/mustache": "npm:4.2.6"
-    "@types/prop-types": "npm:15.7.14"
+    "@types/prop-types": "npm:15.7.15"
     "@types/react-immutable-proptypes": "npm:2.1.3"
     "@types/redux-actions": "npm:2.6.5"
     "@typescript-eslint/eslint-plugin": "npm:8.32.1"
