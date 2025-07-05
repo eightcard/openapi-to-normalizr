@@ -5085,12 +5085,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:5.4.0":
-  version: 5.4.0
-  resolution: "eslint-plugin-prettier@npm:5.4.0"
+"eslint-plugin-prettier@npm:5.5.1":
+  version: 5.5.1
+  resolution: "eslint-plugin-prettier@npm:5.5.1"
   dependencies:
     prettier-linter-helpers: "npm:^1.0.0"
-    synckit: "npm:^0.11.0"
+    synckit: "npm:^0.11.7"
   peerDependencies:
     "@types/eslint": ">=8.0.0"
     eslint: ">=8.0.0"
@@ -5101,7 +5101,7 @@ __metadata:
       optional: true
     eslint-config-prettier:
       optional: true
-  checksum: 10c0/50718d16266dfbe6909697f9d7c9188d2664f5be50fa1de4decc0c8236565570823fdf5973f89cd51254af5551b6160650e092716002a62aaa0f0b2c18e8fc3e
+  checksum: 10c0/6ed93faa7d885af2a987d732f7e716e7aaba55e2da2b091e1b16bacf68425bffe91d784803597bd3f3e6201499fabb89ae28a51ac3986659a46e55e729ed2d55
   languageName: node
   linkType: hard
 
@@ -8332,7 +8332,7 @@ __metadata:
     core-js: "npm:3.43.0"
     eslint: "npm:9.27.0"
     eslint-config-prettier: "npm:10.1.5"
-    eslint-plugin-prettier: "npm:5.4.0"
+    eslint-plugin-prettier: "npm:5.5.1"
     globals: "npm:16.2.0"
     husky: "npm:9.1.7"
     immutable: "npm:4.2.1"
@@ -9972,7 +9972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"synckit@npm:^0.11.0":
+"synckit@npm:^0.11.7":
   version: 0.11.8
   resolution: "synckit@npm:0.11.8"
   dependencies:
