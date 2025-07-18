@@ -15,14 +15,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apidevtools/json-schema-ref-parser@npm:11.9.3":
-  version: 11.9.3
-  resolution: "@apidevtools/json-schema-ref-parser@npm:11.9.3"
+"@apidevtools/json-schema-ref-parser@npm:14.1.1":
+  version: 14.1.1
+  resolution: "@apidevtools/json-schema-ref-parser@npm:14.1.1"
   dependencies:
-    "@jsdevtools/ono": "npm:^7.1.3"
     "@types/json-schema": "npm:^7.0.15"
     js-yaml: "npm:^4.1.0"
-  checksum: 10c0/5745813b3d964279f387677b7a903ba6634cdeaf879ff3a331a694392cbc923763f398506df190be114f2574b8b570baab3e367c2194bb35f50147ff6cf27d7a
+  checksum: 10c0/df2fc568ab156c917a8097ab0718fd3310f0a9951b93b77fb752797d11d5a3b054c2c55d98907ee79faadcbb393185ded3f69fec261cd0ffffa302b986b1383c
   languageName: node
   linkType: hard
 
@@ -1943,13 +1942,6 @@ __metadata:
     "@jridgewell/resolve-uri": "npm:^3.1.0"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
   checksum: 10c0/fb547ba31658c4d74eb17e7389f4908bf7c44cef47acb4c5baa57289daf68e6fe53c639f41f751b3923aca67010501264f70e7b49978ad1f040294b22c37b333
-  languageName: node
-  linkType: hard
-
-"@jsdevtools/ono@npm:^7.1.3":
-  version: 7.1.3
-  resolution: "@jsdevtools/ono@npm:7.1.3"
-  checksum: 10c0/a9f7e3e8e3bc315a34959934a5e2f874c423cf4eae64377d3fc9de0400ed9f36cb5fd5ebce3300d2e8f4085f557c4a8b591427a583729a87841fda46e6c216b9
   languageName: node
   linkType: hard
 
@@ -8199,7 +8191,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "openapi-to-normalizr@workspace:."
   dependencies:
-    "@apidevtools/json-schema-ref-parser": "npm:11.9.3"
+    "@apidevtools/json-schema-ref-parser": "npm:14.1.1"
     "@babel/cli": "npm:7.28.0"
     "@babel/core": "npm:7.28.0"
     "@babel/preset-env": "npm:7.28.0"
