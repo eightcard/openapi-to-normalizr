@@ -12,7 +12,7 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.9.3",
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "11.9.3",
     "commander": "14.0.0",

@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.9.3",
   "scripts": {
     "start": "vite",
     "build": "vite build"
