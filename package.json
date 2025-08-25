@@ -19,7 +19,7 @@
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
     "mustache": "4.2.0",
-    "swagger-client": "3.35.3"
+    "swagger-client": "3.35.6"
   },
   "devDependencies": {
     "@babel/cli": "7.28.3",

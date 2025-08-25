@@ -2519,7 +2519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swagger-api/apidom-core@npm:>=1.0.0-beta.39 <1.0.0-rc.0, @swagger-api/apidom-core@npm:^1.0.0-beta.46":
+"@swagger-api/apidom-core@npm:>=1.0.0-beta.41 <1.0.0-rc.0, @swagger-api/apidom-core@npm:^1.0.0-beta.46":
   version: 1.0.0-beta.46
   resolution: "@swagger-api/apidom-core@npm:1.0.0-beta.46"
   dependencies:
@@ -2536,7 +2536,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swagger-api/apidom-error@npm:>=1.0.0-beta.39 <1.0.0-rc.0, @swagger-api/apidom-error@npm:^1.0.0-beta.46":
+"@swagger-api/apidom-error@npm:>=1.0.0-beta.41 <1.0.0-rc.0, @swagger-api/apidom-error@npm:^1.0.0-beta.46":
   version: 1.0.0-beta.46
   resolution: "@swagger-api/apidom-error@npm:1.0.0-beta.46"
   dependencies:
@@ -2545,7 +2545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swagger-api/apidom-json-pointer@npm:>=1.0.0-beta.39 <1.0.0-rc.0, @swagger-api/apidom-json-pointer@npm:^1.0.0-beta.40 <1.0.0-rc.0, @swagger-api/apidom-json-pointer@npm:^1.0.0-beta.46":
+"@swagger-api/apidom-json-pointer@npm:>=1.0.0-beta.41 <1.0.0-rc.0, @swagger-api/apidom-json-pointer@npm:^1.0.0-beta.40 <1.0.0-rc.0, @swagger-api/apidom-json-pointer@npm:^1.0.0-beta.46":
   version: 1.0.0-beta.46
   resolution: "@swagger-api/apidom-json-pointer@npm:1.0.0-beta.46"
   dependencies:
@@ -2714,7 +2714,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swagger-api/apidom-ns-openapi-3-1@npm:>=1.0.0-beta.39 <1.0.0-rc.0, @swagger-api/apidom-ns-openapi-3-1@npm:^1.0.0-beta.40 <1.0.0-rc.0, @swagger-api/apidom-ns-openapi-3-1@npm:^1.0.0-beta.46":
+"@swagger-api/apidom-ns-openapi-3-1@npm:>=1.0.0-beta.41 <1.0.0-rc.0, @swagger-api/apidom-ns-openapi-3-1@npm:^1.0.0-beta.40 <1.0.0-rc.0, @swagger-api/apidom-ns-openapi-3-1@npm:^1.0.0-beta.46":
   version: 1.0.0-beta.46
   resolution: "@swagger-api/apidom-ns-openapi-3-1@npm:1.0.0-beta.46"
   dependencies:
@@ -2950,7 +2950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swagger-api/apidom-reference@npm:>=1.0.0-beta.39 <1.0.0-rc.0":
+"@swagger-api/apidom-reference@npm:>=1.0.0-beta.41 <1.0.0-rc.0":
   version: 1.0.0-beta.46
   resolution: "@swagger-api/apidom-reference@npm:1.0.0-beta.46"
   dependencies:
@@ -8254,7 +8254,7 @@ __metadata:
     redux: "npm:4.2.1"
     regenerator-runtime: "npm:0.14.1"
     rimraf: "npm:6.0.1"
-    swagger-client: "npm:3.35.3"
+    swagger-client: "npm:3.35.6"
     typescript: "npm:5.8.3"
   peerDependencies:
     immutable: ^4.0.0-rc
@@ -9840,17 +9840,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-client@npm:3.35.3":
-  version: 3.35.3
-  resolution: "swagger-client@npm:3.35.3"
+"swagger-client@npm:3.35.6":
+  version: 3.35.6
+  resolution: "swagger-client@npm:3.35.6"
   dependencies:
     "@babel/runtime-corejs3": "npm:^7.22.15"
     "@scarf/scarf": "npm:=1.4.0"
-    "@swagger-api/apidom-core": "npm:>=1.0.0-beta.39 <1.0.0-rc.0"
-    "@swagger-api/apidom-error": "npm:>=1.0.0-beta.39 <1.0.0-rc.0"
-    "@swagger-api/apidom-json-pointer": "npm:>=1.0.0-beta.39 <1.0.0-rc.0"
-    "@swagger-api/apidom-ns-openapi-3-1": "npm:>=1.0.0-beta.39 <1.0.0-rc.0"
-    "@swagger-api/apidom-reference": "npm:>=1.0.0-beta.39 <1.0.0-rc.0"
+    "@swagger-api/apidom-core": "npm:>=1.0.0-beta.41 <1.0.0-rc.0"
+    "@swagger-api/apidom-error": "npm:>=1.0.0-beta.41 <1.0.0-rc.0"
+    "@swagger-api/apidom-json-pointer": "npm:>=1.0.0-beta.41 <1.0.0-rc.0"
+    "@swagger-api/apidom-ns-openapi-3-1": "npm:>=1.0.0-beta.41 <1.0.0-rc.0"
+    "@swagger-api/apidom-reference": "npm:>=1.0.0-beta.41 <1.0.0-rc.0"
     "@swaggerexpert/cookie": "npm:^2.0.2"
     deepmerge: "npm:~4.3.0"
     fast-json-patch: "npm:^3.0.0-1"
@@ -9862,7 +9862,7 @@ __metadata:
     openapi-server-url-templating: "npm:^1.3.0"
     ramda: "npm:^0.30.1"
     ramda-adjunct: "npm:^5.1.0"
-  checksum: 10c0/1a632d791128218fa1f4bd2405bced8c1461696085050c76793e59d150cab5a19e824b57bf720dbf5dea821225e97438433336b01317b944e5837f698400685c
+  checksum: 10c0/cf86fa6c9fbcc09e29c4f8d551f86cadc2d698847953728bea852d56b511805d758acc01380d7678f898eec6a1e56f6c00f1f97bce3e1550ee63c4ab3d78ecdd
   languageName: node
   linkType: hard
 
