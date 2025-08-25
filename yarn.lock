@@ -6042,10 +6042,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutable@npm:4.2.1":
-  version: 4.2.1
-  resolution: "immutable@npm:4.2.1"
-  checksum: 10c0/27b29dbbd5ca722a973c688c0ad91f2d09ea12058ff763045730abf12e20b6171da45379722c0bfb0220103a535244fbff9030fe73854eb22f017526643b1cc0
+"immutable@npm:5.1.3":
+  version: 5.1.3
+  resolution: "immutable@npm:5.1.3"
+  checksum: 10c0/f094891dcefb9488a84598376c9218ebff3a130c8b807bda3f6b703c45fe7ef238b8bf9a1eb9961db0523c8d7eb116ab6f47166702e4bbb1927ff5884157cd97
   languageName: node
   linkType: hard
 
@@ -8236,7 +8236,7 @@ __metadata:
     eslint-plugin-prettier: "npm:5.5.4"
     globals: "npm:16.3.0"
     husky: "npm:9.1.7"
-    immutable: "npm:4.2.1"
+    immutable: "npm:5.1.3"
     jest: "npm:29.7.0"
     js-yaml: "npm:4.1.0"
     json-server: "npm:0.17.4"
@@ -8257,7 +8257,7 @@ __metadata:
     swagger-client: "npm:3.35.3"
     typescript: "npm:5.8.3"
   peerDependencies:
-    immutable: ^4.0.0-rc
+    immutable: ^4.0.0-rc || ^5.0.0
     normalizr: ^3.2.0
     redux: ^4.0.0
     redux-actions: ^2.6.0 || ^3.0.0
