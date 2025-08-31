@@ -51,7 +51,7 @@
     "eslint-plugin-prettier": "5.5.4",
     "globals": "16.3.0",
     "husky": "9.1.7",
-    "immutable": "4.2.1",
+    "immutable": "5.1.3",
     "jest": "29.7.0",
     "json-server": "0.17.4",
     "lint-staged": "15.5.2",
@@ -69,7 +69,7 @@
     "typescript": "5.8.3"
   },
   "peerDependencies": {
-    "immutable": "^4.0.0-rc",
+    "immutable": "^4.0.0-rc || ^5.0.0",
     "normalizr": "^3.2.0",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.0 || ^3.0.0"
