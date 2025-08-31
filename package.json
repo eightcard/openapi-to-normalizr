@@ -63,7 +63,7 @@
     "prettier": "3.6.2",
     "prop-types": "15.8.1",
     "react-immutable-proptypes": "2.2.0",
-    "redux": "4.2.1",
+    "redux": "5.0.1",
     "regenerator-runtime": "0.14.1",
     "rimraf": "6.0.1",
     "typescript": "5.8.3"
@@ -71,7 +71,7 @@
   "peerDependencies": {
     "immutable": "^4.0.0-rc",
     "normalizr": "^3.2.0",
-    "redux": "^4.0.0",
+    "redux": "^4.0.0 || ^5.0.0",
     "redux-actions": "^2.6.0 || ^3.0.0"
   },
   "resolutions": {
