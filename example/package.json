@@ -21,7 +21,7 @@
     "react-redux": "9.2.0",
     "redux": "4.2.1",
     "redux-actions": "3.0.3",
-    "redux-thunk": "2.4.2"
+    "redux-thunk": "3.1.0"
   },
   "devDependencies": {
     "@types/react": "19.1.10",
