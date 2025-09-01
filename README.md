@@ -1,5 +1,7 @@
 [![CircleCI](https://circleci.com/gh/eightcard/openapi-to-normalizr.svg?style=svg)](https://circleci.com/gh/eightcard/openapi-to-normalizr)
 
+**In conjunction with the migration to Sansan's GitHub Enterprise organization, this will be archived.**
+
 # openapi-to-normalizr
 
 > schemas generator for normalizr
