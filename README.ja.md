@@ -1,5 +1,7 @@
 # OpenAPI to normalizr
 
+SansanのGitHub Enterprise組織への移行に伴い、これはアーカイブされます。
+
 ## 概要
 
 - [OpenAPI](https://github.com/OAI/OpenAPI-Specification)で記述された API 定義から [normalizr](https://github.com/paularmstrong/normalizr)で利用できるスキーマ定義を生成します。
